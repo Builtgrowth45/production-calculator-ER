@@ -9,15 +9,14 @@
  *
  * MOVED:
  *   src/app-core.js        — IMPORTS, STORE, DESTINATION, setView, THEME, audio
- *   src/app-init.js        — DOMContentLoaded, event wiring, analytics UI
+ *   src/app-init.js        — DOMContentLoaded and event wiring
  *   src/views/comms.js     — Radio player + terminal audio
- *   src/views/reference.js — Drugs, Battle Nodes, Factions, Worlds, Weapons
- *   src/views/help.js      — Data correction workflow
- *   src/views/gear.js      — Gear textures, guild data sync
- *   src/views/inventory.js — Zone editor, mining, all-items, weapons
+ *   src/views/reference.js — Drugs and Battle Nodes
+ *   src/views/gear.js      — Gear textures and local loadouts
+ *   src/views/inventory.js — Zone editor, mining, and inventory
  *   src/views/player.js    — Player bar, toast, import/export, share
  *
- * LOAD ORDER: game_data → store → engine → analytics → chart.min
+ * LOAD ORDER: game_data → store → engine → chart.min
  *             → app-core → app.js → views/* → app-init
  */
 'use strict';
@@ -1125,7 +1124,6 @@ function runCalculator() {
   if (ok) {
     LAST_SINGLE = { item, qty };
     pushRecent(item, qty);
-    ANALYTICS.track('calculate', { item, qty });
   }
   markDoneSections(out);
   renderCalcPaths();
@@ -1316,8 +1314,6 @@ function renderSavedPlans() {
 // moved to src/app-core.js (setView + THEME)
 
 // moved to src/views/gear.js
-
-// moved to src/views/help.js
 
 
 // ═══════════════════════════════════════════════════════════════════════════

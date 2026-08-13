@@ -13,7 +13,7 @@
       { id: 'GOM', name: 'Guardians of Mankind', aliases: ['GoM'], player_selectable: true, recipe_code: 'GOM', asset_code: 'GOM', return_rate: null, return_rate_status: 'unknown' },
       { id: 'LED', name: 'Law Enforcement Department', aliases: [], player_selectable: true, recipe_code: 'LED', asset_code: 'LED', return_rate: null, return_rate_status: 'unknown' },
       { id: 'MOTB', name: 'Mercenaries of the Blood', aliases: ['MotB', 'MOB'], player_selectable: true, recipe_code: 'MOTB', asset_code: 'MOB', return_rate: null, return_rate_status: 'unknown' },
-      { id: 'VI', name: 'Vortext, Inc.', aliases: ['VC', 'VTX', 'Vortex'], player_selectable: true, recipe_code: 'VI', asset_code: 'VTX', return_rate: null, return_rate_status: 'unknown' },
+      { id: 'VI', name: 'Vortex, Inc.', aliases: ['VC', 'VTX', 'Vortex'], player_selectable: true, recipe_code: 'VI', asset_code: 'VTX', return_rate: null, return_rate_status: 'unknown' },
     ],
   };
   const byId = Object.fromEntries(source.factions.map(f => [f.id, Object.freeze({ ...f, aliases: Object.freeze([...f.aliases]) })]));

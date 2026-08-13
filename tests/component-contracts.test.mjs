@@ -20,7 +20,6 @@ describe('shared interface components', () => {
     assert.match(html, /class="calc-picker ui-panel"/);
     assert.match(html, /class="controls ui-toolbar"/);
     assert.match(html, /id="inv-table" class="ui-table-wrap"/);
-    assert.match(html, /class="req-list ui-list-state"/);
   });
 
   it('keeps mobile tables usable and empty states non-destructive', () => {

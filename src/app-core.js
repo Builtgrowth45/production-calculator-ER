@@ -1245,10 +1245,10 @@ window.setCMGFeatureFlag = setCMGFeatureFlag;
 
 // ---- Navigation manifest ----
 const CMG_NAV_GROUPS = Object.freeze({
-  workflows: Object.freeze(['calc', 'inventory', 'gear', 'requests']),
-  operations: Object.freeze(['colonies', 'battle', 'models', 'client']),
-  reference: Object.freeze(['items', 'weapons', 'drugs', 'factions', 'academy']),
-  culture: Object.freeze(['analytics', 'help', 'community']),
+  workflows: Object.freeze(['calc', 'inventory', 'gear']),
+  operations: Object.freeze(['colonies', 'battle', 'models']),
+  reference: Object.freeze(['drugs']),
+  culture: Object.freeze(['community']),
 });
 window.CMG_NAV_GROUPS = CMG_NAV_GROUPS;
 
@@ -1259,7 +1259,7 @@ function setView(v) {
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === v));
     document.querySelectorAll('.view').forEach(s => s.classList.toggle('active', s.id === 'view-' + v));
     document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.view === v)));
-    window.ANALYTICS && window.ANALYTICS.track('pageview', { tab: v });
+
 
     // Run registered hooks
     VIEW_HOOKS.forEach(function(h) {

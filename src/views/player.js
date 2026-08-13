@@ -39,12 +39,9 @@ function refreshAll() {
   refreshInventoryUI();
   // renderColonies replaces the old renderMining here: the colony cards show
   // held quantities per ore, so they go stale on a player switch too.
-  renderColonies(); renderItems(); renderWeapons(); renderDrugs(); populateBattleColonies(); renderBattleNodes(); renderClient(); renderAcademy();
+  renderColonies(); renderDrugs(); populateBattleColonies(); renderBattleNodes();
   renderPicker();
   refreshGear();
-  initBalanceBrowser();
-  populateReqForm(); renderRequests();
-  initHelpView();
   // Guild status readout — feature manifest with flavor
   const playerName = PLAYERS.active || 'no operator';
   const invCount = getInv().length;

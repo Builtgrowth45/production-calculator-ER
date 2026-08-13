@@ -1,15 +1,12 @@
 /**
  * src/app-init.js — Application initialisation
  * ============================================================================
- * DOMContentLoaded event wiring for all tabs. Loaded LAST — every view file
+ * DOMContentLoaded event wiring for the remaining calculator tabs. Loaded LAST — every view file
  * and app-core.js must be loaded before this so all function references resolve.
  */
 'use strict';
 
-const DIRECT_HASH_ROUTES = new Set([
-  'calc', 'inventory', 'gear', 'requests', 'colonies', 'battle', 'models', 'client',
-  'items', 'weapons', 'drugs', 'factions', 'academy', 'analytics', 'help', 'community',
-]);
+const DIRECT_HASH_ROUTES = new Set(['calc', 'inventory', 'gear', 'colonies', 'battle', 'models', 'drugs', 'community']);
 
 function parsePublicHashRoute() {
   const raw = String(location.hash || '').slice(1).split('?')[0].trim().toLowerCase();
@@ -29,15 +26,10 @@ function applyPublicHashRoute() {
 document.addEventListener('DOMContentLoaded', () => {
   renderItemOptions();
   const edl = document.getElementById('inv-item-list');
-  ALL_ITEMS.forEach(name => { const o = document.createElement('option'); o.value = name; edl.appendChild(o); });
-  const rdl = document.getElementById('req-item-list');
-  if (rdl) ALL_ITEMS.forEach(name => { const o = document.createElement('option'); o.value = name; rdl.appendChild(o); });
+  if (edl) ALL_ITEMS.forEach(name => { const o = document.createElement('option'); o.value = name; edl.appendChild(o); });
   initPickerFilters();
   refreshAll();
   renderPicker();
-  initHelpView();
-  initAcademyView();
-  initBalanceBrowser();
   wireModelsEvents();
   wireCharacterStudioEvents();
 
@@ -64,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.tab.active')?.setAttribute('aria-selected', 'true');
 
   // Grouped navigation v2 is opt-in; it delegates to the same setView lifecycle
-  // as the legacy tabs so hooks, analytics, and deep links remain unchanged.
+  // as the legacy tabs so hooks and deep links remain consistent.
   const navV2 = document.getElementById('nav-v2');
   const navV2Drawer = document.getElementById('nav-v2-drawer');
   const navV2DrawerToggle = navV2?.querySelector('[data-nav-toggle="drawer"]');
@@ -364,11 +356,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Search inputs
-  ['picker-search', 'inv-search', 'items-search'].forEach(id => {
+  ['picker-search', 'inv-search'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => {
       if (id === 'picker-search') renderPicker();
       if (id === 'inv-search') renderInventory();
-      if (id === 'items-search') renderItems();
     });
   });
   document.getElementById('inv-materials-only')?.addEventListener('change', renderInventory);
@@ -381,8 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.addEventListener('paste', handleScreenshotPaste);
 
-  // Weapon sort
-  document.getElementById('weapon-sort').addEventListener('change', renderWeapons);
   document.getElementById('drug-sort').addEventListener('change', renderDrugs);
   document.getElementById('drug-search').addEventListener('input', renderDrugs);
   document.getElementById('bn-search').addEventListener('input', renderBattleNodes);
@@ -396,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     snapshotInv();
     const result = compute(item, qty, ALTERNATIVE_CHOICES, null, null, DESTINATION, getDiscounts());
     const log = applyPlan(result);
-    ANALYTICS.track('apply_plan', { item });
+
     // Record it BEFORE re-rendering: runCalculator() replaces this button, so
     // setting its text here was pointless — the state has to survive the render.
     markPlanApplied(planSignature(item, qty));
@@ -461,69 +450,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const discounts = getDiscounts();
   const result = compute(CALC_TRAY, ALTERNATIVE_CHOICES, ledger, invLoc, DESTINATION, discounts);
     applyPlan(result);
-    ANALYTICS.track('apply_plan', { item: CALC_TRAY[0]?.item || 'multi' });
+
     // Must be recorded before the re-render, which replaces this button.
     markPlanApplied(planSignature(CALC_TRAY));
     runMultiPlan();
     toast(`Combined plan applied. Ctrl+Z to undo.`, 3000, 'success');
   });
 
-  // All-items selection
-  const itemsGrid = document.getElementById('items-grid');
-  itemsGrid.addEventListener('change', e => {
-    const cb = e.target.closest('input[data-item]');
-    if (!cb) return;
-    const name = decodeURIComponent(cb.dataset.item);
-    if (cb.checked) ITEM_SELECTION.add(name); else ITEM_SELECTION.delete(name);
-    cb.closest('.item-card').classList.toggle('selected', cb.checked);
-    updateBulkBar();
-  });
-  document.getElementById('items-selall').addEventListener('change', e => {
-    const cards = itemsGrid.querySelectorAll('.item-card');
-    cards.forEach(c => {
-      const name = decodeURIComponent(c.dataset.name);
-      const cb = c.querySelector('input[data-item]');
-      cb.checked = e.target.checked;
-      if (e.target.checked) ITEM_SELECTION.add(name); else ITEM_SELECTION.delete(name);
-      c.classList.toggle('selected', e.target.checked);
-    });
-    updateBulkBar();
-  });
-
-  // Bulk add
-  const bulkLoc = document.getElementById('bulk-loc');
-  const bulkQty = document.getElementById('bulk-qty');
-  [...new Set(LOCATIONS)].sort((a, b) => a.localeCompare(b)).forEach(loc => {
-    const o = document.createElement('option'); o.value = loc; o.textContent = loc; bulkLoc.appendChild(o);
-  });
-  document.getElementById('bulk-add').addEventListener('click', () => {
-    const location = bulkLoc.value;
-    if (!location) { toast('Pick a location for the selected items.'); return; }
-    const mode = document.getElementById('bulk-mode').value;
-    const qty = Math.max(1, parseInt(bulkQty?.value, 10) || 1);
-    if (ITEM_SELECTION.size === 0) { toast('Select at least one item.'); return; }
-    ITEM_SELECTION.forEach(name => applyEntry(name, location, qty, mode));
-    const n = ITEM_SELECTION.size;
-    ITEM_SELECTION.clear();
-    renderItems(); renderInventory();
-    ANALYTICS.track('inventory_edit', { mode: 'bulk_' + mode });
-    toast(`Added ${n} item${n > 1 ? 's' : ''} to ${esc(location)} (${mode}, qty ${qty}).`);
-  });
-  document.getElementById('bulk-clear').addEventListener('click', () => {
-    ITEM_SELECTION.clear();
-    renderItems();
-  });
 
   // Player bar
   document.getElementById('player-select').addEventListener('change', e => {
     PLAYERS.active = e.target.value; savePlayers(PLAYERS); recomputeInv(); refreshAll();
-    ANALYTICS.track('player_switch');
+
   });
   document.getElementById('player-faction')?.addEventListener('change', e => {
     if (!PLAYERS.active || !S.setPlayerFaction) return;
     S.setPlayerFaction(PLAYERS.active, e.target.value);
     refreshAll();
-    ANALYTICS.track('player_faction_change', { faction: e.target.value });
+
     toast(`Economic context set to ${e.target.options[e.target.selectedIndex]?.textContent || e.target.value}. Recipes remain available.`);
   });
   document.getElementById('player-new').addEventListener('click', () => {
@@ -827,7 +771,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Keyboard shortcuts: Ctrl+Z undo (outside form fields), / to focus search
-  const VIEW_SEARCH = { calc: 'picker-search', inventory: 'inv-search', colonies: 'col-search', items: 'items-search', requests: 'req-search', drugs: 'drug-search', battle: 'bn-search' };
+  const VIEW_SEARCH = { calc: 'picker-search', inventory: 'inv-search', colonies: 'col-search', drugs: 'drug-search', battle: 'bn-search' };
   document.addEventListener('keydown', e => {
     const t = e.target;
     const typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable);
@@ -898,56 +842,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- Production requests ----
-  loadRequests(); populateReqForm(); renderRequests(); startReqPolling();
-  document.getElementById('req-form').addEventListener('submit', e => {
-    e.preventDefault();
-    const item = document.getElementById('req-item').value.trim();
-    if (!item) { toast('Enter an item name.'); return; }
-    if (!ALL_ITEMS.has(item)) { toast('Pick a valid item first.'); return; }
-    const qty = parseInt(document.getElementById('req-qty').value) || 1;
-    const assignee = document.getElementById('req-assign').value || null;
-    const aqty = parseInt(document.getElementById('req-aqty').value) || qty;
-    const deliver_to = document.getElementById('req-deliver-to').value || null;
-    const deliver_colony = document.getElementById('req-deliver-colony').value || null;
-    const notes = document.getElementById('req-notes').value.trim() || null;
-    const newReq = { id: reqId(), item, quantity: qty, requester: PLAYERS.active, assignee, assigned_qty: aqty, deliver_to, deliver_colony, notes, status: assignee ? 'assigned' : 'open', created_at: Date.now() };
-    REQUESTS.push(newReq);
-    renderRequests();
-    syncRequests([{ op: 'upsert', request: newReq }]);
-    document.getElementById('req-form').reset();
-    ANALYTICS.track('request_create');
-    toast(`Requested ${qty}× ${item}.`);
-  });
-  // Filter change handlers
-  document.getElementById('req-filter-status').addEventListener('change', renderRequests);
-  document.getElementById('req-filter-assignee').addEventListener('change', renderRequests);
-  document.getElementById('req-search')?.addEventListener('input', renderRequests);
-  // Bulk select actions via checkbox delegation
-  document.getElementById('req-list').addEventListener('change', e => {
-    if (!e.target.classList.contains('req-card-bulk')) return;
-    const bar = document.getElementById('req-bulk-bar');
-    const count = document.querySelectorAll('.req-card-bulk:checked').length;
-    document.getElementById('req-bulk-count').textContent = count + ' selected';
-    bar.classList.toggle('visible', count > 0);
-  });
-  document.getElementById('req-bulk-complete').addEventListener('click', () => {
-    const ops = [];
-    document.querySelectorAll('.req-card-bulk:checked').forEach(cb => {
-      const r = REQUESTS.find(r => r.id === cb.dataset.reqBulk);
-      if (r && r.status !== 'complete') { r.status = 'complete'; r.completed_at = Date.now(); r.completed_by = PLAYERS.active; ops.push({ op: 'upsert', request: r }); }
-    });
-    renderRequests(); document.getElementById('req-bulk-bar').classList.remove('visible');
-    if (ops.length) syncRequests(ops);
-    toast('Marked selected as complete.');
-  });
-  document.getElementById('req-bulk-delete').addEventListener('click', () => {
-    const ids = new Set([...document.querySelectorAll('.req-card-bulk:checked')].map(cb => cb.dataset.reqBulk));
-    REQUESTS = REQUESTS.filter(r => !ids.has(r.id));
-    renderRequests(); document.getElementById('req-bulk-bar').classList.remove('visible');
-    if (ids.size) syncRequests([...ids].map(id => ({ op: 'delete', id })));
-    toast('Deleted selected requests.');
-  });
   // Theme swatches
   document.querySelectorAll('.theme-btn').forEach(btn => {
     const swatch = document.createElement('span');
@@ -955,30 +849,7 @@ document.addEventListener('DOMContentLoaded', () => {
     swatch.setAttribute('aria-hidden', 'true');
     btn.prepend(swatch);
   });
-  // Export / Import
-  document.getElementById('req-export').addEventListener('click', () => {
-    downloadJSON(REQUESTS, 'er-production-requests.json'); toast('Requests exported.');
-  });
-  document.getElementById('req-import').addEventListener('click', () => {
-    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json';
-    inp.addEventListener('change', () => {
-      if (!inp.files[0]) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const data = JSON.parse(reader.result);
-          if (Array.isArray(data)) { REQUESTS = data; renderRequests(); toast(`Imported ${data.length} local requests.`); }
-          else toast('Invalid requests file.');
-        } catch(e) { toast('Failed to parse.'); }
-      };
-      reader.readAsText(inp.files[0]);
-    });
-    inp.click();
-  });
-  // Refresh local request storage
-  document.getElementById('req-refresh').addEventListener('click', () => {
-    loadRequests(); toast('Refreshed local data.');
-  });
+
   // Picker close
   document.getElementById('gear-picker-close').addEventListener('click', () => {
     document.getElementById('gear-picker-overlay').hidden = true;
@@ -1007,7 +878,7 @@ document.addEventListener('DOMContentLoaded', () => {
         SHARED_GEAR.push(set);
         renderGearSets();
         syncShared('gear', [{ op: 'upsert', set }]);
-        ANALYTICS.track('gear_save');
+
         toast(`Saved gear preset "${n}" locally.`);
         row.remove();
       }
@@ -1083,263 +954,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inp.click();
   });
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  // § ANALYTICS TAB — privacy-respecting self-hosted usage dashboard
-  // ═══════════════════════════════════════════════════════════════════════════
-
-  // Local-only analytics: no remote endpoint is required by the public build.
-  async function fetchAnalyticsStats(days) {
-    const status = document.getElementById('analytics-status');
-    try {
-      status.textContent = 'Loading local data…';
-      const cutoff = Date.now() - (days * 86400000);
-      const events = JSON.parse(localStorage.getItem('er_calculator_analytics_v1') || '[]')
-        .filter(e => Number(e.ts) >= cutoff);
-      const totals = {
-        pageviews: events.filter(e => e.type === 'pageview').length,
-        calculates: events.filter(e => e.type === 'calculate').length,
-        apply_plans: events.filter(e => e.type === 'apply_plan').length,
-        request_creates: events.filter(e => e.type === 'request_create').length,
-        inventory_edits: events.filter(e => e.type === 'inventory_edit').length,
-        gear_saves: events.filter(e => e.type === 'gear_save').length,
-        player_switches: events.filter(e => e.type === 'player_switch').length,
-      };
-      const byDay = new Map();
-      const items = new Map();
-      for (const event of events) {
-        const day = new Date(event.ts).toISOString().slice(0, 10);
-        byDay.set(day, (byDay.get(day) || 0) + 1);
-        if (event.type === 'calculate' && event.item) items.set(event.item, (items.get(event.item) || 0) + 1);
-      }
-      const daysData = [...byDay].sort((a, b) => a[0].localeCompare(b[0])).map(([date, total]) => ({ date, total }));
-      const dayCount = new Set(events.map(e => new Date(e.ts).toISOString().slice(0, 10))).size;
-      status.textContent = `Updated ${new Date().toLocaleTimeString()} · local only`;
-      return {
-        event_count: events.length,
-        day_count: dayCount,
-        totals,
-        days: daysData,
-        top_items: [...items].sort((a, b) => b[1] - a[1]).map(([item, count]) => ({ item, count })),
-      };
-    } catch (e) {
-      status.textContent = '⚠ local analytics unavailable';
-      return null;
-    }
-  }
-
-  // ---- Render analytics dashboard ---- 
-  async function renderAnalytics() {
-    const days = parseInt(document.getElementById('analytics-range').value) || 7;
-    const stats = await fetchAnalyticsStats(days);
-    
-    const cards = document.getElementById('analytics-cards');
-    const viewsChart = document.getElementById('analytics-chart-views');
-    const featuresChart = document.getElementById('analytics-chart-features');
-    const itemsChart = document.getElementById('analytics-chart-items');
-
-    if (!stats || stats.event_count === 0) {
-      cards.innerHTML = '';
-      const empty = '<div class="analytics-empty">No analytics data yet for this period. Events are stored locally in this browser.</div>';
-      clearCanvas(viewsChart); clearCanvas(featuresChart); clearCanvas(itemsChart);
-      viewsChart.parentElement.insertAdjacentHTML('beforebegin', empty);
-      return;
-    }
-
-    // Remove any lingering empty message
-    document.querySelectorAll('.analytics-empty, .analytics-error').forEach(el => el.remove());
-
-    // Stats cards
-    const t = stats.totals;
-    cards.innerHTML = [
-      { val: stats.event_count, label: 'Total events' },
-      { val: stats.day_count, label: 'Active days' },
-      { val: t.pageviews, label: 'Page views' },
-      { val: t.calculates, label: 'Calculations' },
-      { val: t.apply_plans, label: 'Plans applied' },
-      { val: t.request_creates, label: 'Requests created' },
-    ].map(c => `<div class="analytics-card"><div class="ac-val">${fmt(c.val)}</div><div class="ac-label">${c.label}</div></div>`).join('');
-
-    // Page views over time — bar chart
-    drawTimelineChart(viewsChart, stats.days);
-
-    // Feature usage — horizontal bar chart
-    const featureData = [
-      { label: 'Calculator', count: t.calculates, color: '#ff2d95' },
-      { label: 'Inventory edits', count: t.inventory_edits, color: '#f59e0b' },
-      { label: 'Plans applied', count: t.apply_plans, color: '#22c55e' },
-      { label: 'Requests', count: t.request_creates, color: '#3b82f6' },
-      { label: 'Gear saves', count: t.gear_saves, color: '#8b2cf5' },
-      { label: 'Player switches', count: t.player_switches, color: '#00f0ff' },
-    ].filter(f => f.count > 0);
-    drawHBarChart(featuresChart, featureData, 'count', 'label');
-
-    // Top items calculated
-    if (stats.top_items && stats.top_items.length) {
-      const itemData = stats.top_items.slice(0, 15).map(i => ({
-        label: i.item, count: i.count, color: '#ff2d95'
-      }));
-      drawHBarChart(itemsChart, itemData, 'count', 'label');
-    } else {
-      clearCanvas(itemsChart);
-      itemsChart.parentElement.insertAdjacentHTML('beforebegin',
-        '<div class="analytics-empty">No item calculations in this period.</div>');
-    }
-  }
-
-  // ---- Canvas chart helpers ---- 
-
-  function clearCanvas(canvas) {
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.width = 0; canvas.height = 0;
-  }
-
-  function setupCanvas(canvas, width, height) {
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    const ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-    return ctx;
-  }
-
-  /** Draw a vertical bar chart for time-series data (page views per day). */
-  function drawTimelineChart(canvas, days) {
-    if (!days || !days.length) { clearCanvas(canvas); return; }
-    const W = Math.max(400, canvas.parentElement.clientWidth - 32);
-    const H = 220;
-    const ctx = setupCanvas(canvas, W, H);
-    const pad = { top: 20, right: 16, bottom: 50, left: 50 };
-    const cw = W - pad.left - pad.right;
-    const ch = H - pad.top - pad.bottom;
-
-    // Compute max value
-    const maxVal = Math.max(1, ...days.map(d => d.total));
-
-    // Background
-    ctx.fillStyle = '#0d0d1a';
-    ctx.fillRect(0, 0, W, H);
-
-    // Grid lines
-    ctx.strokeStyle = '#1e1e3a';
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i <= 4; i++) {
-      const y = pad.top + (ch / 4) * i;
-      ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
-      // Value label
-      ctx.fillStyle = '#8a8ab8';
-      ctx.font = '10px "JetBrains Mono", monospace';
-      ctx.textAlign = 'right';
-      ctx.fillText(Math.round(maxVal - (maxVal / 4) * i), pad.left - 6, y + 4);
-    }
-
-    // Bars
-    const barW = Math.max(4, Math.min(30, (cw / days.length) * 0.7));
-    const gap = cw / days.length;
-    days.forEach((d, i) => {
-      const x = pad.left + i * gap + (gap - barW) / 2;
-      const barH = (d.total / maxVal) * ch;
-      const y = pad.top + ch - barH;
-
-      // Bar fill
-      ctx.fillStyle = '#ff2d95';
-      ctx.fillRect(x, y, barW, barH);
-
-      // Bar top highlight
-      ctx.fillStyle = '#ff6bb5';
-      ctx.fillRect(x, y, barW, 2);
-    });
-
-    // Date labels (show every Nth date to avoid crowding)
-    const step = Math.max(1, Math.floor(days.length / 8));
-    ctx.fillStyle = '#8a8ab8';
-    ctx.font = '9px "JetBrains Mono", monospace';
-    ctx.textAlign = 'center';
-    days.forEach((d, i) => {
-      if (i % step !== 0 && i !== days.length - 1) return;
-      const x = pad.left + i * gap + gap / 2;
-      const label = d.date.slice(5); // MM-DD
-      ctx.fillText(label, x, pad.top + ch + 16);
-    });
-
-    // X-axis
-    ctx.strokeStyle = '#2a2a5a';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(pad.left, pad.top + ch); ctx.lineTo(W - pad.right, pad.top + ch); ctx.stroke();
-  }
-
-  /** Draw a horizontal bar chart (feature usage, top items). */
-  function drawHBarChart(canvas, data, valueKey, labelKey) {
-    if (!data || !data.length) { clearCanvas(canvas); return; }
-    const W = Math.max(300, canvas.parentElement.clientWidth - 32);
-    const barH = 20;
-    const gap = 6;
-    const H = Math.max(100, data.length * (barH + gap) + 40);
-    const ctx = setupCanvas(canvas, W, H);
-    const pad = { top: 10, right: 16, bottom: 10, left: 180 };
-    const cw = W - pad.left - pad.right;
-
-    const maxVal = Math.max(1, ...data.map(d => d[valueKey]));
-
-    // Background
-    ctx.fillStyle = '#0d0d1a';
-    ctx.fillRect(0, 0, W, H);
-
-    data.forEach((d, i) => {
-      const y = pad.top + i * (barH + gap);
-      const bw = Math.max(2, (d[valueKey] / maxVal) * cw);
-      const color = d.color || '#ff2d95';
-
-      // Label (left-aligned)
-      ctx.fillStyle = '#d1d5db';
-      ctx.font = '11px system-ui, sans-serif';
-      ctx.textAlign = 'right';
-      const label = String(d[labelKey] || '');
-      ctx.fillText(label.length > 22 ? label.slice(0, 21) + '…' : label, pad.left - 8, y + barH - 5);
-
-      // Bar background track
-      ctx.fillStyle = '#12121e';
-      ctx.fillRect(pad.left, y, cw, barH);
-
-      // Bar fill
-      ctx.fillStyle = color;
-      ctx.fillRect(pad.left, y, bw, barH);
-
-      // Value label
-      ctx.fillStyle = '#e0e0f0';
-      ctx.font = '10px "JetBrains Mono", monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText(fmt(d[valueKey]), pad.left + bw + 6, y + barH - 5);
-    });
-  }
-
-  // ---- Wire analytics tab ---- 
-  document.getElementById('analytics-optin').addEventListener('change', e => {
-    if (e.target.checked) ANALYTICS.enable();
-    else ANALYTICS.disable();
-  });
-
-  // Sync checkbox with actual state
-  document.getElementById('analytics-optin').checked = ANALYTICS.isEnabled();
-
-  document.getElementById('analytics-range').addEventListener('change', () => {
-    renderAnalytics();
-  });
-
-  document.getElementById('analytics-refresh').addEventListener('click', () => {
-    renderAnalytics();
-  });
-
-  // Analytics + terminal audio → hook registry
-  let analyticsRendered = false;
-  const ANALYTICS_VIEWS = new Set(['analytics']);
-  registerViewHook({
-    view: 'analytics', once: true,
-    fn: function() { if (!analyticsRendered) { analyticsRendered = true; renderAnalytics(); } }
-  });
-  registerViewHook({ enter: playTerminalAudio });
+  // Inventory tab: refresh on enter
   // Inventory tab: refresh on enter (handles player switches)
   registerViewHook({ view: 'inventory', enter: refreshInventoryUI });
   // Models tab: load manifest + init viewer on first visit

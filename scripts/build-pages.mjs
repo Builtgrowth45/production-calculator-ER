@@ -5,7 +5,7 @@ import path from 'node:path';
 const root = process.cwd();
 const dist = path.join(root, 'dist');
 const files = [
-  'index.html', 'data-help.html', 'favicon.svg', 'manifest.webmanifest', 'sw.js',
+  'index.html', 'favicon.svg', 'manifest.webmanifest', 'sw.js',
 ];
 const directories = [
   'src', 'data', 'fonts', 'gallery', 'gear_textures', 'icons', 'logo', 'maps',

@@ -34,7 +34,6 @@
     <button class="tab" data-view="inventory" role="tab" aria-selected="false">Inventory</button>
     <button class="tab" data-view="gear" role="tab" aria-selected="false">Gear</button>
     <button class="tab" data-view="colonies" role="tab" aria-selected="false">Colonies</button>
-    <button class="tab" data-view="requests" role="tab" aria-selected="false">Requests</button>
     <button class="tab" data-view="drugs" role="tab" aria-selected="false">Drugs</button>
     <button class="tab" data-view="battle" role="tab" aria-selected="false">Battle Nodes</button>
     <button class="tab" data-view="models" role="tab" aria-selected="false">Models</button>
@@ -44,13 +43,6 @@
       <span class="more-label">More</span><span class="more-caret" aria-hidden="true">▾</span>
     </button>
     <nav id="nav-more-menu" role="tablist" aria-label="More navigation" class="nav-more-menu" hidden>
-      <button class="tab" data-view="weapons" role="tab" aria-selected="false">Weapons</button>
-      <button class="tab" data-view="analytics" role="tab" aria-selected="false">Analytics</button>
-      <button class="tab" data-view="items" role="tab" aria-selected="false">All Items</button>
-      <button class="tab" data-view="client" role="tab" aria-selected="false">Client RE</button>
-      <button class="tab" data-view="factions" role="tab" aria-selected="false">Factions</button>
-      <button class="tab" data-view="academy" role="tab" aria-selected="false">Knowledge Base</button>
-      <button class="tab" data-view="help" role="tab" aria-selected="false">Help Fix Data</button>
     </nav>
   </div>
   <nav id="nav-v2" class="nav-v2" aria-label="Grouped navigation">
@@ -60,27 +52,19 @@
         <button type="button" data-nav-view="calc">Calculator</button>
         <button type="button" data-nav-view="inventory">Inventory</button>
         <button type="button" data-nav-view="gear">Gear</button>
-        <button type="button" data-nav-view="requests">Requests</button>
       </section>
       <section class="nav-v2-group" data-nav-group="operations" aria-labelledby="nav-v2-operations">
         <h2 id="nav-v2-operations">Operations</h2>
         <button type="button" data-nav-view="colonies">Colonies</button>
         <button type="button" data-nav-view="battle">Battle Nodes</button>
         <button type="button" data-nav-view="models">Models / Character Studio</button>
-        <button type="button" data-nav-view="client">Client RE</button>
       </section>
       <section class="nav-v2-group" data-nav-group="reference" aria-labelledby="nav-v2-reference">
         <h2 id="nav-v2-reference">Reference</h2>
-        <button type="button" data-nav-view="items">All Items</button>
-        <button type="button" data-nav-view="weapons">Weapons</button>
         <button type="button" data-nav-view="drugs">Drugs</button>
-        <button type="button" data-nav-view="factions">Factions</button>
-        <button type="button" data-nav-view="academy">Knowledge Base</button>
       </section>
       <section class="nav-v2-group" data-nav-group="culture" aria-labelledby="nav-v2-culture">
         <h2 id="nav-v2-culture">System / Culture</h2>
-        <button type="button" data-nav-view="analytics">Analytics</button>
-        <button type="button" data-nav-view="help">Help Fix Data</button>
         <button type="button" data-nav-view="community">Community Notes</button>
       </section>
     </div>
@@ -99,18 +83,10 @@
         <button type="button" data-nav-view="calc">Calculator</button>
         <button type="button" data-nav-view="inventory">Inventory</button>
         <button type="button" data-nav-view="gear">Gear</button>
-        <button type="button" data-nav-view="requests">Requests</button>
         <button type="button" data-nav-view="colonies">Colonies</button>
         <button type="button" data-nav-view="battle">Battle Nodes</button>
         <button type="button" data-nav-view="models">Models / Character Studio</button>
-        <button type="button" data-nav-view="client">Client RE</button>
-        <button type="button" data-nav-view="items">All Items</button>
-        <button type="button" data-nav-view="weapons">Weapons</button>
         <button type="button" data-nav-view="drugs">Drugs</button>
-        <button type="button" data-nav-view="factions">Factions</button>
-        <button type="button" data-nav-view="academy">Knowledge Base</button>
-        <button type="button" data-nav-view="analytics">Analytics</button>
-        <button type="button" data-nav-view="help">Help Fix Data</button>
         <button type="button" data-nav-view="community">Community Notes</button>
       </div>
     </div>
@@ -321,33 +297,6 @@
 
   </section>
 
-  <!-- ALL ITEMS -->
-  <section id="view-items" class="view" role="tabpanel" aria-label="All Items">
-    <div class="controls">
-      <input id="items-search" placeholder="filter items…" aria-label="Filter all items" />
-      <label class="selall"><input type="checkbox" id="items-selall" aria-label="Select all items" /> select all</label>
-      <span class="muted" id="items-count"></span>
-    </div>
-    <div id="items-grid" class="item-grid"></div>
-    <div id="items-bulk" class="bulk-bar" hidden>
-      <span id="bulk-count" class="bulk-count">0 selected</span>
-      <label>Location
-        <select id="bulk-loc" aria-label="Target location"><option value="" disabled selected>select site…</option></select>
-      </label>
-      <label>Qty
-        <input id="bulk-qty" type="number" min="1" value="1" aria-label="Quantity per item" />
-      </label>
-      <label>Mode
-        <select id="bulk-mode" aria-label="Apply mode">
-          <option value="set">Set (replace)</option>
-          <option value="add" selected>Add (gathered)</option>
-          <option value="subtract">Subtract (used)</option>
-        </select>
-      </label>
-      <button id="bulk-add">Add to inventory</button>
-      <button id="bulk-clear" class="ghost">Clear</button>
-    </div>
-  </section>
 
   <!-- GEAR LOADOUT -->
   <section id="view-gear" class="view" role="tabpanel" aria-label="Gear Loadout">
@@ -467,64 +416,6 @@
 
   </section>
 
-  <!-- PRODUCTION REQUESTS -->
-  <section id="view-requests" class="view" role="tabpanel" aria-label="Production Requests">
-    <div class="req-layout">
-      <div class="req-sidebar">
-        <h4 class="req-title">New Request</h4>
-        <form id="req-form" class="req-form" autocomplete="off">
-          <label>Item <input id="req-item" list="req-item-list" placeholder="search item…" autocomplete="off" /><datalist id="req-item-list"></datalist></label>
-          <label>Qty <input id="req-qty" type="number" min="1" value="1" /></label>
-          <label>Assign to <select id="req-assign"><option value="">Unassigned</option></select></label>
-          <label>Assigned qty <input id="req-aqty" type="number" min="1" value="1" /></label>
-          <label>Deliver to <select id="req-deliver-to"><option value="">—</option></select></label>
-          <label>Deliver colony <select id="req-deliver-colony"><option value="">—</option></select></label>
-          <label>Notes <textarea id="req-notes" rows="2" placeholder="optional notes…"></textarea></label>
-          <button type="submit" class="primary">Create Request</button>
-        </form>
-      </div>
-      <div class="req-main">
-        <div class="req-toolbar">
-          <h4 class="req-title">Production Requests</h4>
-          <div class="req-filters">
-            <input id="req-search" type="text" placeholder="filter requests…" autocomplete="off" aria-label="Filter requests" style="width:130px" />
-            <select id="req-filter-status"><option value="">All</option><option value="open">Open</option><option value="assigned">Assigned</option><option value="in_progress">In Progress</option><option value="complete">Complete</option></select>
-            <select id="req-filter-assignee"><option value="">Anyone</option></select>
-            <button id="req-refresh" class="ghost" title="Refresh from shared store">↻</button>
-            <button id="req-export" class="ghost">Export</button>
-            <button id="req-import" class="ghost">Import</button>
-          </div>
-        </div>
-        <div id="req-share-bar" class="req-share-bar">
-          <span id="req-sync-status" class="muted">Loading…</span>
-        </div>
-        <div id="req-bulk-bar" class="req-bulk-bar">
-          <span id="req-bulk-count">0 selected</span>
-          <button id="req-bulk-complete">✓ Complete All</button>
-          <button id="req-bulk-delete">× Delete All</button>
-        </div>
-        <div id="req-list" class="req-list ui-list-state"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WEAPONS -->
-  <section id="view-weapons" class="view" role="tabpanel" aria-label="Weapons">
-    <h3 class="view-title">🔫 Weapon Comparison</h3>
-    <p class="muted" style="font-size:0.75rem">Market stats from Empire Rising client + live combat stats from the ER Balance Sheet (recoil, agility, damage channels). Prices in UC.</p>
-    <div class="weapon-toolbar">
-      <label>Sort by
-        <select id="weapon-sort">
-          <option value="damage">Damage ↓</option>
-          <option value="range">Range ↓</option>
-          <option value="price">Price ↓</option>
-          <option value="magazine">Magazine ↓</option>
-          <option value="dps">DPS ↓</option>
-        </select>
-      </label>
-    </div>
-    <div id="weapon-table"></div>
-  </section>
 
   <!-- DRUGS -->
   <section id="view-drugs" class="view" role="tabpanel" aria-label="Drugs">
@@ -694,12 +585,6 @@
     </div>
   </section>
 
-  <!-- CLIENT RE -->
-  <section id="view-client" class="view" role="tabpanel" aria-label="Client Reverse Engineering">
-    <h3 class="view-title">🔬 Empire Rising Client — Reverse Engineering Report</h3>
-    <p class="muted" style="font-size:0.75rem">All data extracted from v0.5.0 client binaries. Engine: D-Type (LithTech Jupiter) on Direct3D 9.</p>
-    <div id="client-report"></div>
-  </section>
 
   <!-- COMMUNITY NOTES -->
   <section id="view-community" class="view" role="tabpanel" aria-label="Community notes">
@@ -710,75 +595,7 @@
     </div>
   </section>
 
-  <!-- ANALYTICS -->
-  <section id="view-analytics" class="view" role="tabpanel" aria-label="Analytics">
-    <h3 class="view-title">📊 Usage Analytics</h3>
-    <p class="muted" style="font-size:0.75rem;max-width:650px">
-    Privacy-respecting, local-only analytics. No cookies, no fingerprinting, no third parties.
-    Events stay in this browser and are never uploaded. Export or clear them from browser storage when needed.
-    </p>
-    <div class="analytics-controls">
-      <label class="analytics-opt">
-        <input type="checkbox" id="analytics-optin" checked aria-label="Enable analytics tracking" />
-        <span>Enable usage tracking</span>
-      </label>
-      <label>Date range
-        <select id="analytics-range" aria-label="Date range">
-          <option value="7" selected>Last 7 days</option>
-          <option value="30">Last 30 days</option>
-          <option value="90">Last 90 days</option>
-        </select>
-      </label>
-      <button id="analytics-refresh" class="ghost">↻ Refresh local analytics</button>
-      <span id="analytics-status" class="muted" aria-live="polite"></span>
-    </div>
 
-    <!-- Stats cards -->
-    <div class="analytics-cards" id="analytics-cards"></div>
-
-    <!-- Charts row -->
-    <div class="analytics-charts">
-      <div class="analytics-chart-panel">
-        <h4>📈 Page Views Over Time</h4>
-        <div class="chart-wrap"><canvas id="analytics-chart-views"></canvas></div>
-      </div>
-      <div class="analytics-chart-panel">
-        <h4>🔧 Feature Usage</h4>
-        <div class="chart-wrap"><canvas id="analytics-chart-features"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Top items -->
-    <div class="analytics-chart-panel" style="margin-top:1rem">
-      <h4>🏭 Top Items Calculated</h4>
-      <div class="chart-wrap"><canvas id="analytics-chart-items"></canvas></div>
-    </div>
-  </section>
-
-  <!-- FACTIONS -->
-  <section id="view-factions" class="view" role="tabpanel" aria-label="Factions">
-    <h3 class="view-title">🛡️ Faction Gallery</h3>
-    <p class="muted" style="font-size:0.75rem;max-width:650px">Armor, logos, and ranks extracted from the game client. Click any faction to browse its gear. Audio welcomes from each colony terminal.</p>
-    <div class="faction-grid" id="faction-grid"></div>
-  </section>
-
-  <!-- ACADEMY -->
-  <section id="view-academy" class="view" role="tabpanel" aria-label="Academy">
-    <h3 class="view-title">🎓 Empire Rising Knowledge Base</h3>
-    <p class="muted" style="font-size:0.75rem;max-width:720px">
-      Public reference guides for Empire Rising: mining, production, armor, drugs, attributes,
-      final battles, lore, and client reverse-engineering. Source notes and attribution are
-      preserved where relevant; the calculator itself is open to every player. Docs live in the repo at <code>academy/</code> and are
-      converted into this tab by <code>scripts/build-academy.mjs</code>.
-    </p>
-    <div class="academy-layout" id="academy-wrap">
-      <aside class="academy-side" aria-label="Academy documents">
-        <input id="academy-search" type="search" placeholder="filter documents…" autocomplete="off" aria-label="Filter academy documents" />
-        <div class="academy-list" id="academy-list" role="listbox"></div>
-      </aside>
-      <article class="academy-pane" id="academy-pane" data-doc="README" aria-live="polite"></article>
-    </div>
-  </section>
 
   <!-- WORLDS -->
   <section id="view-colonies" class="view" role="tabpanel" aria-label="Colonies">
@@ -823,22 +640,6 @@
     <div class="col-grid" id="col-grid"></div>
   </section>
 
-  <!-- HELP FIX DATA -->
-  <section id="view-help" class="view" role="tabpanel" aria-label="Help Fix Data">
-    <div class="help-intro">
-      <h4 class="req-title">🛠️ Wrong Data? Help Fix It</h4>
-      <p class="muted" style="font-size:0.75rem;max-width:600px">
-        This shows all data backing the calculator in easy-to-read markdown. Find a mistake? Click <b>Copy</b> on that entry and send it to <b>John Snow</b> on Discord.
-      </p>
-      <div class="help-toolbar">
-        <select id="help-section"><option value="recipes">Recipes</option><option value="mining">Mining Sites</option><option value="items">All Items</option></select>
-        <input id="help-search" type="text" placeholder="filter…" autocomplete="off" />
-        <button id="help-copy-all" class="ghost">📋 Copy All</button>
-        <span id="help-count" class="muted"></span>
-      </div>
-    </div>
-    <div id="help-list" class="help-list"></div>
-  </section>
 </main>
 
 <!-- Modal overlays sit OUTSIDE <main>. main is position:relative with z-index:1,
@@ -897,7 +698,6 @@
 <script src="src/factions.js?v=1"></script>
 <script src="src/store.js?v=4"></script>
 <script src="src/engine.js?v=19"></script>
-<script src="src/analytics.js?v=1"></script>
 <script src="src/ui/motion.js?v=1"></script>
 <script src="src/app-core.js?v=46"></script>
 <script src="src/ui/value-transition.js?v=1"></script>
@@ -907,10 +707,6 @@
 <script src="src/ui/legacy-3d-loader.js?v=1"></script>
 <script src="src/views/models.js?v=22"></script>
 <script src="src/views/character.js?v=2"></script>
-<script src="src/views/reference.js?v=6"></script>
-<script src="src/views/help.js?v=1"></script>
-<script src="src/academy_docs.js?v=2"></script>
-<script src="src/views/academy.js?v=1"></script>
 <script src="src/views/gear.js?v=19"></script>
 <script src="src/views/inventory.js?v=26"></script>
 <script src="src/views/player.js?v=4"></script>

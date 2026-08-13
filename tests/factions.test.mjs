@@ -45,6 +45,6 @@ describe('canonical public faction registry', () => {
     assert.equal(names.MOTB, 'Mercenaries of the Blood');
     assert.equal(names.CMG, 'Colonization and Mining Guild');
     assert.equal(names.EC, 'EuroCore');
-    assert.equal(names.VI, 'Vortext, Inc.');
+    assert.equal(names.VI, 'Vortex, Inc.');
   });
 });

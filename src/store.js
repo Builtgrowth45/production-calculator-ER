@@ -28,7 +28,7 @@ const WORKSPACE_KEYS = [
   'cmg_medikit_toggle', 'cmg_gearsets_migrated_v1', 'cmg_inv_migrated_v1',
   'cmg_auto_collapsed_v1', 'cmg_collapsed_sections_v1', 'cmg_produce_done_v1',
   'cmg_transfers_done_v1', 'cmg_obtained_done_v1', 'cmg_plan_applied_v1',
-  'cmg_muted_v1', 'er_calculator_analytics_v1',
+  'cmg_muted_v1',
 ];
 
 function normalizeFaction(value) {
@@ -225,8 +225,7 @@ function applyEntry(item, location, qty, mode) {
   }
   setInv(inv);
   recomputeInv();
-  // Track inventory edits for analytics (fire-and-forget, never throws)
-  try { window.ANALYTICS && window.ANALYTICS.track('inventory_edit', { mode }); } catch(e) {}
+
 }
 
 function deleteEntry(item, location) {

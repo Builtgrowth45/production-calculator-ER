@@ -566,24 +566,23 @@ function renderGearSets() {
 
 
 // ═══════════════════════════════════════════════════════════════════════════
-// § LOCAL DATA — requests, gear sets, inventory, and colony settings
+// § LOCAL DATA — gear sets, inventory, and colony settings
 // ═══════════════════════════════════════════════════════════════════════════
 
 const LOCAL_SHARED_KEY = 'er_calculator_shared_v1';
-let REQUESTS = [];
 let SHARED_GEAR = [];   // [{id, name, gear:{slot:item}, owner, created_at, votes:{player:±1}}]
 let SHARED_INV = {};    // local browser snapshot: {playerName: entries[]}
 let SYNC_SAVING = false;
-const SYNC_PENDING = { requests: [], gear: [], inventory: [], taxes: [] };
+const SYNC_PENDING = { gear: [], inventory: [], taxes: [] };
 let TAXES_SEEDED = false;
 
-function reqId() {
+function localId() {
   if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
   return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-function reqStatus(msg) {
-  const el = document.getElementById('req-sync-status');
+function storageStatus(msg) {
+  const el = document.getElementById('gear-sync-status');
   if (el) el.textContent = msg;
 }
 
@@ -653,20 +652,17 @@ async function loadShared() {
   if (SYNC_SAVING) return;
   try {
     const saved = JSON.parse(localStorage.getItem(LOCAL_SHARED_KEY) || '{}');
-    REQUESTS = Array.isArray(saved.requests) ? saved.requests : [];
     SHARED_GEAR = Array.isArray(saved.gear) ? saved.gear : [];
     const localInventory = saved.inventory && typeof saved.inventory === 'object' ? saved.inventory : {};
     adoptRemoteInventory(localInventory);
     SHARED_INV = localInventory;
     if (saved.taxes && typeof saved.taxes === 'object') adoptRemoteColonies(saved.taxes);
-    renderRequests();
     renderGearSets();
-    reqStatus('Local · ' + new Date().toLocaleTimeString());
+    storageStatus('Local · ' + new Date().toLocaleTimeString());
   } catch (e) {
-    reqStatus('Local storage unavailable');
+    storageStatus('Local storage unavailable');
   }
 }
-function loadRequests() { return loadShared(); }
 
 function localColoniesSnapshot() {
   const out = {};
@@ -687,13 +683,12 @@ function applyLocalColonyOp(op) {
 function persistShared() {
   try {
     localStorage.setItem(LOCAL_SHARED_KEY, JSON.stringify({
-      requests: REQUESTS,
       gear: SHARED_GEAR,
       inventory: SHARED_INV,
       taxes: localColoniesSnapshot(),
     }));
   } catch (e) {
-    reqStatus('Local storage full');
+    storageStatus('Local storage full');
   }
 }
 
@@ -701,17 +696,7 @@ function persistShared() {
 // optional server synchronization can be added later without changing UI code.
 function syncShared(file, ops) {
   if (!ops.length) return;
-  if (file === 'requests') {
-    for (const op of ops) {
-      if (op.op === 'upsert') {
-        const i = REQUESTS.findIndex(r => r.id === op.request?.id);
-        if (i >= 0) REQUESTS[i] = op.request; else REQUESTS.push(op.request);
-      }
-      if (op.op === 'delete') REQUESTS = REQUESTS.filter(r => r.id !== op.id);
-      if (op.op === 'replace') REQUESTS = Array.isArray(op.requests) ? op.requests : REQUESTS;
-    }
-    renderRequests();
-  } else if (file === 'gear') {
+  if (file === 'gear') {
     for (const op of ops) {
       if (op.op === 'delete') SHARED_GEAR = SHARED_GEAR.filter(s => s.id !== op.id);
       if (op.op === 'upsert') {
@@ -733,9 +718,8 @@ function syncShared(file, ops) {
     for (const op of ops) if (op.colony) applyLocalColonyOp(op);
   }
   persistShared();
-  reqStatus('Saved locally · ' + new Date().toLocaleTimeString());
+  storageStatus('Saved locally · ' + new Date().toLocaleTimeString());
 }
-function syncRequests(ops) { return syncShared('requests', ops); }
 
 // Debounced push of the active player's inventory after local edits.
 let INV_PUSH_TIMER = null;
@@ -757,31 +741,8 @@ function schedulePushInv() {
   }, 1200);
 }
 
-// Auto-poll every 45 seconds (paused while the browser tab is hidden;
-// an immediate refresh fires when the tab becomes visible again)
-let REQ_POLL_INTERVAL = null;
-function startReqPolling() {
-  if (REQ_POLL_INTERVAL) clearInterval(REQ_POLL_INTERVAL);
-  REQ_POLL_INTERVAL = setInterval(() => {
-    if (!SYNC_SAVING && document.visibilityState === 'visible') loadShared();
-  }, 45000);
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && !SYNC_SAVING) loadShared();
-  });
-}
-
-// Names for assign dropdowns: local players plus anyone seen in the
+// Names for local gear owners: local players plus anyone seen in the
 // shared requests (so participant names propagate across browsers).
-function reqKnownNames() {
-  const names = new Set(PLAYERS.players ? Object.keys(PLAYERS.players) : []);
-  REQUESTS.forEach(r => {
-    if (r.requester) names.add(r.requester);
-    if (r.assignee) names.add(r.assignee);
-    if (r.completed_by) names.add(r.completed_by);
-  });
-  return [...names].sort((a, b) => a.localeCompare(b));
-}
-
 function timeAgo(ts) {
   if (!ts) return '';
   const s = Math.floor((Date.now() - ts) / 1000);
@@ -791,225 +752,3 @@ function timeAgo(ts) {
   if (s < 604800) return Math.floor(s / 86400) + 'd ago';
   return new Date(ts).toLocaleDateString();
 }
-
-function populateReqForm() {
-  const assign = document.getElementById('req-assign');
-  const deliver = document.getElementById('req-deliver-to');
-  const colony = document.getElementById('req-deliver-colony');
-  if (!assign) return;
-  assign.innerHTML = '<option value="">Unassigned</option>';
-  deliver.innerHTML = '<option value="">—</option>';
-  colony.innerHTML = '<option value="">—</option>';
-  reqKnownNames().forEach(p => {
-    assign.innerHTML += `<option value="${esc(p)}">${esc(p)}</option>`;
-    deliver.innerHTML += `<option value="${esc(p)}">${esc(p)}</option>`;
-  });
-  const colonies = [...new Set(['Berlin', ...DATA.mining_sites.map(s=>s.location), ...getInv().map(e=>e.location)])].sort();
-  colonies.forEach(c => { colony.innerHTML += `<option value="${esc(c)}">${esc(c)}</option>`; });
-  const af = document.getElementById('req-filter-assignee');
-  if (af) {
-    const prev = af.value;
-    af.innerHTML = '<option value="">Anyone</option>' + reqKnownNames().map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('');
-    af.value = prev;
-  }
-}
-
-function renderRequests() {
-  const list = document.getElementById('req-list');
-  if (!list) return;
-  const fs = document.getElementById('req-filter-status')?.value || '';
-  const fa = document.getElementById('req-filter-assignee')?.value || '';
-  const fq = (document.getElementById('req-search')?.value || '').trim().toLowerCase();
-  let filtered = REQUESTS;
-  if (fs) filtered = filtered.filter(r => r.status === fs);
-  if (fa) filtered = filtered.filter(r => r.assignee === fa);
-  if (fq) filtered = filtered.filter(r =>
-    (r.item || '').toLowerCase().includes(fq) ||
-    (r.notes || '').toLowerCase().includes(fq) ||
-    (r.requester || '').toLowerCase().includes(fq) ||
-    (r.assignee || '').toLowerCase().includes(fq));
-  filtered = filtered.slice().sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
-  if (!filtered.length) { list.innerHTML = '<div class="muted" style="padding:1rem">No production requests match. Create one!</div>'; return; }
-  const names = reqKnownNames();
-  list.innerHTML = filtered.map(r => {
-    const sc = r.status || 'open';
-    return `<div class="req-card ${sc}">
-      <div class="req-card-header"><input type="checkbox" class="req-card-bulk" data-req-bulk="${r.id}" />${iconFor(r.item)}<span class="req-card-item">${esc(r.item)}</span><span class="req-card-qty">×${r.quantity}</span>
-        <button data-req-calc="${r.id}" class="ghost" style="font-size:0.625rem;margin-left:auto;color:var(--accent)" title="Calculate this item">📐</button>
-      </div>
-      <div class="req-card-meta">
-        <span class="req-card-status ${sc}">${(r.status||'open').replace('_',' ')}</span>
-        <span>by ${esc(r.requester||'?')}</span>
-        ${r.created_at ? `<span class="muted">${timeAgo(r.created_at)}</span>` : ''}
-        ${r.assignee ? `<span>→ <b>${esc(r.assignee)}</b> (${r.assigned_qty||r.quantity})</span>` : ''}
-        ${r.deliver_to ? `<span>deliver: ${esc(r.deliver_to)} @ ${esc(r.deliver_colony||'?')}</span>` : ''}
-      </div>
-      ${r.notes ? `<div class="req-card-notes">${esc(r.notes)}</div>` : ''}
-      ${r.status !== 'complete' ? `<div class="req-card-actions">
-        <select data-req-assign="${r.id}"><option value="">Assign…</option>${names.map(p => `<option value="${esc(p)}" ${r.assignee===p?'selected':''}>${esc(p)}</option>`).join('')}</select>
-        <input type="number" min="1" value="${r.assigned_qty||r.quantity}" data-req-aqty="${r.id}" style="width:60px" title="Assigned qty" />
-        ${r.status !== 'in_progress' && r.assignee ? `<button data-req-start="${r.id}" class="ghost" style="color:var(--cyan)">▶ Start</button>` : ''}
-        <button data-req-complete="${r.id}" class="ghost" style="color:var(--ok)">✓ Complete</button>
-        <button data-req-delete="${r.id}" class="ghost" style="color:var(--bad)">×</button>
-      </div>` : `<div class="req-card-meta"><span class="req-card-status complete">COMPLETE</span> ${r.completed_by ? 'by '+esc(r.completed_by) : ''} ${r.completed_at ? new Date(r.completed_at).toLocaleDateString() : ''}</div>`}
-    </div>`;
-  }).join('');
-  const findReq = id => REQUESTS.find(r => r.id === id);
-  list.querySelectorAll('[data-req-assign]').forEach(el => {
-    el.addEventListener('change', () => {
-      const r = findReq(el.dataset.reqAssign);
-      if (r) { r.assignee = el.value||null; r.status = r.assignee ? 'assigned' : 'open'; renderRequests(); syncRequests([{ op: 'upsert', request: r }]); }
-    });
-  });
-  list.querySelectorAll('[data-req-aqty]').forEach(el => {
-    el.addEventListener('change', () => {
-      const r = findReq(el.dataset.reqAqty);
-      if (r) { r.assigned_qty = parseInt(el.value)||r.quantity; renderRequests(); syncRequests([{ op: 'upsert', request: r }]); }
-    });
-  });
-  list.querySelectorAll('[data-req-start]').forEach(el => {
-    el.addEventListener('click', () => {
-      const r = findReq(el.dataset.reqStart);
-      if (r) { r.status = 'in_progress'; renderRequests(); syncRequests([{ op: 'upsert', request: r }]); }
-    });
-  });
-  list.querySelectorAll('[data-req-complete]').forEach(el => {
-    el.addEventListener('click', () => {
-      const r = findReq(el.dataset.reqComplete);
-      if (r) { r.status = 'complete'; r.completed_at = Date.now(); r.completed_by = PLAYERS.active; renderRequests(); syncRequests([{ op: 'upsert', request: r }]); }
-    });
-  });
-  list.querySelectorAll('[data-req-delete]').forEach(el => {
-    el.addEventListener('click', () => {
-      const id = el.dataset.reqDelete;
-      REQUESTS = REQUESTS.filter(r=>r.id!==id); renderRequests();
-      syncRequests([{ op: 'delete', id }]);
-    });
-  });
-  // Calculate button → opens calculator tab with this item
-  list.querySelectorAll('[data-req-calc]').forEach(el => {
-    el.addEventListener('click', () => {
-      const r = findReq(el.dataset.reqCalc);
-      if (r) {
-        document.getElementById('calc-item') && (document.getElementById('calc-item').value = r.item);
-        document.getElementById('calc-qty') && (document.getElementById('calc-qty').value = r.quantity);
-        setView('calc');
-        runCalculator();
-      }
-    });
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// § LIVE COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS)
-// ═══════════════════════════════════════════════════════════════════════
-// Renders every item from the live balance sheet (data/balance_stats.json →
-// src/balance_stats.js) with its stat block, cross-linked to the recipe list
-// where a recipe exists. Reference-only items (Skeleton/Jack-o'-lantern sets,
-// mining tools, Turret, grenades, autoinjectors, non-craftable weapons) are
-// shown with a "reference" badge.
-
-let BALANCE_ITEMS = [];   // enriched {name, stats, category, recipe}
-let BALANCE_CATS = [];
-
-/** Normalized name for balance→recipe matching (mirrors update_balance_stats.py). */
-function balNorm(s) {
-  return String(s || '').toLowerCase()
-    .replace(/\s*\((male|female)\)/g, '')
-    .replace(/[^a-z0-9]+/g, ' ').trim()
-    .replace(/med\s?ikit/g, 'medkit');
-}
-const BAL_ALIASES = {
-  // Sheet's own typos; recipes carry the sheet's names since 2026-08-11.
-  'infensus minimist gloves': 'infensus minimalist gloves',
-  'pythica sustained gloves': 'pythica sustained battle gloves',
-};
-function balResolve(n) {
-  return BAL_ALIASES[n] || n;
-}
-
-/** Find the recipe whose output matches a balance-sheet item name. */
-function balRecipe(name) {
-  const c = balResolve(balNorm(name));
-  return DATA.recipes.find(rr => balNorm(rr.output.item) === c) || null;
-}
-
-/** Classify a balance item into a browser category (recipe category wins). */
-function balCategory(name, recipe) {
-  if (recipe) return recipe.output.category || 'Other';
-  const n = name.toLowerCase();
-  if (/medikit|autoinjector|biocell|medigun/.test(n)) return 'Medical';
-  if (/mining tool/.test(n)) return 'Tools';
-  if (/grenade|explosive/.test(n)) return 'Explosive';
-  if (/implant| amp\b/.test(n)) return 'Implants & Electronics';
-  if (/helmet|shoulder|torso|arm pads|leg pads|gloves/.test(n)) return 'Armor';
-  if (/(water|burger|cola|sushi|orange|brew|cheese|drink)/.test(n)) return 'Food & Drink';
-  const drugs = ['cannabinol','nitrate','dexedrine','biphetamin','neurotonin','polycodeine','methedrine','euthemal','oxazoline','opiatech','phencyclidine','mdma','amphetamine','benzedrine','desoxyn','ritalin','dopamine','cocaboline','anabolica','meth'];
-  if (drugs.some(d => n.includes(d))) return 'Drugs';
-  if (/(rifle|pistol|gun|turret|emp|mg6|tar7|pp7|doa|barracuda|enervon|domin|inflex|streamline|rgi|hr420|techtronic|linner|salvotec|gakk|frostbite|candy|survival|protector|fgz|6x6)/.test(n)) return 'Weapons';
-  return 'Other';
-}
-
-/** Build the enriched item list once (data is static per load). */
-function initBalanceBrowser() {
-  const grid = document.getElementById('gear-balance-grid');
-  if (!grid || !window.BALANCE_STATS || BALANCE_ITEMS.length) return;
-  const meta = document.getElementById('gear-balance-meta');
-  if (meta) meta.textContent = `${BALANCE_STATS.items.length} items · fetched ${BALANCE_STATS._meta.fetched} · live Google Sheet`;
-  BALANCE_ITEMS = BALANCE_STATS.items.map(it => {
-    const recipe = balRecipe(it.name);
-    return {
-      name: it.name,
-      stats: it.stats || {},
-      category: balCategory(it.name, recipe),
-      recipe: recipe ? recipe.output.item : null,
-    };
-  });
-  BALANCE_CATS = [...new Set(BALANCE_ITEMS.map(i => i.category))].sort();
-  const catSel = document.getElementById('balance-cat');
-  if (catSel) {
-    catSel.innerHTML = '<option value="">All categories</option>' +
-      BALANCE_CATS.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
-  }
-  const wire = el => el && el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', renderBalanceBrowser);
-  wire(document.getElementById('balance-search'));
-  wire(document.getElementById('balance-cat'));
-  wire(document.getElementById('balance-sort'));
-  renderBalanceBrowser();
-}
-
-/** Render the filtered/sorted grid. */
-function renderBalanceBrowser() {
-  const grid = document.getElementById('gear-balance-grid');
-  if (!grid) return;
-  const q = (document.getElementById('balance-search')?.value || '').toLowerCase();
-  const cat = document.getElementById('balance-cat')?.value || '';
-  const sort = document.getElementById('balance-sort')?.value || 'name';
-  let items = BALANCE_ITEMS.filter(i =>
-    (!q || i.name.toLowerCase().includes(q)) &&
-    (!cat || i.category === cat));
-  if (sort === 'name') items.sort((a, b) => a.name.localeCompare(b.name));
-  else items.sort((a, b) => (b.stats[sort] || -999) - (a.stats[sort] || -999) || a.name.localeCompare(b.name));
-  if (!items.length) {
-    grid.innerHTML = '<div class="muted" style="grid-column:1/-1;padding:1rem">No items match.</div>';
-    return;
-  }
-  grid.innerHTML = items.map(i => {
-    const statChips = Object.entries(i.stats)
-      .filter(([k]) => k !== 'classification')
-      .map(([k, v]) => {
-        const label = STAT_LABELS[k] || k;
-        return `<span class="gbs-chip" title="${esc(STAT_DEFS[k] || '')}"><b>${esc(label)}</b> ${v > 0 ? '+' : ''}${v}</span>`;
-      }).join('');
-    const badge = i.recipe
-      ? `<span class="gbs-badge craftable" title="Craftable — see recipe">craftable</span>`
-      : `<span class="gbs-badge reference" title="In the balance sheet but no crafting recipe in-game">reference</span>`;
-    return `<div class="gbs-item">
-      <div class="gbs-name">${esc(i.name)} ${badge}</div>
-      <div class="gbs-cat">${esc(i.category)}</div>
-      <div class="gbs-stats">${statChips || '<span class="muted">no stats</span>'}</div>
-    </div>`;
-  }).join('');
-}
-
-// ═══════════════════════════════════════════════════════════════════════

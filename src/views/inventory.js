@@ -1,7 +1,7 @@
 /**
  * src/views/inventory.js — Inventory management
  * ============================================================================
- * Zone editor, totals, mining reference, all-items bulk editor, weapons table.
+ * Zone editor, totals, mining reference, and inventory table.
  */
 'use strict';
 
@@ -101,7 +101,7 @@ function renderZone() {
         // An inline span hugs its text no matter how the row is laid out.
         '<span class="zr-name"><span class="idp-link" role="button" tabindex="0" data-idp="' + enc + '">' + esc(displayName(e.item)) + '</span></span>' + mined +
         '<span class="zr-qty"><input type="number" min="0" value="' + e.quantity + '" data-zq="' + enc + '" aria-label="Quantity of ' + esc(e.item) + ' at ' + esc(zone) + '" /></span>' +
-        // Per-row move: the bulk bar can only shift a whole stack, and players
+        // Per-row move: this shifts a whole stack, and players
         // usually want to send just part of one — so say so on the button.
         '<button class="zr-move-btn" data-zmove="' + enc + '" title="Move some or all of this to another zone" aria-label="Move some of ' + esc(e.item) + ' to another zone">➜ Move…</button>' +
         '<button class="zr-x" data-zx="' + enc + '" title="Remove ' + esc(e.item) + ' from ' + esc(zone) + '" aria-label="Remove ' + esc(e.item) + ' from ' + esc(zone) + '">✕</button>' +
@@ -234,111 +234,6 @@ function renderInventory() {
 // showed the same pairing as cards, so it absorbed the parts this added: ore
 // icons, how much of each you hold, and searching by ore rather than by place.
 
-// ---- All Items view ----
-const ITEM_SELECTION = new Set();
-
-function renderItems() {
-  const q = (document.getElementById('items-search')?.value || '').trim().toLowerCase();
-  const names = [...ALL_ITEMS].filter(n => !q || n.toLowerCase().includes(q)).sort();
-  const cards = names.map(name => {
-    const total = INV_TOTAL[name] || 0;
-    const mined = MINE_SITES[name] ? MINE_SITES[name].map(s => `<span class="tag mine">${esc(s)}</span>`).join(' ') : '<span class="tag">not mineable</span>';
-    const craftable = CRAFTABLE.has(name);
-    const kind = craftable ? '<span class="tag have">craftable</span>' : (MINED.has(name) ? '<span class="tag mine">raw</span>' : '<span class="tag">other</span>');
-    const recipes = RECIPES_BY_OUTPUT[name] || [];
-    const recipeHtml = recipes.map(r => {
-      const ins = r.inputs ? r.inputs.map(i => `${fmt(i.quantity)} ${esc(i.item)}`).join(' + ')
-        : r.inputs_alternatives.map(a => '(' + a.map(i => `${fmt(i.quantity)} ${esc(i.item)}`).join(' + ') + ')').join(' OR ');
-      return `<span class="tag">${fmt(r.output.quantity)} ← ${ins}</span>`;
-    }).join(' ');
-    const sel = ITEM_SELECTION.has(name) ? ' checked' : '';
-    return `<div class="item-card ${sel ? 'selected' : ''}" data-name="${encodeURIComponent(name)}">
-        <label class="ic-sel"><input type="checkbox" data-item="${encodeURIComponent(name)}"${sel} aria-label="Select ${esc(name)}" /></label>
-        <div class="ic-icon">${iconFor(name)}</div>
-        <div class="ic-body">
-          <div class="ic-name">${esc(displayName(name))}</div>
-          <div class="ic-meta">${kind} <span class="muted">held ${fmt(total)}</span></div>
-          <div class="ic-tags">${mined}</div>
-          <div class="ic-recipe">${recipeHtml || '<span class="muted">—</span>'}</div>
-        </div>
-      </div>`;
-  }).join('');
-  document.getElementById('items-grid').innerHTML = cards || '<div class="muted">No items match.</div>';
-  document.getElementById('items-count').textContent = `${names.length} shown`;
-  updateBulkBar();
-}
-
-// ---- Weapons view ----
-/** Live combat stats for a weapon (balance sheet, matched by display name). */
-function weaponLiveStats(name) {
-  if (!window.BALANCE_STATS || !name) return null;
-  const it = BALANCE_STATS.items.find(i => i.name === name);
-  return (it && it.stats) || null;
-}
-
-/** Combat-stat chips from the live sheet (recoil, agility, damage channels). */
-function weaponCombatChips(name) {
-  const st = weaponLiveStats(name);
-  if (!st) return '';
-  const skip = new Set(['durationseconds', 'medkitcooldown', 'classification']);
-  const chips = Object.entries(st)
-    .filter(([k]) => !skip.has(k) && st[k] !== 0)
-    .map(([k, v]) => {
-      const label = STAT_LABELS[k] || k;
-      const title = STAT_DEFS[k] ? ` title="${esc(STAT_DEFS[k])}"` : '';
-      return `<span class="gbs-chip"${title}><b>${esc(label)}</b> ${v > 0 ? '+' : ''}${v}</span>`;
-    }).join('');
-  return chips ? `<div class="wpn-live">${chips}</div>` : '';
-}
-
-function renderWeapons() {
-  const weapons = DATA.weapons || {};
-  const sortBy = document.getElementById('weapon-sort')?.value || 'damage';
-  const entries = Object.entries(weapons);
-  
-  // Sort
-  entries.sort((a, b) => {
-    const pa = a[1].primary, pb = b[1].primary;
-    if (sortBy === 'dps') {
-      const dpsA = pa.fire_rate > 0 ? pa.damage * pa.fire_rate : 0;
-      const dpsB = pb.fire_rate > 0 ? pb.damage * pb.fire_rate : 0;
-      return dpsB - dpsA;
-    }
-    return (pb[sortBy] || 0) - (pa[sortBy] || 0);
-  });
-  
-  const rows = entries.map(([id, w]) => {
-    const p = w.primary;
-    const dps = p.fire_rate > 0 ? (p.damage * p.fire_rate).toFixed(0) : '—';
-    const alt = w.alt_fire ? `<span class="tag">alt: ${w.alt_fire.damage}dmg / ${w.alt_fire.range}rng</span>` : '';
-    // DATA.weapons is keyed by internal id (w1, w12, ...) and carries no name,
-    // so this table used to print "w12" as the weapon and ask iconFor('w12')
-    // for art that could never exist. weapon_names maps the ids to the real
-    // names, which doubles as the icon key since they match the item names.
-    const name = (DATA.weapon_names && DATA.weapon_names[id]) || id;
-    const named = name !== id;
-    const icon = iconFor(name);
-    const live = weaponCombatChips(name);
-    return `<tr>
-      <td>${icon}<div><strong>${esc(displayName(name))}</strong>${named
-        ? `<span class="wpn-id">${esc(id)}</span>`
-        : `<span class="wpn-id unnamed" title="No name mapped for this id yet">unnamed</span>`}</div>${live}</td>
-      <td class="r">${p.damage}</td>
-      <td class="r">${p.range.toFixed(0)}</td>
-      <td class="r">${p.magazine}</td>
-      <td class="r">${p.capacity}</td>
-      <td class="r">${p.fire_rate.toFixed(1)}/s</td>
-      <td class="r">${dps}</td>
-      <td class="r">${w.price.toLocaleString()} UC</td>
-      <td>${alt}</td>
-    </tr>`;
-  }).join('');
-  
-  document.getElementById('weapon-table').innerHTML = 
-    `<table><thead><tr>
-      <th>Weapon</th><th class="r">Dmg</th><th class="r">Range</th><th class="r">Mag</th><th class="r">Cap</th><th class="r">Rate</th><th class="r">DPS</th><th class="r">Price</th><th>Alt</th>
-    </tr></thead><tbody>${rows}</tbody></table>`;
-}
 
 // ── Quick-add item picker ──
 // Materials by default — stocking a colony is overwhelmingly about raw and

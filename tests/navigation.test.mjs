@@ -16,10 +16,10 @@ const groupedMarkup = html.match(/<div class="nav-v2-groups">([\s\S]*?)<div id="
 const groupedViews = [...groupedMarkup.matchAll(/data-nav-view="([^"]+)"/g)].map(m => m[1]);
 
 const expectedGroups = {
-  workflows: ['calc', 'inventory', 'gear', 'requests'],
-  operations: ['colonies', 'battle', 'models', 'client'],
-  reference: ['items', 'weapons', 'drugs', 'factions', 'academy'],
-  culture: ['analytics', 'help', 'community'],
+  workflows: ['calc', 'inventory', 'gear'],
+  operations: ['colonies', 'battle', 'models'],
+  reference: ['drugs'],
+  culture: ['community'],
 };
 const expectedViews = Object.values(expectedGroups).flat();
 
@@ -48,7 +48,7 @@ describe('grouped navigation shell', () => {
     assert.match(appInit, /closeNavV2Drawer\(true\)/);
     assert.match(appInit, /navV2DrawerToggle\?\.focus\(\)/);
     assert.match(appCore, /CMG_NAV_GROUPS/);
-    assert.match(appCore, /ANALYTICS\.track\('pageview', \{ tab: v \}\)/);
+
   });
 
   it('keeps the new navigation opt-in and preserves touch-sized controls', () => {

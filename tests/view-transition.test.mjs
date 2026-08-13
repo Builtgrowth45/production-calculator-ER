@@ -30,7 +30,7 @@ describe('accessible view transitions', () => {
     const applyStart = core.indexOf('const applyView = () =>');
     const applyEnd = core.indexOf('};', applyStart);
     const apply = core.slice(applyStart, applyEnd);
-    assert.match(apply, /ANALYTICS\.track\('pageview'/);
+    assert.doesNotMatch(apply, /ANALYTICS\.track\('pageview'/);
     assert.match(apply, /VIEW_HOOKS\.forEach/);
     assert.match(apply, /setView\._prev = v/);
   });
