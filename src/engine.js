@@ -112,6 +112,27 @@ DATA.mining_sites.forEach(s => s.yields.forEach(y => {
   (MINE_SITES[y] = MINE_SITES[y] || []).push(s.location);
 }));
 
+// Choose the default mine for a missing raw material using the player's current
+// faction economics. Explicit OBTAIN_SITE pins always win; this only supplies
+// the initial preference shown by the Obtain section.
+function defaultObtainSite(item, sites) {
+  const available = (sites || []).slice();
+  if (!available.length) return null;
+  const pinned = typeof window.OBTAIN_SITE === 'object' && window.OBTAIN_SITE
+    ? window.OBTAIN_SITE[item] : null;
+  if (pinned && available.includes(pinned)) return pinned;
+  const unit = materialPrice(item);
+  if (unit == null) return available[0];
+  const scored = available.map((site, index) => ({
+    site,
+    index,
+    cost: unit * colonyFactor(site) * (1 + (typeof window.ENGINE_COLONY_TAX_FOR === 'function'
+      ? Math.max(0, Number(window.ENGINE_COLONY_TAX_FOR(site)) || 0) : 0)),
+  }));
+  scored.sort((a, b) => a.cost - b.cost || a.index - b.index);
+  return scored[0].site;
+}
+
 const CRAFTABLE = new Set(Object.keys(RECIPES_BY_OUTPUT));
 
 // ---- icons ----
@@ -376,8 +397,7 @@ function netUnitCost(item, dest, memo, depth) {
     // — the same rule obtainSiteFor uses when the plan is costed. The rebate
     // therefore tracks the site the plan will actually bill.
     const sites = MINE_SITES[item] || [];
-    const picked = (typeof window.OBTAIN_SITE === 'object' && window.OBTAIN_SITE) ? window.OBTAIN_SITE[item] : null;
-    const site = picked && sites.indexOf(picked) !== -1 ? picked : (sites.length ? sites[0] : null);
+    const site = defaultObtainSite(item, sites);
     return memo[item] = raw * colonyFactor(site);
   }
   const recs = RECIPES_BY_OUTPUT[item];
@@ -581,6 +601,7 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
         acquire[it] = acquire[it] || { qty: 0, from: [] };
         acquire[it].qty += need;
         sites.forEach(s => { if (!acquire[it].from.includes(s)) acquire[it].from.push(s); });
+        acquire[it].preferred = defaultObtainSite(it, sites);
       }
       continue;
     }

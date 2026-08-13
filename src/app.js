@@ -623,7 +623,7 @@ function renderAcquireSection(plan) {
     var from = info.from || [];
     var chosen = (OBTAIN_SITE[name] && from.indexOf(OBTAIN_SITE[name]) !== -1)
       ? OBTAIN_SITE[name]
-      : (from.length ? from[0] : NO_SITE);
+      : (info.preferred || (from.length ? from[0] : NO_SITE));
     (groups[chosen] = groups[chosen] || []).push({ item: name, info: info, chosen: chosen });
   });
 

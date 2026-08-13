@@ -456,6 +456,7 @@ function isOwnColony(loc) {
 function refreshEngineFactionContext() {
   window.ENGINE_COLONY_OWNED = isOwnColony;
   window.ENGINE_COLONY_REBATE_FOR = () => activeFactionReturnRate();
+  window.ENGINE_COLONY_TAX_FOR = loc => taxRateFor(loc);
   // Compatibility for older extensions that only know the numeric hook.
   window.ENGINE_COLONY_REBATE = activeFactionReturnRate();
 }
@@ -661,6 +662,7 @@ function obtainSiteFor(item, info) {
   // OBTAIN_SITE is a var in app.js, so this is safe even before that file runs.
   const picked = typeof OBTAIN_SITE !== 'undefined' && OBTAIN_SITE ? OBTAIN_SITE[item] : null;
   if (picked && from.indexOf(picked) !== -1) return picked;
+  if (info?.preferred && from.indexOf(info.preferred) !== -1) return info.preferred;
   return from.length ? from[0] : null;
 }
 
