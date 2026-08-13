@@ -5,8 +5,9 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = join(import.meta.dirname, '..');
-const app = readFileSync(join(root, 'src/app.js'), 'utf8');
 const core = readFileSync(join(root, 'src/app-core.js'), 'utf8');
+const app = readFileSync(join(root, 'src/app.js'), 'utf8');
+const styles = readFileSync(join(root, 'src/styles.css'), 'utf8');
 const html = readFileSync(join(root, 'index.html'), 'utf8');
 const registry = JSON.parse(readFileSync(join(root, 'data/factions.json'), 'utf8'));
 
@@ -21,6 +22,11 @@ describe('neutral colony world state', () => {
   it('offers unknown owner plus every selectable faction', () => {
     assert.match(app, /window\.ER_FACTIONS\?\.selectable/);
     assert.match(app, /Owner not set/);
+  });
+
+  it('constrains the owner picker to its colony card at every grid width', () => {
+    assert.match(styles, /\.cc-own\s*\{[^}]*width:\s*100%[^}]*min-width:\s*0/s);
+    assert.match(styles, /\.cc-own select\s*\{[^}]*width:\s*100%[^}]*max-width:\s*100%/s);
   });
 
   it('keeps owner changes separate from tax changes', () => {
