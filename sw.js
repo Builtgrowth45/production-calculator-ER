@@ -1,4 +1,4 @@
-const CACHE = 'er-v0.1.0';
+const CACHE = 'er-v0.1.1';
 const SHELL = [
   './',
   './index.html',
@@ -29,6 +29,7 @@ const SHELL = [
   './src/vendor/three/OrbitControls.js',
   './src/vendor/three/GLTFLoader.js',
   './src/views/models.js',
+  './src/views/reference.js',
   './src/views/gear.js',
   './src/views/inventory.js',
   './src/views/player.js',

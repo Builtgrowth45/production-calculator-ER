@@ -55,5 +55,8 @@ describe('grouped navigation shell', () => {
     assert.match(shellCss, /data-cmg-layout-v2="on"/);
     assert.match(shellCss, /min-height:\s*var\(--component-touch-target\)/);
     assert.match(shellCss, /@media \(max-width: 767px\)/);
+    assert.match(shellCss, /\.nav-bar > #legacy-nav,\s*\n\s*\.nav-bar > \.nav-more \{ display: none; \}/);
+    assert.match(shellCss, /\.nav-bar > #nav-v2 \{ display: block; \}/);
+    assert.match(shellCss, /\.theme-bar\s*\{[^}]*overflow-x:\s*auto/s);
   });
 });

@@ -82,11 +82,26 @@
 }
 
 @media (max-width: 767px) {
-  [data-cmg-layout-v2="on"] header { padding-bottom: 4.5rem; }
-  [data-cmg-layout-v2="on"] .nav-bar { position: static; }
-  [data-cmg-layout-v2="on"] .nav-bar > #nav-v2 { display: block; }
-  [data-cmg-layout-v2="on"] .nav-v2-groups { display: none; }
-  [data-cmg-layout-v2="on"] .mobile-nav-v2 {
+  /* The compact navigation is the safe default on phones. The legacy strip
+   * cannot fit beside the theme controls and otherwise clips labels offscreen. */
+  header { padding-bottom: 4.5rem; }
+  .nav-bar { position: static; }
+  .nav-bar > #legacy-nav,
+  .nav-bar > .nav-more { display: none; }
+  .nav-bar > #nav-v2 { display: block; }
+  .nav-v2-groups { display: none; }
+  .theme-bar {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .theme-bar::-webkit-scrollbar { display: none; }
+  .theme-btn, .mute-btn, .theme-bar-sep, .size-slider { flex: 0 0 auto; }
+  .mobile-nav-v2 {
     position: fixed;
     inset: auto 0 0;
     z-index: 120;
@@ -98,14 +113,14 @@
     border-top: 1px solid var(--line);
     backdrop-filter: blur(12px);
   }
-  [data-cmg-layout-v2="on"] .mobile-nav-v2 button {
+  .mobile-nav-v2 button {
     min-height: var(--component-touch-target);
     padding: 0.3rem 0.2rem;
     text-align: center;
     font-size: 0.58rem;
   }
-  [data-cmg-layout-v2="on"] .nav-v2-drawer[hidden] { display: none; }
-  [data-cmg-layout-v2="on"] .nav-v2-drawer {
+  .nav-v2-drawer[hidden] { display: none; }
+  .nav-v2-drawer {
     position: fixed;
     inset: auto 0 4.25rem;
     z-index: 119;

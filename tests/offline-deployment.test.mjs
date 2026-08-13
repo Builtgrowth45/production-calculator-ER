@@ -11,7 +11,7 @@ const html = readFileSync(join(root, 'index.html'), 'utf8');
 
 describe('offline and deployment verification', () => {
   it('precaches the ER bridge and staged loader assets without model files', () => {
-    assert.match(sw, /const CACHE = 'er-v0\.1\.0'/);
+    assert.match(sw, /const CACHE = 'er-v\d+\.\d+\.\d+'/);
     assert.match(sw, /'\.\/src\/generated\/er-3d-workbench\.js'/);
     for (const path of ['./src/ui/motion.js', './src/ui/value-transition.js', './src/ui/r3f-loader.js', './src/ui/legacy-3d-loader.js', './src/generated/er-3d-workbench.js']) {
       assert.match(sw, new RegExp(path.replaceAll('.', '\\.') ));
