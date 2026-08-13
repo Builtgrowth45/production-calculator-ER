@@ -6,6 +6,26 @@
  */
 'use strict';
 
+const DIRECT_HASH_ROUTES = new Set([
+  'calc', 'inventory', 'gear', 'requests', 'colonies', 'battle', 'models', 'client',
+  'items', 'weapons', 'drugs', 'factions', 'academy', 'analytics', 'help', 'community',
+]);
+
+function parsePublicHashRoute() {
+  const raw = String(location.hash || '').slice(1).split('?')[0].trim().toLowerCase();
+  if (DIRECT_HASH_ROUTES.has(raw)) return raw;
+  return null;
+}
+
+function applyPublicHashRoute() {
+  const hash = String(location.hash || '').slice(1);
+  const route = parsePublicHashRoute();
+  if (route) { setView(route); return true; }
+  if (!hash || hash.includes('=') || hash.length > 12) return false;
+  setView('calc');
+  return true;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderItemOptions();
   const edl = document.getElementById('inv-item-list');
@@ -826,8 +846,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Load shared plan from URL hash
+  // Load shared plan from URL hash, or activate a direct public tab route.
   loadPlanFromHash();
+  applyPublicHashRoute();
+  window.addEventListener('hashchange', () => {
+    if (applyPublicHashRoute()) return;
+    loadPlanFromHash();
+  });
 
   // ---- Gear loadout ----
   refreshGear();

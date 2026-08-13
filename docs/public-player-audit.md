@@ -193,7 +193,23 @@ No public push or Cloudflare change was performed for this baseline.
 - `npm run build`: passed; 5,091 files copied into `dist/`.
 - `npm run assets:check`: passed; 4,430 approved binary assets.
 - `npm audit --omit=dev`: 0 vulnerabilities.
-- Syntax checks and `git diff --check`: passed.
+
+## Implementation slice 6 — direct public hash routes
+
+**Completed locally:**
+
+- Added explicit direct hash routes for every public tab (`#academy`, `#colonies`, and the remaining canonical routes).
+- Added safe fallback to Calculator for unknown short textual routes.
+- Preserved base64 calculator share hashes and existing plan loading behavior.
+- Added runtime `hashchange` handling so back/forward and externally changed routes update the active view.
+- Added focused regression coverage for direct routes, unknown-route fallback, and share-hash compatibility.
+
+**Verification:**
+
+- Direct-route contract: 2/2 passed.
+- All-tabs contract: 3/3 passed.
+- Chromium production-artifact fallback: `#academy` activated Academy, `#colonies` activated Colonies, and an unknown route activated Calculator; no uncaught-error markers were present and stderr was empty except for one non-app GLib/Chromium warning on the Colonies run.
+- `npm test`: 133 tests passed before this route slice; the final gate follows below.
 
 ## Implementation slice 5 — neutral public knowledge surfaces
 
