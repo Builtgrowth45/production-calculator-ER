@@ -1807,6 +1807,7 @@ tr td:first-child { white-space: nowrap; }
   font-size: 0.75rem; width: 100%; min-width: 0;
 }
 .cc-own select { width: 100%; max-width: 100%; min-width: 0; }
+.cc-own select[multiple] { min-height: 4.5rem; }
 
 
 .cc-rate { display: flex; align-items: center; gap: 0.2rem; margin-left: auto; }

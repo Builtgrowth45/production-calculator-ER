@@ -227,13 +227,13 @@ function renderGearDest() {
   }
   if (sel.value !== DESTINATION) sel.value = DESTINATION;
 
-  const own = COLONY_OWNER[DESTINATION];
+  const own = colonyOwnerIds(DESTINATION);
   const rate = typeof COLONY_TAX[DESTINATION] === 'number' ? COLONY_TAX[DESTINATION] : 0;
   const factions = (DATA._reference && DATA._reference.factions) || {};
-  const ownerName = own ? (factions[own] || own) : 'owner not set';
+  const ownerName = own.length ? own.map(id => factions[id] || id).join(' + ') : 'owner not set';
   const activeFaction = activeFactionId();
   const activeFactionName = window.factionById?.(activeFaction)?.name || activeFaction;
-  const ownedByActive = own === activeFaction && activeFactionReturnRate() > 0;
+  const ownedByActive = own.includes(activeFaction) && activeFactionReturnRate() > 0;
   const taxTxt = rate > 0 ? rate + '% tax' : '0% tax';
 
   let forfeit = 0;
@@ -790,7 +790,7 @@ function localColoniesSnapshot() {
   const out = {};
   if (typeof colonyList === 'function') {
     colonyList().forEach(colony => {
-      out[colony] = { rate: COLONY_TAX[colony] || 0, owner: COLONY_OWNER[colony] || '' };
+      out[colony] = { rate: COLONY_TAX[colony] || 0, owner: colonyOwnerIds(colony) };
     });
   }
   return out;

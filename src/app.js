@@ -447,10 +447,11 @@ function renderColonies() {
     var controls = r.priced
       ? '<div class="cc-controls">' +
           '<label class="cc-own" title="Set this colony owner; eligible spend can return to the selected faction">' +
-            '<select data-ct-own="' + enc + '" aria-label="Owner of ' + esc(r.name) + '">' +
+            '<select multiple data-ct-own="' + enc + '" aria-label="Owners of ' + esc(r.name) + '">' +
               '<option value="">Owner not set</option>' +
               (window.ER_FACTIONS?.selectable || []).map(function (f) {
-                return '<option value="' + esc(f.id) + '"' + (COLONY_OWNER[r.colony] === f.id ? ' selected' : '') + '>' + esc(f.name) + '</option>';
+                var owners = colonyOwnerIds(r.colony);
+                return '<option value="' + esc(f.id) + '"' + (owners.includes(f.id) ? ' selected' : '') + '>' + esc(f.name) + '</option>';
               }).join('') +
             '</select>' +
           '</label>' +
@@ -464,7 +465,7 @@ function renderColonies() {
     return '<div class="col-card' + (own ? ' cc-own-col' : '') + (r.priced ? '' : ' cc-info') + '">' +
       '<div class="cc-head">' +
         '<span class="cc-name">' + esc(r.name) + '</span>' +
-        (own ? '<span class="cc-badge">' + esc(window.factionById?.(COLONY_OWNER[r.colony])?.name || COLONY_OWNER[r.colony]) + '</span>' : '') +
+        (own ? '<span class="cc-badge">' + esc(colonyOwnerIds(r.colony).map(function (id) { return window.factionById?.(id)?.name || id; }).join(' + ')) + '</span>' : '') +
         (rate > 0 ? '<span class="cc-taxbadge">' + rate + '%</span>' : '') +
       '</div>' +
       // ore chips carry the icon and how much you already hold, which is what
@@ -552,8 +553,8 @@ function onColonyTaxChange(el) {
     renderColonies();
   } else if (ownFor) {
     var c = decodeURIComponent(ownFor);
-    var owner = el.value || '';
-    if (owner) COLONY_OWNER[c] = owner;
+    var owner = Array.from(el.selectedOptions || []).map(function (option) { return option.value; }).filter(Boolean);
+    if (owner.length) COLONY_OWNER[c] = owner;
     else delete COLONY_OWNER[c];
     saveColonySettings();
     refreshEngineFactionContext();

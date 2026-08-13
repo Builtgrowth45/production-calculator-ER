@@ -12,11 +12,18 @@ const html = readFileSync(join(root, 'index.html'), 'utf8');
 const registry = JSON.parse(readFileSync(join(root, 'data/factions.json'), 'utf8'));
 
 describe('neutral colony world state', () => {
-  it('uses a versioned neutral storage key and reads legacy state without seeding holdings', () => {
+  it('uses a versioned storage key and seeds the authoritative default world', () => {
     assert.match(core, /er_colony_world_v2/);
     assert.match(core, /cmg_colony_tax_v1/);
-    assert.doesNotMatch(core, /CMG_HOLDINGS/);
-    assert.doesNotMatch(core, /COLONY_OWNER\[.*Paris|COLONY_OWNER\[.*Andromeda/);
+    assert.match(core, /DEFAULT_COLONY_OWNER/);
+    assert.match(core, /['"]Brooklyn['"]:\s*\['LED',\s*'FDC'\]/);
+    assert.match(core, /['"]DSS Yukon['"]:\s*\['FDC'\]/);
+    assert.match(core, /['"]Pax Prime['"]:\s*\['EC'\]/);
+    assert.match(core, /['"]NYC Manhattan['"]:\s*\['GOM'\]/);
+    assert.match(core, /['"]Necar's Field['"]:\s*\['BOS'\]/);
+    assert.match(core, /['"]Andromeda City['"]:\s*\['CMG'\]/);
+    assert.match(core, /['"]Ceres Delta['"]:\s*\['VI'\]/);
+    assert.match(core, /['"]Training Grounds['"]:\s*\['LED',\s*'FDC'\]/);
   });
 
   it('offers unknown owner plus every selectable faction', () => {

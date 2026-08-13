@@ -1,4 +1,4 @@
-const CACHE = 'er-v0.2.5';
+const CACHE = 'er-v0.2.6';
 const SHELL = [
   './',
   './index.html',

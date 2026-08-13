@@ -33,8 +33,9 @@ describe('colony world snapshots', () => {
     importColonyWorld({ schema_version: 2, type: 'empire-rising-colony-world', owner: { Paris: 'EC' }, tax: { Paris: 15 } });
     assert.deepEqual(exportColonyWorld(), {
       schema_version: 2,
+      defaults_initialized: true,
       type: 'empire-rising-colony-world',
-      owner: { Paris: 'EC' },
+      owner: { Paris: ['EC'] },
       tax: { Paris: 15 },
       exported_at: exportColonyWorld().exported_at,
     });
@@ -42,22 +43,40 @@ describe('colony world snapshots', () => {
 
   it('normalizes valid owners and drops invalid owners without mutating tax', () => {
     const result = importColonyWorld({ schema_version: 2, type: 'empire-rising-colony-world', owner: { Paris: 'ec', Tokyo: 'invalid' }, tax: { Paris: 20, Tokyo: 35 } });
-    assert.deepEqual(result.owner, { Paris: 'EC' });
+    assert.deepEqual(result.owner, { Paris: ['EC'] });
     assert.deepEqual(result.tax, { Paris: 20, Tokyo: 35 });
   });
 
   it('rejects malformed snapshots before mutating current state', () => {
     importColonyWorld({ schema_version: 2, type: 'empire-rising-colony-world', owner: { Paris: 'EC' }, tax: { Paris: 20 } });
     assert.throws(() => importColonyWorld({ owner: { Tokyo: 'CMG' } }), /Invalid colony world snapshot/);
-    assert.deepEqual(exportColonyWorld().owner, { Paris: 'EC' });
+    assert.deepEqual(exportColonyWorld().owner, { Paris: ['EC'] });
     assert.deepEqual(exportColonyWorld().tax, { Paris: 20 });
   });
 
   it('reset clears owners and taxes and persists the neutral state', () => {
     importColonyWorld({ schema_version: 2, type: 'empire-rising-colony-world', owner: { Paris: 'CMG' }, tax: { Paris: 25 } });
     resetColonyWorld();
-    assert.deepEqual(exportColonyWorld().owner, {});
+    assert.deepEqual(exportColonyWorld().owner, {
+      Brooklyn: ['LED', 'FDC'],
+      'Ground Zero': ['LED', 'FDC'],
+      'Training Grounds': ['LED', 'FDC'],
+      "DeMorgan's Castle": ['LED', 'FDC'],
+      'DSS Yukon': ['FDC'],
+      'Pax Prime': ['EC'],
+      'Pegasi 51': ['EC'],
+      "Kepler's Dome": ['EC'],
+      'Titan Station': ['EC'],
+      'NYC Manhattan': ['GOM'],
+      Aurelia: ['GOM'],
+      "Necar's Field": ['BOS'],
+      Berlin: ['BOS'],
+      Paris: ['CMG'],
+      'Andromeda City': ['CMG'],
+      'Ceres Delta': ['VI'],
+      Tokyo: ['VI'],
+    });
     assert.deepEqual(exportColonyWorld().tax, {});
-    assert.deepEqual(JSON.parse(localStorage.getItem('er_colony_world_v2')).owner, {});
+    assert.deepEqual(JSON.parse(localStorage.getItem('er_colony_world_v2')).owner, exportColonyWorld().owner);
   });
 });

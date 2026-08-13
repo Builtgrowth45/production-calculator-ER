@@ -326,14 +326,48 @@ function costFor(item, altIndex) {
 // inputs; a fresh browser does not invent ownership for any faction.
 const DEFAULT_RETURN_RATE = 0.85;
 const GLOBAL_DOMINION_RATE = 0.15;
-let COLONY_OWNER = {};   // location → owning faction
+// Authoritative starting world state. GD is represented by both LED and FDC:
+// either faction qualifies for the owner return on a jointly held colony.
+// Values are arrays so joint ownership survives export/import and local edits.
+const DEFAULT_COLONY_OWNER = Object.freeze({
+  'Brooklyn': ['LED', 'FDC'],
+  'Ground Zero': ['LED', 'FDC'],
+  'Training Grounds': ['LED', 'FDC'],
+  "DeMorgan's Castle": ['LED', 'FDC'],
+  'DSS Yukon': ['FDC'],
+  'Pax Prime': ['EC'],
+  'Pegasi 51': ['EC'],
+  "Kepler's Dome": ['EC'],
+  'Titan Station': ['EC'],
+  'NYC Manhattan': ['GOM'],
+  'Aurelia': ['GOM'],
+  "Necar's Field": ['BOS'],
+  'Berlin': ['BOS'],
+  'Paris': ['CMG'],
+  'Andromeda City': ['CMG'],
+  'Ceres Delta': ['VI'],
+  'Tokyo': ['VI'],
+});
+function cloneDefaultColonyOwners() {
+  return Object.fromEntries(Object.entries(DEFAULT_COLONY_OWNER).map(([c, owners]) => [c, [...owners]]));
+}
+let COLONY_OWNER = cloneDefaultColonyOwners();   // location → faction IDs
 let COLONY_TAX = {};     // location → tax percent charged there
 
 (function loadColonySettings() {
   try {
     const raw = JSON.parse(localStorage.getItem('er_colony_world_v2') || localStorage.getItem('cmg_colony_tax_v1'));
-    if (raw) { COLONY_OWNER = raw.owner || {}; COLONY_TAX = raw.tax || {}; }
-  } catch (e) { COLONY_OWNER = {}; COLONY_TAX = {}; }
+    if (raw) {
+      const storedOwners = Object.fromEntries(Object.entries(raw.owner || {}).flatMap(([colony, value]) => {
+        const owners = normalizeColonyWorldOwner(value);
+        return owners.length ? [[colony, owners]] : [];
+      }));
+      COLONY_OWNER = raw.defaults_initialized
+        ? storedOwners
+        : { ...cloneDefaultColonyOwners(), ...storedOwners };
+      COLONY_TAX = raw.tax || {};
+    }
+  } catch (e) { COLONY_OWNER = cloneDefaultColonyOwners(); COLONY_TAX = {}; }
 })();
 
 function activeFactionId() {
@@ -345,15 +379,38 @@ function factionReturnRate(id) {
 }
 function activeFactionReturnRate() { return factionReturnRate(activeFactionId()); }
 function saveColonySettings() {
-  try { localStorage.setItem('er_colony_world_v2', JSON.stringify({ schema_version: 2, owner: COLONY_OWNER, tax: COLONY_TAX })); } catch (e) {}
+  try { localStorage.setItem('er_colony_world_v2', JSON.stringify({ schema_version: 2, defaults_initialized: true, owner: COLONY_OWNER, tax: COLONY_TAX })); } catch (e) {}
 }
 function normalizeColonyWorldOwner(value) {
-  const id = String(value || '').trim().toUpperCase();
-  return window.factionById?.(id) ? id : '';
+  const values = Array.isArray(value) ? value : [value];
+  return [...new Set(values.map(v => String(v || '').trim().toUpperCase())
+    .filter(id => window.factionById?.(id)))];
+}
+function colonyOwnerIds(colony) {
+  const value = COLONY_OWNER[colony];
+  if (value) return Array.isArray(value) ? value : [value];
+  const aliases = {
+    'Training Center': 'Training Grounds',
+    Yukon: 'DSS Yukon',
+    Manhattan: 'NYC Manhattan',
+    Andromeda: 'Andromeda City',
+  };
+  const aliasValue = COLONY_OWNER[aliases[colony]];
+  return Array.isArray(aliasValue) ? aliasValue : (aliasValue ? [aliasValue] : []);
+}
+function canonicalColonyName(colony) {
+  const aliases = {
+    'Training Center': 'Training Grounds',
+    Yukon: 'DSS Yukon',
+    Manhattan: 'NYC Manhattan',
+    Andromeda: 'Andromeda City',
+  };
+  return aliases[colony] || colony;
 }
 function exportColonyWorld() {
   return {
     schema_version: 2,
+    defaults_initialized: true,
     type: 'empire-rising-colony-world',
     owner: { ...COLONY_OWNER },
     tax: { ...COLONY_TAX },
@@ -368,7 +425,7 @@ function importColonyWorld(payload) {
   const tax = {};
   Object.entries(payload.owner || {}).forEach(([colony, faction]) => {
     const id = normalizeColonyWorldOwner(faction);
-    if (id) owner[String(colony)] = id;
+    if (id.length) owner[canonicalColonyName(String(colony))] = id;
   });
   Object.entries(payload.tax || {}).forEach(([colony, rate]) => {
     if (Number.isFinite(rate) && rate >= 0 && rate <= 500) tax[String(colony)] = Math.floor(rate);
@@ -381,7 +438,7 @@ function importColonyWorld(payload) {
   return exportColonyWorld();
 }
 function resetColonyWorld() {
-  COLONY_OWNER = {};
+  COLONY_OWNER = cloneDefaultColonyOwners();
   COLONY_TAX = {};
   saveColonySettings();
   refreshEngineFactionContext();
@@ -393,8 +450,8 @@ function taxRateFor(loc) {
   return typeof p === 'number' && p > 0 ? p / 100 : 0;
 }
 function isOwnColony(loc) {
-  const owner = COLONY_OWNER[loc];
-  return !!owner && owner === activeFactionId() && activeFactionReturnRate() > 0;
+  const owners = colonyOwnerIds(loc);
+  return owners.includes(activeFactionId()) && activeFactionReturnRate() > 0;
 }
 function refreshEngineFactionContext() {
   window.ENGINE_COLONY_OWNED = isOwnColony;
@@ -413,7 +470,7 @@ refreshEngineFactionContext();
 function colonyOp(colony) {
   return { op: 'setcolony', colony: colony,
            rate: (typeof COLONY_TAX[colony] === 'number' ? COLONY_TAX[colony] : 0),
-           owner: COLONY_OWNER[colony] || '' };
+           owner: COLONY_OWNER[colony] || [] };
 }
 
 // Take the shared copy as authoritative. Returns true if anything moved, so the
@@ -425,10 +482,10 @@ function adoptRemoteColonies(remote) {
     const r = remote[c];
     if (!r || typeof r !== 'object') return;
     if (typeof r.rate === 'number' && COLONY_TAX[c] !== r.rate) { COLONY_TAX[c] = r.rate; changed = true; }
-    const owner = (typeof r.owner === 'string' && r.owner) ? r.owner : null;
-    const have = COLONY_OWNER[c] || null;
-    if (have !== owner) {
-      if (owner) COLONY_OWNER[c] = owner; else delete COLONY_OWNER[c];
+    const owner = normalizeColonyWorldOwner(r.owner);
+    const have = colonyOwnerIds(c);
+    if (JSON.stringify(have) !== JSON.stringify(owner)) {
+      if (owner.length) COLONY_OWNER[c] = owner; else delete COLONY_OWNER[c];
       changed = true;
     }
   });
