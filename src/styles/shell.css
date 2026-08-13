@@ -18,6 +18,9 @@
   box-shadow: var(--shell-focus-ring);
 }
 
+/* Keep the navigation above the content it can visually overhang. */
+.nav-bar { position: relative; z-index: 100; }
+
 /* Task 4: grouped navigation is opt-in and leaves the legacy strip untouched
  * while the rollout flag is off. */
 .nav-v2 { display: none; }

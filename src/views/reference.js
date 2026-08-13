@@ -9,6 +9,14 @@
 // § DRUGS TAB — combat booster reference with code, tier, effects, cost
 // ═══════════════════════════════════════════════════════════════════════════
 const DRUG_TIER_ORDER = { Low: 0, Medium: 1, High: 2 };
+// A positive raw number is not automatically a beneficial effect. These live
+// sheet keys describe penalties when they are positive, while a negative
+// value is the beneficial direction (for example protection reduction).
+const DRUG_ADVERSE_POSITIVE_STATS = new Set([
+  'healthdrain', 'staminadrain', 'bioenergydrain', 'biodrain',
+  'protectionreduction', 'addiction', 'illegal',
+]);
+const DRUG_HIDDEN_STATS = new Set(['durationseconds', 'addiction', 'illegal']);
 
 /** Live combat stats for a drug: sheet-merged recipe output.stats (sheet wins). */
 function drugLiveStats(name) {
@@ -35,11 +43,10 @@ function sheetStatKeys() {
 function drugChips(stats) {
   if (!stats || !Object.keys(stats).length) return null;
   const pos = [], neg = [];
-  const sheetKeys = sheetStatKeys();
   for (const [k, v] of Object.entries(stats)) {
-    if (k === 'durationseconds') continue;
-    if (sheetKeys.size && !sheetKeys.has(k)) continue; // recipe-only key
-    (v > 0 ? pos : neg).push(`<span class="gbs-chip" title="${esc(STAT_DEFS[k] || '')}"><b>${esc(STAT_LABELS[k] || k)}</b> ${v > 0 ? '+' : ''}${v}</span>`);
+    if (DRUG_HIDDEN_STATS.has(k)) continue;
+    const adverse = DRUG_ADVERSE_POSITIVE_STATS.has(k) ? v > 0 : v < 0;
+    (adverse ? neg : pos).push(`<span class="gbs-chip" title="${esc(STAT_DEFS[k] || '')}"><b>${esc(STAT_LABELS[k] || k)}</b> ${v > 0 ? '+' : ''}${v}</span>`);
   }
   return {
     pos: pos.length ? pos.join('') : '<span class="muted">—</span>',
@@ -79,8 +86,8 @@ function renderDrugs() {
   const rows = list.map(d => {
     const icon = iconFor(d.name);
     const chips = drugChips(drugLiveStats(d.name));
-    // Live sheet wins; fall back to the legacy 1.7 display strings for drugs
-    // the sheet doesn't cover (none today, but keep the safety net).
+    // Live sheet wins. Legacy strings remain only as a compatibility fallback
+    // for a drug absent from the balance sheet, never mixed with live chips.
     const pos = chips ? chips.pos : `<span class="drug-pos">${esc(d.positive || '—')}</span>`;
     const neg = chips ? chips.neg : `<span class="drug-neg">${esc(d.negative || '—')}</span>`;
     const dur = chips ? chips.duration : '—';
@@ -91,18 +98,15 @@ function renderDrugs() {
       <td class="r">${dur}</td>
       <td><span class="tag tier-${(d.tier || '').toLowerCase()}">${esc(d.tier || '—')}</span></td>
       <td class="r"><code>${esc(String(d.code))}</code></td>
-      <td class="r">${fmt(d.processing_cost)}</td>
-      <td class="r">${fmt(d.chemsub_cost)}</td>
-      <td class="r"><strong>${fmt(d.total_uc)} UC</strong></td>
     </tr>`;
   }).join('');
 
   const countEl = document.getElementById('drug-count');
-  if (countEl) countEl.textContent = `${list.length} of ${drugs.length} drugs`;
+  if (countEl) countEl.textContent = `${list.length} of ${drugs.length} drugs · live effects`;
 
   document.getElementById('drug-table').innerHTML =
     `<table><thead><tr>
-      <th>Drug</th><th>Positive</th><th>Negative</th><th class="r">Duration</th><th title="Chem station power level: Low / Medium / High">Power</th><th class="r">Code</th><th class="r" title="Processing cost per drug">Processing</th><th class="r" title="ChemSub cost (maxed Pegasi 51)">ChemSub</th><th class="r">Total</th>
+      <th>Drug</th><th>Positive</th><th>Negative</th><th class="r">Duration</th><th title="Chem station power level: Low / Medium / High">Power</th><th class="r">Code</th>
     </tr></thead><tbody>${rows}</tbody></table>`;
 }
 

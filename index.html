@@ -14,7 +14,7 @@
   @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 </style>
 <link rel="stylesheet" href="src/styles.css?v=32" />
-<link rel="stylesheet" href="src/styles/ux-release.css?v=2" />
+<link rel="stylesheet" href="src/styles/ux-release.css?v=3" />
 <link rel="stylesheet" href="src/styles/surviving-reference.css?v=2" />
 <script src="src/vendor/chart.min.js" defer></script>
 </head>
@@ -24,7 +24,15 @@
 
 <header>
   <div class="brand">
-    <div class="crest-logo er-mark" aria-hidden="true">ER</div>
+    <div class="crest-logo er-mark" role="img" aria-label="Empire Rising logo">
+      <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <path class="er-ring" d="M32 3 55 16v26L32 55 9 42V16Z" />
+        <path class="er-chevron" d="M16 24h22l-7 7H16Zm0 12h14l-7 7H16Z" />
+        <path class="er-chevron er-chevron-right" d="M48 24H26l7 7h15Zm0 12H34l7 7h7Z" />
+        <path class="er-spine" d="M30 13h5v38h-5z" />
+      </svg>
+      <span>ER</span>
+    </div>
     <div class="brand-text">
     <h1>Empire Rising</h1>
     <div class="brand-sub">Production Calculator</div>
@@ -428,7 +436,7 @@
   <!-- DRUGS -->
   <section id="view-drugs" class="view" role="tabpanel" aria-label="Drugs">
     <h3 class="view-title">💊 Drug / Booster Production</h3>
-    <p class="muted" style="font-size:0.75rem">Combat boosters — live effects from the ER Balance Sheet, code combination, tier, and max production cost per drug (ChemSub priced at maxed Pegasi 51). Costs in UC.</p>
+    <p class="muted" style="font-size:0.75rem">Combat boosters — live effects from the ER Balance Sheet, code combination, tier, and effect duration. Positive and negative effects are separated using the live stat direction.</p>
     <div class="drug-toolbar">
       <label>Sort by
         <select id="drug-sort">
@@ -715,7 +723,7 @@
 <script src="src/ui/legacy-3d-loader.js?v=1"></script>
 <script src="src/views/models.js?v=22"></script>
 <script src="src/views/character.js?v=2"></script>
-<script src="src/views/reference.js?v=8"></script>
+<script src="src/views/reference.js?v=9"></script>
 <script src="src/views/gear.js?v=20"></script>
 <script src="src/views/inventory.js?v=26"></script>
 <script src="src/views/player.js?v=4"></script>
