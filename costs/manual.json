@@ -1,0 +1,38 @@
+{
+  "_note": "Hand-supplied prices. Merged by build-costs.ps1 and WINS over the dumps, so re-importing them never loses these.",
+
+  "_items_note": "items: PER BATCH processing fee, by refinement path (same shape as the dumps). Index = refinement path, uc = fee for one batch, y = units that batch yields. This fee does NOT include the cost of the inputs.",
+  "items": {
+    "emergency medkit": [{ "uc": 163, "y": 3 }]
+  },
+
+  "_materials_note": "materials: PER UNIT cost of a raw material you have to obtain. These are separate from the batch fees above and add on top. Evidence for per-unit: an Amyl Nitrite batch consumes exactly 1 Chemical Substances and the game lists its chemsub_cost as 35.5, the same order of magnitude as these.",
+  "_materials_keys": "Keys must match the recipes' own spelling exactly - 'Chemical Substances' is capitalised there while the rest are lower case. Note 'chemicals' is a REFINED item, not this raw one.",
+  "_materials_global": "Prices look colony-independent: silver quoted 73 at both Andromeda and Titan Station, iron 69 at both Necar's Field and Titan Station. So one number per material is enough - no per-site table needed.",
+  "materials": {
+    "anthracite": 66,
+    "bauxite": 81,
+    "beryllium": 63,
+    "caoutchouc": 42,
+    "Chemical Substances": 36,
+    "chrome": 84,
+    "coal": 42,
+    "cobalt": 102,
+    "copper": 81,
+    "diamonds": 171,
+    "gold": 150,
+    "iridium": 150,
+    "iron": 69,
+    "manganese": 96,
+    "mineral oil": 66,
+    "nickel": 88,
+    "organic material": 57,
+    "plasma": 132,
+    "platinum": 150,
+    "silicon": 42,
+    "silver": 73,
+    "titanium": 147,
+    "vanadium": 102,
+    "water": 21
+  }
+}

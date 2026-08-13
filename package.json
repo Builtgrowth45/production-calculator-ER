@@ -1,0 +1,49 @@
+{
+  "name": "production-calculator-er",
+  "version": "0.1.0",
+  "description": "Offline-first Empire Rising production, inventory, gear, and economy calculator for every player.",
+  "main": "sw.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --test 'tests/*.test.mjs'",
+    "test:baseline": "node --test tests/browser/layout-baseline.spec.mjs",
+    "build:3d": "vite build --config vite.config.mjs",
+    "test:3d": "npm run build:3d && node --test tests/r3f-build.test.mjs",
+    "test:budgets": "npm run build:3d && node --test tests/performance-budgets.test.mjs",
+    "assets:check": "node scripts/check-assets.mjs",
+    "assets:report": "node scripts/check-assets.mjs --report-only",
+    "build:pages": "npm run build:3d && node scripts/build-pages.mjs",
+    "build": "npm run build:pages",
+    "check": "npm test && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChrisFromNEPA/production-calculator-ER.git"
+  },
+  "keywords": [
+    "empire-rising",
+    "production-calculator",
+    "crafting",
+    "offline-first",
+    "pwa"
+  ],
+  "author": "John Snow and community contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ChrisFromNEPA/production-calculator-ER/issues"
+  },
+  "homepage": "https://chrisfromnepa.github.io/production-calculator-ER/",
+  "dependencies": {
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "three": "^0.185.1",
+    "vite": "^8.2.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

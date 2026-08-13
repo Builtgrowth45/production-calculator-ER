@@ -1,0 +1,50 @@
+Prontix Barracuda
+Turret
+Experimental X-01 Gun
+RK 2a7 Mining Tool
+RX Zephyr Advanced Mining Tool
+Cucurbita Grenade
+Arachnid Explosive
+Hallem IX-78 Precision Energy Rifle
+Candy Hurts
+Frostbite
+U-V890 Hyper Advanced Mining Tool
+Nanomachine Autoinjector
+Nanomachine Autoinjector Mk2
+Adrenaline Autoinjector
+Electrolyte Autoinjector
+Pythica S2 Helmet
+NanoTech Voltac Assault Helmet
+Infensus X2 Assault Helmet
+Exile Helmet
+Black Shuck Helmet
+Echion Helmet
+Jack-o'-lantern Helmet
+Skeleton Helmet
+Exile Shoulder Pads
+Jack-o'-lantern Shoulder Pads
+Skeleton Shoulder Pads
+Exile Arm Pads
+Jack-o'-lantern Arm Pads
+Skeleton Arm Pads
+Exile Torso Armor
+Jack-o'-lantern Torso Armor
+Skeleton Torso Armor
+Exile Leg Pads
+Jack-o'-lantern Leg Pads
+Skeleton Leg Pads
+Pythica Sustained Gloves (Male)
+Infensus Minimist Gloves (Male)
+Hockey Gloves (Female)
+Egyptian Knight Gloves (Female)
+Crystal Gloves (Female)
+Pythica Sustained Gloves (Female)
+Infensus Minimist Gloves (Female)
+Incognito Gloves (Male)
+Incognito Gloves (Female)
+Skeleton Gloves (Male)
+Skeleton Gloves (Female)
+Jack-o'-lantern Gloves (Male)
+Jack-o'-lantern Gloves (Female)
+Amyl Nitrate
+Butyl Nitrate

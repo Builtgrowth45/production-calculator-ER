@@ -1,0 +1,90 @@
+/* CMG design tokens: palette, semantic aliases, scale, and motion. */
+@property --bg          { syntax: '<color>'; inherits: true; initial-value: #07070d; }
+@property --bg2         { syntax: '<color>'; inherits: true; initial-value: #0d0d1a; }
+@property --panel       { syntax: '<color>'; inherits: true; initial-value: #12121e; }
+@property --panel2      { syntax: '<color>'; inherits: true; initial-value: #0a0a14; }
+@property --line        { syntax: '<color>'; inherits: true; initial-value: #1e1e3a; }
+@property --line-bright { syntax: '<color>'; inherits: true; initial-value: #2a2a5a; }
+@property --text        { syntax: '<color>'; inherits: true; initial-value: #e0e0f0; }
+@property --muted       { syntax: '<color>'; inherits: true; initial-value: #8a8ab8; }
+@property --accent      { syntax: '<color>'; inherits: true; initial-value: #ff2d95; }
+@property --accent-bright { syntax: '<color>'; inherits: true; initial-value: #ff6bb5; }
+@property --accent-dim  { syntax: '<color>'; inherits: true; initial-value: #cc1a6f; }
+@property --cyan        { syntax: '<color>'; inherits: true; initial-value: #00f0ff; }
+@property --cyan-dim    { syntax: '<color>'; inherits: true; initial-value: #00b0c0; }
+@property --purple      { syntax: '<color>'; inherits: true; initial-value: #8b2cf5; }
+@property --purple-dim  { syntax: '<color>'; inherits: true; initial-value: #6a1fc0; }
+@property --warn        { syntax: '<color>'; inherits: true; initial-value: #ff6bb5; }
+@property --bad         { syntax: '<color>'; inherits: true; initial-value: #ff2255; }
+@property --good        { syntax: '<color>'; inherits: true; initial-value: #00f0ff; }
+@property --surplus     { syntax: '<color>'; inherits: true; initial-value: #f59e0b; }
+
+:root {
+  transition: --bg .4s ease, --bg2 .4s ease, --panel .4s ease, --panel2 .4s ease,
+              --line .4s ease, --line-bright .4s ease, --text .4s ease, --muted .4s ease,
+              --accent .4s ease, --accent-bright .4s ease, --accent-dim .4s ease,
+              --cyan .4s ease, --cyan-dim .4s ease, --purple .4s ease, --purple-dim .4s ease,
+              --warn .4s ease, --bad .4s ease, --good .4s ease, --surplus .4s ease;
+
+  --bg: #07070d;
+  --bg2: #0d0d1a;
+  --panel: #12121e;
+  --panel2: #0a0a14;
+  --line: #1e1e3a;
+  --line-bright: #2a2a5a;
+  --border: var(--line);
+  --border-subtle: var(--line);
+  --bg-card: var(--panel);
+  --bg-input: var(--panel);
+  --bg-hover: var(--line);
+  --text-muted: var(--muted);
+  --ok: #22c55e;
+  --text: #e0e0f0;
+  --fg: var(--text);
+  --muted: #8a8ab8;
+  --fg-dim: var(--muted);
+  --accent: #ff2d95;
+  --accent-bright: #ff6bb5;
+  --accent-dim: #cc1a6f;
+  --cyan: #00f0ff;
+  --cyan-dim: #00b0c0;
+  --purple: #8b2cf5;
+  --purple-dim: #6a1fc0;
+  --warn: #ff6bb5;
+  --bad: #ff2255;
+  --good: #00f0ff;
+  --surplus: #f59e0b;
+  --glow-pink: 0 0 12px #ff2d9544, 0 0 30px #ff2d9522;
+  --glow-cyan: 0 0 12px #00f0ff44, 0 0 30px #00f0ff22;
+  --glow-purple: 0 0 12px #8b2cf544, 0 0 30px #8b2cf522;
+  --glow-surplus: 0 0 8px #f59e0b44;
+  --cat-medical: #22c55e;
+  --cat-ammo: #3b82f6;
+  --cat-weapons: #ef4444;
+  --cat-food: #f59e0b;
+  --cat-implants: #a855f7;
+  --cat-drugs: #22d3ee;
+  --cat-alien: #ec4899;
+  --cat-armor: #f97316;
+  --cat-other: #6b7280;
+  --scale: 1;
+
+  /* Motion tokens are opt-in via data-cmg-motion-v2 until Task 5. */
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --motion-slow: 280ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-standard: cubic-bezier(.2, 0, 0, 1);
+  --distance-sm: 6px;
+  --distance-md: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-slow: 0ms;
+    --distance-sm: 0px;
+    --distance-md: 0px;
+  }
+}

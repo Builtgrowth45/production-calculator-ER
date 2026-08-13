@@ -1,0 +1,5171 @@
+{
+ "generated": "2026-08-05",
+ "count": 354,
+ "source": "game_data",
+ "icons": [
+  {
+   "id": "advanced civilian arm pads",
+   "name": "Advanced Civilian Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "advanced civilian arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "advanced civilian helmet",
+   "name": "Advanced Civilian Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "advanced civilian helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "advanced civilian leg pads",
+   "name": "Advanced Civilian Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "advanced civilian leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "advanced civilian shoulder pads",
+   "name": "Advanced Civilian Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "advanced civilian shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "advanced civilian torso armor",
+   "name": "Advanced Civilian Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "advanced civilian torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aluminum",
+   "name": "aluminum",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "aluminum.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "amyl nitrate",
+   "name": "Amyl Nitrate",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "amyl nitrate.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "anabolica",
+   "name": "Anabolica",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "anabolica.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "aquatican brew",
+   "name": "Aquatican Brew",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "aquatican brew.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "aramid altered arm pads",
+   "name": "Aramid Altered Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid altered arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid altered helmet",
+   "name": "Aramid Altered Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid altered helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid altered shoulder pads",
+   "name": "Aramid Altered Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid altered shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid altered torso armor",
+   "name": "Aramid Altered Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid altered torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid basic arm pads",
+   "name": "Aramid Basic Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid basic arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid basic gloves",
+   "name": "Aramid Basic Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid basic gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid basic helmet",
+   "name": "Aramid Basic Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid basic helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid basic leg pads",
+   "name": "Aramid Basic Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid basic leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid basic shoulder pads",
+   "name": "Aramid Basic Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid basic shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid basic torso armor",
+   "name": "Aramid Basic Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid basic torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid modified arm pads",
+   "name": "Aramid Modified Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid modified arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid modified gloves",
+   "name": "Aramid Modified Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid modified gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid modified helmet",
+   "name": "Aramid Modified Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid modified helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid modified leg pads",
+   "name": "Aramid Modified Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid modified leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid modified shoulder pads",
+   "name": "Aramid Modified Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid modified shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid modified torso armor",
+   "name": "Aramid Modified Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid modified torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "aramid altered leg pads",
+   "name": "Aramid Altered Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "aramid altered leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "armalite survival",
+   "name": "Armalite Survival",
+   "group": "Weapons",
+   "category": "Weapons",
+   "icon": "armalite survival.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 300,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 300.0,
+     "range": 100.0,
+     "magazine": 5,
+     "capacity": 3000,
+     "fire_rate": 0.0
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w5"
+  },
+  {
+   "id": "aurelian technologies bio rounds",
+   "name": "Aurelian Technologies Bio Rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "aurelian technologies bio rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "aurelian technologies dominator",
+   "name": "Aurelian Technologies Dominator",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "aurelian technologies dominator.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "barracuda rounds",
+   "name": "Barracuda Rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "barracuda rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "battle medikit",
+   "name": "Battle MediKit",
+   "group": "Medical",
+   "category": "Medical",
+   "icon": "battle medikit.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "benzedrine",
+   "name": "Benzedrine",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "benzedrine.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "biocell",
+   "name": "Biocell",
+   "group": "Medical",
+   "category": "Medical",
+   "icon": "biocell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "bioplasma",
+   "name": "bioplasma",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "bioplasma.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "biphetamin",
+   "name": "Biphetamin",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "biphetamin.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "butyl nitrate",
+   "name": "Butyl Nitrate",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "butyl nitrate.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "carbon",
+   "name": "carbon",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "carbon.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "carbon fiber",
+   "name": "carbon fiber",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "carbon fiber.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "chemicals",
+   "name": "chemicals",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "chemicals.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "chrono enervon energy cell",
+   "name": "Chrono Enervon Energy Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "chrono enervon energy cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "chrono enervon pistol ep24",
+   "name": "Chrono Enervon Pistol EP24",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "chrono enervon pistol ep24.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "cocaboline",
+   "name": "Cocaboline",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "cocaboline.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "conductor",
+   "name": "conductor",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "conductor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "cpu",
+   "name": "cpu",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "cpu.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "cryotech cm2 healing cell",
+   "name": "CryoTech CM2 Healing Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "cryotech cm2 healing cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "cryotech healing cell",
+   "name": "CryoTech Healing Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "cryotech healing cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "cryotech medigun cm1",
+   "name": "CryoTech Medigun CM1",
+   "group": "Medical",
+   "category": "Medical",
+   "icon": "cryotech medigun cm1.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 1000,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 150.0,
+     "range": 750.0,
+     "magazine": 65,
+     "capacity": 5000,
+     "fire_rate": 0.4
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w21"
+  },
+  {
+   "id": "cryotech medigun cm2",
+   "name": "CryoTech Medigun CM2",
+   "group": "Medical",
+   "category": "Medical",
+   "icon": "cryotech medigun cm2.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 775,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 18.0,
+     "range": 850.0,
+     "magazine": 70,
+     "capacity": 3000,
+     "fire_rate": 0.4
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w29"
+  },
+  {
+   "id": "delta powered arm pads",
+   "name": "Delta Powered Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "delta powered arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "delta powered gloves",
+   "name": "Delta Powered Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "delta powered gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "delta powered helmet",
+   "name": "Delta Powered Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "delta powered helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "delta powered leg pads",
+   "name": "Delta Powered Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "delta powered leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "delta powered shoulder pads",
+   "name": "Delta Powered Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "delta powered shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "delta powered torso armor",
+   "name": "Delta Powered Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "delta powered torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "desoxyn",
+   "name": "Desoxyn",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "desoxyn.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "detox combat arm pads",
+   "name": "Detox Combat Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "detox combat arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "detox combat gloves",
+   "name": "Detox Combat Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "detox combat gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "detox combat helmet",
+   "name": "Detox Combat Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "detox combat helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "detox combat leg pads",
+   "name": "Detox Combat Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "detox combat leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "detox combat shoulder pads",
+   "name": "Detox Combat Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "detox combat shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "detox combat torso armor",
+   "name": "Detox Combat Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "detox combat torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dexedrine",
+   "name": "Dexedrine",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "dexedrine.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "dice",
+   "name": "Dice",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "dice.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 46b arm pads",
+   "name": "Dilatant 46b Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 46b arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 46b gloves",
+   "name": "Dilatant 46b Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 46b gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 46b helmet",
+   "name": "Dilatant 46b Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 46b helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 46b leg pads",
+   "name": "Dilatant 46b Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 46b leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 46b shoulder pads",
+   "name": "Dilatant 46b Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 46b shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 46b torso armor",
+   "name": "Dilatant 46b Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 46b torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 50b arm pads",
+   "name": "Dilatant 50b Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 50b arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 50b gloves",
+   "name": "Dilatant 50b Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 50b gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 50b helmet",
+   "name": "Dilatant 50b Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 50b helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 50b leg pads",
+   "name": "Dilatant 50b Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 50b leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 50b shoulder pads",
+   "name": "Dilatant 50b Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 50b shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "dilatant 50b torso armor",
+   "name": "Dilatant 50b Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "dilatant 50b torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "doa 187",
+   "name": "DOA 187",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "doa 187.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 4400,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 201.6,
+     "range": 2000.0,
+     "magazine": 58,
+     "capacity": 6000,
+     "fire_rate": 1.0
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w12"
+  },
+  {
+   "id": "doa187 energy cell",
+   "name": "DOA187 Energy Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "doa187 energy cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "doublecheese mystique",
+   "name": "DoubleCheese Mystique",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "doublecheese mystique.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "electronic component",
+   "name": "electronic component",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "electronic component.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "emergency medikit",
+   "name": "Emergency MediKit",
+   "group": "Medical",
+   "category": "Medical",
+   "icon": "emergency medikit.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "emp-rv3",
+   "name": "EMP-Rv3",
+   "group": "Explosive",
+   "category": "Explosive",
+   "icon": "emp-rv3.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game",
+   "weapon_stats": {
+    "price": 300,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 60.0,
+     "range": 1024.0,
+     "magazine": 14,
+     "capacity": 6500,
+     "fire_rate": 0.0
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w14"
+  },
+  {
+   "id": "enfield energy cell",
+   "name": "Enfield Energy Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "enfield energy cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "enfield incapacitator rifle er-x",
+   "name": "Enfield Incapacitator Rifle ER-X",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "enfield incapacitator rifle er-x.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "enfield life protector",
+   "name": "Enfield Life Protector",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "enfield life protector.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "envirotech gloves",
+   "name": "Envirotech Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "envirotech gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "fgz-78",
+   "name": "FGz-78",
+   "group": "Explosive",
+   "category": "Explosive",
+   "icon": "fgz-78.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game",
+   "weapon_stats": {
+    "price": 350,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 400.0,
+     "range": 512.0,
+     "magazine": 7,
+     "capacity": 5000,
+     "fire_rate": 0.0
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w7"
+  },
+  {
+   "id": "firstborn powered arm pads",
+   "name": "Firstborn Powered Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "firstborn powered arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "firstborn powered gloves",
+   "name": "Firstborn Powered Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "firstborn powered gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "firstborn powered helmet",
+   "name": "Firstborn Powered Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "firstborn powered helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "firstborn powered leg pads",
+   "name": "Firstborn Powered Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "firstborn powered leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "firstborn powered shoulder pads",
+   "name": "Firstborn Powered Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "firstborn powered shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "firstborn powered torso armor",
+   "name": "Firstborn Powered Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "firstborn powered torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "flying orange",
+   "name": "Flying Orange",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "flying orange.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "gakk mg6",
+   "name": "Gakk MG6",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "gakk mg6.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 3100,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 43.4,
+     "range": 625.0,
+     "magazine": 59,
+     "capacity": 4500,
+     "fire_rate": 0.5
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w15"
+  },
+  {
+   "id": "gakk mg6 rounds",
+   "name": "Gakk MG6 Rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "gakk mg6 rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "ginnan sushi",
+   "name": "Ginnan Sushi",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "ginnan sushi.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "glass",
+   "name": "glass",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "glass.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "hacking interface",
+   "name": "hacking interface",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "hacking interface.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "hallem tar7 rounds",
+   "name": "hallem tar7 rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "hallem tar7 rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "hallem tar7 tactical assault rifle",
+   "name": "Hallem TAR7 Tactical Assault Rifle",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "hallem tar7 tactical assault rifle.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 5600,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 400.0,
+     "range": 5000.0,
+     "magazine": 60,
+     "capacity": 8000,
+     "fire_rate": 1.3
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w16"
+  },
+  {
+   "id": "havoc powered arm pads",
+   "name": "Havoc Powered Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "havoc powered arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "havoc powered gloves",
+   "name": "Havoc Powered Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "havoc powered gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "havoc powered helmet",
+   "name": "Havoc Powered Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "havoc powered helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "havoc powered leg pads",
+   "name": "Havoc Powered Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "havoc powered leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "havoc powered shoulder pads",
+   "name": "Havoc Powered Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "havoc powered shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "havoc powered torso armor",
+   "name": "Havoc Powered Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "havoc powered torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "high performance conductor",
+   "name": "high performance conductor",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "high performance conductor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "hr420",
+   "name": "HR420",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "hr420.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 1000,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 50.0,
+     "range": 900.0,
+     "magazine": 56,
+     "capacity": 3000,
+     "fire_rate": 0.5
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w10"
+  },
+  {
+   "id": "hr420 energy cell",
+   "name": "HR420 Energy Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "hr420 energy cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "hypobaric arm pads",
+   "name": "Hypobaric Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "hypobaric arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "hypobaric gloves",
+   "name": "Hypobaric Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "hypobaric gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "hypobaric helmet",
+   "name": "Hypobaric Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "hypobaric helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "hypobaric leg pads",
+   "name": "Hypobaric Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "hypobaric leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "hypobaric shoulder pads",
+   "name": "Hypobaric Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "hypobaric shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "hypobaric torso armor",
+   "name": "Hypobaric Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "hypobaric torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus essentials arm pads",
+   "name": "Infensus Essentials Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus essentials arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus essentials helmet",
+   "name": "Infensus Essentials Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus essentials helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus essentials leg pads",
+   "name": "Infensus Essentials Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus essentials leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus essentials shoulder pads",
+   "name": "Infensus Essentials Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus essentials shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus essentials torso armor",
+   "name": "Infensus Essentials Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus essentials torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus heavy arm pads",
+   "name": "Infensus Heavy Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus heavy arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus heavy gloves",
+   "name": "Infensus Heavy Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus heavy gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus heavy helmet",
+   "name": "Infensus Heavy Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus heavy helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus heavy leg pads",
+   "name": "Infensus Heavy Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus heavy leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus heavy shoulder pads",
+   "name": "Infensus Heavy Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus heavy shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus heavy torso armor",
+   "name": "Infensus Heavy Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus heavy torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus minimalist arm pads",
+   "name": "Infensus Minimalist Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus minimalist arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus minimalist gloves",
+   "name": "Infensus Minimalist Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus minimalist gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus minimalist helmet",
+   "name": "Infensus Minimalist Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus minimalist helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus minimalist leg pads",
+   "name": "Infensus Minimalist Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus minimalist leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus minimalist shoulder pads",
+   "name": "Infensus Minimalist Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus minimalist shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus minimalist torso armor",
+   "name": "Infensus Minimalist Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus minimalist torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus shock arm pads",
+   "name": "Infensus Shock Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus shock arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus shock gloves",
+   "name": "Infensus Shock Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus shock gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus shock helmet",
+   "name": "Infensus Shock Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus shock helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus shock leg pads",
+   "name": "Infensus Shock Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus shock leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus shock shoulder pads",
+   "name": "Infensus Shock Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus shock shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus shock torso armor",
+   "name": "Infensus Shock Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus shock torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus x1 assault arm pads",
+   "name": "Infensus X1 Assault Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus x1 assault arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus x1 assault gloves",
+   "name": "Infensus X1 Assault Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus x1 assault gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus x1 assault helmet",
+   "name": "Infensus X1 Assault Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus x1 assault helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus x1 assault leg pads",
+   "name": "Infensus X1 Assault Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus x1 assault leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus x1 assault shoulder pads",
+   "name": "Infensus X1 Assault Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus x1 assault shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infensus x1 assault torso armor",
+   "name": "Infensus X1 Assault Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infensus x1 assault torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infostyle gloves",
+   "name": "Infostyle Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infostyle gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "infusion gloves",
+   "name": "Infusion Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "infusion gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "justicar powered arm pads",
+   "name": "Justicar Powered Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "justicar powered arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "justicar powered helmet",
+   "name": "Justicar Powered Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "justicar powered helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "justicar powered leg pads",
+   "name": "Justicar Powered Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "justicar powered leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "justicar powered shoulder pads",
+   "name": "Justicar Powered Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "justicar powered shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "justicar powered torso armor",
+   "name": "Justicar Powered Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "justicar powered torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "leech arm pads",
+   "name": "Leech Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "leech arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "leech helmet",
+   "name": "Leech Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "leech helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "leech leg pads",
+   "name": "Leech Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "leech leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "leech shoulder pads",
+   "name": "Leech Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "leech shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "leech torso armor",
+   "name": "Leech Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "leech torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "legionnaire powered arm pads",
+   "name": "Legionnaire Powered Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "legionnaire powered arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "legionnaire powered gloves",
+   "name": "Legionnaire Powered Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "legionnaire powered gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "legionnaire powered helmet",
+   "name": "Legionnaire Powered Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "legionnaire powered helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "legionnaire powered leg pads",
+   "name": "Legionnaire Powered Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "legionnaire powered leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "legionnaire powered shoulder pads",
+   "name": "Legionnaire Powered Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "legionnaire powered shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "legionnaire powered torso armor",
+   "name": "Legionnaire Powered Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "legionnaire powered torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "linner pp7",
+   "name": "Linner PP7",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "linner pp7.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 4050,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 155.5,
+     "range": 3750.0,
+     "magazine": 57,
+     "capacity": 5500,
+     "fire_rate": 1.0
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w11"
+  },
+  {
+   "id": "linner pp7 rounds",
+   "name": "linner pp7 rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "linner pp7 rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "locans defense arm pads",
+   "name": "Locans Defense Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans defense arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans defense gloves",
+   "name": "Locans Defense Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans defense gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans defense helmet",
+   "name": "Locans Defense Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans defense helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans defense leg pads",
+   "name": "Locans Defense Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans defense leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans defense shoulder pads",
+   "name": "Locans Defense Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans defense shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans defense torso armor",
+   "name": "Locans Defense Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans defense torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans ethereal arm pads",
+   "name": "Locans Ethereal Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans ethereal arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans ethereal gloves",
+   "name": "Locans Ethereal Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans ethereal gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans ethereal helmet",
+   "name": "Locans Ethereal Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans ethereal helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans ethereal leg pads",
+   "name": "Locans Ethereal Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans ethereal leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans ethereal shoulder pads",
+   "name": "Locans Ethereal Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans ethereal shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans ethereal torso armor",
+   "name": "Locans Ethereal Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans ethereal torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans patrol arm pads",
+   "name": "Locans Patrol Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans patrol arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans patrol gloves",
+   "name": "Locans Patrol Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans patrol gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans patrol helmet",
+   "name": "Locans Patrol Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans patrol helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans patrol leg pads",
+   "name": "Locans Patrol Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans patrol leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans patrol shoulder pads",
+   "name": "Locans Patrol Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans patrol shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans patrol torso armor",
+   "name": "Locans Patrol Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans patrol torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans pressured arm pads",
+   "name": "Locans Pressured Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans pressured arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans pressured gloves",
+   "name": "Locans Pressured Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans pressured gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans pressured helmet",
+   "name": "Locans Pressured Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans pressured helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans pressured leg pads",
+   "name": "Locans Pressured Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans pressured leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans pressured shoulder pads",
+   "name": "Locans Pressured Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans pressured shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans pressured torso armor",
+   "name": "Locans Pressured Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans pressured torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans stabilized arm pads",
+   "name": "Locans Stabilized Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans stabilized arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans stabilized helmet",
+   "name": "Locans Stabilized Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans stabilized helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans stabilized leg pads",
+   "name": "Locans Stabilized Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans stabilized leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans stabilized shoulder pads",
+   "name": "Locans Stabilized Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans stabilized shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "locans stabilized torso armor",
+   "name": "Locans Stabilized Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "locans stabilized torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "mdma",
+   "name": "MDMA",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "mdma.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "metabolic arm pads",
+   "name": "Metabolic Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "metabolic arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "metabolic gloves",
+   "name": "Metabolic Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "metabolic gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "metabolic helmet",
+   "name": "Metabolic Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "metabolic helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "metabolic leg pads",
+   "name": "Metabolic Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "metabolic leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "metabolic shoulder pads",
+   "name": "Metabolic Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "metabolic shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "metabolic torso armor",
+   "name": "Metabolic Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "metabolic torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "metal alloy",
+   "name": "metal alloy",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "metal alloy.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "methedrine",
+   "name": "Methedrine",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "methedrine.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "militek emp",
+   "name": "Militek EMP",
+   "group": "Explosive",
+   "category": "Explosive",
+   "icon": "militek emp.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game",
+   "weapon_stats": {
+    "price": 300,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 60.0,
+     "range": 1024.0,
+     "magazine": 8,
+     "capacity": 5000,
+     "fire_rate": 0.0
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w8"
+  },
+  {
+   "id": "mt-27 ballistics arm pads",
+   "name": "MT-27 Ballistics Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "mt-27 ballistics arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "mt-27 ballistics helmet",
+   "name": "MT-27 Ballistics Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "mt-27 ballistics helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "mt-27 ballistics leg pads",
+   "name": "MT-27 Ballistics Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "mt-27 ballistics leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "mt-27 ballistics shoulder pads",
+   "name": "MT-27 Ballistics Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "mt-27 ballistics shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "mt-27 ballistics torso armor",
+   "name": "MT-27 Ballistics Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "mt-27 ballistics torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "mystical cola",
+   "name": "Mystical Cola",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "mystical cola.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "nano bite burger",
+   "name": "Nano Bite Burger",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "nano bite burger.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "nanotech cognizant arm pads",
+   "name": "NanoTech Cognizant Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech cognizant arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech cognizant gloves",
+   "name": "NanoTech Cognizant Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech cognizant gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech cognizant helmet",
+   "name": "NanoTech Cognizant Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech cognizant helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech cognizant leg pads",
+   "name": "NanoTech Cognizant Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech cognizant leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech cognizant shoulder pads",
+   "name": "NanoTech Cognizant Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech cognizant shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech cognizant torso armor",
+   "name": "NanoTech Cognizant Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech cognizant torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech scout arm pads",
+   "name": "NanoTech Scout Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech scout arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech scout gloves",
+   "name": "NanoTech Scout Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech scout gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech scout helmet",
+   "name": "NanoTech Scout Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech scout helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech scout leg pads",
+   "name": "NanoTech Scout Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech scout leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech scout shoulder pads",
+   "name": "NanoTech Scout Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech scout shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech scout torso armor",
+   "name": "NanoTech Scout Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech scout torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech trauma arm pads",
+   "name": "NanoTech Trauma Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech trauma arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech trauma gloves",
+   "name": "NanoTech Trauma Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech trauma gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech trauma helmet",
+   "name": "NanoTech Trauma Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech trauma helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech trauma leg pads",
+   "name": "NanoTech Trauma Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech trauma leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech trauma shoulder pads",
+   "name": "NanoTech Trauma Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech trauma shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech trauma torso armor",
+   "name": "NanoTech Trauma Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech trauma torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech vitality arm pads",
+   "name": "NanoTech Vitality Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech vitality arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech vitality helmet",
+   "name": "NanoTech Vitality Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech vitality helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech vitality leg pads",
+   "name": "NanoTech Vitality Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech vitality leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech vitality shoulder pads",
+   "name": "NanoTech Vitality Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech vitality shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech vitality torso armor",
+   "name": "NanoTech Vitality Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech vitality torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech voltaic arm pads",
+   "name": "NanoTech Voltaic Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech voltaic arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech voltaic gloves",
+   "name": "NanoTech Voltaic Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech voltaic gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech voltaic helmet",
+   "name": "NanoTech Voltaic Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech voltaic helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech voltaic leg pads",
+   "name": "NanoTech Voltaic Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech voltaic leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech voltaic shoulder pads",
+   "name": "NanoTech Voltaic Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech voltaic shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "nanotech voltaic torso armor",
+   "name": "NanoTech Voltaic Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "nanotech voltaic torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "neoamphetamine",
+   "name": "Neoamphetamine",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "neoamphetamine.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "neurotonin",
+   "name": "Neurotonin",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "neurotonin.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "night vision implant",
+   "name": "Night Vision Implant",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "night vision implant.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "opiatech",
+   "name": "Opiatech",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "opiatech.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "orbit xb energy cell",
+   "name": "Orbit XB Energy Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "orbit xb energy cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "orbit xb infineon",
+   "name": "Orbit XB Infineon",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "orbit xb infineon.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 3850,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 178.0,
+     "range": 1250.0,
+     "magazine": 53,
+     "capacity": 4500,
+     "fire_rate": 1.0
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w4"
+  },
+  {
+   "id": "oxazoline",
+   "name": "Oxazoline",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "oxazoline.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "phencyclidine",
+   "name": "Phencyclidine",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "phencyclidine.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "plastic",
+   "name": "plastic",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "plastic.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "plastic syntactic foam",
+   "name": "plastic syntactic foam",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "plastic syntactic foam.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "polycodeine",
+   "name": "Polycodeine",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "polycodeine.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "polydichloric euthemal",
+   "name": "Polydichloric Euthemal",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "polydichloric euthemal.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "portable vortex particle emitter",
+   "name": "Portable Vortex Particle Emitter",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "portable vortex particle emitter.png",
+   "has_icon": false,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "premet buffer arm pads",
+   "name": "PreMet Buffer Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet buffer arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet buffer gloves",
+   "name": "PreMet Buffer Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet buffer gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet buffer helmet",
+   "name": "PreMet Buffer Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet buffer helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet buffer leg pads",
+   "name": "PreMet Buffer Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet buffer leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet buffer shoulder pads",
+   "name": "PreMet Buffer Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet buffer shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet buffer torso armor",
+   "name": "PreMet Buffer Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet buffer torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet collision arm pads",
+   "name": "PreMet Collision Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet collision arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet collision gloves",
+   "name": "PreMet Collision Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet collision gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet collision helmet",
+   "name": "PreMet Collision Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet collision helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet collision leg pads",
+   "name": "PreMet Collision Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet collision leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet collision shoulder pads",
+   "name": "PreMet Collision Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet collision shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet collision torso armor",
+   "name": "PreMet Collision Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet collision torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet contact arm pads",
+   "name": "PreMet Contact Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet contact arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet contact gloves",
+   "name": "PreMet Contact Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet contact gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet contact helmet",
+   "name": "PreMet Contact Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet contact helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet contact leg pads",
+   "name": "PreMet Contact Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet contact leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet contact shoulder pads",
+   "name": "PreMet Contact Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet contact shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet contact torso armor",
+   "name": "PreMet Contact Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet contact torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet helmet",
+   "name": "PreMet Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet impact arm pads",
+   "name": "PreMet Impact Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet impact arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet impact gloves",
+   "name": "PreMet Impact Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet impact gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet impact helmet",
+   "name": "PreMet Impact Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet impact helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet impact leg pads",
+   "name": "PreMet Impact Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet impact leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet impact shoulder pads",
+   "name": "PreMet Impact Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet impact shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet impact torso armor",
+   "name": "PreMet Impact Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet impact torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet tremor arm pads",
+   "name": "PreMet Tremor Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet tremor arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet tremor shoulder pads",
+   "name": "PreMet Tremor Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet tremor shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet tremor torso armor",
+   "name": "PreMet Tremor Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet tremor torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "professional electronic",
+   "name": "professional electronic",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "professional electronic.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "protonix barracuda",
+   "name": "Protonix Barracuda",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "protonix barracuda.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "pulse mineral water",
+   "name": "Pulse Mineral Water",
+   "group": "Food & Drink",
+   "category": "Food & Drink",
+   "icon": "pulse mineral water.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "pythica durable battle arm pads",
+   "name": "Pythica Durable Battle Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica durable battle arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica durable battle helmet",
+   "name": "Pythica Durable Battle Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica durable battle helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica durable battle leg pads",
+   "name": "Pythica Durable Battle Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica durable battle leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica durable battle shoulder pads",
+   "name": "Pythica Durable Battle Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica durable battle shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica durable battle torso armor",
+   "name": "Pythica Durable Battle Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica durable battle torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica mobile infantry arm pads",
+   "name": "Pythica Mobile Infantry Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica mobile infantry arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica mobile infantry gloves",
+   "name": "Pythica Mobile Infantry Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica mobile infantry gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica mobile infantry helmet",
+   "name": "Pythica Mobile Infantry Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica mobile infantry helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica mobile infantry leg pads",
+   "name": "Pythica Mobile Infantry Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica mobile infantry leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica mobile infantry shoulder pads",
+   "name": "Pythica Mobile Infantry Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica mobile infantry shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica mobile infantry torso armor",
+   "name": "Pythica Mobile Infantry Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica mobile infantry torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica s1 arm pads",
+   "name": "Pythica S1 Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica s1 arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica s1 gloves",
+   "name": "Pythica S1 Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica s1 gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica s1 helmet",
+   "name": "Pythica S1 Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica s1 helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica s1 leg pads",
+   "name": "Pythica S1 Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica s1 leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica s1 shoulder pads",
+   "name": "Pythica S1 Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica s1 shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica s1 torso armor",
+   "name": "Pythica S1 Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica s1 torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica special operations arm pads",
+   "name": "Pythica Special Operations Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica special operations arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica special operations gloves",
+   "name": "Pythica Special Operations Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica special operations gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica special operations helmet",
+   "name": "Pythica Special Operations Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica special operations helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica special operations leg pads",
+   "name": "Pythica Special Operations Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica special operations leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica special operations shoulder pads",
+   "name": "Pythica Special Operations Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica special operations shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica special operations torso armor",
+   "name": "Pythica Special Operations Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica special operations torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica sustained battle arm pads",
+   "name": "Pythica Sustained Battle Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica sustained battle arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica sustained battle gloves",
+   "name": "Pythica Sustained Battle Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica sustained battle gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica sustained battle helmet",
+   "name": "Pythica Sustained Battle Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica sustained battle helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica sustained battle leg pads",
+   "name": "Pythica Sustained Battle Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica sustained battle leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica sustained battle shoulder pads",
+   "name": "Pythica Sustained Battle Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica sustained battle shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "pythica sustained battle torso armor",
+   "name": "Pythica Sustained Battle Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "pythica sustained battle torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "resistance amp",
+   "name": "Resistance Amp",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "resistance amp.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "rgi-9",
+   "name": "RGI-9",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "rgi-9.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 3550,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 57.5,
+     "range": 2000.0,
+     "magazine": 52,
+     "capacity": 5000,
+     "fire_rate": 0.8
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w3"
+  },
+  {
+   "id": "rgi-9 rounds",
+   "name": "rgi-9 rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "rgi-9 rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "ritalin",
+   "name": "Ritalin",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "ritalin.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "rubber",
+   "name": "rubber",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "rubber.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "ryx 7 energy cell",
+   "name": "Ryx 7 Energy Cell",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "ryx 7 energy cell.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "ryx 7 streamline",
+   "name": "Ryx 7 Streamline",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "ryx 7 streamline.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 775,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 38.5,
+     "range": 850.0,
+     "magazine": 51,
+     "capacity": 2500,
+     "fire_rate": 0.5
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w2"
+  },
+  {
+   "id": "salvotec hp220",
+   "name": "Salvotec HP220",
+   "group": "Explosive",
+   "category": "Explosive",
+   "icon": "salvotec hp220.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "scanner implant",
+   "name": "Scanner Implant",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "scanner implant.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "shield implant",
+   "name": "Shield Implant",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "shield implant.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "shoulder lamp",
+   "name": "Shoulder Lamp",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "shoulder lamp.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "small medikit",
+   "name": "Small MediKit",
+   "group": "Medical",
+   "category": "Medical",
+   "icon": "small medikit.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "special steel alloy",
+   "name": "special steel alloy",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "special steel alloy.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "stamina amplification",
+   "name": "Stamina Amplification",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "stamina amplification.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "standard medikit",
+   "name": "Standard MediKit",
+   "group": "Medical",
+   "category": "Medical",
+   "icon": "standard medikit.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "tactical systems arm pads",
+   "name": "Tactical Systems Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "tactical systems arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "tactical systems helmet",
+   "name": "Tactical Systems Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "tactical systems helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "tactical systems leg pads",
+   "name": "Tactical Systems Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "tactical systems leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "tactical systems shoulder pads",
+   "name": "Tactical Systems Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "tactical systems shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "tactical systems torso armor",
+   "name": "Tactical Systems Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "tactical systems torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "target painter",
+   "name": "Target Painter",
+   "group": "Implants & Electronics",
+   "category": "Implants & Electronics",
+   "icon": "target painter.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "techtronic 6x6",
+   "name": "Techtronic 6x6",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "techtronic 6x6.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 2800,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 30.0,
+     "range": 625.0,
+     "magazine": 55,
+     "capacity": 4000,
+     "fire_rate": 0.5
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w9"
+  },
+  {
+   "id": "techtronic rounds",
+   "name": "Techtronic Rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "techtronic rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  },
+  {
+   "id": "tetrahydrocannabinol",
+   "name": "Tetrahydrocannabinol",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "tetrahydrocannabinol.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "textiles",
+   "name": "textiles",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "textiles.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 5,
+   "source": "game"
+  },
+  {
+   "id": "titanium alloy",
+   "name": "titanium alloy",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "titanium alloy.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 1,
+   "source": "game"
+  },
+  {
+   "id": "titanium syntactic foam",
+   "name": "titanium syntactic foam",
+   "group": "Misc",
+   "category": "Misc",
+   "icon": "titanium syntactic foam.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "refine"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "venom arm pads",
+   "name": "Venom Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "venom arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "venom gloves",
+   "name": "Venom Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "venom gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "venom helmet",
+   "name": "Venom Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "venom helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "venom leg pads",
+   "name": "Venom Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "venom leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "venom shoulder pads",
+   "name": "Venom Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "venom shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "venom torso armor",
+   "name": "Venom Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "venom torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "x-dopamine",
+   "name": "X-Dopamine",
+   "group": "Drugs",
+   "category": "Drugs",
+   "icon": "x-dopamine.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 2,
+   "source": "game"
+  },
+  {
+   "id": "xenotech expeditionary arm pads",
+   "name": "XenoTech Expeditionary Arm Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "xenotech expeditionary arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "xenotech expeditionary gloves",
+   "name": "XenoTech Expeditionary Gloves",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "xenotech expeditionary gloves.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "xenotech expeditionary helmet",
+   "name": "XenoTech Expeditionary Helmet",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "xenotech expeditionary helmet.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "xenotech expeditionary leg pads",
+   "name": "XenoTech Expeditionary Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "xenotech expeditionary leg pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "xenotech expeditionary shoulder pads",
+   "name": "XenoTech Expeditionary Shoulder Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "xenotech expeditionary shoulder pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "xenotech expeditionary torso armor",
+   "name": "XenoTech Expeditionary Torso Armor",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "xenotech expeditionary torso armor.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "zanathid 5 inflex",
+   "name": "Zanathid 5 Inflex",
+   "group": "Guns",
+   "category": "Guns",
+   "icon": "zanathid 5 inflex.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 1,
+   "source": "game",
+   "weapon_stats": {
+    "price": 1450,
+    "fire_modes": 1,
+    "primary": {
+     "damage": 112.3,
+     "range": 1000.0,
+     "magazine": 50,
+     "capacity": 4000,
+     "fire_rate": 0.7
+    },
+    "alt_fire": null
+   },
+   "weapon_id": "w1"
+  },
+  {
+   "id": "zanathid 5 rounds",
+   "name": "Zanathid 5 Rounds",
+   "group": "Ammunition",
+   "category": "Ammunition",
+   "icon": "zanathid 5 rounds.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 4,
+   "source": "game"
+  }
+ ]
+}

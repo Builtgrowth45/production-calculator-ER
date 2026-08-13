@@ -1,0 +1,8 @@
+# Ownership follows the public project boundaries.
+* @ChrisFromNEPA
+/src/ @ChrisFromNEPA
+/scripts/ @ChrisFromNEPA
+/tests/ @ChrisFromNEPA
+/data/ @ChrisFromNEPA
+/docs/ @ChrisFromNEPA
+/.github/ @ChrisFromNEPA

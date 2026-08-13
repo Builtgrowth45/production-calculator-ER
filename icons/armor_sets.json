@@ -1,0 +1,369 @@
+{
+ "body_pieces": [
+  {
+   "body": "f_Average",
+   "slot": "Hands",
+   "piece": "Hands2",
+   "tex_idx": 2
+  },
+  {
+   "body": "f_Average",
+   "slot": "ArmPads",
+   "piece": "ArmPads2",
+   "tex_idx": 11
+  },
+  {
+   "body": "f_Average",
+   "slot": "Face",
+   "piece": "Face4",
+   "tex_idx": 5
+  },
+  {
+   "body": "f_Average",
+   "slot": "Glasses",
+   "piece": "Glasses5",
+   "tex_idx": 9
+  },
+  {
+   "body": "f_Average",
+   "slot": "Hair",
+   "piece": "Hair2",
+   "tex_idx": 6
+  },
+  {
+   "body": "f_Average",
+   "slot": "Helmet",
+   "piece": "Helmet6",
+   "tex_idx": 8
+  },
+  {
+   "body": "f_Average",
+   "slot": "LegPads",
+   "piece": "LegPads1",
+   "tex_idx": 13
+  },
+  {
+   "body": "f_Average",
+   "slot": "Legs",
+   "piece": "Legs1",
+   "tex_idx": 1
+  },
+  {
+   "body": "f_Average",
+   "slot": "Shoes",
+   "piece": "Shoes3",
+   "tex_idx": 7
+  },
+  {
+   "body": "f_Average",
+   "slot": "ShoulderPads",
+   "piece": "ShoulderPads7",
+   "tex_idx": 10
+  },
+  {
+   "body": "f_Average",
+   "slot": "Torso",
+   "piece": "Torso2",
+   "tex_idx": 0
+  },
+  {
+   "body": "f_Average",
+   "slot": "TorsoArmour",
+   "piece": "TorsoArmour2",
+   "tex_idx": 12
+  },
+  {
+   "body": "m_Average",
+   "slot": "Torso",
+   "piece": "Torso1",
+   "tex_idx": 0
+  },
+  {
+   "body": "m_Average",
+   "slot": "Hands",
+   "piece": "Hands2",
+   "tex_idx": 2
+  },
+  {
+   "body": "m_Average",
+   "slot": "Shoes",
+   "piece": "Shoes3",
+   "tex_idx": 7
+  },
+  {
+   "body": "m_Average",
+   "slot": "Legs",
+   "piece": "Legs2",
+   "tex_idx": 4
+  },
+  {
+   "body": "m_Average",
+   "slot": "Face",
+   "piece": "Face4",
+   "tex_idx": 5
+  },
+  {
+   "body": "m_Average",
+   "slot": "TorsoArmour",
+   "piece": "TorsoArmour2",
+   "tex_idx": 12
+  },
+  {
+   "body": "m_Average",
+   "slot": "Helmet",
+   "piece": "Helmet6",
+   "tex_idx": 8
+  },
+  {
+   "body": "m_Average",
+   "slot": "LegPads",
+   "piece": "LegPads2",
+   "tex_idx": 13
+  },
+  {
+   "body": "m_Average",
+   "slot": "Hair",
+   "piece": "Hair2",
+   "tex_idx": 6
+  },
+  {
+   "body": "m_Average",
+   "slot": "ShoulderPads",
+   "piece": "ShoulderPads7",
+   "tex_idx": 10
+  },
+  {
+   "body": "m_Average",
+   "slot": "ArmPads",
+   "piece": "ArmPads2",
+   "tex_idx": 11
+  },
+  {
+   "body": "m_Average",
+   "slot": "Glasses",
+   "piece": "Glasses5",
+   "tex_idx": 9
+  }
+ ],
+ "factions": {
+  "GOM": {
+   "variants": {
+    "7": {
+     "count": 2,
+     "pieces": {
+      "Legs": "f_AVG_Legs1_1.dtx",
+      "Torso": "f_AVG_Torso2_7.dtx"
+     }
+    }
+   }
+  },
+  "Civilian": {
+   "variants": {
+    "19": {
+     "count": 3,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_19.dtx",
+      "Torso": "f_AVG_Torso2_19.dtx"
+     }
+    },
+    "25": {
+     "count": 3,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_25.dtx",
+      "Torso": "f_AVG_Torso2_25.dtx"
+     }
+    },
+    "28": {
+     "count": 3,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_28.dtx",
+      "Torso": "m_AVG_Torso2_28.dtx"
+     }
+    },
+    "30": {
+     "count": 3,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_30.dtx",
+      "Torso": "m_AVG_Torso2_30.dtx"
+     }
+    },
+    "34": {
+     "count": 3,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_34.dtx",
+      "Torso": "f_AVG_Torso2_34.dtx"
+     }
+    },
+    "36": {
+     "count": 3,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_36.dtx",
+      "Torso": "f_AVG_Torso2_36.dtx"
+     }
+    },
+    "38": {
+     "count": 3,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_38.dtx",
+      "Torso": "f_AVG_Torso2_38.dtx"
+     }
+    },
+    "2": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_2.dtx"
+     }
+    },
+    "3": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_3.dtx"
+     }
+    },
+    "4": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_4.dtx"
+     }
+    },
+    "5": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_5.dtx"
+     }
+    },
+    "6": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_6.dtx"
+     }
+    },
+    "13": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_13.dtx"
+     }
+    },
+    "14": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_14.dtx"
+     }
+    },
+    "15": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_15.dtx"
+     }
+    },
+    "24": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_24.dtx"
+     }
+    },
+    "26": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_26.dtx"
+     }
+    },
+    "29": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_29.dtx"
+     }
+    },
+    "31": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "m_AVG_Torso2_31.dtx"
+     }
+    },
+    "32": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Legs": "f_AVG_Legs1_32.dtx"
+     }
+    },
+    "35": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_35.dtx"
+     }
+    },
+    "37": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_37.dtx"
+     }
+    },
+    "39": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_39.dtx"
+     }
+    },
+    "40": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "f_AVG_Torso2_40.dtx"
+     }
+    },
+    "41": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "m_AVG_Torso2_41.dtx"
+     }
+    },
+    "42": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "m_AVG_Torso2_42.dtx"
+     }
+    },
+    "43": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "m_AVG_Torso2_43.dtx"
+     }
+    },
+    "44": {
+     "count": 2,
+     "pieces": {
+      "ArmPads": "ArmPads2_11.dtx",
+      "Torso": "m_AVG_Torso2_44.dtx"
+     }
+    }
+   }
+  }
+ },
+ "generated": "2026-08-05"
+}

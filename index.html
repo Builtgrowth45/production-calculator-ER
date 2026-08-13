@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en" data-cmg-layout-v2="off" data-cmg-motion-v2="off" data-cmg-r3f-v1="off">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#36d1dc" />
+<meta name="description" content="Offline-first Empire Rising production, inventory, gear, and economy planner for every player" />
+<title>Empire Rising Production Calculator</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<!-- self-hosted fonts -->
+<style>
+  @font-face { font-family: 'Orbitron'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('fonts/orbitron-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+</style>
+<link rel="stylesheet" href="src/styles.css?v=30" />
+<script src="src/vendor/chart.min.js" defer></script>
+</head>
+<body>
+
+
+
+<header>
+  <div class="brand">
+    <div class="crest-logo er-mark" aria-hidden="true">ER</div>
+    <div class="brand-text">
+    <h1>Empire Rising</h1>
+    <div class="brand-sub">Production Calculator</div>
+    </div>
+  </div>
+  <div class="nav-bar">
+  <nav id="legacy-nav" role="tablist" aria-label="Main navigation">
+    <button class="tab active" data-view="calc" role="tab" aria-selected="true">Calculator</button>
+    <button class="tab" data-view="inventory" role="tab" aria-selected="false">Inventory</button>
+    <button class="tab" data-view="gear" role="tab" aria-selected="false">Gear</button>
+    <button class="tab" data-view="colonies" role="tab" aria-selected="false">Colonies</button>
+    <button class="tab" data-view="requests" role="tab" aria-selected="false">Requests</button>
+    <button class="tab" data-view="drugs" role="tab" aria-selected="false">Drugs</button>
+    <button class="tab" data-view="battle" role="tab" aria-selected="false">Battle Nodes</button>
+    <button class="tab" data-view="models" role="tab" aria-selected="false">Models</button>
+  </nav>
+  <div class="nav-more">
+    <button type="button" class="nav-more-btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
+      <span class="more-label">More</span><span class="more-caret" aria-hidden="true">▾</span>
+    </button>
+    <nav id="nav-more-menu" role="tablist" aria-label="More navigation" class="nav-more-menu" hidden>
+      <button class="tab" data-view="weapons" role="tab" aria-selected="false">Weapons</button>
+      <button class="tab" data-view="analytics" role="tab" aria-selected="false">Analytics</button>
+      <button class="tab" data-view="items" role="tab" aria-selected="false">All Items</button>
+      <button class="tab" data-view="client" role="tab" aria-selected="false">Client RE</button>
+      <button class="tab" data-view="factions" role="tab" aria-selected="false">Factions</button>
+      <button class="tab" data-view="academy" role="tab" aria-selected="false">Academy</button>
+      <button class="tab" data-view="help" role="tab" aria-selected="false">Help Fix Data</button>
+    </nav>
+  </div>
+  <nav id="nav-v2" class="nav-v2" aria-label="Grouped navigation">
+    <div class="nav-v2-groups">
+      <section class="nav-v2-group" data-nav-group="workflows" aria-labelledby="nav-v2-workflows">
+        <h2 id="nav-v2-workflows">Workflows</h2>
+        <button type="button" data-nav-view="calc">Calculator</button>
+        <button type="button" data-nav-view="inventory">Inventory</button>
+        <button type="button" data-nav-view="gear">Gear</button>
+        <button type="button" data-nav-view="requests">Requests</button>
+      </section>
+      <section class="nav-v2-group" data-nav-group="operations" aria-labelledby="nav-v2-operations">
+        <h2 id="nav-v2-operations">Operations</h2>
+        <button type="button" data-nav-view="colonies">Colonies</button>
+        <button type="button" data-nav-view="battle">Battle Nodes</button>
+        <button type="button" data-nav-view="models">Models / Character Studio</button>
+        <button type="button" data-nav-view="client">Client RE</button>
+      </section>
+      <section class="nav-v2-group" data-nav-group="reference" aria-labelledby="nav-v2-reference">
+        <h2 id="nav-v2-reference">Reference</h2>
+        <button type="button" data-nav-view="items">All Items</button>
+        <button type="button" data-nav-view="weapons">Weapons</button>
+        <button type="button" data-nav-view="drugs">Drugs</button>
+        <button type="button" data-nav-view="factions">Factions</button>
+        <button type="button" data-nav-view="academy">Academy</button>
+      </section>
+      <section class="nav-v2-group" data-nav-group="culture" aria-labelledby="nav-v2-culture">
+        <h2 id="nav-v2-culture">System / Culture</h2>
+        <button type="button" data-nav-view="analytics">Analytics</button>
+        <button type="button" data-nav-view="help">Help Fix Data</button>
+        <button type="button" data-nav-view="community">Community Notes</button>
+      </section>
+    </div>
+    <div id="mobile-nav-v2" class="mobile-nav-v2" aria-label="Mobile navigation">
+      <button type="button" data-nav-view="calc">Calculator</button>
+      <button type="button" data-nav-view="inventory">Inventory</button>
+      <button type="button" data-nav-view="gear">Gear</button>
+      <button type="button" data-nav-toggle="drawer" aria-expanded="false" aria-controls="nav-v2-drawer">More</button>
+    </div>
+    <div id="nav-v2-drawer" class="nav-v2-drawer" role="dialog" aria-modal="true" aria-labelledby="nav-v2-drawer-title" hidden>
+      <div class="nav-v2-drawer-head">
+        <strong id="nav-v2-drawer-title">All sections</strong>
+        <button type="button" data-nav-toggle="close" aria-label="Close navigation">×</button>
+      </div>
+      <div class="nav-v2-drawer-grid">
+        <button type="button" data-nav-view="calc">Calculator</button>
+        <button type="button" data-nav-view="inventory">Inventory</button>
+        <button type="button" data-nav-view="gear">Gear</button>
+        <button type="button" data-nav-view="requests">Requests</button>
+        <button type="button" data-nav-view="colonies">Colonies</button>
+        <button type="button" data-nav-view="battle">Battle Nodes</button>
+        <button type="button" data-nav-view="models">Models / Character Studio</button>
+        <button type="button" data-nav-view="client">Client RE</button>
+        <button type="button" data-nav-view="items">All Items</button>
+        <button type="button" data-nav-view="weapons">Weapons</button>
+        <button type="button" data-nav-view="drugs">Drugs</button>
+        <button type="button" data-nav-view="factions">Factions</button>
+        <button type="button" data-nav-view="academy">Academy</button>
+        <button type="button" data-nav-view="analytics">Analytics</button>
+        <button type="button" data-nav-view="help">Help Fix Data</button>
+        <button type="button" data-nav-view="community">Community Notes</button>
+      </div>
+    </div>
+  </nav>
+  </div>
+  <div class="theme-bar">
+    <button class="theme-btn" data-theme="dark" title="Dark mode" aria-label="Dark mode">🌙</button>
+    <button class="theme-btn" data-theme="light" title="Light mode" aria-label="Light mode">☀️</button>
+    <button class="theme-btn" data-theme="auto" title="Follow system preference" aria-label="Auto theme">🔄</button>
+    <button class="theme-btn" data-theme="trans" title="Trans pride" aria-label="Trans pride theme">🏳️‍⚧️</button>
+    <button class="theme-btn" data-theme="pride" title="Rainbow pride" aria-label="Rainbow pride theme">🏳️‍🌈</button>
+    <button class="theme-btn" data-theme="cmg" title="CMG corporate" aria-label="CMG corporate theme">⛏️</button>
+    <!-- Deliberately NOT a .theme-btn: that class is wired to data-theme, and a
+         member without one would try to apply a theme called undefined. Same
+         look, its own handler. -->
+    <span class="theme-bar-sep" aria-hidden="true"></span>
+    <button id="mute-btn" class="mute-btn" type="button" onclick="toggleMuted()"
+            aria-pressed="false" aria-label="Mute tab sounds" title="Tab sounds on — click to mute">🔊</button>
+    <div class="size-slider">
+      <label for="size-range" title="Font size">Aa</label>
+      <input type="range" id="size-range" min="75" max="150" value="100" step="5" aria-label="Font size" />
+      <span class="size-label" id="size-label">100%</span>
+    </div>
+  </div>
+</header>
+
+<div class="playerbar">
+  <span class="player-label">Player:</span>
+  <select id="player-select" aria-label="Select player"></select>
+  <button id="player-new" title="Add a new player">+ New</button>
+  <button id="player-import" title="Import a player inventory from JSON">Import</button>
+  <button id="player-export" title="Export the active player's inventory as JSON">Export</button>
+  <button id="player-remove" title="Remove the selected player from this device">− Remove</button>
+  <input id="player-import-file" type="file" accept="application/json,.json" hidden />
+  <span id="player-name" class="player-active"></span>
+</div>
+
+<main>
+  <!-- CALCULATOR -->
+  <section id="view-calc" class="view active" role="tabpanel" aria-label="Calculator">
+    <div class="public-notice" role="note">Independent Empire Rising community project · local-first and offline-capable</div>
+    <div class="calc-workbench">
+      <aside class="calc-browser" aria-label="Item browser">
+        <div class="calc-picker ui-panel">
+      <div class="picker-controls">
+        <label>Category
+          <select id="picker-cat"><option value="">All</option></select>
+        </label>
+        <label>Search
+          <input id="picker-search" type="text" placeholder="Search 335 final items…" autocomplete="off" aria-label="Search final items" />
+        </label>
+        <span class="muted" id="picker-count" aria-live="polite"></span>
+      </div>
+      <div id="picker-grid" class="picker-grid" role="listbox" aria-label="Final items"></div>
+      </aside>
+
+      <div class="calc-setup">
+        <div class="controls ui-toolbar">
+      <label>Item
+        <input id="calc-item" placeholder="click an item above…" readonly autocomplete="off" aria-label="Item to calculate" />
+      </label>
+      <div id="calc-dropdown" class="calc-dropdown" hidden></div>
+      <label>Quantity
+        <input id="calc-qty" type="number" min="1" value="1" aria-label="Quantity" />
+      </label>
+      <label>Production colony
+        <select id="calc-dest" aria-label="Production colony"></select>
+      </label>
+      <label class="checkbox-label" title="Do not use inventory already recorded for this player"><input type="checkbox" id="calc-scratch" /> Ignore current inventory</label>
+      <button id="calc-run">Calculate</button>
+      <button id="calc-add" class="ghost" title="Add this item and quantity to the combined production plan">+ Add another item</button>
+      <button id="calc-save" class="ghost" title="Save the current plan (item or tray) under a name">💾 Save plan</button>
+    </div>
+
+    <!-- Slot dials only. Tax rates and ownership live on the Colonies tab: they
+         are shared guild state, not a per-run setting. -->
+    <details id="calc-tax" class="calc-tax">
+      <summary>⚡ Advanced slot setup <span id="calc-tax-note" class="ct-note"></span></summary>
+
+      <div class="ct-slots">
+        <label class="ct-slot">⚡ Energy
+          <input id="slot-energy" type="range" min="1" max="21" step="1" value="5" aria-label="Energy level" />
+          <output id="slot-energy-out">5</output>
+        </label>
+        <label class="ct-slot">❄️ Cooling
+          <input id="slot-cooling" type="range" min="0" max="21" step="1" value="0" aria-label="Cooling level" />
+          <output id="slot-cooling-out">0</output>
+        </label>
+        <span id="slot-note" class="ct-note"></span>
+      </div>
+      <div class="ct-hint muted">Set in <strong>levels</strong>, the way they actually get talked about — most production runs at <strong>5 energy, 0 cooling</strong>. Energy can't go below 1; cooling can be left off entirely. Each energy level adds about <strong>1.43 UC per run</strong> and each cooling level <strong>0.95</strong>, flat regardless of what you're making — so at the top it adds 50 UC whether the run costs 69 or 4997, dominating a cheap material and barely registering on a gun. Cooling isn't dead weight though: it keeps heat down, and heat is what drags effectiveness and speed with it. These totals are the price of a <strong>cold start</strong>; a long run drifts cheaper per unit. See <em>How a slot actually works</em> on the Colonies tab.</div>
+      <div class="ct-hint muted">Colony tax rates and ownership are stored locally per device. Use the export/import controls when you want to share a snapshot.</div>
+    </details>
+
+    <details class="calc-help">
+      <summary>How planning works</summary>
+      <div class="hint muted">Browse or search final items by category above. Add several items to the plan tray for a combined production run — owned stock carries between items. Refinement and production paths can be switched inside each step. <strong>/</strong> jumps to search · <strong>Ctrl+Z</strong> undoes an applied plan.</div>
+    </details>
+      </div>
+
+      <aside class="calc-outcome ui-panel" aria-label="Calculation outcome">
+        <div class="calc-outcome-head"><span class="eyebrow">Live outcome</span><span class="muted">Updates as you edit</span></div>
+        <div id="calc-live-summary" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- recent calculations -->
+    <div id="calc-recent" class="recent-row" hidden></div>
+
+    <!-- saved plans -->
+    <div id="calc-saved" class="saved-plans" hidden>
+      <div class="saved-plans-head">Saved plans</div>
+      <div id="calc-saved-list" class="saved-plans-list"></div>
+    </div>
+
+    <!-- multi-item tray -->
+    <div id="calc-tray" class="tray" hidden>
+      <div class="tray-head">
+        <span class="tray-title">Production plan — <span id="tray-count">0</span> items</span>
+        <div class="tray-actions">
+          <button id="calc-runmulti" class="primary">Run combined plan</button>
+          <button id="calc-cleartray" class="ghost">Clear</button>
+        </div>
+      </div>
+      <div id="tray-items" class="tray-items"></div>
+    </div>
+
+    <div class="calc-plan">
+      <div id="calc-result" aria-live="polite" aria-label="Calculation result"></div>
+      <div id="calc-multi" aria-live="polite"></div>
+    </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- INVENTORY -->
+  <section id="view-inventory" class="view" role="tabpanel" aria-label="Inventory">
+    <div id="inv-dashboard" class="inv-dashboard"></div>
+    <details class="inv-charts-section" id="inv-charts-details">
+      <summary class="inv-charts-summary">📊 Inventory Charts</summary>
+      <div class="inv-charts" id="inv-charts">
+        <div class="inv-chart-wrap">
+          <h5>Units by colony</h5>
+          <canvas id="inv-chart-colony" width="300" height="300"></canvas>
+        </div>
+        <div class="inv-chart-wrap">
+          <h5>Top 10 items held</h5>
+          <canvas id="inv-chart-topitems" width="400" height="250"></canvas>
+        </div>
+        <div class="inv-chart-wrap">
+          <h5>Units by category</h5>
+          <canvas id="inv-chart-category" width="300" height="300"></canvas>
+        </div>
+        <div class="inv-chart-wrap">
+          <h5>Materials vs finished goods, per colony</h5>
+          <canvas id="inv-chart-split" width="400" height="250"></canvas>
+        </div>
+      </div>
+      <div class="inv-charts-note muted" id="inv-charts-empty" hidden>Nothing stocked yet — add items below and the charts will fill in.</div>
+    </details>
+    <div class="editor ui-panel">
+      <h4>Inventory by colony / zone — <span id="inv-player-tag">you</span></h4>
+      <div class="editor-row zone-row">
+        <label>Zone / Colony
+          <select id="inv-zone" aria-label="Select zone">
+            <option value="" disabled selected>select zone…</option>
+          </select>
+        </label>
+        <span id="zone-total" class="zone-total muted" aria-live="polite"></span>
+      </div>
+      <div class="zone-movebar" id="zone-movebar" hidden>
+        <label>Move selected to
+          <select id="zone-move-target" aria-label="Target zone"></select>
+        </label>
+        <button id="zone-move-go">Move</button>
+        <button id="zone-move-clear" class="ghost">Clear</button>
+        <span class="movebar-hint">Moves the <b>whole</b> stack of each ticked item — to move only part of one, use <b>➜ Move…</b> on its row.</span>
+      </div>
+      <div id="zone-body" class="zone-body">
+        <div class="muted">Pick a zone above to view and edit its stock. Use <b>Add item</b> to log new material gathered at that zone.</div>
+      </div>
+      <div class="zone-addrow">
+        <div class="quick-pick">
+          <div class="qp-cats" id="qp-cats"></div>
+          <input id="qp-search" class="qp-search" type="text" placeholder="🔍 search all items to add…" autocomplete="off" aria-label="Search items to add" />
+          <div class="qp-grid" id="qp-grid"></div>
+          <div class="qp-manual">
+            <input id="inv-item" list="inv-item-list" placeholder="or type an exact item name…" autocomplete="off" aria-label="Item to add" />
+            <datalist id="inv-item-list"></datalist>
+          </div>
+        </div>
+        <input id="inv-qty" type="number" min="0" value="1" aria-label="Quantity to add" />
+        <button id="inv-addzone">+ Add</button>
+        <span class="muted">adds to what you already have here · edit a row above to set an exact number</span>
+      </div>
+    </div>
+    <div class="controls">
+      <input id="inv-search" placeholder="filter items / locations…" aria-label="Filter inventory" />
+      <label class="selall"><input type="checkbox" id="inv-materials-only" /> materials only</label>
+      <button id="inv-scan-shot" class="ghost" title="Paste or upload a screenshot of your colony storage">Scan Screenshot</button>
+    </div>
+    <div id="inv-totals"></div>
+    <div id="inv-table" class="ui-table-wrap"></div>
+
+  </section>
+
+  <!-- ALL ITEMS -->
+  <section id="view-items" class="view" role="tabpanel" aria-label="All Items">
+    <div class="controls">
+      <input id="items-search" placeholder="filter items…" aria-label="Filter all items" />
+      <label class="selall"><input type="checkbox" id="items-selall" aria-label="Select all items" /> select all</label>
+      <span class="muted" id="items-count"></span>
+    </div>
+    <div id="items-grid" class="item-grid"></div>
+    <div id="items-bulk" class="bulk-bar" hidden>
+      <span id="bulk-count" class="bulk-count">0 selected</span>
+      <label>Location
+        <select id="bulk-loc" aria-label="Target location"><option value="" disabled selected>select site…</option></select>
+      </label>
+      <label>Qty
+        <input id="bulk-qty" type="number" min="1" value="1" aria-label="Quantity per item" />
+      </label>
+      <label>Mode
+        <select id="bulk-mode" aria-label="Apply mode">
+          <option value="set">Set (replace)</option>
+          <option value="add" selected>Add (gathered)</option>
+          <option value="subtract">Subtract (used)</option>
+        </select>
+      </label>
+      <button id="bulk-add">Add to inventory</button>
+      <button id="bulk-clear" class="ghost">Clear</button>
+    </div>
+  </section>
+
+  <!-- GEAR LOADOUT -->
+  <section id="view-gear" class="view" role="tabpanel" aria-label="Gear Loadout">
+    <div class="gear-layout">
+      <div class="gear-main">
+        <h4 class="gear-title">Armor Loadout</h4>
+        <div class="gear-paperdoll">
+          <!-- Armor row 1 -->
+          <div class="gear-slot" data-slot="Helmet" data-category="Armor" data-armor-type="Helmet">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Helmet</div>
+          </div>
+          <div class="gear-slot" data-slot="ShoulderPads" data-category="Armor" data-armor-type="ShoulderPads">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Shoulders</div>
+          </div>
+          <div class="gear-slot" data-slot="TorsoArmor" data-category="Armor" data-armor-type="TorsoArmor">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Torso</div>
+          </div>
+          <!-- Armor row 2 -->
+          <div class="gear-slot" data-slot="ArmPads" data-category="Armor" data-armor-type="ArmPads">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Arms</div>
+          </div>
+          <div class="gear-slot" data-slot="Gloves" data-category="Armor" data-armor-type="Gloves">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Gloves</div>
+          </div>
+          <div class="gear-slot" data-slot="LegPads" data-category="Armor" data-armor-type="LegPads">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Legs</div>
+          </div>
+          <!-- Boosters + Medikit row -->
+          <div class="gear-slot" data-slot="booster-0" data-slot-type="booster" data-category="Drugs">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Booster 1</div>
+          </div>
+          <div class="gear-slot" data-slot="booster-1" data-slot-type="booster" data-category="Drugs">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Booster 2</div>
+          </div>
+          <div class="gear-slot" data-slot="medikit" data-slot-type="medikit" data-category="Medical">
+            <div class="gear-slot-icon"></div>
+            <div class="gear-slot-label">Medikit</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="gear-sidebar">
+        <div class="gear-stat-panel" id="gear-stats">
+          <h4>Loadout Stats</h4>
+          <div id="gear-stat-grid" class="gear-stat-grid"></div>
+        </div>
+        <details class="calc-help gear-stat-guide">
+          <summary>📖 Stat guide — what each number means</summary>
+          <div class="hint muted">
+            <p><b>Protection</b> — five damage channels, each countered by one stat:</p>
+            <table class="stat-guide-table">
+              <tr><th>Stat</th><th>Counters</th><th>Faction set</th></tr>
+              <tr><td>Armor</td><td>Ballistic</td><td>FDC</td></tr>
+              <tr><td>Shielding</td><td>Energy</td><td>VI</td></tr>
+              <tr><td>Endurance</td><td>Stamina</td><td>CMG</td></tr>
+              <tr><td>Resistance</td><td>Bio</td><td>EC</td></tr>
+              <tr><td>Reflection</td><td>Aura</td><td>BoS</td></tr>
+            </table>
+            <p><b>Defense Rating</b> = chance to reduce an attack of any type · <b>Block Rating</b> = chance to negate one entirely · <b>Protection Reduction</b> = debuff cutting <i>all</i> five protections at once.</p>
+            <p><b>Regen floors</b> (nothing equipped): HP 2.0% · Stam 2.0% · Bio 0.0% · Aura 2.5% · Addiction Treatment 0.0% · Medkit CD 0.0s. Health/stam/aura regen are free; <b>bio must be fed</b> (bio cells, injectors, illegal substances).</p>
+            <p><b>Drains</b> are the upkeep cost of gear/boosters — 0 with nothing on. Every regen source list includes illegal substances, and addiction only clears at the slow natural rate without Addiction Treatment (BoS's specialty).</p>
+            <p class="muted">Hover any stat below for its full official definition.</p>
+          </div>
+        </details>
+        <div class="gear-actions">
+          <button id="gear-save-set" class="primary">Save Gear Set</button>
+          <button id="gear-craft-set" class="ghost" style="color:var(--cyan)">🛠️ Craft Set</button>
+          <button id="gear-load-set" class="ghost">Load Set</button>
+          <button id="gear-export-set" class="ghost">Export</button>
+          <button id="gear-import-set" class="ghost">Import</button>
+          <button id="gear-clear" class="ghost">Clear All</button>
+        </div>
+        <div class="gear-stat-panel" id="gear-cost">
+          <div class="gear-cost-head-row">
+            <h4>Set Recipe Cost</h4>
+            <select id="gear-dest" aria-label="Production colony" class="gear-dest-select" title="Colony where this set would be refined and manufactured"></select>
+          </div>
+          <div id="gear-dest-status" class="gear-dest-status"></div>
+          <div id="gear-cost-grid" class="gear-stat-grid"></div>
+        </div>
+        <div id="gear-sets-list" class="gear-sets-list"></div>
+      </div>
+    </div>
+
+    <!-- LIVE COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS) -->
+    <div class="gear-balance-browser" id="gear-balance-browser">
+      <div class="gear-balance-head">
+        <h4>⚔️ Live Combat Stats — ER Balance Sheet</h4>
+        <span class="gear-balance-meta muted" id="gear-balance-meta"></span>
+      </div>
+      <div class="gear-balance-controls">
+        <input id="balance-search" type="text" placeholder="search items…" autocomplete="off" aria-label="Search combat stats" />
+        <select id="balance-cat" aria-label="Filter by category"><option value="">All categories</option></select>
+        <select id="balance-sort" aria-label="Sort items">
+          <option value="name">Sort: Name</option>
+          <option value="armor">Sort: Armor</option>
+          <option value="shielding">Sort: Shielding</option>
+          <option value="endurance">Sort: Endurance</option>
+          <option value="resistance">Sort: Resistance</option>
+          <option value="reflection">Sort: Reflection</option>
+          <option value="agility">Sort: Agility</option>
+        </select>
+      </div>
+      <div class="gear-balance-grid" id="gear-balance-grid"></div>
+    </div>
+
+    <!-- Armor item picker modal (hidden by default) -->
+
+  </section>
+
+  <!-- PRODUCTION REQUESTS -->
+  <section id="view-requests" class="view" role="tabpanel" aria-label="Production Requests">
+    <div class="req-layout">
+      <div class="req-sidebar">
+        <h4 class="req-title">New Request</h4>
+        <form id="req-form" class="req-form" autocomplete="off">
+          <label>Item <input id="req-item" list="req-item-list" placeholder="search item…" autocomplete="off" /><datalist id="req-item-list"></datalist></label>
+          <label>Qty <input id="req-qty" type="number" min="1" value="1" /></label>
+          <label>Assign to <select id="req-assign"><option value="">Unassigned</option></select></label>
+          <label>Assigned qty <input id="req-aqty" type="number" min="1" value="1" /></label>
+          <label>Deliver to <select id="req-deliver-to"><option value="">—</option></select></label>
+          <label>Deliver colony <select id="req-deliver-colony"><option value="">—</option></select></label>
+          <label>Notes <textarea id="req-notes" rows="2" placeholder="optional notes…"></textarea></label>
+          <button type="submit" class="primary">Create Request</button>
+        </form>
+      </div>
+      <div class="req-main">
+        <div class="req-toolbar">
+          <h4 class="req-title">Production Requests</h4>
+          <div class="req-filters">
+            <input id="req-search" type="text" placeholder="filter requests…" autocomplete="off" aria-label="Filter requests" style="width:130px" />
+            <select id="req-filter-status"><option value="">All</option><option value="open">Open</option><option value="assigned">Assigned</option><option value="in_progress">In Progress</option><option value="complete">Complete</option></select>
+            <select id="req-filter-assignee"><option value="">Anyone</option></select>
+            <button id="req-refresh" class="ghost" title="Refresh from shared store">↻</button>
+            <button id="req-export" class="ghost">Export</button>
+            <button id="req-import" class="ghost">Import</button>
+          </div>
+        </div>
+        <div id="req-share-bar" class="req-share-bar">
+          <span id="req-sync-status" class="muted">Loading…</span>
+        </div>
+        <div id="req-bulk-bar" class="req-bulk-bar">
+          <span id="req-bulk-count">0 selected</span>
+          <button id="req-bulk-complete">✓ Complete All</button>
+          <button id="req-bulk-delete">× Delete All</button>
+        </div>
+        <div id="req-list" class="req-list ui-list-state"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEAPONS -->
+  <section id="view-weapons" class="view" role="tabpanel" aria-label="Weapons">
+    <h3 class="view-title">🔫 Weapon Comparison</h3>
+    <p class="muted" style="font-size:0.75rem">Market stats from Empire Rising client + live combat stats from the ER Balance Sheet (recoil, agility, damage channels). Prices in UC.</p>
+    <div class="weapon-toolbar">
+      <label>Sort by
+        <select id="weapon-sort">
+          <option value="damage">Damage ↓</option>
+          <option value="range">Range ↓</option>
+          <option value="price">Price ↓</option>
+          <option value="magazine">Magazine ↓</option>
+          <option value="dps">DPS ↓</option>
+        </select>
+      </label>
+    </div>
+    <div id="weapon-table"></div>
+  </section>
+
+  <!-- DRUGS -->
+  <section id="view-drugs" class="view" role="tabpanel" aria-label="Drugs">
+    <h3 class="view-title">💊 Drug / Booster Production</h3>
+    <p class="muted" style="font-size:0.75rem">Combat boosters — live effects from the ER Balance Sheet, code combination, tier, and max production cost per drug (ChemSub priced at maxed Pegasi 51). Costs in UC.</p>
+    <div class="drug-toolbar">
+      <label>Sort by
+        <select id="drug-sort">
+          <option value="name">Name A→Z</option>
+          <option value="tier">Tier</option>
+          <option value="cost">Total cost ↑</option>
+          <option value="cost-desc">Total cost ↓</option>
+          <option value="code">Code</option>
+        </select>
+      </label>
+      <input id="drug-search" type="text" placeholder="filter drugs / effects…" autocomplete="off" aria-label="Filter drugs" />
+      <span class="muted" id="drug-count" aria-live="polite"></span>
+    </div>
+    <div id="drug-table"></div>
+  </section>
+
+  <!-- BATTLE NODES -->
+  <section id="view-battle" class="view" role="tabpanel" aria-label="Battle Nodes">
+    <h3 class="view-title">⚔️ Faction Battle Nodes</h3>
+    <p class="muted" style="font-size:0.75rem">Hackable nodes per colony with the nearest Vortex Gate spawn. <span class="bn-key bn-powernode">● Powernode</span> <span class="bn-key bn-powerplant">● Powerplant</span> <span class="bn-key bn-node">● Node</span></p>
+    <div class="bn-controls">
+      <div class="bn-controls-head">
+        <span class="bn-colony-label">🗺️ Pick a colony map — tap any to switch:</span>
+        <input id="bn-search" type="text" placeholder="filter nodes / vort locations…" autocomplete="off" aria-label="Filter nodes" />
+        <span class="muted" id="bn-count" aria-live="polite"></span>
+      </div>
+      <div id="bn-colony-chips" class="bn-colony-chips" role="tablist" aria-label="Colony maps"></div>
+    </div>
+    <div id="bn-body" class="bn-body"></div>
+  </section>
+
+  <!-- MODELS -->
+  <section id="view-models" class="view" role="tabpanel" aria-label="Models">
+    <h3 class="view-title">🧊 Model &amp; Texture Workbench</h3>
+    <p class="muted" style="font-size:0.75rem;max-width:760px">Interactive 3D armor/item viewer from the Empire Rising client. Drag to orbit, scroll to zoom, right-drag to pan. Select a model to inspect its pieces and skin atlases; export textures as PNG for editing, or re-import an edited texture to preview it live. <span id="models-count" class="muted"></span></p>
+    <div class="models-subtabs">
+      <button type="button" id="models-tab-3d" class="models-subtab active">🧊 3D Models</button>
+      <button type="button" id="models-tab-studio" class="models-subtab">🧍 Character Studio</button>
+      <button type="button" id="models-tab-icons" class="models-subtab">🖼️ Item Catalog <span class="models-subtab-count" id="models-icon-count"></span></button>
+    </div>
+    <div id="models-pane-3d">
+    <div class="models-layout">
+      <div class="models-sidebar">
+        <div class="models-controls">
+          <input id="models-search" type="text" placeholder="filter models…" autocomplete="off" aria-label="Filter models" />
+          <select id="models-category" aria-label="Category">
+            <option value="">All categories</option>
+          </select>
+          <label class="models-texonly"><input type="checkbox" id="models-texonly" /> 🎨 textured only</label>
+          <button id="models-close" class="models-back-btn" hidden>← Back to gallery</button>
+        </div>
+        <div id="models-gallery" class="models-gallery" aria-live="polite"></div>
+      </div>
+      <div class="models-stage">
+        <div id="models-viewer" class="models-viewer" aria-label="3D model viewer">
+          <div class="models-viewer-hint" id="models-hint">Select a model from the gallery</div>
+        </div>
+        <div class="models-stage-controls" id="models-stage-controls" hidden>
+          <div class="models-model-name" id="models-model-name"></div>
+          <div class="models-model-meta" id="models-model-meta"></div>
+          <div class="models-stage-buttons">
+            <button id="models-autorotate" class="models-stage-btn active" title="Toggle auto-rotate">🔄 Auto</button>
+            <button id="models-wireframe" class="models-stage-btn" title="Toggle wireframe">🕸️ Wire</button>
+            <button id="models-normal" class="models-stage-btn active" title="Toggle face normals">🧭 Normals</button>
+            <button id="models-grid" class="models-stage-btn" title="Toggle floor grid">📐 Grid</button>
+            <button id="models-reset" class="models-stage-btn" title="Reset camera">🎯 Reset</button>
+            <button id="models-export-glb" class="models-stage-btn" title="Download this model as GLB">⬇️ GLB</button>
+          </div>
+        </div>
+        <div class="models-workbench" id="models-workbench" hidden>
+          <div class="models-wb-panel">
+            <div class="models-wb-title">🧵 Skin atlases
+              <span class="models-wb-sub">click to enlarge · ⬇ to export for editing</span>
+            </div>
+            <div class="models-wb-textures" id="models-textures"></div>
+            <label class="models-import-zone" id="models-import-zone">
+              <input type="file" id="models-import-tex" accept="image/png,image/jpeg" hidden />
+              <span>📥 Re-import an edited texture to preview it live on the model</span>
+            </label>
+          </div>
+          <div class="models-wb-panel">
+            <div class="models-wb-title">🔩 Pieces <span class="models-wb-sub">mesh → skin mapping</span></div>
+            <div class="models-wb-pieces" id="models-pieces"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div id="models-pane-icons" hidden>
+      <div class="icons-layout">
+        <div class="icons-controls">
+          <input id="icons-search" type="text" placeholder="search items… (e.g. rifle, beer, armor)" autocomplete="off" aria-label="Search items" />
+          <select id="icons-group" aria-label="Item group">
+            <option value="">All groups</option>
+          </select>
+        </div>
+        <div class="icons-grid" id="icons-grid" aria-live="polite"></div>
+        <div class="icons-detail" id="icons-detail" hidden>
+          <div class="icons-detail-top">
+            <img id="icons-detail-img" alt="" />
+            <div class="icons-detail-info">
+              <div class="icons-detail-name" id="icons-detail-name"></div>
+              <div class="icons-detail-meta" id="icons-detail-meta"></div>
+              <div class="icons-detail-stats" id="icons-detail-stats"></div>
+            </div>
+          </div>
+          <div class="icons-detail-links" id="icons-detail-links"></div>
+        </div>
+      </div>
+    </div>
+    <div id="models-pane-studio" hidden>
+      <div class="studio-layout">
+        <div class="studio-sidebar">
+          <div class="studio-controls">
+            <label class="studio-label">Gender
+              <select id="studio-gender">
+                <option value="f">Female</option>
+                <option value="m">Male</option>
+              </select>
+            </label>
+            <label class="studio-label">Faction
+              <select id="studio-faction"></select>
+            </label>
+            <label class="studio-label">Torso
+              <select id="studio-torso"></select>
+            </label>
+            <label class="studio-label">Legs
+              <select id="studio-legs"></select>
+            </label>
+            <div class="studio-gear">
+              <div class="studio-gear-title">Gear visibility</div>
+              <div class="studio-gear-grid" id="studio-gear-grid"></div>
+            </div>
+            <div class="studio-stage-buttons">
+              <button id="studio-autorotate" class="models-stage-btn active" title="Toggle auto-rotate">🔄 Auto</button>
+              <button id="studio-reset" class="models-stage-btn" title="Reset camera">🎯 Reset</button>
+              <button id="studio-export" class="models-stage-btn" title="Download current outfit as GLB">⬇️ GLB</button>
+            </div>
+            <p class="muted" style="font-size:0.72rem">Skin swaps are client-side only — the rendered outfit stays in your browser.</p>
+          </div>
+        </div>
+        <div class="studio-stage">
+          <div id="studio-viewer" class="models-viewer" aria-label="Character studio 3D viewer">
+            <div class="models-viewer-hint" id="studio-hint">Loading character…</div>
+          </div>
+          <div class="studio-model-name" id="studio-model-name"></div>
+        </div>
+      </div>
+    </div>
+    <div class="models-lightbox" id="models-lightbox" hidden>
+      <div class="models-lightbox-inner">
+        <img id="models-lightbox-img" alt="enlarged skin atlas" />
+        <div class="models-lightbox-bar">
+          <span id="models-lightbox-name"></span>
+          <span class="models-lightbox-actions">
+            <button id="models-lightbox-replace" class="models-stage-btn">🔄 Replace…</button>
+            <button id="models-lightbox-dl" class="models-stage-btn">⬇️ Export PNG</button>
+            <button id="models-lightbox-close" class="models-stage-btn">✖ Close</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENT RE -->
+  <section id="view-client" class="view" role="tabpanel" aria-label="Client Reverse Engineering">
+    <h3 class="view-title">🔬 Empire Rising Client — Reverse Engineering Report</h3>
+    <p class="muted" style="font-size:0.75rem">All data extracted from v0.5.0 client binaries. Engine: D-Type (LithTech Jupiter) on Direct3D 9.</p>
+    <div id="client-report"></div>
+  </section>
+
+  <!-- COMMUNITY NOTES -->
+  <section id="view-community" class="view" role="tabpanel" aria-label="Community notes">
+    <h3 class="view-title">📝 Community Notes</h3>
+    <p class="muted" style="font-size:0.75rem;max-width:720px">A neutral home for contribution notes, data corrections, and public project context.</p>
+    <div class="panel">
+      <p>Use the repository issue tracker for reproducible data corrections and feature proposals. Do not post private inventories, account details, credentials, or personal information.</p>
+    </div>
+  </section>
+
+  <!-- ANALYTICS -->
+  <section id="view-analytics" class="view" role="tabpanel" aria-label="Analytics">
+    <h3 class="view-title">📊 Usage Analytics</h3>
+    <p class="muted" style="font-size:0.75rem;max-width:650px">
+    Privacy-respecting, local-only analytics. No cookies, no fingerprinting, no third parties.
+    Events stay in this browser and are never uploaded. Export or clear them from browser storage when needed.
+    </p>
+    <div class="analytics-controls">
+      <label class="analytics-opt">
+        <input type="checkbox" id="analytics-optin" checked aria-label="Enable analytics tracking" />
+        <span>Enable usage tracking</span>
+      </label>
+      <label>Date range
+        <select id="analytics-range" aria-label="Date range">
+          <option value="7" selected>Last 7 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
+      </label>
+      <button id="analytics-refresh" class="ghost">↻ Refresh local analytics</button>
+      <span id="analytics-status" class="muted" aria-live="polite"></span>
+    </div>
+
+    <!-- Stats cards -->
+    <div class="analytics-cards" id="analytics-cards"></div>
+
+    <!-- Charts row -->
+    <div class="analytics-charts">
+      <div class="analytics-chart-panel">
+        <h4>📈 Page Views Over Time</h4>
+        <div class="chart-wrap"><canvas id="analytics-chart-views"></canvas></div>
+      </div>
+      <div class="analytics-chart-panel">
+        <h4>🔧 Feature Usage</h4>
+        <div class="chart-wrap"><canvas id="analytics-chart-features"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Top items -->
+    <div class="analytics-chart-panel" style="margin-top:1rem">
+      <h4>🏭 Top Items Calculated</h4>
+      <div class="chart-wrap"><canvas id="analytics-chart-items"></canvas></div>
+    </div>
+  </section>
+
+  <!-- FACTIONS -->
+  <section id="view-factions" class="view" role="tabpanel" aria-label="Factions">
+    <h3 class="view-title">🛡️ Faction Gallery</h3>
+    <p class="muted" style="font-size:0.75rem;max-width:650px">Armor, logos, and ranks extracted from the game client. Click any faction to browse its gear. Audio welcomes from each colony terminal.</p>
+    <div class="faction-grid" id="faction-grid"></div>
+  </section>
+
+  <!-- ACADEMY -->
+  <section id="view-academy" class="view" role="tabpanel" aria-label="Academy">
+    <h3 class="view-title">🎓 CMG Academy</h3>
+    <p class="muted" style="font-size:0.75rem;max-width:720px">
+      The guild's knowledge base: mining sites, production, armor, drugs, attributes,
+      final battles, lore, and client reverse-engineering — written down so nobody has
+      to relearn it the hard way. Docs live in the repo at <code>academy/</code> and are
+      converted into this tab by <code>scripts/build-academy.mjs</code>.
+    </p>
+    <div class="academy-layout" id="academy-wrap">
+      <aside class="academy-side" aria-label="Academy documents">
+        <input id="academy-search" type="search" placeholder="filter documents…" autocomplete="off" aria-label="Filter academy documents" />
+        <div class="academy-list" id="academy-list" role="listbox"></div>
+      </aside>
+      <article class="academy-pane" id="academy-pane" data-doc="README" aria-live="polite"></article>
+    </div>
+  </section>
+
+  <!-- WORLDS -->
+  <section id="view-colonies" class="view" role="tabpanel" aria-label="Colonies">
+    <h3 class="view-title">🌍 Colonies</h3>
+    <p class="muted" style="font-size:0.75rem;max-width:720px">
+    Each device keeps its own production requests, gear presets, inventory, taxes, and owners.
+    Use the export/import controls to share a snapshot; no server or account is required.
+    </p>
+    <div class="col-toolbar">
+      <input id="col-search" placeholder="filter colonies…" aria-label="Filter colonies" />
+      <label class="checkbox-label"><input type="checkbox" id="col-priced-only" /> only ones the calculator costs</label>
+      <span class="muted" id="col-count"></span>
+      <span class="muted" id="col-sync-note"></span>
+    </div>
+    <details class="slot-guide">
+      <summary>⛏️ How a slot actually works — energy, cooling, heat and cost</summary>
+
+      <h4>Cost of one batch</h4>
+      <p>Start from the item's listed price, add the slot upkeep, then the colony's tax. Mining triples the base before any of that, which is already baked into the material prices shown elsewhere in the app.</p>
+      <ul>
+        <li><b>Energy</b> runs 1–21 and <b>cooling</b> 0–21. Energy can't be switched off; cooling can. Most production sits at <b>5 energy, 0 cooling</b>.</li>
+        <li>Both <em>raise</em> the price, by a flat amount per level: <b>1.43 UC</b> per energy level and <b>0.95</b> per cooling level, so a maxed slot adds 50 UC whether the run costs 69 or 4997.</li>
+        <li>Tax is not a plain markup. A rate <em>above</em> 10% discounts the base first, so 50% works out near 1.33× and even 100% only reaches about 1.50×.</li>
+      </ul>
+      <p class="muted">Confirmed against a chemical substance (base 36) on an untaxed colony: 5 energy → 43 UC, 11 energy → 52, and maxed energy and cooling → 86. That last one is what fixes the top of the scale at <b>21</b> rather than 22: level 21 contributes exactly the 30 + 20 that makes 86, where level 22 would give 88.</p>
+
+      <h4>Heat and speed</h4>
+      <p>Energy generates heat continuously and cooling removes it, so the two are in a race rather than at a fixed setting. Heat <b>fluctuates with the energy level and climbs as the run goes on</b>: a pairing that looks balanced early can drift hot once cooling stops keeping up. As heat rises <b>effectiveness</b> falls, and production slows with it.</p>
+      <p><b>Read effectiveness off the bar</b>, not the <q>100%</q> printed beside it — that is the top of the scale, the same as the 100% marks on the energy and cooling columns.</p>
+      <p>So cooling's 20 UC is not dead weight; it buys sustained speed. And the drift runs both ways: the client lowers the price as heat accumulates, meaning <b>a long hot run is slower but cheaper per unit</b>.</p>
+
+      <p><b>The price drift is now modelled.</b> A plastic run at Paris on 5 bars read 411, 407, 406, 405 … down to 370 over 31 items, and every one of those is reproduced exactly by the arithmetic in <code>calc.txt</code>. So a run's cost is <em>not</em> unit price × count: quoting it that way overstates a 100-unit run by about 14% and a 200-unit run by nearly 30%. Every total in this app now sums the real per-item price across the run, treating each production step as its own session starting cold.</p>
+
+      <p class="muted"><b>Still not modelled:</b> the speed loss. Heat and effectiveness have no known numbers, so nothing here estimates how <em>long</em> a run takes — only what it costs. Runs longer than about 360 items are also extrapolation; the drift is floored at zero rather than allowed to go negative.</p>
+    </details>
+
+    <div class="col-grid" id="col-grid"></div>
+  </section>
+
+  <!-- HELP FIX DATA -->
+  <section id="view-help" class="view" role="tabpanel" aria-label="Help Fix Data">
+    <div class="help-intro">
+      <h4 class="req-title">🛠️ Wrong Data? Help Fix It</h4>
+      <p class="muted" style="font-size:0.75rem;max-width:600px">
+        This shows all data backing the calculator in easy-to-read markdown. Find a mistake? Click <b>Copy</b> on that entry and send it to <b>John Snow</b> on Discord.
+      </p>
+      <div class="help-toolbar">
+        <select id="help-section"><option value="recipes">Recipes</option><option value="mining">Mining Sites</option><option value="items">All Items</option></select>
+        <input id="help-search" type="text" placeholder="filter…" autocomplete="off" />
+        <button id="help-copy-all" class="ghost">📋 Copy All</button>
+        <span id="help-count" class="muted"></span>
+      </div>
+    </div>
+    <div id="help-list" class="help-list"></div>
+  </section>
+</main>
+
+<!-- Modal overlays sit OUTSIDE <main>. main is position:relative with z-index:1,
+     which makes it a stacking context, so a fixed overlay inside it is capped by
+     that context and the header (z-index 20) painted over the picker no matter
+     how high the overlay's own z-index went. -->
+<div id="inv-detail-overlay" class="inv-detail-overlay" hidden>
+      <div class="inv-detail-panel" id="inv-detail-panel"></div>
+      <div class="cmg-preview-slot" data-cmg-3d-preview hidden aria-label="3D item preview"></div>
+    </div>
+
+<div id="gear-picker-overlay" class="gear-picker-overlay" hidden>
+      <div class="gear-picker-modal">
+        <div class="gear-picker-head">
+          <span id="gear-picker-title">Select Armor</span>
+          <button id="gear-picker-close" class="ghost" aria-label="Close">×</button>
+        </div>
+        <div class="gear-picker-toolbar">
+          <input id="gear-picker-search" type="text" placeholder="filter items…" autocomplete="off" />
+          <select id="gear-picker-faction" aria-label="Faction"><option value="">All factions</option></select>
+          <select id="gear-picker-weight" aria-label="Armour weight class">
+            <option value="">Light + Heavy</option>
+            <option value="Light">Light only</option>
+            <option value="Heavy">Heavy only</option>
+            <option value="?">Armour with no class</option>
+          </select>
+          <select id="gear-picker-sort">
+            <option value="net">Lowest configured local cost</option>
+            <option value="total">Cheapest to pay</option>
+            <option value="">Default order</option>
+            <option value="armor">Highest Armor</option>
+            <option value="shielding">Highest Shielding</option>
+            <option value="endurance">Highest Endurance</option>
+            <option value="resistance">Highest Resistance</option>
+            <option value="reflection">Highest Reflection</option>
+            <option value="agility">Highest Agility</option>
+            <option value="healthregen">Highest HP regen</option>
+            <option value="name">A → Z</option>
+          </select>
+        </div>
+        <p class="gpi-help">Prices are <b>per piece</b>, made from scratch at your production colony — a run makes 3, so the run total is shown underneath. <b>Cost</b> includes materials, processing, transport, and configured local colony settings.</p>
+        <div class="gear-picker-body" id="gear-picker-items"></div>
+      </div>
+    </div>
+
+
+<footer>
+  <span id="stats"></span>
+
+</footer>
+
+<script src="src/game_data.js?v=27"></script>
+<script src="src/balance_stats.js?v=1"></script>
+<script src="src/costs.js?v=13"></script>
+<script src="src/armor_classes.js?v=3"></script>
+<script src="src/store.js?v=3"></script>
+<script src="src/engine.js?v=19"></script>
+<script src="src/analytics.js?v=1"></script>
+<script src="src/ui/motion.js?v=1"></script>
+<script src="src/app-core.js?v=46"></script>
+<script src="src/ui/value-transition.js?v=1"></script>
+<script src="src/ui/r3f-loader.js?v=1"></script>
+<script src="src/ui/spatial-emphasis.js?v=1"></script>
+<script src="src/app.js?v=79"></script>
+<script src="src/ui/legacy-3d-loader.js?v=1"></script>
+<script src="src/views/models.js?v=22"></script>
+<script src="src/views/character.js?v=2"></script>
+<script src="src/views/reference.js?v=6"></script>
+<script src="src/views/help.js?v=1"></script>
+<script src="src/academy_docs.js?v=2"></script>
+<script src="src/views/academy.js?v=1"></script>
+<script src="src/views/gear.js?v=19"></script>
+<script src="src/views/inventory.js?v=26"></script>
+<script src="src/views/player.js?v=4"></script>
+<script src="src/app-init.js?v=39"></script>
+<script>
+  // Register service worker for offline support
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+</script>
+
+</body>
+</html>

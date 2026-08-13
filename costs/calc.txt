@@ -1,0 +1,81 @@
+//The float32 representation of 0.01, matching the C client's constant
+//0.009999999776482582 used in disassembly
+private const double F32_001 = 0.009999999776482582;    //float32(0.01) from client
+private const double DRIFT_D = 1.0 / 360.0;           // eff drop rate per item in phase 2
+
+// ---------------------------------------------------------------
+// Step 1: Compute raw cost (matches client disassembly case 1)
+// raw = baseCost * itemValue * 3
+//     + energy  * f32(0.01) * 30
+//     + cooling * f32(0.01) * 20
+// ---------------------------------------------------------------
+//Use itemValue=1 if not set (safe default for basic mineral items)
+//double itemValue = session.ItemValue > 0 ? session.ItemValue : 1.0;
+
+double raw = 0;
+
+if (Mining)
+{
+    raw = (double)session.BaseCost * 3.0 + Energy * F32_001 * 30.0 + Cooling * F32_001 * 20.0;
+}
+else
+{
+    raw = (double)session.BaseCost + Energy * F32_001 * 30.0 + Cooling * F32_001 * 20.0;
+}
+
+// ---------------------------------------------------------------
+// Step 2: Apply world tax reduction (reduces raw cost when > 10)
+// This is the colony owner's tax — higher world tax = cheaper to produce.
+// raw -= (worldTaxRate - 10) * (raw * 0.25 / 90)
+// ---------------------------------------------------------------
+
+if (WorldTaxRate > 10)
+    raw -= (WorldTaxRate - 10) * (raw * 0.25 / 90.0);
+
+// ---------------------------------------------------------------
+// Step 3: Compute tax amount from RAW (not discounted)
+// taxAmount = int(f32(0.01) * raw * playerTaxRate)
+// This must use raw, NOT the drift-adjusted eff.
+// ---------------------------------------------------------------
+
+int taxAmount = (int)(F32_001 * raw * WorldTaxRate);
+
+// ---------------------------------------------------------------
+// Step 4: Apply session drift to get displayed cost
+//
+// Two-phase model approximating the client's discount accumulation:
+//   Phase 1 (n <= delay): discount ≈ 0, displayedCost = int(effStart)
+//   Phase 2 (n >  delay): discount accumulates, displayedCost decreases
+//
+// The discount field in the client starts at 0.0, is set to 0.2 on slot
+// initialization, then accumulates further based on heat/effectiveness.
+// We approximate this with a linear drift after an initial stable period.
+// ---------------------------------------------------------------
+
+double effStart = Math.Round(raw, MidpointRounding.AwayFromZero);
+double period = 360.0 / effStart;
+int delay = (int)Math.Round(period * period / 4.05);
+
+// Phase 2 anchor: detect whether transition drops 1 or 2 cost units
+int displayCost0 = (int)effStart + (int)(F32_001 * effStart * WorldTaxRate);
+int costAtMinus1 = (int)(effStart - 1) + (int)(F32_001 * (effStart - 1) * WorldTaxRate);
+int ep2Offset = (displayCost0 - costAtMinus1 == 1) ? 2 : 1;
+double ep2Start = effStart - ep2Offset;
+
+int n = session.TickCount;   // items already completed (read before AdvanceSession increments it)
+
+double eff;
+if (n <= delay)
+    eff = effStart;
+else
+    eff = ep2Start * (1.0 - (n - delay) * DRIFT_D);
+
+int displayedCost = (int)eff;
+
+// ---------------------------------------------------------------
+// Step 5: Total = displayedCost + taxAmount
+// displayedCost is driven by the drifting eff.
+// taxAmount is fixed based on raw (no drift).
+// ---------------------------------------------------------------
+
+int total = displayedCost + taxAmount;

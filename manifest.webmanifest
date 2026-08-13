@@ -1,0 +1,14 @@
+{
+  "name": "Empire Rising Production Calculator",
+  "short_name": "ER Calculator",
+  "description": "Offline-first Empire Rising production, inventory, gear, and economy planner",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07070d",
+  "theme_color": "#36d1dc",
+  "icons": [
+    { "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

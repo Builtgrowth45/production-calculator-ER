@@ -1,0 +1,4152 @@
+{
+  "_meta": {
+    "source": "ER - Balance Sheet (Google Sheets, gid=29503079, pubhtml)",
+    "fetched": "2026-08-11",
+    "rows_raw": 397,
+    "rows_unique": 386,
+    "note": "Live combat stats \u2014 authoritative for recipe output.stats."
+  },
+  "items": [
+    {
+      "name": "Zanathid 5 Inflex",
+      "stats": {
+        "agility": -2,
+        "ballisticdamage": 10.2,
+        "destruction": 7.5,
+        "xenodamage": 13.2
+      }
+    },
+    {
+      "name": "Ryx 7 Streamline",
+      "stats": {
+        "weaponrecoil": 33,
+        "agility": -1,
+        "destruction": 1.8,
+        "xenodamage": 4.5,
+        "energydamage": 3.7
+      }
+    },
+    {
+      "name": "RGI-9",
+      "stats": {
+        "weaponrecoil": 33,
+        "agility": -1,
+        "ballisticdamage": 5.7,
+        "destruction": 4.2,
+        "xenodamage": 6.2
+      }
+    },
+    {
+      "name": "Orbit XB Infineon",
+      "stats": {
+        "agility": -4,
+        "destruction": 11.7,
+        "xenodamage": 20,
+        "energydamage": 16.2
+      }
+    },
+    {
+      "name": "Armalite Survival",
+      "stats": {
+        "ballisticdamage": 30,
+        "destruction": 30,
+        "xenodamage": 30
+      }
+    },
+    {
+      "name": "Enfield Life Protector",
+      "stats": {
+        "agility": -2,
+        "biodamage": 15,
+        "auradamage": 40
+      }
+    },
+    {
+      "name": "FGz-78",
+      "stats": {
+        "ballisticdamage": 40,
+        "destruction": 36,
+        "xenodamage": 40,
+        "auradamage": 15
+      }
+    },
+    {
+      "name": "Militek EMP",
+      "stats": {
+        "destruction": 60,
+        "energydamage": 12,
+        "biodamage": 45
+      }
+    },
+    {
+      "name": "Techtronic 6x6",
+      "stats": {
+        "weaponrecoil": 33,
+        "agility": -1,
+        "ballisticdamage": 2.8,
+        "destruction": 1.9,
+        "xenodamage": 3.5
+      }
+    },
+    {
+      "name": "HR420",
+      "stats": {
+        "weaponrecoil": 33,
+        "agility": -1,
+        "destruction": 3,
+        "xenodamage": 5.6,
+        "energydamage": 5.2
+      }
+    },
+    {
+      "name": "Linner PP7",
+      "stats": {
+        "agility": -4,
+        "ballisticdamage": 14.4,
+        "destruction": 7.2,
+        "xenodamage": 18.3
+      }
+    },
+    {
+      "name": "DOA 187",
+      "stats": {
+        "agility": -4,
+        "destruction": 14,
+        "xenodamage": 22,
+        "energydamage": 18
+      }
+    },
+    {
+      "name": "Salvotec HP220",
+      "stats": {
+        "ballisticdamage": 50,
+        "destruction": 48,
+        "xenodamage": 50
+      }
+    },
+    {
+      "name": "EMP-Rv3",
+      "stats": {
+        "destruction": 72,
+        "energydamage": 18,
+        "biodamage": 60
+      }
+    },
+    {
+      "name": "Gakk MG6",
+      "stats": {
+        "weaponrecoil": 33,
+        "agility": -1,
+        "ballisticdamage": 4.2,
+        "destruction": 3.2,
+        "xenodamage": 5.1
+      }
+    },
+    {
+      "name": "Hallem TAR7 Tactical Assault Rifle",
+      "stats": {
+        "weaponrecoil": 99.9,
+        "agility": -8,
+        "ballisticdamage": 40,
+        "destruction": 30,
+        "xenodamage": 47
+      }
+    },
+    {
+      "name": "Prontix Barracuda",
+      "stats": {
+        "agility": -2,
+        "biodamage": 3,
+        "auradamage": 12.8
+      }
+    },
+    {
+      "name": "Chrono Enervon Pistol EP24",
+      "stats": {
+        "weaponrecoil": 3,
+        "destruction": 13.5,
+        "biodamage": 8,
+        "staminadamage": 8
+      }
+    },
+    {
+      "name": "Aurelian Technologies Dominator",
+      "stats": {
+        "weaponrecoil": 3,
+        "agility": -1,
+        "destruction": 30,
+        "biodamage": 15,
+        "staminadamage": 15
+      }
+    },
+    {
+      "name": "Enfield Incapacitator Rifle ER-X",
+      "stats": {
+        "agility": -4,
+        "biodamage": 5,
+        "auradamage": 18.8
+      }
+    },
+    {
+      "name": "CryoTech Medigun CM1",
+      "stats": {
+        "agility": -10,
+        "biodamage": -5,
+        "health": 10,
+        "stamina": 5
+      }
+    },
+    {
+      "name": "Turret",
+      "stats": {
+        "weaponrecoil": 5.1,
+        "xenodamage": 24,
+        "energydamage": 15
+      }
+    },
+    {
+      "name": "Experimental X-01 Gun",
+      "stats": {
+        "weaponrecoil": 15,
+        "agility": -4,
+        "ballisticdamage": 10,
+        "xenodamage": 40
+      }
+    },
+    {
+      "name": "RK 2a7 Mining Tool",
+      "stats": {
+        "agility": -4,
+        "ballisticdamage": 1,
+        "xenodamage": 10
+      }
+    },
+    {
+      "name": "RX Zephyr Advanced Mining Tool",
+      "stats": {
+        "weaponrecoil": 80.1,
+        "agility": -4,
+        "ballisticdamage": 2,
+        "xenodamage": 20
+      }
+    },
+    {
+      "name": "Cucurbita Grenade",
+      "stats": {
+        "ballisticdamage": 35,
+        "destruction": 36,
+        "xenodamage": 55,
+        "auradamage": 20
+      }
+    },
+    {
+      "name": "Arachnid Explosive",
+      "stats": {
+        "ballisticdamage": 35,
+        "destruction": 36,
+        "xenodamage": 55,
+        "auradamage": 20
+      }
+    },
+    {
+      "name": "Hallem IX-78 Precision Energy Rifle",
+      "stats": {
+        "weaponrecoil": 99.9,
+        "agility": -10,
+        "destruction": 28,
+        "xenodamage": 47,
+        "energydamage": 38
+      }
+    },
+    {
+      "name": "CryoTech Medigun CM2",
+      "stats": {
+        "agility": -2,
+        "biodamage": -2,
+        "health": 2,
+        "stamina": 2
+      }
+    },
+    {
+      "name": "Candy Hurts",
+      "stats": {
+        "agility": -4,
+        "destruction": 26.4,
+        "xenodamage": 30,
+        "energydamage": 18
+      }
+    },
+    {
+      "name": "Frostbite",
+      "stats": {
+        "weaponrecoil": 24,
+        "agility": -2,
+        "ballisticdamage": 5.8,
+        "destruction": 2.4,
+        "xenodamage": 2.7
+      }
+    },
+    {
+      "name": "U-V890 Hyper Advanced Mining Tool",
+      "stats": {
+        "weaponrecoil": 80.1,
+        "agility": -4,
+        "ballisticdamage": 2,
+        "xenodamage": 20
+      }
+    },
+    {
+      "name": "Target Painter",
+      "stats": {}
+    },
+    {
+      "name": "Biocell",
+      "stats": {
+        "durationseconds": 1,
+        "classification": 1,
+        "bioregen": 25
+      }
+    },
+    {
+      "name": "Standard Medikit",
+      "stats": {
+        "durationseconds": 20,
+        "classification": 1,
+        "medkitcooldown": 0.5,
+        "healthregen": 5.2,
+        "protectionreduction": 20
+      }
+    },
+    {
+      "name": "Small Medikit",
+      "stats": {
+        "durationseconds": 12,
+        "classification": 1,
+        "medkitcooldown": 0.5,
+        "healthregen": 5.2,
+        "protectionreduction": 20
+      }
+    },
+    {
+      "name": "Battle Medikit",
+      "stats": {
+        "durationseconds": 8,
+        "classification": 1,
+        "medkitcooldown": 0.1,
+        "healthregen": 4
+      }
+    },
+    {
+      "name": "Emergency Medikit",
+      "stats": {
+        "durationseconds": 16,
+        "classification": 1,
+        "medkitcooldown": 0.1,
+        "healthregen": 4
+      }
+    },
+    {
+      "name": "Nanomachine Autoinjector",
+      "stats": {
+        "durationseconds": 1,
+        "classification": 1,
+        "medkitcooldown": 25,
+        "healthregen": 15
+      }
+    },
+    {
+      "name": "Nanomachine Autoinjector Mk2",
+      "stats": {
+        "durationseconds": 1,
+        "classification": 1,
+        "medkitcooldown": 35,
+        "healthregen": 20
+      }
+    },
+    {
+      "name": "Adrenaline Autoinjector",
+      "stats": {
+        "durationseconds": 1,
+        "classification": 1
+      }
+    },
+    {
+      "name": "Electrolyte Autoinjector",
+      "stats": {
+        "durationseconds": 1,
+        "classification": 1,
+        "bioregen": 25
+      }
+    },
+    {
+      "name": "Night Vision Implant",
+      "stats": {}
+    },
+    {
+      "name": "Stamina Amplification",
+      "stats": {
+        "agility": 4.5
+      }
+    },
+    {
+      "name": "Shoulder Lamp",
+      "stats": {}
+    },
+    {
+      "name": "Resistance Amp",
+      "stats": {
+        "healthregen": 2.5
+      }
+    },
+    {
+      "name": "Shield Implant",
+      "stats": {
+        "agility": 2,
+        "armor": 25,
+        "shielding": 25,
+        "endurance": 100,
+        "reflection": 100,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Scanner Implant",
+      "stats": {}
+    },
+    {
+      "name": "Portable Vortex Particle Emitter",
+      "stats": {}
+    },
+    {
+      "name": "Advanced Civilian Helmet",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "MT-27 Ballistics Helmet",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Tactical Systems Helmet",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Locans Defense Helmet",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Locans Ethereal Helmet",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Pressured Helmet",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Special Operations Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Mobile Infantry Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica S1 Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Sustained Battle Helmet",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Trauma Helmet",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Scout Helmet",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Voltaic Helmet",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Cognizant Helmet",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Hypobaric Helmet",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Metabolic Helmet",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Venom Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 75,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Detox Combat Helmet",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Delta Powered Helmet",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Havoc Powered Helmet",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Firstborn Powered Helmet",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Legionnaire Powered Helmet",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Buffer Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Contact Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Collision Helmet",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Impact Helmet",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Dilatant 46b Helmet",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Dilatant 50b Helmet",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Basic Helmet",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Shock Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus X1 Assault Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Heavy Helmet",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 107,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Locans Patrol Helmet",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica S2 Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Voltac Assault Helmet",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Infensus X2 Assault Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "XenoTech Expeditionary Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 75,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Exile Helmet",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Black Shuck Helmet",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Echion Helmet",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Locans Stabilized Helmet",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Pythica Durable Battle Helmet",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Vitality Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Leech Helmet",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Justicar Powered Helmet",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Tremor Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Aramid Altered Helmet",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Essentials Helmet",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Jack-o'-lantern Helmet",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Skeleton Helmet",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Advanced Civilian Shoulder Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "MT-27 Ballistics Shoulder Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Tactical Systems Shoulder Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Locans Defense Shoulder Pads",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Locans Ethereal Shoulder Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Patrol Shoulder Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Pressured Shoulder Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Special Operations Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Mobile Infantry Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica S1 Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Sustained Battle Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Trauma Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Scout Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Voltaic Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Cognizant Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Hypobaric Shoulder Pads",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Metabolic Shoulder Pads",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Venom Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 75,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Detox Combat Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Delta Powered Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Havoc Powered Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Firstborn Powered Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Legionnaire Powered Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Buffer Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Contact Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Collision Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Impact Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Dilatant 46b Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Modified Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Dilatant 50b Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Basic Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Minimalist Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Shock Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus X1 Assault Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Heavy Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 107,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "XenoTech Expeditionary Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Exile Shoulder Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Locans Stabilized Shoulder Pads",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Pythica Durable Battle Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Vitality Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Leech Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Justicar Powered Shoulder Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Infensus Essentials Shoulder Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Jack-o'-lantern Shoulder Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Skeleton Shoulder Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Advanced Civilian Arm Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "MT-27 Ballistics Arm Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Tactical Systems Arm Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Locans Defense Arm Pads",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Locans Ethereal Arm Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Patrol Arm Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Pressured Arm Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Special Operations Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Mobile Infantry Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica S1 Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Sustained Battle Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Trauma Arm Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Scout Arm Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Voltaic Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Cognizant Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Hypobaric Arm Pads",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Metabolic Arm Pads",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Venom Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 75,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Detox Combat Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Delta Powered Arm Pads",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Havoc Powered Arm Pads",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Firstborn Powered Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Legionnaire Powered Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Buffer Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Contact Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Collision Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Impact Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Dilatant 46b Arm Pads",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Modified Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Dilatant 50b Arm Pads",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Basic Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Minimalist Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Shock Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus X1 Assault Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Heavy Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 107,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "XenoTech Expeditionary Arm Pads",
+      "stats": {}
+    },
+    {
+      "name": "Exile Arm Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Locans Stabilized Arm Pads",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Pythica Durable Battle Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Vitality Arm Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Leech Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Justicar Powered Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Aramid Altered Arm Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Essentials Arm Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Jack-o'-lantern Arm Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Skeleton Arm Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Advanced Civilian Torso Armor",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "MT-27 Ballistics Torso Armor",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Tactical Systems Torso Armor",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Locans Defense Torso Armor",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Locans Ethereal Torso Armor",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Patrol Torso Armor",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Pressured Torso Armor",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Special Operations Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Mobile Infantry Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica S1 Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Sustained Battle Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Trauma Torso Armor",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Scout Torso Armor",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Voltaic Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Cognizant Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Hypobaric Torso Armor",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Metabolic Torso Armor",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Venom Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 75,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Detox Combat Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Delta Powered Torso Armor",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Havoc Powered Torso Armor",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Firstborn Powered Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Legionnaire Powered Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Buffer Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Contact Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Collision Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Impact Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Dilatant 46b Torso Armor",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Modified Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Dilatant 50b Torso Armor",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Basic Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Minimalist Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Shock Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus X1 Assault Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Heavy Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 107,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "XenoTech Expeditionary Torso Armor",
+      "stats": {}
+    },
+    {
+      "name": "Exile Torso Armor",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Locans Stabilized Torso Armor",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Pythica Durable Battle Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Vitality Torso Armor",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Leech Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Justicar Powered Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Aramid Altered Torso Armor",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Essentials Torso Armor",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Jack-o'-lantern Torso Armor",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Skeleton Torso Armor",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Advanced Civilian Leg Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "MT-27 Ballistics Leg Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Tactical Systems Leg Pads",
+      "stats": {
+        "agility": 0.8,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 45,
+        "shielding": 45,
+        "endurance": 45,
+        "reflection": 45,
+        "resistance": 45
+      }
+    },
+    {
+      "name": "Locans Defense Leg Pads",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Locans Ethereal Leg Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Patrol Leg Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Locans Pressured Leg Pads",
+      "stats": {
+        "agility": 2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Special Operations Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Mobile Infantry Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica S1 Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 75,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Pythica Sustained Battle Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Trauma Leg Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Scout Leg Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "NanoTech Voltaic Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Cognizant Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "healthregen": 0.18,
+        "armor": 89,
+        "shielding": 89,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Hypobaric Leg Pads",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Metabolic Leg Pads",
+      "stats": {
+        "agility": 2.1,
+        "bioregen": 0.4,
+        "healthregen": 0.2,
+        "armor": 15,
+        "shielding": 15,
+        "endurance": 15,
+        "reflection": 15,
+        "resistance": 15
+      }
+    },
+    {
+      "name": "Venom Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 75,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Detox Combat Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Delta Powered Leg Pads",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Havoc Powered Leg Pads",
+      "stats": {
+        "agility": 1,
+        "biodamage": 1,
+        "staminadamage": 1.2,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Firstborn Powered Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Legionnaire Powered Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Buffer Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Contact Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 100,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "PreMet Collision Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "PreMet Impact Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 150,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Dilatant 46b Leg Pads",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Modified Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Dilatant 50b Leg Pads",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.75,
+        "armor": 65,
+        "shielding": 65,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Aramid Basic Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Minimalist Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Shock Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus X1 Assault Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Infensus Heavy Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 107,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "XenoTech Expeditionary Leg Pads",
+      "stats": {}
+    },
+    {
+      "name": "Exile Leg Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Locans Stabilized Leg Pads",
+      "stats": {
+        "agility": -0.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Pythica Durable Battle Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 107,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "NanoTech Vitality Leg Pads",
+      "stats": {
+        "agility": 1,
+        "healthregen": 0.24,
+        "armor": 60,
+        "shielding": 60,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Leech Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 100,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Justicar Powered Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "biodamage": 0.75,
+        "staminadamage": 0.9,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 75
+      }
+    },
+    {
+      "name": "Aramid Altered Leg Pads",
+      "stats": {
+        "agility": -1.8,
+        "bioregen": 0.5,
+        "armor": 95,
+        "shielding": 95,
+        "endurance": 75,
+        "reflection": 60,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Infensus Essentials Leg Pads",
+      "stats": {
+        "agility": 1,
+        "armor": 65,
+        "shielding": 75,
+        "endurance": 50,
+        "reflection": 40,
+        "resistance": 50
+      }
+    },
+    {
+      "name": "Jack-o'-lantern Leg Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Skeleton Leg Pads",
+      "stats": {
+        "agility": -1,
+        "armor": 100,
+        "shielding": 100,
+        "endurance": 100,
+        "reflection": 90,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Envirotech Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Infusion Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Infostyle Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Locans Defense Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Locans Ethereal Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Locans Patrol Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Locans Pressured Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica Special Operations Gloves (Male)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica Mobile Infantry Gloves (Male)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica S1 Gloves (Male)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica Sustained Gloves (Male)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Trauma Gloves (Male)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Scout Gloves (Male)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Voltaic Gloves (Male)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Cognizant Gloves (Male)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Hypobaric Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Metabolic Gloves (Male)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Venom Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 50,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Detox Combat Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 50,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Delta Powered Gloves (Male)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Havoc Powered Gloves (Male)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Firstborn Powered Gloves (Male)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Legionnaire Powered Gloves (Male)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Buffer Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Contact Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Collision Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Impact Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Dilatant 46b Gloves (Male)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Aramid Modified Gloves (Male)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Dilatant 50b Gloves (Male)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Aramid Basic Gloves (Male)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Infensus Minimist Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Infensus Shock Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Infensus X1 Assault Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Infensus Heavy Gloves (Male)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Hockey Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Egyptian Knight Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Crystal Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Locans Defense Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Locans Ethereal Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Locans Patrol Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Locans Pressured Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica Special Operations Gloves (Female)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica Mobile Infantry Gloves (Female)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica S1 Gloves (Female)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Pythica Sustained Gloves (Female)",
+      "stats": {
+        "armor": 48,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Trauma Gloves (Female)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Scout Gloves (Female)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Voltaic Gloves (Female)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "NanoTech Cognizant Gloves (Female)",
+      "stats": {
+        "healthregen": 0.18,
+        "armor": 26,
+        "shielding": 26,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Hypobaric Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Metabolic Gloves (Female)",
+      "stats": {
+        "agility": 1,
+        "bioregen": 0.3,
+        "healthregen": 0.15,
+        "armor": 8,
+        "shielding": 8,
+        "endurance": 8,
+        "reflection": 8,
+        "resistance": 8
+      }
+    },
+    {
+      "name": "Venom Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 50,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Detox Combat Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 50,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Delta Powered Gloves (Female)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Havoc Powered Gloves (Female)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Firstborn Powered Gloves (Female)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Legionnaire Powered Gloves (Female)",
+      "stats": {
+        "biodamage": 0.75,
+        "staminadamage": 0.8,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Buffer Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Contact Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Collision Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Premet Impact Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 60,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Dilatant 46b Gloves (Female)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Aramid Modified Gloves (Female)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Dilatant 50b Gloves (Female)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Aramid Basic Gloves (Female)",
+      "stats": {
+        "bioregen": 0.5,
+        "armor": 30,
+        "shielding": 30,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 60
+      }
+    },
+    {
+      "name": "Infensus Minimist Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Infensus Shock Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Infensus X1 Assault Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Infensus Heavy Gloves (Female)",
+      "stats": {
+        "armor": 30,
+        "shielding": 48,
+        "endurance": 20,
+        "reflection": 16,
+        "resistance": 20
+      }
+    },
+    {
+      "name": "Incognito Gloves (Male)",
+      "stats": {
+        "agility": 0.8,
+        "armor": 40,
+        "shielding": 40,
+        "endurance": 40,
+        "reflection": 40,
+        "resistance": 40
+      }
+    },
+    {
+      "name": "XenoTech Expeditionary Gloves (Male)",
+      "stats": {}
+    },
+    {
+      "name": "Incognito Gloves (Female)",
+      "stats": {
+        "agility": 0.8,
+        "armor": 40,
+        "shielding": 40,
+        "endurance": 40,
+        "reflection": 40,
+        "resistance": 40
+      }
+    },
+    {
+      "name": "Skeleton Gloves (Male)",
+      "stats": {
+        "agility": 0.8,
+        "armor": 40,
+        "shielding": 40,
+        "endurance": 40,
+        "reflection": 40,
+        "resistance": 40
+      }
+    },
+    {
+      "name": "Skeleton Gloves (Female)",
+      "stats": {
+        "agility": 0.8,
+        "armor": 40,
+        "shielding": 40,
+        "endurance": 40,
+        "reflection": 40,
+        "resistance": 40
+      }
+    },
+    {
+      "name": "Jack-o'-lantern Gloves (Male)",
+      "stats": {
+        "agility": 0.8,
+        "armor": 40,
+        "shielding": 40,
+        "endurance": 40,
+        "reflection": 40,
+        "resistance": 40
+      }
+    },
+    {
+      "name": "Jack-o'-lantern Gloves (Female)",
+      "stats": {
+        "agility": 0.8,
+        "armor": 40,
+        "shielding": 40,
+        "endurance": 40,
+        "reflection": 40,
+        "resistance": 40
+      }
+    },
+    {
+      "name": "Aquatican Brew",
+      "stats": {
+        "durationseconds": 360,
+        "shielding": 30
+      }
+    },
+    {
+      "name": "Nano Bite Burger",
+      "stats": {
+        "durationseconds": 360,
+        "bioregen": 1.2
+      }
+    },
+    {
+      "name": "Pulse Mineral Water",
+      "stats": {
+        "durationseconds": 15,
+        "classification": 1
+      }
+    },
+    {
+      "name": "Mystical Cola",
+      "stats": {
+        "durationseconds": 360
+      }
+    },
+    {
+      "name": "Ginnan Sushi",
+      "stats": {
+        "durationseconds": 360,
+        "armor": 30
+      }
+    },
+    {
+      "name": "Flying Orange",
+      "stats": {
+        "durationseconds": 360,
+        "agility": 5
+      }
+    },
+    {
+      "name": "DoubleCheese Mystique",
+      "stats": {
+        "durationseconds": 360,
+        "healthregen": 0.6
+      }
+    },
+    {
+      "name": "Tetrahydrocannabinol",
+      "stats": {
+        "durationseconds": 360,
+        "endurance": 150,
+        "resistance": -30
+      }
+    },
+    {
+      "name": "Amyl Nitrate",
+      "stats": {
+        "durationseconds": 360,
+        "agility": -2,
+        "healthregen": 1
+      }
+    },
+    {
+      "name": "Butyl Nitrate",
+      "stats": {
+        "durationseconds": 360,
+        "bioregen": 2
+      }
+    },
+    {
+      "name": "Dexedrine",
+      "stats": {
+        "durationseconds": 360
+      }
+    },
+    {
+      "name": "Biphetamin",
+      "stats": {
+        "durationseconds": 360
+      }
+    },
+    {
+      "name": "Neurotonin",
+      "stats": {
+        "durationseconds": 360,
+        "endurance": -30,
+        "resistance": 150
+      }
+    },
+    {
+      "name": "Polycodeine",
+      "stats": {
+        "durationseconds": 360,
+        "ballisticdamage": 0.25,
+        "energydamage": -0.1
+      }
+    },
+    {
+      "name": "Methedrine",
+      "stats": {
+        "durationseconds": 360,
+        "agility": 9
+      }
+    },
+    {
+      "name": "Polydichloric Euthemal",
+      "stats": {
+        "durationseconds": 360,
+        "endurance": 100,
+        "reflection": -40,
+        "resistance": 100
+      }
+    },
+    {
+      "name": "Oxazoline",
+      "stats": {
+        "durationseconds": 360,
+        "armor": -20,
+        "shielding": -20,
+        "reflection": 100
+      }
+    },
+    {
+      "name": "Opiatech",
+      "stats": {
+        "durationseconds": 360,
+        "ballisticdamage": -0.1,
+        "energydamage": 0.25
+      }
+    },
+    {
+      "name": "Phencyclidine",
+      "stats": {
+        "durationseconds": 360,
+        "protectionreduction": 10
+      }
+    },
+    {
+      "name": "MDMA",
+      "stats": {
+        "durationseconds": 360,
+        "armor": -30,
+        "shielding": 60
+      }
+    },
+    {
+      "name": "Neoamphetamine",
+      "stats": {
+        "durationseconds": 360,
+        "agility": -3,
+        "defenserating": 20
+      }
+    },
+    {
+      "name": "Benzedrine",
+      "stats": {
+        "durationseconds": 360,
+        "staminadamage": 4
+      }
+    },
+    {
+      "name": "Desoxyn",
+      "stats": {
+        "durationseconds": 360,
+        "bioregen": 1.2
+      }
+    },
+    {
+      "name": "Ritalin",
+      "stats": {
+        "durationseconds": 360,
+        "biodamage": 3
+      }
+    },
+    {
+      "name": "X-Dopamine",
+      "stats": {
+        "durationseconds": 360,
+        "armor": 60,
+        "shielding": -30
+      }
+    },
+    {
+      "name": "Cocaboline",
+      "stats": {
+        "durationseconds": 360,
+        "agility": -3
+      }
+    },
+    {
+      "name": "Anabolica",
+      "stats": {
+        "durationseconds": 360,
+        "agility": -2,
+        "armor": 35,
+        "shielding": 35
+      }
+    }
+  ]
+}

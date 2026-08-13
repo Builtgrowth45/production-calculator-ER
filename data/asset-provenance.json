@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-13",
+  "purpose": "Redistribution review manifest for the public Empire Rising Calculator artifact.",
+  "policy": "Every shipped binary asset must be approved or excluded before release.",
+  "records": [
+    {
+      "path": "textures_extracted/**",
+      "class": "game-derived-textures",
+      "origin": "Extracted from a local game client during private research.",
+      "rights_holder": "Unknown / applicable game rights holder",
+      "license_or_permission": null,
+      "transformation": "Format extraction and filename normalization may have occurred.",
+      "status": "pending_permission",
+      "evidence": null
+    },
+    {
+      "path": "gear_textures/**",
+      "class": "game-derived-gear-textures",
+      "origin": "Derived from extracted client textures.",
+      "rights_holder": "Unknown / applicable game rights holder",
+      "license_or_permission": null,
+      "transformation": "Texture organization and conversion for calculator previews.",
+      "status": "pending_permission",
+      "evidence": null
+    },
+    {
+      "path": "models/**",
+      "class": "game-derived-models",
+      "origin": "Extracted or converted from a local game client.",
+      "rights_holder": "Unknown / applicable game rights holder",
+      "license_or_permission": null,
+      "transformation": "Conversion to GLB and metadata generation may have occurred.",
+      "status": "pending_permission",
+      "evidence": null
+    },
+    {
+      "path": "voice_extracted/**",
+      "class": "game-derived-audio",
+      "origin": "Extracted from a local game client.",
+      "rights_holder": "Unknown / applicable game rights holder",
+      "license_or_permission": null,
+      "transformation": "Audio extraction and container conversion may have occurred.",
+      "status": "pending_permission",
+      "evidence": null
+    },
+    {
+      "path": "icons/**",
+      "class": "game-derived-icons",
+      "origin": "Game/client-derived item and clothing imagery.",
+      "rights_holder": "Unknown / applicable game rights holder",
+      "license_or_permission": null,
+      "transformation": "Image extraction and cataloging.",
+      "status": "pending_permission",
+      "evidence": null
+    },
+    {
+      "path": "gallery/**",
+      "class": "game-derived-gallery-images",
+      "origin": "Game/client-derived faction, rank, and reference imagery.",
+      "rights_holder": "Unknown / applicable game rights holder",
+      "license_or_permission": null,
+      "transformation": "Image extraction and resizing may have occurred.",
+      "status": "pending_permission",
+      "evidence": null
+    },
+    {
+      "path": "maps/**",
+      "class": "game-derived-maps",
+      "origin": "Game/client-derived map and world reference material.",
+      "rights_holder": "Unknown / applicable game rights holder",
+      "license_or_permission": null,
+      "transformation": "Extraction and organization.",
+      "status": "pending_permission",
+      "evidence": null
+    },
+    {
+      "path": "favicon.svg",
+      "class": "original-project-mark",
+      "origin": "Project favicon; verify that no game logo or protected mark is embedded.",
+      "rights_holder": "Project contributors",
+      "license_or_permission": "Project license, subject to the independent-project disclaimer.",
+      "transformation": "Static SVG packaging.",
+      "status": "approved_for_code_review",
+      "evidence": "DISCLAIMER.md; LICENSE"
+    },
+    {
+      "path": "fonts/jetbrains-mono-latin.woff2",
+      "class": "third-party-font",
+      "origin": "Bundled webfont; verify upstream package/license record.",
+      "rights_holder": "JetBrains / upstream font authors",
+      "license_or_permission": "Pending upstream license evidence in repository notices.",
+      "transformation": "Webfont packaging.",
+      "status": "review_required",
+      "evidence": null
+    },
+    {
+      "path": "fonts/orbitron-latin.woff2",
+      "class": "third-party-font",
+      "origin": "Bundled webfont; verify upstream package/license record.",
+      "rights_holder": "Upstream font authors",
+      "license_or_permission": "Pending upstream license evidence in repository notices.",
+      "transformation": "Webfont packaging.",
+      "status": "review_required",
+      "evidence": null
+    },
+    {
+      "path": "src/vendor/**",
+      "class": "third-party-javascript",
+      "origin": "Vendored open-source browser libraries.",
+      "rights_holder": "Respective upstream projects",
+      "license_or_permission": "Retain upstream license and notice files before release.",
+      "transformation": "Browser bundling/vendor copy.",
+      "status": "review_required",
+      "evidence": null
+    },
+    {
+      "path": "src/**,scripts/**,tests/**,docs/**",
+      "class": "original-project-material",
+      "origin": "Public calculator migration and project documentation.",
+      "rights_holder": "Project contributors as documented in AUTHORS.md",
+      "license_or_permission": "MIT for original project code; see DISCLAIMER.md for game material.",
+      "transformation": "Sanitization and public-neutral rebranding.",
+      "status": "approved_for_code_review",
+      "evidence": "AUTHORS.md; LICENSE; DISCLAIMER.md"
+    }
+  ]
+}

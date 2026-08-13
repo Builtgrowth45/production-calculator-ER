@@ -1,0 +1,297 @@
+/**
+ * src/store.js — Shared player & inventory store
+ * ============================================================================
+ * Single source of truth for all player data, inventory management, undo,
+ * and import/export. Eliminates the duplication that previously existed
+ * across engine.js, app.js, and the test harness.
+ *
+ * Exports: window.STORE
+ * Synchronises with: window.ENGINE.INV_TOTAL / window.ENGINE.INV_LOCATIONS
+ *
+ * Load order: must be loaded AFTER game_data.js (window.GAME_DATA)
+ *             and BEFORE engine.js (window.ENGINE) and app.js.
+ */
+'use strict';
+(function() {
+
+// ---- localStorage keys ----
+const LS_KEY = 'cmg_players_v1';
+const PATHS_KEY = 'cmg_paths_v1';
+
+// ---- Player registry ----
+function loadPlayers() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) { /* corrupt storage — start fresh */ }
+  return { active: '', players: {} };
+}
+
+/** Write directly to localStorage only (no push sync). */
+function savePlayersLocal(store) {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch (e) {}
+}
+
+/**
+ * Persist to localStorage. The public build intentionally has no shared
+ * network store; explicit export/import is the portability boundary.
+ * This is the main save path used by all inventory mutations.
+ */
+function savePlayers(store) {
+  savePlayersLocal(store);
+  // No remote inventory push in the public offline-first build.
+}
+
+/** Active player registry. Mutated by setInv, importPlayer, etc. */
+let PLAYERS = loadPlayers();
+
+/**
+ * One-time location spelling fixes.
+ *
+ * The game data carried the same colony under several spellings
+ * ("NECAR's Field" / "Necars Field" / "Necar's Field"), so a player's saved
+ * stock could sit under any of them and show up as duplicate zones. The data
+ * files are now normalised; this rewrites anything already in localStorage to
+ * match, merging quantities where a player held the same item under both
+ * spellings.
+ */
+const LOCATION_ALIASES = {
+  "NECAR's Field": "Necar's Field",
+  "Necars Field": "Necar's Field"
+};
+
+/**
+ * Keep the active-player pointer valid when players arrive from a shared
+ * inventory or an older local export. The selector otherwise falls back to
+ * displaying its first option while the rest of the app still has no active
+ * player, which makes the UI and the data operations disagree.
+ */
+function ensureActivePlayer() {
+  if (PLAYERS.active && PLAYERS.players[PLAYERS.active]) return PLAYERS.active;
+  const next = Object.keys(PLAYERS.players || {}).sort((a, b) => a.localeCompare(b))[0] || '';
+  if (PLAYERS.active !== next) {
+    PLAYERS.active = next;
+    savePlayersLocal(PLAYERS);
+  }
+  return next;
+}
+
+function migrateLocationNames(store) {
+  let changed = false;
+  Object.keys(store.players || {}).forEach(function(name) {
+    const inv = store.players[name];
+    if (!Array.isArray(inv)) return;
+    const merged = [];
+    inv.forEach(function(e) {
+      const canonical = LOCATION_ALIASES[e.location];
+      if (canonical) { e.location = canonical; changed = true; }
+      // fold duplicates created by the rename into a single entry
+      const hit = merged.find(function(m) { return m.item === e.item && m.location === e.location; });
+      if (hit) { hit.quantity += e.quantity; changed = true; }
+      else merged.push(e);
+    });
+    store.players[name] = merged;
+  });
+  return changed;
+}
+
+if (migrateLocationNames(PLAYERS)) savePlayersLocal(PLAYERS);
+ensureActivePlayer();
+
+// ---- Inventory accessors ----
+
+function getInv() {
+  return PLAYERS.players[PLAYERS.active] || [];
+}
+
+function setInv(arr) {
+  PLAYERS.players[PLAYERS.active] = arr;
+  savePlayers(PLAYERS);
+}
+
+/**
+ * Aggregated inventory: item → total quantity across all locations.
+ * This is the hot path for compute() and scoreAlternative() — kept in sync
+ * with window.ENGINE so the engine reads the live totals.
+ */
+let INV_TOTAL = {};
+
+/**
+ * Per-item location breakdown: item → [{location, qty}, ...].
+ * Used by transport allocation in compute() and item detail popups.
+ */
+let INV_LOCATIONS = {};
+
+/**
+ * Rebuild aggregations from the canonical per-player entry list.
+ * Call after any mutation to the active player's inventory.
+ * Synchronises window.ENGINE mirrors so compute() and showItemDetail()
+ * always see live data.
+ */
+function recomputeInv() {
+  INV_TOTAL = {};
+  INV_LOCATIONS = {};
+  getInv().forEach(e => {
+    INV_TOTAL[e.item] = (INV_TOTAL[e.item] || 0) + e.quantity;
+    (INV_LOCATIONS[e.item] = INV_LOCATIONS[e.item] || []).push({
+      location: e.location, qty: e.quantity
+    });
+  });
+  // Keep engine mirrors in sync — compute() and scoreAlternative() read these
+  if (window.ENGINE) {
+    window.ENGINE.INV_TOTAL = INV_TOTAL;
+    window.ENGINE.INV_LOCATIONS = INV_LOCATIONS;
+  }
+}
+
+// Initial recompute on load
+recomputeInv();
+
+// ---- CRUD operations ----
+
+/**
+ * Apply an inventory delta: add, subtract, or set a quantity at a location.
+ * @param {string}  item     Item name
+ * @param {string}  location Colony/zone name
+ * @param {number}  qty      Quantity
+ * @param {string}  mode     'add' | 'subtract' | 'set'
+ */
+function applyEntry(item, location, qty, mode) {
+  const inv = getInv().slice();
+  const i = inv.findIndex(e => e.item === item && e.location === location);
+  if (mode === 'set') {
+    if (i >= 0) inv[i].quantity = qty;
+    else inv.push({ item, location, quantity: qty });
+  } else if (mode === 'add') {
+    if (i >= 0) inv[i].quantity += qty;
+    else inv.push({ item, location, quantity: qty });
+  } else { // subtract
+    if (i >= 0) {
+      inv[i].quantity -= qty;
+      if (inv[i].quantity <= 0) inv.splice(i, 1);
+    }
+  }
+  setInv(inv);
+  recomputeInv();
+  // Track inventory edits for analytics (fire-and-forget, never throws)
+  try { window.ANALYTICS && window.ANALYTICS.track('inventory_edit', { mode }); } catch(e) {}
+}
+
+function deleteEntry(item, location) {
+  setInv(getInv().filter(e => !(e.item === item && e.location === location)));
+  recomputeInv();
+}
+
+// ---- Import / Export ----
+
+/** Validate an imported inventory array. Rejects malformed data. */
+function validateImport(arr) {
+  if (!Array.isArray(arr)) return 'Import must be a JSON array of entries.';
+  for (let i = 0; i < arr.length; i++) {
+    const e = arr[i];
+    if (!e || typeof e !== 'object') return `Entry ${i}: must be an object.`;
+    if (typeof e.item !== 'string' || !e.item.trim()) return `Entry ${i}: missing or invalid "item" name.`;
+    if (typeof e.location !== 'string' || !e.location.trim()) return `Entry ${i}: missing or invalid "location".`;
+    if (typeof e.quantity !== 'number' || !Number.isFinite(e.quantity) || e.quantity < 0) {
+      return `Entry ${i} ("${e.item}"): quantity must be a non-negative number, got ${e.quantity}.`;
+    }
+    // Sanity cap: prevent localStorage overflow from absurd quantities
+    if (e.quantity > 100_000_000) return `Entry ${i} ("${e.item}"): quantity ${e.quantity} exceeds maximum (100M).`;
+  }
+  return null; // valid
+}
+
+/**
+ * Import a player from an array of inventory entries.
+ * @param {string} name  Player name
+ * @param {Array}  arr   Inventory entries [{item, location, quantity}, ...]
+ * @throws {Error} if validation fails
+ */
+function importPlayer(name, arr) {
+  const err = validateImport(arr);
+  if (err) throw new Error('Invalid import: ' + err);
+  PLAYERS.players[name] = arr.map(e => {
+    const loc = String(e.location).trim();
+    return {
+      item: String(e.item).trim(),
+      // normalise on the way in, or an old export would reintroduce the
+      // duplicate colony spellings this migration just cleaned up
+      location: LOCATION_ALIASES[loc] || loc,
+      quantity: Math.floor(e.quantity)
+    };
+  });
+  migrateLocationNames(PLAYERS); // fold any duplicates the rename created
+  PLAYERS.active = name;
+  savePlayers(PLAYERS);
+  recomputeInv();
+}
+
+function exportPlayer() {
+  return {
+    player: PLAYERS.active,
+    inventory: getInv().map(e => ({ item: e.item, location: e.location, quantity: e.quantity }))
+  };
+}
+
+// ---- Undo support ----
+
+let _undoSnapshot = null;
+
+/** Snapshot the current inventory before applying a plan — call before compute(). */
+function snapshotInv() {
+  _undoSnapshot = getInv().map(e => ({ item: e.item, location: e.location, quantity: e.quantity }));
+}
+
+function undoInv() {
+  if (!_undoSnapshot) return false;
+  setInv(_undoSnapshot);
+  recomputeInv();
+  _undoSnapshot = null;
+  return true;
+}
+
+// ---- Public API (window.STORE) ----
+
+const STORE = {
+  // State
+  get PLAYERS() { return PLAYERS; },
+  get LS_KEY() { return LS_KEY; },
+  get PATHS_KEY() { return PATHS_KEY; },
+
+  // Core CRUD
+  loadPlayers,
+  savePlayers,
+  savePlayersLocal,
+  getInv,
+  setInv,
+  recomputeInv,
+  applyEntry,
+  deleteEntry,
+  migrateLocationNames,
+  ensureActivePlayer,
+
+  // Aggregations (read by engine)
+  get INV_TOTAL() { return INV_TOTAL; },
+  set INV_TOTAL(v) { INV_TOTAL = v; },
+  get INV_LOCATIONS() { return INV_LOCATIONS; },
+  set INV_LOCATIONS(v) { INV_LOCATIONS = v; },
+
+  // Import / Export
+  importPlayer,
+  exportPlayer,
+  validateImport,
+
+  // Undo
+  snapshotInv,
+  undoInv,
+};
+
+// Export
+window.STORE = STORE;
+
+// Also attach to module.exports for test harness (Node.js require)
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = STORE;
+}
+
+})();

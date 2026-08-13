@@ -1,0 +1,136 @@
+﻿CMG production costs — gap report
+Source: costs/message.txt  ·  823 entries, 8 price slots each, 854 slots priced
+
+FORMAT
+  '<n> - <Item>' then 'Price (0..7) = <UC> UC (Yield <q>)'.
+  Price (N) is the Nth refinement/alternative path; Yield is that recipe's output count.
+  Validation vs the app's recipes: Yield matched output quantity on 245/245 (100%),
+  and the number of priced slots matched the recipe's alternative-path count on 227/245 (93%).
+  Most blank slots are EXPECTED - a recipe with one path only fills Price (0).
+
+COVERAGE OF THE APP'S 352 CRAFTABLE ITEMS
+  priced, exact name match : 245
+  priced, name differs     : 5
+  no row in the file       : 102
+
+1) NAME MISMATCHES — priced, but the app and the file disagree on the name.
+   These need aliasing (or the app's spelling corrected) before costs can be linked:
+      app 'aluminum'   file 'Aluminium'
+      app 'electronic component'   file 'Electronic Components'
+      app 'Millitek EMP'   file 'Militek EMP'
+      app 'plastic'   file 'Plastics'
+      app 'professional electronic'   file 'Professional Electronics'
+
+2) GENUINELY MISSING — 102 craftable items with no row at all:
+   [Armor]  79
+        Advanced Civilian Torso
+        Aramid Basic Gloves
+        Aramid Basic Torso
+        Aramid Modified Gloves
+        Aramid Modified Torso
+        Aramid Tremor Leg Pads
+        Delta Powered Gloves
+        Delta Powered Torso
+        Detox Arm Pads
+        Detox Gloves
+        Detox Helmet
+        Detox Leg Pads
+        Detox Shoulder Pads
+        Detox Torso
+        Dilatant 46b Gloves
+        Dilatant 46b Torso
+        Dilatant 50b Gloves
+        Dilatant 50b Leg Pads
+        Dilatant 50b Torso
+        Envirotech Gloves
+        Firstborn Powered Gloves
+        Firstborn Powered Torso
+        Havoc Powered Gloves
+        Havoc Powered Torso
+        Hypobaric Gloves
+        Hypobaric Torso
+        Infensus Heavy Gloves
+        Infensus Heavy Torso
+        Infensus Minimalist Gloves
+        Infensus Minimalist Torso
+        Infensus Shock Gloves
+        Infensus Shock Torso
+        Infensus X1 Assault Gloves
+        Infensus X1 Assault Torso
+        Infostyle Gloves Gloves
+        Infusion Gloves
+        Legionnaire Powered Gloves
+        Legionnaire Powered Torso
+        Locans Defense Gloves
+        Locans Defense Torso
+        Locans Ethereal Gloves
+        Locans Ethereal Torso
+        Locans Patrol Gloves
+        Locans Patrol Torso
+        Locans Pressured Gloves
+        Locans Pressured Torso
+        Locans Stabilized Shoulder
+        Metabolic Gloves
+        Metabolic Torso
+        MT-27 Ballistics Torso
+        NanoTech Cognizant Gloves
+        NanoTech Cognizant Torso
+        NanoTech Scout Gloves
+        NanoTech Scout Torso
+        NanoTech Trauma Gloves
+        NanoTech Trauma Torso
+        NanoTech Voltaic Gloves
+        NanoTech Voltaic Torso
+        PreMet Buffer Gloves
+        PreMet Buffer Torso
+        PreMet Collision Gloves
+        PreMet Collision Torso
+        PreMet Contact Gloves
+        PreMet Contact Torso
+        PreMet Helmet
+        PreMet Impact Gloves
+        PreMet Impact Torso
+        Pythica Mobile Infantry Gloves
+        Pythica Mobile Infantry Torso
+        Pythica S1 Gloves
+        Pythica S1 Torso
+        Pythica Special Operations Gloves
+        Pythica Special Operations Torso
+        Pythica Sustained Battle Torso
+        Tactical Systems Torso
+        Venom Gloves
+        Venom Torso
+        XenoTech Expeditionary Gloves
+        XenoTech Expeditionary Torso
+   [Drugs]  20
+        Amyl Nitrite
+        Anabolica
+        Benzedrine
+        Biphetamin
+        Butyl Nitrite
+        Cocaboline
+        Desoxyn
+        Dexedrine
+        MDMA
+        Methedrine
+        Neoamphetamine
+        Neurotonin
+        Opiatech
+        Oxazoline
+        Phencyclidine
+        Polycodeine
+        Polydichloric Euthemal
+        Ritalin
+        Tetrahydrocannabinol
+        X-Dopamine
+   [Medical]  3
+        battle medkit
+        emergency medkit
+        small medkit
+
+3) NOT MISSING — 24 raw materials have no production cost because they are mined,
+   not crafted (Bauxite, Coal, Silicon, Water, ...). Their cost is a mining cost.
+
+NOTE: the 20 Drugs above already carry costs inside the app
+      (processing_cost / chemsub_cost / total_uc in game_data.json), so they are
+      absent from THIS file but not actually unknown.
