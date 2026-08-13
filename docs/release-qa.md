@@ -52,7 +52,7 @@ The local candidate adds canonical faction profiles, neutral colony-world snapsh
 ### Release blockers still open
 
 - Do not push, tag, or deploy until explicit authorization and final clean-clone/CI verification.
-- Cloudflare resources remain deployed and untouched; authenticated ownership and complete inventory are required before retirement.
+- Cloudflare resources have been retired by the owner. Post-retirement checks of the previously documented Worker endpoints returned HTTP 404 on 2026-08-13. This session did not modify Cloudflare configuration.
 - GitHub-hosted CI/CodeQL and Pages deployment of the exact candidate SHA have not yet been confirmed.
 - Hermes interactive browser traversal remains unavailable; Chromium fallback does not replace full assistive-technology QA.
 

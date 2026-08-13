@@ -28,7 +28,7 @@ All notable public releases are documented here.
 ### Known limitations
 
 - This is a local candidate and has not been pushed, tagged, or deployed.
-- Cloudflare retirement remains pending authenticated ownership and complete inventory.
+- Cloudflare retirement is complete: the previously documented Worker endpoints returned HTTP 404 during post-retirement verification on 2026-08-13. No Cloudflare configuration was modified by this session.
 - Full Hermes interactive browser traversal remains unavailable; Chromium fallback evidence is documented in the audit.
 
 ## [1.0.0] - 2026-08-13

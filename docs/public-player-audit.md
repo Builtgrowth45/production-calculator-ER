@@ -275,6 +275,6 @@ The implementation plan's code and documentation work is complete locally. This 
 - No push, tag, Pages deployment, or public release has occurred.
 - GitHub-hosted CI, CodeQL, and Pages deployment for this exact candidate SHA remain unverified.
 - Full interactive Hermes browser and assistive-technology traversal remains unavailable; Chromium fallback is documented but is not equivalent.
-- Cloudflare resources remain untouched pending authenticated ownership, complete inventory, retirement, and post-retirement verification.
+- Cloudflare retirement is recorded as complete: the previously documented Worker endpoints returned HTTP 404 during post-retirement verification on 2026-08-13. This session made no Cloudflare changes.
 
 **Candidate acceptance:** all implementation, local test, security, build, portability, documentation, and Chromium fallback gates pass. The remaining items are external release authorization/infrastructure/interactive-QA gates, not unverified claims of completion.
