@@ -1,0 +1,114 @@
+# Public Player and All-Factions Audit — Fresh Baseline
+
+**Status:** Baseline captured before implementation
+
+**Repository:** `ChrisFromNEPA/production-calculator-ER`
+
+**Deployed URL:** <https://chrisfromnepa.github.io/production-calculator-ER/>
+
+**Captured:** 2026-08-12 (UTC environment date)
+
+**Baseline intent:** Observe a brand-new, unaffiliated public player with no prior browser state. This is evidence for the all-factions implementation plan, not a claim that the current release is all-factions complete.
+
+## Browser method
+
+The Hermes browser harness could not attach to a running Chromium instance in this environment (`chrome-not-running`). Following the browser-automation fallback procedure, the baseline used fresh, isolated headless Chromium profiles against the deployed Pages URL:
+
+- Desktop render: 1440×1000
+- Mobile render: 390×844
+- `--headless=new --no-sandbox --disable-gpu`
+- 15-second virtual-time budget
+- Separate temporary profiles with no existing localStorage or service-worker state
+- Rendered DOM captured with `--dump-dom`
+- Screenshots captured to temporary paths outside the repository:
+  - `/tmp/er-public-desktop.png`
+  - `/tmp/er-public-mobile.png`
+
+The screenshots are temporary QA evidence and are not committed to the public repository. This fallback verifies real rendering and DOM activation; it is **not** a replacement for a full interactive accessibility traversal.
+
+## Deployment/render result
+
+- Document title: `Empire Rising Production Calculator`
+- Rendered DOM: approximately 1.65 MB
+- View sections present in the rendered shell: 26
+- Main shell rendered: yes
+- Calculator item browser rendered: yes
+- Empty-player state rendered: yes
+- Inventory, Gear, Colonies, Requests, Models, Factions, Academy, Analytics, Help, and reference surfaces present in the rendered DOM: yes
+- Desktop screenshot produced: yes
+- Mobile screenshot produced: yes
+- Chromium stderr contained no application exception; screenshot commands completed successfully.
+
+## Fresh-player observations
+
+### Working
+
+- The public site loads without an account or Cloudflare authentication.
+- The shell identifies the project as an independent Empire Rising community project and describes it as local-first/offline-capable.
+- A new visitor sees `No players yet — create or import one`.
+- The empty state provides `+ New Player` and `Import JSON` actions.
+- The calculator exposes item search, quantity, production colony, inventory toggle, calculation, multi-item plan, and save-plan controls.
+- The colony selector contains the known production locations.
+- The application exposes a Factions gallery and the broader reference surfaces.
+
+### Confirmed defects / release blockers
+
+1. **No player faction identity**
+   - Fresh player bar offers `+ New`, `Import`, `Export`, and `Remove`, but no faction selector.
+   - The new-player flow asks for a player name only.
+   - A public player cannot state whether they are CMG, EC, BOS, another supported faction, or unaffiliated.
+
+2. **CMG-specific product branding remains in the public shell**
+   - Footer text contains `CMG OPS · no operator` even for a fresh player.
+   - This presents the public calculator as CMG operations rather than a neutral Empire Rising tool.
+
+3. **Colony ownership is CMG-specific**
+   - Colony cards expose `CMG owns` controls rather than an owner-faction selector.
+   - The UI cannot represent EC, BOS, FDC, GOM, LED, MOTB, VI, civilian/unaffiliated, or unknown ownership as an explicit state.
+
+4. **Fresh-state economic copy assumes CMG**
+   - The rendered colony surface shows CMG badges and CMG-specific ownership terminology.
+   - The current source seeds known CMG holdings and the calculation layer exposes CMG-only return semantics.
+   - A new user cannot distinguish “player spend” from “faction return” through a selected profile.
+
+5. **CMG Academy/product language leaks into general public navigation**
+   - The public shell labels the tab `CMG Academy`.
+   - The generated Academy content describes a guild/member knowledge base. CMG-specific factual or attribution content can remain, but the public product must not imply CMG membership is required.
+
+### Confusing but functional
+
+- `No players yet` is clear, but the first action does not explain that a profile will eventually need faction/world context.
+- The colony cards include an `owner not set` warning for at least one colony, but the available control language does not explain how ownership affects calculations or whose ownership is being represented.
+- The public shell has many sections visible through `More`; a first-time player may not know the recommended path from profile creation to first calculation.
+- The calculator’s economic model is present, but fresh-player copy does not yet explain gross spend versus faction return.
+
+### Unknown mechanics requiring explicit modeling/documentation
+
+- Whether the 85% return currently encoded for CMG is a universal game mechanic, a CMG-specific policy, or an internal planning assumption.
+- Whether all factions have the same return policy.
+- Whether `CIVILIAN` is a game faction, an unaffiliated player mode, or a separate recipe metadata category.
+- Whether `MOTB`, `VI`, `MOB`, and `VTX` are aliases, historical labels, or distinct identifiers.
+- Current live ownership and tax rates for all colonies. These must remain local/configurable unless backed by authoritative current data.
+
+## Source evidence captured from the repository
+
+The baseline was cross-checked against the current source tree:
+
+- `src/app-core.js` defines `CMG_FACTION = 'CMG'`, `FACTION_REBATE = 0.85`, and initial holdings `Paris` and `Andromeda`.
+- `src/app.js` renders the owner control as `CMG owns`.
+- `src/views/player.js` manages player names/inventory but has no faction profile field.
+- `src/views/reference.js` maintains a separate faction gallery list from recipe metadata.
+- `src/game_data.js` exposes recipe faction codes including `BOS`, `CIVILIAN`, `CMG`, `EC`, `FDC`, `GOM`, `LED`, `MOTB`, and `VI`.
+
+## Baseline acceptance conclusion
+
+The public site is renderable and broadly navigable, but it does **not** yet meet the all-factions acceptance criteria. The highest-priority implementation work is:
+
+1. Add a canonical faction registry.
+2. Add versioned player faction metadata with safe unaffiliated migration.
+3. Replace CMG-only colony ownership with explicit owner-faction state.
+4. Make faction-return policy explicit instead of universal-by-default.
+5. Reconcile all gross/net calculations and path optimization across factions.
+6. Re-run real-browser interaction and accessibility QA after implementation.
+
+No public push or Cloudflare change was performed for this baseline.
