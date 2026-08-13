@@ -1,4 +1,4 @@
-const CACHE = 'er-v0.1.2';
+const CACHE = 'er-v0.2.0';
 const SHELL = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const SHELL = [
   './src/styles/shell.css',
   './src/styles/components.css',
   './src/styles/views.css',
+  './src/styles/ux-release.css',
   './src/store.js',
   './src/engine.js',
   './src/game_data.js',

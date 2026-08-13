@@ -1,0 +1,82 @@
+/* First-run, settings, semantic faction themes, and restrained Pride release. */
+.playerbar[hidden], .calc-workbench[hidden], .first-run[hidden] { display: none !important; }
+.settings-menu { position: relative; margin-left: auto; }
+.settings-menu > summary, .player-actions > summary {
+  cursor: pointer; list-style: none; border: 1px solid var(--line); border-radius: 5px;
+  background: var(--panel); color: var(--text); padding: .42rem .7rem; font-size: .72rem;
+}
+.settings-menu > summary::-webkit-details-marker, .player-actions > summary::-webkit-details-marker { display: none; }
+.settings-panel, .player-actions-menu {
+  position: absolute; z-index: 80; right: 0; top: calc(100% + .4rem); min-width: 260px;
+  display: grid; gap: .7rem; padding: .8rem; border: 1px solid var(--line-bright);
+  border-radius: 8px; background: var(--bg2); box-shadow: 0 14px 35px #0009;
+}
+.settings-panel label { display: grid; gap: .3rem; color: var(--muted); font-size: .68rem; }
+.settings-panel select { width: 100%; }
+.settings-panel .size-slider { display: grid; grid-template-columns: auto 1fr auto; width: 100%; }
+.player-actions { position: relative; }
+.player-actions-menu { left: 0; right: auto; min-width: 210px; }
+.player-actions-menu button { width: 100%; text-align: left; }
+
+.first-run {
+  max-width: 960px; margin: 1rem auto 1.25rem; padding: clamp(1rem, 3vw, 2rem);
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 2rem;
+  border: 1px solid var(--line-bright); border-top: 3px solid var(--accent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--panel)), var(--panel));
+}
+.first-run h2 { margin: .35rem 0 .65rem; font: 700 clamp(1.25rem, 3vw, 2rem) Orbitron, sans-serif; }
+.first-run p { color: var(--muted); line-height: 1.7; max-width: 60ch; }
+.first-run-form { display: grid; gap: .75rem; }
+.first-run-form label { display: grid; gap: .3rem; font-size: .72rem; color: var(--muted); }
+.first-run-form input, .first-run-form select { width: 100%; }
+.first-run-form small { line-height: 1.4; }
+.calc-steps { grid-column: 1 / -1; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin: 0 0 .25rem; padding: 0; }
+.calc-steps li { display: flex; align-items: center; gap: .65rem; min-width: 0; padding: .65rem .75rem; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+.calc-steps b { display: grid; place-items: center; flex: 0 0 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--accent); color: #fff; }
+.calc-steps span { display: grid; gap: .12rem; font-size: .72rem; }
+.calc-steps small { color: var(--muted); font-size: .6rem; }
+.beginner-summary { margin: .7rem 0 1rem; padding: 1rem; border: 1px solid var(--line-bright); border-left: 4px solid var(--accent); border-radius: 7px; background: var(--panel2); }
+.beginner-summary h3 { margin: .25rem 0 .8rem; font-size: 1rem; }
+.beginner-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.beginner-kpis span { display: grid; gap: .2rem; padding: .65rem; border-radius: 5px; background: var(--panel); color: var(--muted); font-size: .65rem; }
+.beginner-kpis b { color: var(--text); font-size: 1rem; }
+.beginner-next { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: .8rem; font-size: .68rem; }
+.beginner-next b { color: var(--accent-bright); }
+.beginner-summary details { margin-top: .7rem; color: var(--muted); font-size: .65rem; }
+.expert-details { margin: .75rem 0; border: 1px solid var(--line); border-radius: 6px; background: var(--panel2); }
+.expert-details > summary { cursor: pointer; padding: .75rem; color: var(--muted); font-size: .68rem; letter-spacing: .04em; }
+.expert-details[open] > summary { border-bottom: 1px solid var(--line); color: var(--accent-bright); }
+.expert-details .plan-top { padding: .75rem; }
+
+/* Faction palettes stay semantic: surfaces remain readable; identity lives in tokens. */
+[data-theme="bos"] { --bg:#07060a;--bg2:#0e0b14;--panel:#17121e;--panel2:#110d17;--line:#30243b;--line-bright:#59365f;--text:#f5eef8;--muted:#b3a2ba;--accent:#c0265e;--accent-bright:#ef5a89;--accent-dim:#86183e;--cyan:#a78bfa;--cyan-dim:#7c3aed;--purple:#7e22ce;--purple-dim:#581c87;--warn:#f59e0b;--bad:#ef4444;--good:#22c55e; }
+[data-theme="ec"] { --bg:#050a12;--bg2:#09111d;--panel:#101b2b;--panel2:#0b1522;--line:#243750;--line-bright:#3f638d;--text:#f3f7fb;--muted:#a7b7ca;--accent:#2f80ed;--accent-bright:#67b1ff;--accent-dim:#1f5cae;--cyan:#7dd3fc;--cyan-dim:#38bdf8;--purple:#64748b;--purple-dim:#475569;--warn:#fbbf24;--bad:#ef4444;--good:#22c55e; }
+[data-theme="fdc"] { --bg:#080b08;--bg2:#10140e;--panel:#192016;--panel2:#121810;--line:#34402d;--line-bright:#59684b;--text:#f3f1e7;--muted:#b6b19d;--accent:#a68a45;--accent-bright:#d4b968;--accent-dim:#6f5c2d;--cyan:#9fb38a;--cyan-dim:#72865f;--purple:#6b705c;--purple-dim:#4f5444;--warn:#eab308;--bad:#dc2626;--good:#65a30d; }
+[data-theme="gom"] { --bg:#07100b;--bg2:#0d1811;--panel:#15231a;--panel2:#101b14;--line:#294332;--line-bright:#466e52;--text:#fffcef;--muted:#c1bda8;--accent:#d3a52e;--accent-bright:#f4cf5c;--accent-dim:#936f18;--cyan:#4ade80;--cyan-dim:#22c55e;--purple:#7c8c50;--purple-dim:#596636;--warn:#f59e0b;--bad:#ef4444;--good:#22c55e; }
+[data-theme="led"] { --bg:#050a12;--bg2:#091322;--panel:#101d30;--panel2:#0b1727;--line:#243b5c;--line-bright:#3d6698;--text:#f4f9ff;--muted:#a9bfd8;--accent:#1688e8;--accent-bright:#62b8ff;--accent-dim:#0b5caa;--cyan:#86d7ff;--cyan-dim:#38bdf8;--purple:#315b8a;--purple-dim:#203e60;--warn:#fbbf24;--bad:#ef4444;--good:#22c55e; }
+[data-theme="motb"] { --bg:#0d0506;--bg2:#16090b;--panel:#231013;--panel2:#190b0d;--line:#462126;--line-bright:#74363e;--text:#fff4ec;--muted:#c4aaa3;--accent:#b52231;--accent-bright:#ee5260;--accent-dim:#7d1721;--cyan:#d6b88a;--cyan-dim:#ae8b59;--purple:#692a35;--purple-dim:#451b23;--warn:#e8b04c;--bad:#ff3347;--good:#65a30d; }
+[data-theme="vi"] { --bg:#070611;--bg2:#0d0b1c;--panel:#17142a;--panel2:#110f21;--line:#302957;--line-bright:#52478d;--text:#f4f2ff;--muted:#b1acd0;--accent:#7657e8;--accent-bright:#a892ff;--accent-dim:#4d35aa;--cyan:#43d9e6;--cyan-dim:#1eabb9;--purple:#8b5cf6;--purple-dim:#6d28d9;--warn:#fbbf24;--bad:#ef4444;--good:#22c55e; }
+[data-theme="bos"] header,[data-theme="ec"] header,[data-theme="fdc"] header,[data-theme="gom"] header,[data-theme="led"] header,[data-theme="motb"] header,[data-theme="vi"] header { background: linear-gradient(180deg, color-mix(in srgb,var(--accent) 9%,var(--bg2)),var(--bg)); }
+
+/* PRIDE THEME REFINEMENT — rainbow identifies the theme; it does not fill the UI. */
+[data-theme="pride"] * { animation: none !important; }
+[data-theme="pride"] header { background: linear-gradient(180deg, #191027, #0d0917); }
+[data-theme="pride"] header::after { background: var(--rainbow); background-size: 100% 100%; height: 3px; box-shadow: none; }
+[data-theme="pride"] button { background: var(--panel); color: var(--text); text-shadow: none; box-shadow: none; }
+[data-theme="pride"] .tab, [data-theme="pride"] .more-menu .tab, [data-theme="pride"] .nav-more-btn { background: transparent; color: var(--text); }
+[data-theme="pride"] .tab.active { background: transparent; color: #fff; border-bottom: 3px solid transparent; border-image: var(--rainbow) 1; }
+[data-theme="pride"] button.primary, [data-theme="pride"] #calc-run, [data-theme="pride"] .apply-plan { background: linear-gradient(135deg, #d81b60, #7c4dff); color: #fff; }
+[data-theme="pride"] .pick-card { background: var(--panel2); color: var(--text); box-shadow: none; }
+[data-theme="pride"] .card { border-image: none; border-left-color: var(--line-bright); }
+[data-theme="pride"] .stat-value:not(.warn), [data-theme="pride"] .stat-num, [data-theme="pride"] .gear-stat-panel h4 { background: none; color: var(--text); -webkit-text-fill-color: currentColor; }
+[data-theme="pride"] .mat-bar-track { background: var(--line); opacity: 1; }
+[data-theme="pride"] .mat-bar-fill, [data-theme="pride"] .section::before { background: linear-gradient(90deg,#d81b60,#7c4dff); }
+[data-theme="pride"] .section .section-badge { background: var(--accent); color: #fff; }
+
+@media (max-width: 760px) {
+  .first-run { grid-template-columns: 1fr; gap: 1rem; }
+  .calc-steps, .beginner-kpis { grid-template-columns: 1fr; }
+  .settings-panel { position: fixed; left: .75rem; right: .75rem; top: 4.5rem; min-width: 0; }
+  .player-actions-menu { left: auto; right: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .first-run *, .beginner-summary * { scroll-behavior: auto !important; } }

@@ -252,6 +252,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   renderTray();
   renderSavedPlans();
+  const themeSelect = document.getElementById('theme-select');
+  if (themeSelect) themeSelect.addEventListener('change', () => applyTheme(themeSelect.value));
+  const soundMode = document.getElementById('sound-mode');
+  if (soundMode) soundMode.addEventListener('change', () => setSoundMode(soundMode.value));
   // theme switcher buttons
   document.querySelectorAll('.theme-btn').forEach(b => {
     b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false');
@@ -506,6 +510,26 @@ document.addEventListener('DOMContentLoaded', () => {
     bar.appendChild(row);
     inp.focus();
   });
+  const onboardingFaction = document.getElementById('onboarding-faction');
+  if (onboardingFaction) onboardingFaction.innerHTML = (window.ER_FACTIONS?.selectable || []).map(f =>
+    `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('');
+  document.getElementById('onboarding-create')?.addEventListener('click', () => {
+    const input = document.getElementById('onboarding-name');
+    const name = input.value.trim();
+    if (!name) { input.focus(); toast('Enter your player name to start.'); return; }
+    if (PLAYERS.players[name]) { toast('That player already exists.'); return; }
+    PLAYERS.players[name] = [];
+    PLAYERS.profiles = PLAYERS.profiles || {};
+    PLAYERS.profiles[name] = { faction: onboardingFaction?.value || 'UNAFFILIATED' };
+    PLAYERS.active = name; savePlayers(PLAYERS); recomputeInv(); refreshAll();
+    document.getElementById('picker-search')?.focus();
+    toast(`Welcome, ${name}. Choose an item to plan your first run.`, 4000, 'success');
+  });
+  document.getElementById('onboarding-name')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('onboarding-create')?.click();
+  });
+  document.getElementById('onboarding-import')?.addEventListener('click', () =>
+    document.getElementById('workspace-import')?.click());
   // Remove player — two-click confirm; deletes locally only.
   let playerRemoveArmed = null;
   document.getElementById('player-remove')?.addEventListener('click', () => {

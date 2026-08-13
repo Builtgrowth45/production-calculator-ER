@@ -1035,7 +1035,16 @@ function renderPlan(item, qty, targetEl) {
   // makes the amount asked for — so this is now purely informational.
   const alreadyHave = INV_TOTAL[item] || 0;
   const dashboardHtml = renderMaterialDashboard(plan);
-  const statsHtml = renderPlanStats(plan);
+  const statsHtml = `<details class="expert-details"><summary>Detailed costs, batches, and per-unit pricing</summary>${renderPlanStats(plan)}</details>`;
+  const beginnerCost = planCost(plan);
+  const beginnerAcquire = Object.values(plan.acquire).reduce((sum, row) => sum + row.qty, 0);
+  const beginnerSteps = plan.refine.length + plan.manufacture.length;
+  const beginnerHtml = `<section class="beginner-summary" aria-label="Plan at a glance">
+    <div><span class="eyebrow">Plan at a glance</span><h3>${fmt(qty)} × ${esc(displayName(item))} at ${esc(DESTINATION)}</h3></div>
+    <div class="beginner-kpis"><span><b>${fmt(beginnerAcquire)}</b> material units to obtain</span><span><b>${fmt(beginnerSteps)}</b> production steps</span><span><b>${fmtUC(beginnerCost.grand)}</b> Estimated investment</span></div>
+    <div class="beginner-next"><b>What to do next</b><span>1. Obtain missing materials</span><span>2. Refine intermediates</span><span>3. Manufacture the final item</span></div>
+    <details><summary>What do these numbers mean?</summary><p>Investment is the estimated up-front spend. Cost per unit divides the plan's actual costs by output. Faction return only changes the separate cost-to-faction figure where a reviewed return is configured.</p></details>
+  </section>`;
 
   const drugRef = (DATA.drugs || []).find(d => d.name === item);
   const drugPlanHtml = drugRef ? `
@@ -1060,6 +1069,7 @@ function renderPlan(item, qty, targetEl) {
       <div class="plan-hero-note${alreadyHave > 0 ? ' has-stock' : ''}">${alreadyHave > 0
         ? 'Holding <b>' + fmt(alreadyHave) + '</b> · plan makes <b>' + fmt(qty) + '</b> more → <b>' + fmt(alreadyHave + qty) + '</b> total. Existing stock is left alone.'
         : 'This plan produces <b>' + fmt(qty) + '</b>.'}</div>
+      ${beginnerHtml}
       ${drugPlanHtml}
       ${statsHtml}
       <div id="calc-paths" class="calc-paths" hidden></div>
@@ -1124,6 +1134,9 @@ function runCalculator() {
   if (ok) {
     LAST_SINGLE = { item, qty };
     pushRecent(item, qty);
+    out.tabIndex = -1;
+    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    out.focus({ preventScroll: true });
   }
   markDoneSections(out);
   renderCalcPaths();

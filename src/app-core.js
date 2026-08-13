@@ -1273,6 +1273,7 @@ function setView(v) {
     });
     setView._prev = v;
     if (typeof window.syncCMGNavV2 === 'function') window.syncCMGNavV2(v);
+    if (prev && prev !== v) playTerminalAudio(v);
   };
 
   const from = prev && document.getElementById('view-' + prev);
@@ -1290,19 +1291,23 @@ function registerViewHook(opts) { VIEW_HOOKS.push(opts); }
 
 
 // ═══════════════════════════════════════════════════════════════════════════
-// § THEME — 6 colour palettes, font-size slider 75–150%, persisted prefs
+// § THEME — semantic accessibility, identity, and faction palettes
 // ═══════════════════════════════════════════════════════════════════════════
 const THEME_KEY = 'cmg_theme';
 const SIZE_KEY = 'cmg_size';
+const VALID_THEMES = new Set(['auto', 'dark', 'light', 'trans', 'pride', 'bos', 'cmg', 'ec', 'fdc', 'gom', 'led', 'motb', 'vi']);
 
 function resolveTheme(pref) {
   if (pref === 'auto') return window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark';
-  return pref || 'dark';
+  return VALID_THEMES.has(pref) ? pref : 'dark';
 }
 function applyTheme(pref) {
+  pref = VALID_THEMES.has(pref) ? pref : 'auto';
   const resolved = resolveTheme(pref);
   document.documentElement.dataset.theme = resolved;
-  try { localStorage.setItem(THEME_KEY, pref || 'dark'); } catch (e) {}
+  try { localStorage.setItem(THEME_KEY, pref); } catch (e) {}
+  const select = document.getElementById('theme-select');
+  if (select) select.value = pref;
   document.querySelectorAll('.theme-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.theme === (pref || 'dark'));
   });
@@ -1329,15 +1334,16 @@ function applyFontScale(pct) {
 }
 
 function initTheme() {
-  let pref = 'dark';
+  let pref = 'auto';
   try { const v = localStorage.getItem(THEME_KEY); if (v) pref = v; } catch (e) {}
   applyTheme(pref);
   let pct = '100';
   try { const v = localStorage.getItem(SIZE_KEY); if (v) pct = v; } catch (e) {}
   applyFontScale(pct);
   window.matchMedia('(prefers-color-scheme:light)').addEventListener('change', () => {
-    const cur = document.querySelector('.theme-btn.active');
-    if (cur && cur.dataset.theme === 'auto') applyTheme('auto');
+    let cur = 'auto';
+    try { cur = localStorage.getItem(THEME_KEY) || 'auto'; } catch (e) {}
+    if (cur === 'auto') applyTheme('auto');
   });
 }
 
@@ -1508,50 +1514,67 @@ window.stopAudio = stopAudio;
 // ═══════════════════════════════════════════════════════════════════════════
 
 const TERMINAL_AUDIO = {
-  mining: 'voice_extracted/MiningTerminal.ogg',
   calc: 'voice_extracted/ProductionTerminal.ogg',
   inventory: 'voice_extracted/StorageAccess.ogg',
   gear: 'voice_extracted/ProductionTerminal.ogg',
+  colonies: 'voice_extracted/MiningTerminal.ogg',
   drugs: 'voice_extracted/MedicalService.ogg',
-  requests: 'voice_extracted/MarketTerminal.ogg',
+  battle: 'voice_extracted/SecurityPad.ogg',
+  models: 'voice_extracted/ApartmentEntry.ogg',
+  community: 'voice_extracted/MarketTerminal.ogg',
 };
+const SOUND_MODE_KEY = 'er_sound_mode_v1';
+let SOUND_MODE = 'off';
+try { SOUND_MODE = localStorage.getItem(SOUND_MODE_KEY) || 'off'; } catch (e) {}
+if (!['off', 'cues', 'voices'].includes(SOUND_MODE)) SOUND_MODE = 'off';
 
-// Mute covers the sounds the app plays AT you — the terminal voice on a tab
-// switch. It deliberately does not gag the 🔊 buttons on the Colonies and
-// Comms tabs: clicking one of those is asking for audio, and silently doing
-// nothing would look broken rather than muted.
-let MUTED = false;
-try { MUTED = localStorage.getItem('cmg_muted_v1') === '1'; } catch (e) {}
-
-function isMuted() { return MUTED; }
-function setMuted(on) {
-  MUTED = !!on;
-  try { localStorage.setItem('cmg_muted_v1', MUTED ? '1' : '0'); } catch (e) {}
-  if (MUTED) {
+function playUICue(tab) {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = playUICue._ctx || (playUICue._ctx = new Ctx());
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    const order = Object.keys(TERMINAL_AUDIO).indexOf(tab);
+    osc.frequency.value = 280 + Math.max(0, order) * 28;
+    gain.gain.setValueAtTime(0.025, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.07);
+    osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.075);
+  } catch (e) {}
+}
+function setSoundMode(mode) {
+  SOUND_MODE = ['off', 'cues', 'voices'].includes(mode) ? mode : 'off';
+  try { localStorage.setItem(SOUND_MODE_KEY, SOUND_MODE); } catch (e) {}
+  if (SOUND_MODE === 'off') {
     stopAudio();
     try { stopComms(); } catch (e) {}
   }
   renderMuteButton();
 }
-function toggleMuted() { setMuted(!MUTED); }
+function isMuted() { return SOUND_MODE === 'off'; }
+function setMuted(on) { setSoundMode(on ? 'off' : 'cues'); }
+function toggleMuted() { setSoundMode(SOUND_MODE === 'off' ? 'cues' : 'off'); }
 
 function renderMuteButton() {
   const b = document.getElementById('mute-btn');
   if (!b) return;
-  b.textContent = MUTED ? '🔇' : '🔊';
-  b.classList.toggle('active', MUTED);
-  b.setAttribute('aria-pressed', MUTED ? 'true' : 'false');
-  b.title = MUTED ? 'Tab sounds muted — click to unmute'
-                  : 'Tab sounds on — click to mute';
+  const off = SOUND_MODE === 'off';
+  b.textContent = off ? '🔇 Sounds off' : (SOUND_MODE === 'voices' ? '🗣 Terminal voices' : '🔉 UI cues');
+  b.classList.toggle('active', off);
+  b.setAttribute('aria-pressed', off ? 'true' : 'false');
+  b.title = off ? 'Sounds are off' : 'Click to turn sounds off';
+  const select = document.getElementById('sound-mode');
+  if (select) select.value = SOUND_MODE;
 }
 window.toggleMuted = toggleMuted;
+window.setSoundMode = setSoundMode;
 
 function playTerminalAudio(tab) {
   // Always stop comms when leaving the tab
   if (tab !== 'comms') {
     try { stopComms(); } catch(e) {}
   }
-  if (MUTED) return;
+  if (SOUND_MODE === 'off') return;
+  if (SOUND_MODE === 'cues') { playUICue(tab); return; }
   var src = TERMINAL_AUDIO[tab];
   if (src) playAudio(src, 0.3);
 }

@@ -13,6 +13,12 @@ function renderPlayerBar() {
   const factionSel = document.getElementById('player-faction');
   sel.innerHTML = '';
   const names = Object.keys(PLAYERS.players).sort();
+  const firstRun = document.getElementById('first-run');
+  const workbench = document.getElementById('calc-workbench');
+  const playerbar = document.querySelector('.playerbar');
+  if (firstRun) firstRun.hidden = names.length !== 0;
+  if (workbench) workbench.hidden = names.length === 0;
+  if (playerbar) playerbar.hidden = names.length === 0;
   if (names.length === 0) {
     sel.innerHTML = '<option value="" disabled selected>No players yet — create or import one</option>';
   }
@@ -47,7 +53,7 @@ function refreshAll() {
   const invCount = getInv().length;
   const drugCount = (DATA.drugs || []).length;
   const mapCount = 12; // battle node colony maps
-  const themeCount = 6; // built-in themes
+  const themeCount = 13; // accessibility, identity, and faction themes
   const features = [
     { emoji: '📦', label: `${ALL_ITEMS.size} items` },
     { emoji: '🗄️', label: `${invCount} stocked` },
@@ -56,7 +62,6 @@ function refreshAll() {
     { emoji: '🗺️', label: `${mapCount} colony maps` },
     { emoji: '💊', label: `${drugCount} combat drugs` },
     { emoji: '🛡️', label: 'gear loadouts' },
-    { emoji: '📡', label: 'workspace requests' },
     { emoji: '📶', label: 'offline-ready' },
     { emoji: '🎨', label: `${themeCount} themes` },
   ];
@@ -65,25 +70,12 @@ function refreshAll() {
     `<span class="footer-operator">⚙️ Empire Rising · ${esc(playerName)}</span>` +
     features.map(f => `<span class="footer-chip">${f.emoji} ${f.label}</span>`).join('') +
     `</span>`;
-  // Clear calc results on any state change; restore welcome if back to zero players
+  // Clear calc results on state changes. First-run setup now lives above the
+  // workbench, where a new user can actually see it without scrolling.
   const cr = document.getElementById('calc-result');
   const cm = document.getElementById('calc-multi');
   cm.innerHTML = '';
-  if (Object.keys(PLAYERS.players).length === 0) {
-    cr.innerHTML = `<div class="card empty-state">
-      <div class="empty-state-icon">👤</div>
-      <h3>Welcome to the Empire Rising Production Calculator</h3>
-      <p>No players yet — create one or import a local workspace JSON to get started.</p>
-      <div class="empty-state-actions">
-        <button id="empty-new" class="primary">+ New Player</button>
-        <button id="empty-import" class="ghost">Import JSON</button>
-      </div>
-    </div>`;
-    document.getElementById('empty-new').addEventListener('click', () => document.getElementById('player-new').click());
-    document.getElementById('empty-import').addEventListener('click', () => document.getElementById('player-import-file').click());
-  } else {
-    cr.innerHTML = '';
-  }
+  cr.innerHTML = '';
 }
 
 function downloadJSON(obj, filename) {

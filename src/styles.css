@@ -4,6 +4,7 @@
 @import url("styles/views.css");
 
 
+
 /*
    Public Empire Rising Calculator shell. The splash is intentionally neutral;
    authentication is not required for the public build.
@@ -1806,6 +1807,8 @@ tr td:first-child { white-space: nowrap; }
   font-size: 0.75rem; width: 100%; min-width: 0;
 }
 .cc-own select { width: 100%; max-width: 100%; min-width: 0; }
+
+
 .cc-rate { display: flex; align-items: center; gap: 0.2rem; margin-left: auto; }
 .cc-rate input {
   width: 3.6rem; padding: 0.15rem 0.25rem; font-size: 0.75rem;

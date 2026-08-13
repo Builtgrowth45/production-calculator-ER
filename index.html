@@ -13,7 +13,8 @@
   @font-face { font-family: 'Orbitron'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('fonts/orbitron-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
   @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 </style>
-<link rel="stylesheet" href="src/styles.css?v=31" />
+<link rel="stylesheet" href="src/styles.css?v=32" />
+<link rel="stylesheet" href="src/styles/ux-release.css?v=2" />
 <script src="src/vendor/chart.min.js" defer></script>
 </head>
 <body>
@@ -93,25 +94,23 @@
     </div>
   </nav>
   </div>
-  <div class="theme-bar">
-    <button class="theme-btn" data-theme="dark" title="Dark mode" aria-label="Dark mode">🌙</button>
-    <button class="theme-btn" data-theme="light" title="Light mode" aria-label="Light mode">☀️</button>
-    <button class="theme-btn" data-theme="auto" title="Follow system preference" aria-label="Auto theme">🔄</button>
-    <button class="theme-btn" data-theme="trans" title="Trans pride" aria-label="Trans pride theme">🏳️‍⚧️</button>
-    <button class="theme-btn" data-theme="pride" title="Rainbow pride" aria-label="Rainbow pride theme">🏳️‍🌈</button>
-    <button class="theme-btn" data-theme="cmg" title="CMG corporate" aria-label="CMG corporate theme">⛏️</button>
-    <!-- Deliberately NOT a .theme-btn: that class is wired to data-theme, and a
-         member without one would try to apply a theme called undefined. Same
-         look, its own handler. -->
-    <span class="theme-bar-sep" aria-hidden="true"></span>
-    <button id="mute-btn" class="mute-btn" type="button" onclick="toggleMuted()"
-            aria-pressed="false" aria-label="Mute tab sounds" title="Tab sounds on — click to mute">🔊</button>
-    <div class="size-slider">
-      <label for="size-range" title="Font size">Aa</label>
-      <input type="range" id="size-range" min="75" max="150" value="100" step="5" aria-label="Font size" />
-      <span class="size-label" id="size-label">100%</span>
+  <details class="settings-menu">
+    <summary>⚙ Settings</summary>
+    <div class="settings-panel">
+      <label>Theme
+        <select id="theme-select" aria-label="Theme">
+          <optgroup label="Accessibility"><option value="auto">Auto / system</option><option value="dark">Dark</option><option value="light">Light</option></optgroup>
+          <optgroup label="Identity"><option value="trans">Trans pride</option><option value="pride">Rainbow pride</option></optgroup>
+          <optgroup label="Faction"><option value="bos">Brotherhood of Shadows</option><option value="cmg">Colonization and Mining Guild</option><option value="ec">EuroCore</option><option value="fdc">Freedom Defense Corps.</option><option value="gom">Guardians of Mankind</option><option value="led">Law Enforcement Department</option><option value="motb">Mercenaries of the Blood</option><option value="vi">Vortex, Inc.</option></optgroup>
+        </select>
+      </label>
+      <label>Sound
+        <select id="sound-mode" aria-label="Sound mode"><option value="off">Off</option><option value="cues">UI cues only</option><option value="voices">Terminal voices</option></select>
+      </label>
+      <div class="size-slider"><label for="size-range">Text size</label><input type="range" id="size-range" min="75" max="150" value="100" step="5" aria-label="Font size" /><span class="size-label" id="size-label">100%</span></div>
+      <button id="mute-btn" class="mute-btn" type="button" onclick="toggleMuted()" aria-pressed="true" aria-label="Toggle sounds">🔇 Sounds off</button>
     </div>
-  </div>
+  </details>
 </header>
 
 <div class="playerbar">
@@ -122,11 +121,13 @@
     <select id="player-faction" aria-label="Player faction"></select>
   </label>
   <button id="player-new" title="Add a new player">+ New</button>
-  <button id="player-import" title="Import a player inventory from JSON">Import</button>
-  <button id="player-export" title="Export the active player's inventory as JSON">Export</button>
-  <button id="workspace-import" title="Import all public local workspace data">Import workspace</button>
-  <button id="workspace-export" title="Export all public local workspace data">Export workspace</button>
-  <button id="player-remove" title="Remove the selected player from this device">− Remove</button>
+  <details class="player-actions"><summary>Player tools</summary><div class="player-actions-menu">
+    <button id="player-import" title="Import a player inventory from JSON">Import player</button>
+    <button id="player-export" title="Export the active player's inventory as JSON">Export player</button>
+    <button id="workspace-import" title="Import all public local workspace data">Import workspace</button>
+    <button id="workspace-export" title="Export all public local workspace data">Export workspace</button>
+    <button id="player-remove" title="Remove the selected player from this device">− Remove player</button>
+  </div></details>
   <input id="player-import-file" type="file" accept="application/json,.json" hidden />
   <span id="player-name" class="player-active"></span>
 </div>
@@ -135,7 +136,12 @@
   <!-- CALCULATOR -->
   <section id="view-calc" class="view active" role="tabpanel" aria-label="Calculator">
     <div class="public-notice" role="note">Independent Empire Rising community project · local-first and offline-capable</div>
-    <div class="calc-workbench">
+    <section id="first-run" class="first-run ui-panel" aria-labelledby="first-run-title">
+      <div class="first-run-copy"><span class="eyebrow">Start here</span><h2 id="first-run-title">Plan your first production run</h2><p>Choose an item and quantity. The calculator shows what to mine, move, refine, manufacture, and what the run should cost. Everything stays on this device.</p></div>
+      <div class="first-run-form"><label>Player name<input id="onboarding-name" autocomplete="nickname" placeholder="Your character name" /></label><label>Faction <select id="onboarding-faction" aria-label="Onboarding faction"></select><small>Economic context only; recipes stay available.</small></label><button id="onboarding-create" class="primary">Create player and start</button><button id="onboarding-import" class="ghost">Import existing workspace</button></div>
+    </section>
+    <div class="calc-workbench" id="calc-workbench">
+      <ol class="calc-steps" aria-label="Calculator workflow"><li><b>1</b><span>Choose an item<small>Browse or search the catalog</small></span></li><li><b>2</b><span>Set quantity and colony<small>Tell us what and where</small></span></li><li><b>3</b><span>Calculate your plan<small>Follow the production checklist</small></span></li></ol>
       <aside class="calc-browser" aria-label="Item browser">
         <div class="calc-picker ui-panel">
       <div class="picker-controls">
