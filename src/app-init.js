@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const button = e.target.closest('[data-nav-view]');
       if (!button) return;
+      document.querySelector('.settings-menu')?.removeAttribute('open');
       setView(button.dataset.navView);
       closeNavV2Drawer();
     });
@@ -127,10 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeMore = () => { moreMenu.hidden = true; moreBtn.setAttribute('aria-expanded', 'false'); };
     const openMore  = () => { moreMenu.hidden = false; moreBtn.setAttribute('aria-expanded', 'true'); };
     moreBtn.addEventListener('click', e => {
+      document.querySelector('.settings-menu')?.removeAttribute('open');
       e.stopPropagation();
       moreMenu.hidden ? openMore() : closeMore();
     });
-    moreMenu.addEventListener('click', e => { if (e.target.closest('.tab')) closeMore(); });
+    moreMenu.addEventListener('click', e => { if (e.target.closest('.tab')) { closeMore(); document.querySelector('.settings-menu')?.removeAttribute('open'); } });
     document.addEventListener('click', e => { if (!moreWrap.contains(e.target)) closeMore(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMore(); });
     syncMoreButton();
@@ -384,14 +386,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Keep utility popovers singular and dismiss them without trapping the player bar.
   const playerActions = document.querySelector('.player-actions');
+  const settingsMenu = document.querySelector('.settings-menu');
+  const closeSettings = () => settingsMenu?.removeAttribute('open');
   document.addEventListener('click', e => {
     if (playerActions?.open && !e.target.closest('.player-actions')) playerActions.open = false;
+    if (settingsMenu?.open && !e.target.closest('.settings-menu')) closeSettings();
   });
   playerActions?.addEventListener('toggle', () => {
     if (playerActions.open) document.querySelector('.settings-menu')?.removeAttribute('open');
   });
-  document.querySelector('.settings-menu')?.addEventListener('toggle', e => {
+  settingsMenu?.addEventListener('toggle', e => {
     if (e.currentTarget.open && playerActions) playerActions.open = false;
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSettings();
   });
 
   // apply-plan buttons (event delegation on calc result areas)

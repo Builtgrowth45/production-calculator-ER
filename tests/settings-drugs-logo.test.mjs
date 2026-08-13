@@ -8,6 +8,7 @@ const css = readFileSync(join(root, 'src/styles/ux-release.css'), 'utf8');
 const shell = readFileSync(join(root, 'src/styles/shell.css'), 'utf8');
 const reference = readFileSync(join(root, 'src/views/reference.js'), 'utf8');
 const html = readFileSync(join(root, 'index.html'), 'utf8');
+const init = readFileSync(join(root, 'src/app-init.js'), 'utf8');
 const sw = readFileSync(join(root, 'sw.js'), 'utf8');
 
 describe('settings, ER branding, and Drugs reference surface', () => {
@@ -21,6 +22,14 @@ describe('settings, ER branding, and Drugs reference surface', () => {
     assert.match(html, /class="crest-logo er-mark"[^>]*role="img"/);
     assert.match(html, /class="crest-logo er-mark"[\s\S]*?<svg[\s\S]*?aria-hidden="true"/);
     assert.match(css, /\.er-mark\s*\{[\s\S]*?background:/s);
+  });
+
+  it('dismisses Settings when focus moves outside or to another action', () => {
+    assert.match(init, /const closeSettings = \(\) => settingsMenu\?\.removeAttribute\('open'\)/);
+    assert.match(init, /settingsMenu\?\.open && !e\.target\.closest\('\.settings-menu'\)/);
+    assert.match(init, /if \(e\.key === 'Escape'\) closeSettings\(\)/);
+    assert.match(init, /moreBtn\.addEventListener\('click',[\s\S]*?removeAttribute\('open'\)/);
+    assert.match(init, /const button = e\.target\.closest\('\[data-nav-view\]'\);[\s\S]*?removeAttribute\('open'\)/);
   });
 
   it('renders Drugs effects from live stats with explicit adverse polarity', () => {
@@ -39,6 +48,6 @@ describe('settings, ER branding, and Drugs reference surface', () => {
   });
 
   it('bumps the offline shell for the runtime change', () => {
-    assert.match(sw, /const CACHE\s*=\s*['"]er-v0\.2\.4['"]/);
+    assert.match(sw, /const CACHE\s*=\s*['"]er-v0\.2\.5['"]/);
   });
 });
