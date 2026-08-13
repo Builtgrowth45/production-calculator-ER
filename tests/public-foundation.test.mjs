@@ -38,7 +38,8 @@ test('public allowlist exists and excludes deployment/private paths', () => {
 test('public asset provenance manifest exists and is fail-closed', () => {
   const manifest = JSON.parse(readFileSync(join(root, 'data/asset-provenance.json'), 'utf8'));
   assert.equal(manifest.schema_version, 1);
-  assert.ok(manifest.records.some(record => record.status === 'pending_permission'));
+  assert.ok(manifest.records.some(record => record.status === 'approved'));
+  assert.ok(manifest.records.every(record => !['pending_permission', 'unknown'].includes(record.status)));
   assert.ok(existsSync(join(root, 'docs/asset-provenance.md')));
 });
 
