@@ -565,6 +565,128 @@ function renderGearSets() {
 }
 
 
+// § LIVE COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS)
+// ═══════════════════════════════════════════════════════════════════════
+// Renders every item from the live balance sheet (data/balance_stats.json →
+// src/balance_stats.js) with its stat block, cross-linked to the recipe list
+// where a recipe exists. Reference-only items (Skeleton/Jack-o'-lantern sets,
+// mining tools, Turret, grenades, autoinjectors, non-craftable weapons) are
+// shown with a "reference" badge.
+
+let BALANCE_ITEMS = [];   // enriched {name, stats, category, recipe}
+let BALANCE_CATS = [];
+
+/** Normalized name for balance→recipe matching (mirrors update_balance_stats.py). */
+function balNorm(s) {
+  return String(s || '').toLowerCase()
+    .replace(/\s*\((male|female)\)/g, '')
+    .replace(/[^a-z0-9]+/g, ' ').trim()
+    .replace(/med\s?ikit/g, 'medkit');
+}
+const BAL_ALIASES = {
+  // Sheet's own typos; recipes carry the sheet's names since 2026-08-11.
+  'infensus minimist gloves': 'infensus minimalist gloves',
+  'pythica sustained gloves': 'pythica sustained battle gloves',
+};
+function balResolve(n) {
+  return BAL_ALIASES[n] || n;
+}
+
+/** Find the recipe whose output matches a balance-sheet item name. */
+function balRecipe(name) {
+  const c = balResolve(balNorm(name));
+  return DATA.recipes.find(rr => balNorm(rr.output.item) === c) || null;
+}
+
+/** Classify a balance item into a browser category (recipe category wins). */
+function balCategory(name, recipe) {
+  if (recipe) return recipe.output.category || 'Other';
+  const n = name.toLowerCase();
+  if (/medikit|autoinjector|biocell|medigun/.test(n)) return 'Medical';
+  if (/mining tool/.test(n)) return 'Tools';
+  if (/grenade|explosive/.test(n)) return 'Explosive';
+  if (/implant| amp\b/.test(n)) return 'Implants & Electronics';
+  if (/helmet|shoulder|torso|arm pads|leg pads|gloves/.test(n)) return 'Armor';
+  if (/(water|burger|cola|sushi|orange|brew|cheese|drink)/.test(n)) return 'Food & Drink';
+  const drugs = ['cannabinol','nitrate','dexedrine','biphetamin','neurotonin','polycodeine','methedrine','euthemal','oxazoline','opiatech','phencyclidine','mdma','amphetamine','benzedrine','desoxyn','ritalin','dopamine','cocaboline','anabolica','meth'];
+  if (drugs.some(d => n.includes(d))) return 'Drugs';
+  if (/(rifle|pistol|gun|turret|emp|mg6|tar7|pp7|doa|barracuda|enervon|domin|inflex|streamline|rgi|hr420|techtronic|linner|salvotec|gakk|frostbite|candy|survival|protector|fgz|6x6)/.test(n)) return 'Weapons';
+  return 'Other';
+}
+
+/** Build the enriched item list once (data is static per load). */
+function initBalanceBrowser() {
+  const grid = document.getElementById('gear-balance-grid');
+  if (!grid) return;
+  if (!window.BALANCE_STATS || !Array.isArray(BALANCE_STATS.items)) {
+    grid.innerHTML = '<div class="ui-empty">Combat-stat data could not be loaded. Reload once online.</div>';
+    const count = document.getElementById('gear-balance-count');
+    if (count) count.textContent = 'Data unavailable';
+    return;
+  }
+  if (BALANCE_ITEMS.length) { renderBalanceBrowser(); return; }
+  const meta = document.getElementById('gear-balance-meta');
+  if (meta) meta.textContent = `${BALANCE_STATS.items.length} items · fetched ${BALANCE_STATS._meta.fetched} · live Google Sheet`;
+  BALANCE_ITEMS = BALANCE_STATS.items.map(it => {
+    const recipe = balRecipe(it.name);
+    return {
+      name: it.name,
+      stats: it.stats || {},
+      category: balCategory(it.name, recipe),
+      recipe: recipe ? recipe.output.item : null,
+    };
+  });
+  BALANCE_CATS = [...new Set(BALANCE_ITEMS.map(i => i.category))].sort();
+  const catSel = document.getElementById('balance-cat');
+  if (catSel) {
+    catSel.innerHTML = '<option value="">All categories</option>' +
+      BALANCE_CATS.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  }
+  const wire = el => el && el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', renderBalanceBrowser);
+  wire(document.getElementById('balance-search'));
+  wire(document.getElementById('balance-cat'));
+  wire(document.getElementById('balance-sort'));
+  renderBalanceBrowser();
+}
+
+/** Render the filtered/sorted grid. */
+function renderBalanceBrowser() {
+  const grid = document.getElementById('gear-balance-grid');
+  if (!grid) return;
+  const q = (document.getElementById('balance-search')?.value || '').toLowerCase();
+  const cat = document.getElementById('balance-cat')?.value || '';
+  const sort = document.getElementById('balance-sort')?.value || 'name';
+  let items = BALANCE_ITEMS.filter(i =>
+    (!q || i.name.toLowerCase().includes(q)) &&
+    (!cat || i.category === cat));
+  const count = document.getElementById('gear-balance-count');
+  if (count) count.textContent = `${items.length} of ${BALANCE_ITEMS.length} items`;
+  if (sort === 'name') items.sort((a, b) => a.name.localeCompare(b.name));
+  else items.sort((a, b) => (b.stats[sort] || -999) - (a.stats[sort] || -999) || a.name.localeCompare(b.name));
+  if (!items.length) {
+    grid.innerHTML = '<div class="muted" style="grid-column:1/-1;padding:1rem">No items match.</div>';
+    return;
+  }
+  grid.innerHTML = items.map(i => {
+    const statChips = Object.entries(i.stats)
+      .filter(([k]) => k !== 'classification')
+      .map(([k, v]) => {
+        const label = STAT_LABELS[k] || k;
+        return `<span class="gbs-chip" title="${esc(STAT_DEFS[k] || '')}"><b>${esc(label)}</b> ${v > 0 ? '+' : ''}${v}</span>`;
+      }).join('');
+    const badge = i.recipe
+      ? `<span class="gbs-badge craftable" title="Craftable — see recipe">craftable</span>`
+      : `<span class="gbs-badge reference" title="In the balance sheet but no crafting recipe in-game">reference</span>`;
+    return `<div class="gbs-item">
+      <div class="gbs-name">${esc(i.name)} ${badge}</div>
+      <div class="gbs-cat">${esc(i.category)}</div>
+      <div class="gbs-stats">${statChips || '<span class="muted">no stats</span>'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+
 // ═══════════════════════════════════════════════════════════════════════════
 // § LOCAL DATA — gear sets, inventory, and colony settings
 // ═══════════════════════════════════════════════════════════════════════════

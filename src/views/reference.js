@@ -127,6 +127,16 @@ function populateBattleColonies() {
       renderBattleNodes();
     });
   });
+  wrap.onkeydown = e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
+    e.preventDefault();
+    const buttons = [...wrap.querySelectorAll('[data-bn-colony]')];
+    const current = Math.max(0, buttons.indexOf(document.activeElement));
+    const next = e.key === 'Home' ? 0 : e.key === 'End' ? buttons.length - 1 :
+      (current + (e.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length;
+    buttons[next].click();
+    buttons[next].focus({ preventScroll: true });
+  };
 }
 function renderBattleNodes() {
   const wrap = document.getElementById('bn-body');
@@ -154,7 +164,7 @@ function renderBattleNodes() {
 
   const notes = c.notes ? `<div class="bn-notes">📌 ${esc(c.notes)}</div>` : '';
   const map = c.map_image
-    ? `<div class="bn-map"><img class="bn-map-img" src="${esc(c.map_image)}" alt="${esc(c.name)} battle map" title="Click to enlarge" loading="lazy"></div>`
+    ? `<figure class="bn-map"><button type="button" class="bn-map-open" aria-label="Open interactive ${esc(c.name)} battle map"><img class="bn-map-img" src="${esc(c.map_image)}" alt="${esc(c.name)} battle map" loading="lazy"><span>Open interactive map</span></button><figcaption>Tap to zoom and pan · mouse wheel zooms</figcaption></figure>`
     : '';
 
   const countEl = document.getElementById('bn-count');
@@ -174,7 +184,7 @@ function renderBattleNodes() {
       const m = imgEl.closest('.bn-map');
       if (m) m.innerHTML = `<div class="bn-map-missing">Map image not found: ${esc(c.map_image)}</div>`;
     });
-    imgEl.addEventListener('click', () => openMapLightbox(c.map_image, c.name + ' battle map'));
+    wrap.querySelector('.bn-map-open')?.addEventListener('click', () => openMapLightbox(c.map_image, c.name + ' battle map'));
   }
 }
 
@@ -183,6 +193,9 @@ function openMapLightbox(src, alt) {
   if (existing) existing.remove();
   const ov = document.createElement('div');
   ov.className = 'bn-lightbox';
+  ov.setAttribute('role', 'dialog');
+  ov.setAttribute('aria-modal', 'true');
+  ov.setAttribute('aria-label', alt);
   
   let scale = 1, panX = 0, panY = 0, dragging = false, lastX = 0, lastY = 0;
   
@@ -247,15 +260,15 @@ function openMapLightbox(src, alt) {
   });
   
   ov.addEventListener('click', function(e) {
-    if (e.target === ov) ov.remove();
+    if (e.target === ov) close();
   });
-  ov.querySelector('.bn-lightbox-close').addEventListener('click', function() { ov.remove(); });
-  
-  document.addEventListener('keydown', function esc(e) {
-    if (e.key === 'Escape') { ov.remove(); document.removeEventListener('keydown', esc); }
-  });
+  const close = () => { ov.remove(); document.removeEventListener('keydown', onKey); };
+  function onKey(e) { if (e.key === 'Escape') close(); }
+  ov.querySelector('.bn-lightbox-close').addEventListener('click', close);
+  document.addEventListener('keydown', onKey);
   
   document.body.appendChild(ov);
   requestAnimationFrame(function() { ov.classList.add('show'); });
+  ov.querySelector('.bn-lightbox-close').focus({ preventScroll: true });
   update();
 }

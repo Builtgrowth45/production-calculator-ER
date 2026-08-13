@@ -380,6 +380,16 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('drug-sort').addEventListener('change', renderDrugs);
   document.getElementById('drug-search').addEventListener('input', renderDrugs);
   document.getElementById('bn-search').addEventListener('input', renderBattleNodes);
+  initBalanceBrowser();
+
+  // Keep utility popovers singular and dismiss them without trapping the player bar.
+  const playerActions = document.querySelector('.player-actions');
+  document.addEventListener('click', e => {
+    if (playerActions?.open && !e.target.closest('.player-actions')) playerActions.open = false;
+  });
+  playerActions?.addEventListener('toggle', () => {
+    if (playerActions.open) document.querySelector('.settings-menu')?.removeAttribute('open');
+  });
 
   // apply-plan buttons (event delegation on calc result areas)
   document.getElementById('calc-result').addEventListener('click', e => {
