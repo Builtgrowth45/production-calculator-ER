@@ -306,12 +306,12 @@ function scoreAlternative(alt, totalNeed, outQty) {
   return score;
 }
 
-// ---- cost-aware alternative scoring (CMG net) -------------------------------
+// ---- cost-aware alternative scoring (faction net) -----------------------------
 // The heuristic above ignores UC price entirely, so the old picker chose the
 // first-listed path (mineral oil) for carbon even though coal is cheaper at
 // sticker AND mined on our own Andromeda colony. When price data is available
 // (window.COSTS, loaded before this file) these helpers price each path at its
-// NET cost to CMG — the per-batch processing fee at the destination plus the
+// faction net cost — the per-batch processing fee at the destination plus the
 // raw materials at their mine site, each reduced by the faction rebate where
 // Colony ownership is read lazily through window hooks that app-core.js
 // installs; with no hook installed (test harness, standalone) the factor is 1,
@@ -319,8 +319,13 @@ function scoreAlternative(alt, totalNeed, outQty) {
 function colonyFactor(loc) {
   const owned = (typeof window.ENGINE_COLONY_OWNED === 'function') && window.ENGINE_COLONY_OWNED(loc);
   if (!owned) return 1;
-  const rebate = typeof window.ENGINE_COLONY_REBATE === 'number' ? window.ENGINE_COLONY_REBATE : 0;
-  return 1 - rebate;
+  const rebate = typeof window.ENGINE_COLONY_REBATE_FOR === 'function'
+    ? Number(window.ENGINE_COLONY_REBATE_FOR(loc)) || 0
+    : (typeof window.ENGINE_COLONY_REBATE === 'number' ? window.ENGINE_COLONY_REBATE : 0);
+  // Never let a malformed policy turn a price negative or create a rebate
+  // greater than the entire spend. Public policy metadata is fail-closed.
+  const safeRebate = Math.max(0, Math.min(1, rebate));
+  return 1 - safeRebate;
 }
 function batchFee(item, altIndex) {
   const table = window.COSTS && window.COSTS.items;
@@ -335,7 +340,7 @@ function materialPrice(item) {
   const v = m[item];
   return typeof v === 'number' ? v : null;
 }
-// NET cost to CMG of ONE UNIT of `item` produced via the alternative path at
+// NET cost to the active faction of ONE UNIT of `item` produced via the alternative path at
 // `altIndex`: the path's per-batch fee (rebated at the destination) plus its
 // inputs priced at their own cheapest net unit cost, divided by the batch
 // yield. Returns null when any link in the chain is unpriced — never invents
@@ -358,7 +363,7 @@ function netPathCost(item, altIndex, dest, memo, depth) {
   }
   return total / fee.y;
 }
-// NET cost to CMG of ONE UNIT of `item`, choosing its cheapest priced path
+// NET cost to the active faction of ONE UNIT of `item`, choosing its cheapest priced path
 // (raw materials price straight at their mine site, rebated when we own it).
 function netUnitCost(item, dest, memo, depth) {
   depth = depth || 0;
@@ -388,7 +393,7 @@ function netUnitCost(item, dest, memo, depth) {
   return memo[item] = best;
 }
 // Pick the best alternative index for a recipe (honouring an explicit choice).
-// Cost-aware when every path is priced: cheapest NET cost to CMG wins. If any
+// Cost-aware when every path is priced: cheapest faction NET cost wins. If any
 // path is unpriced the whole recipe falls back to the stock-coverage heuristic
 // (never compare a priced path against an unpriced one).
 function pickAlternativeIndex(recipe, chosen, totalNeed, dest) {

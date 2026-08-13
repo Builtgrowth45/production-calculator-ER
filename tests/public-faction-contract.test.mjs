@@ -12,6 +12,7 @@ const app = read('src/app.js');
 const store = read('src/store.js');
 const player = read('src/views/player.js');
 const gameData = read('src/game_data.js');
+const engine = read('src/engine.js');
 
 function loadFactionIds() {
   const match = gameData.match(/window\.GAME_DATA\s*=\s*([\s\S]*);\s*$/);
@@ -36,7 +37,9 @@ describe('public player/faction contract', () => {
   it('does not use fixed CMG ownership to determine public player returns', () => {
     assert.doesNotMatch(appCore, /const\s+CMG_HOLDINGS\s*=\s*\[/);
     assert.doesNotMatch(app, /CMG owns/);
-    assert.doesNotMatch(read('src/engine.js'), /CMG_FACTION|FACTION_REBATE/);
+    assert.doesNotMatch(engine, /NET cost to CMG/);
+    assert.doesNotMatch(engine, /cost-aware alternative scoring \(CMG net\)/);
+    assert.match(engine, /ENGINE_COLONY_REBATE_FOR/);
   });
 
   it('keeps player spend separate from faction return/net cost', () => {

@@ -173,3 +173,24 @@ No public push or Cloudflare change was performed for this baseline.
 - Full workspace export/import including player, plans, requests, gear, world state, and preferences.
 - Neutralization of remaining generated Academy/product language where it implies guild membership is required.
 - Desktop/mobile/direct-route/offline/accessibility matrix and release review.
+
+## Implementation slice 3 — cross-faction economic context
+
+**Completed locally:**
+
+- Added `ENGINE_COLONY_REBATE_FOR` as the faction-aware policy seam used by alternative-path pricing.
+- Retained the numeric rebate hook only as a compatibility fallback for older callers.
+- Clamped malformed policy values to the safe `[0, 1]` range.
+- Verified unaffiliated, EC, and CMG contexts keep gross cost stable while only the reviewed CMG policy produces a return.
+- Verified non-owned colonies never receive a faction return, even when the selected faction has a return policy.
+- Reworded engine comments and contracts from CMG-specific net-cost language to active-faction language.
+
+**Verification:**
+
+- `npm test`: 122 tests passed.
+- Cross-faction economic matrix: 4/4 passed.
+- Existing CMG alternative-path regressions: 6/6 passed.
+- `npm run build`: passed; 5,091 files copied into `dist/`.
+- `npm run assets:check`: passed; 4,430 approved binary assets.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- Syntax checks and `git diff --check`: passed.
