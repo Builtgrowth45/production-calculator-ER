@@ -69,9 +69,9 @@ globalThis.DATA = globalThis.DATA || window.GAME_DATA;
 globalThis.RECIPES_BY_OUTPUT = globalThis.RECIPES_BY_OUTPUT || engine.RECIPES_BY_OUTPUT;
 
 const { compute } = engine;
-// app-core installs the colony hooks at load (window.ENGINE_COLONY_OWNED =
-// isOwnColony, REBATE = 0.85), so netPathCost applies the rebate at owned
-// colonies exactly as in the browser.
+// app-core installs explicit faction/ownership hooks at load. A fresh public
+// profile is unaffiliated and does not invent colony holdings, so the default
+// regression below expects gross cost and cost-to-guild to match.
 
 // Strip thousands separators so number assertions are locale-independent.
 const flat = s => String(s).replace(/,/g, '');
@@ -186,10 +186,9 @@ describe('per-unit pricing table (shipped app-core renderer)', () => {
     assert.ok(f.includes(flat(fmtUC(cost.grand))), `investment ${cost.grand} should appear big`);
     assert.ok(f.includes(flat(fmtUC(cost.grand / produced))), `cost/unit ${cost.grand / produced} should appear`);
     assert.ok(f.includes(flat(fmtUC((cost.grand - cost.rebate) / produced))), 'net/unit should appear');
-    // CMG owns Paris (CMG_HOLDINGS), so the rebate must exist and net/unit < cost/unit.
-    assert.ok(cost.rebate > 0.005, 'rebate should apply at Paris');
+    assert.equal(cost.rebate, 0, 'fresh unaffiliated profile must not invent a faction rebate');
     const netUnit = (cost.grand - cost.rebate) / produced;
-    assert.ok(netUnit < cost.grand / produced, 'net per unit should be below sticker per unit');
+    assert.equal(netUnit, cost.grand / produced, 'unaffiliated cost-to-guild equals player spend');
   });
 
   it('flags queued finals fully covered by owned stock', () => {

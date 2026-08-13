@@ -447,9 +447,13 @@ function renderColonies() {
 
     var controls = r.priced
       ? '<div class="cc-controls">' +
-          '<label class="cc-own" title="Mark colonies ' + CMG_FACTION + ' owns — spend there earns the faction cut">' +
-            '<input type="checkbox" data-ct-own="' + enc + '"' + (own ? ' checked' : '') + ' />' +
-            '<span>' + CMG_FACTION + ' owns</span>' +
+          '<label class="cc-own" title="Set this colony owner; eligible spend can return to the selected faction">' +
+            '<select data-ct-own="' + enc + '" aria-label="Owner of ' + esc(r.name) + '">' +
+              '<option value="">Owner not set</option>' +
+              (window.ER_FACTIONS?.selectable || []).map(function (f) {
+                return '<option value="' + esc(f.id) + '"' + (COLONY_OWNER[r.colony] === f.id ? ' selected' : '') + '>' + esc(f.name) + '</option>';
+              }).join('') +
+            '</select>' +
           '</label>' +
           '<span class="cc-rate">' +
             '<input type="number" min="0" max="500" step="5" value="' + rate + '" data-ct-tax="' + enc + '" aria-label="Tax percent at ' + esc(r.name) + '" />' +
@@ -461,7 +465,7 @@ function renderColonies() {
     return '<div class="col-card' + (own ? ' cc-own-col' : '') + (r.priced ? '' : ' cc-info') + '">' +
       '<div class="cc-head">' +
         '<span class="cc-name">' + esc(r.name) + '</span>' +
-        (own ? '<span class="cc-badge">' + CMG_FACTION + '</span>' : '') +
+        (own ? '<span class="cc-badge">' + esc(window.factionById?.(COLONY_OWNER[r.colony])?.name || COLONY_OWNER[r.colony]) + '</span>' : '') +
         (rate > 0 ? '<span class="cc-taxbadge">' + rate + '%</span>' : '') +
       '</div>' +
       // ore chips carry the icon and how much you already hold, which is what
@@ -498,7 +502,7 @@ function updateColonyTaxNote() {
   if (note) {
     note.textContent = '⚡' + ENERGY_LEVEL + ' energy  ❄' + COOLING_LEVEL + ' cooling' +
       ' · ' + dest + ' ' + rate + '%' +
-      (isOwnColony(dest) ? ' (' + CMG_FACTION + ')' : '');
+      (isOwnColony(dest) ? ' (' + (window.factionById?.(activeFactionId())?.name || activeFactionId()) + ')' : '');
   }
   var slot = document.getElementById('slot-note');
   if (slot) {
@@ -549,13 +553,11 @@ function onColonyTaxChange(el) {
     renderColonies();
   } else if (ownFor) {
     var c = decodeURIComponent(ownFor);
-    if (el.checked) {
-      COLONY_OWNER[c] = CMG_FACTION;
-      // Ours are always 0% — set it rather than leaving a stale foreign rate.
-      COLONY_TAX[c] = 0;
-    } else {
-      delete COLONY_OWNER[c];
-    }
+    var owner = el.value || '';
+    if (owner) COLONY_OWNER[c] = owner;
+    else delete COLONY_OWNER[c];
+    saveColonySettings();
+    refreshEngineFactionContext();
     renderColonyTax();
   }
   saveColonySettings();

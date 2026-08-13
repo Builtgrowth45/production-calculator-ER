@@ -10,6 +10,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 function renderPlayerBar() {
   const sel = document.getElementById('player-select');
+  const factionSel = document.getElementById('player-faction');
   sel.innerHTML = '';
   const names = Object.keys(PLAYERS.players).sort();
   if (names.length === 0) {
@@ -20,6 +21,12 @@ function renderPlayerBar() {
     if (name === PLAYERS.active) o.selected = true;
     sel.appendChild(o);
   });
+  if (factionSel) {
+    factionSel.innerHTML = (window.ER_FACTIONS?.selectable || []).map(f =>
+      `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('');
+    factionSel.disabled = names.length === 0;
+    factionSel.value = names.length ? (S.getActiveFaction ? S.getActiveFaction() : 'UNAFFILIATED') : 'UNAFFILIATED';
+  }
   document.getElementById('player-name').textContent = PLAYERS.active;
 }
 
@@ -52,13 +59,13 @@ function refreshAll() {
     { emoji: '🗺️', label: `${mapCount} colony maps` },
     { emoji: '💊', label: `${drugCount} combat drugs` },
     { emoji: '🛡️', label: 'gear loadouts' },
-    { emoji: '📡', label: 'guild requests' },
+    { emoji: '📡', label: 'workspace requests' },
     { emoji: '📶', label: 'offline-ready' },
     { emoji: '🎨', label: `${themeCount} themes` },
   ];
   document.getElementById('stats').innerHTML =
     `<span class="footer-bar">` +
-    `<span class="footer-operator">⚙️ CMG OPS · ${esc(playerName)}</span>` +
+    `<span class="footer-operator">⚙️ Empire Rising · ${esc(playerName)}</span>` +
     features.map(f => `<span class="footer-chip">${f.emoji} ${f.label}</span>`).join('') +
     `</span>`;
   // Clear calc results on any state change; restore welcome if back to zero players
@@ -127,9 +134,11 @@ function handleImportFile(file) {
       if (PLAYERS.players[name]) {
         // merge by default
         importPlayer(name, clean);
+        if (obj.faction && S.setPlayerFaction) S.setPlayerFaction(name, obj.faction);
         toast(`Merged ${clean.length} entries into existing player "${esc(name)}".`);
       } else {
         importPlayer(name, clean);
+        if (obj.faction && S.setPlayerFaction) S.setPlayerFaction(name, obj.faction);
         toast(`Imported ${clean.length} entries for "${esc(name)}".`);
       }
       refreshAll();

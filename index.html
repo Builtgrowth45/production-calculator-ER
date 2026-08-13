@@ -140,6 +140,10 @@
 <div class="playerbar">
   <span class="player-label">Player:</span>
   <select id="player-select" aria-label="Select player"></select>
+  <label class="player-faction-control" title="Economic context only; this does not restrict recipes">
+    <span>Faction</span>
+    <select id="player-faction" aria-label="Player faction"></select>
+  </label>
   <button id="player-new" title="Add a new player">+ New</button>
   <button id="player-import" title="Import a player inventory from JSON">Import</button>
   <button id="player-export" title="Export the active player's inventory as JSON">Export</button>
@@ -883,7 +887,8 @@
 <script src="src/balance_stats.js?v=1"></script>
 <script src="src/costs.js?v=13"></script>
 <script src="src/armor_classes.js?v=3"></script>
-<script src="src/store.js?v=3"></script>
+<script src="src/factions.js?v=1"></script>
+<script src="src/store.js?v=4"></script>
 <script src="src/engine.js?v=19"></script>
 <script src="src/analytics.js?v=1"></script>
 <script src="src/ui/motion.js?v=1"></script>

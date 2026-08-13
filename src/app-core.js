@@ -322,54 +322,43 @@ function costFor(item, altIndex) {
 
 // ── Colony tax & faction ownership ─────────────────────────────────────────
 // Every price in costs.json was sampled at 0% tax, so a colony's rate is a
-// SURCHARGE on top of it. The colony's owner sets that rate, and it is charged
-// on mining, refining and producing alike. CMG's own colonies are 0%; allied
-// ones are often 0% too; the rest vary and have to be read in game.
-const CMG_FACTION = 'CMG';
-// Of every UC spent mining, refining or producing on a colony CMG owns, this
-// share flows back into faction funds. It is NOT a discount — the player still
-// pays full price — so it is reported on its own line, never netted off.
-const FACTION_REBATE = 0.85;
-// A starting point, not a fact: colonies change hands, so this only seeds a
-// blank slate and never overwrites a rate the player has since set.
-const CMG_HOLDINGS = ['Paris', 'Andromeda'];
-
+// surcharge on top of it. Ownership and return policy are local world-state
+// inputs; a fresh browser does not invent ownership for any faction.
+const DEFAULT_RETURN_RATE = 0.85;
 let COLONY_OWNER = {};   // location → owning faction
 let COLONY_TAX = {};     // location → tax percent charged there
 
 (function loadColonySettings() {
   try {
-    const raw = JSON.parse(localStorage.getItem('cmg_colony_tax_v1'));
+    const raw = JSON.parse(localStorage.getItem('er_colony_world_v2') || localStorage.getItem('cmg_colony_tax_v1'));
     if (raw) { COLONY_OWNER = raw.owner || {}; COLONY_TAX = raw.tax || {}; }
   } catch (e) { COLONY_OWNER = {}; COLONY_TAX = {}; }
-  CMG_HOLDINGS.forEach(c => {
-    if (COLONY_OWNER[c] == null) COLONY_OWNER[c] = CMG_FACTION;
-    if (COLONY_TAX[c] == null) COLONY_TAX[c] = 0;
-  });
 })();
 
-function saveColonySettings() {
-  try {
-    localStorage.setItem('cmg_colony_tax_v1',
-      JSON.stringify({ owner: COLONY_OWNER, tax: COLONY_TAX }));
-  } catch (e) {}
+function activeFactionId() {
+  return S.getActiveFaction ? S.getActiveFaction() : 'UNAFFILIATED';
 }
-
+function factionReturnRate(id) {
+  const f = window.factionById ? window.factionById(id) : null;
+  return f && typeof f.return_rate === 'number' ? f.return_rate : 0;
+}
+function activeFactionReturnRate() { return factionReturnRate(activeFactionId()); }
+function saveColonySettings() {
+  try { localStorage.setItem('er_colony_world_v2', JSON.stringify({ schema_version: 2, owner: COLONY_OWNER, tax: COLONY_TAX })); } catch (e) {}
+}
 function taxRateFor(loc) {
   const p = COLONY_TAX[loc];
   return typeof p === 'number' && p > 0 ? p / 100 : 0;
 }
-function isOwnColony(loc) { return COLONY_OWNER[loc] === CMG_FACTION; }
-
-// Cost-aware alternative-path picking in engine.js reads colony ownership
-// through these window hooks (engine.js loads BEFORE app-core.js, so it cannot
-// reference COLONY_OWNER / FACTION_REBATE directly). Without them the engine
-// falls back to sticker price; with them the Calculator and the Gear page's
-// set cost automatically choose the cheapest NET path for CMG — e.g. coal
-// from our own Andromeda instead of mineral oil for carbon fiber.
-window.ENGINE_COLONY_OWNED = isOwnColony;
-window.ENGINE_COLONY_REBATE = FACTION_REBATE;
-
+function isOwnColony(loc) {
+  const owner = COLONY_OWNER[loc];
+  return !!owner && owner === activeFactionId() && activeFactionReturnRate() > 0;
+}
+function refreshEngineFactionContext() {
+  window.ENGINE_COLONY_OWNED = isOwnColony;
+  window.ENGINE_COLONY_REBATE = activeFactionReturnRate();
+}
+refreshEngineFactionContext();
 // ── Shared across the guild ────────────────────────────────────────────────
 // Unlike a chosen mine site or a ticked checkbox, a colony's tax and its owner
 // are facts about the world, identical for everyone. Left per-device they had
@@ -662,8 +651,10 @@ function planCost(plan) {
     upkeep: surcharge - tax,   // slot upkeep alone, tax stripped out
     tax,
     drift: (feeCold - total) + mat.drift,
-    rebate: ownSpend * FACTION_REBATE,
+    rebate: ownSpend * activeFactionReturnRate(),
     ownSpend,
+    faction: activeFactionId(),
+    returnRate: activeFactionReturnRate(),
     runs, batches,
     anyUnknown: unknown > 0 || mat.unknown > 0
   };
@@ -885,10 +876,12 @@ function costBreakdown(cost, plan) {
   }
 
   if (cost.rebate > 0.005) {
-    rows.push(line(`↩ back to ${CMG_FACTION} funds`, fmtUC(cost.rebate), pctOf(cost.rebate, cost.grand), 'cb-back',
-      `${Math.round(FACTION_REBATE * 100)}% of the ${fmtUC(cost.ownSpend)} UC spent on colonies ${CMG_FACTION} owns. You still pay the full total — this returns to the faction, not to you.`));
-    rows.push(line('net cost to the guild', fmtUC(cost.grand - cost.rebate), pctOf(cost.grand - cost.rebate, cost.grand), 'cb-net',
-      'Total minus what comes back to faction funds. The real cost of the run to CMG as a whole.'));
+    const factionName = window.factionById?.(cost.faction)?.name || cost.faction;
+    const returnPct = Math.round(cost.returnRate * 100);
+    rows.push(line(`↩ back to ${esc(factionName)} funds`, fmtUC(cost.rebate), pctOf(cost.rebate, cost.grand), 'cb-back',
+      `${returnPct}% of the ${fmtUC(cost.ownSpend)} UC spent on colonies owned by ${esc(factionName)}. You still pay the full total — this returns to faction funds, not to you.`));
+    rows.push(line('cost to faction / guild', fmtUC(cost.grand - cost.rebate), pctOf(cost.grand - cost.rebate, cost.grand), 'cb-net',
+      'Total minus the configured return to faction funds.'));
   }
 
   return `<div class="cost-breakdown">${rows.join('')}</div>`;
@@ -928,7 +921,7 @@ function planRequestedQty(item) {
 // their input demand (resolvedInputs qty — the plan's single source of
 // truth for what each step really consumed). Walking finals' chains down
 // yields {total, owned} per final where `owned` is the share spent on
-// colonies CMG owns (the rebate base). Invariants, by construction:
+// colonies owned by the active faction (the return base). Invariants, by construction:
 //   Σ finals.total        == planCost(plan).grand
 //   Σ finals.owned        == planCost(plan).ownSpend
 //   Σ (total − rebate×owned) == grand − rebate  (the net-to-guild total)
@@ -1003,7 +996,8 @@ function renderPerUnitPricing(plan) {
   if (!finals.length) return '';
 
   const perItem = perItemPlanCosts(plan);
-  const rebatePct = Math.round(FACTION_REBATE * 100);
+  const rebatePct = Math.round(activeFactionReturnRate() * 100);
+  const factionName = window.factionById?.(activeFactionId())?.name || activeFactionId();
   let anyPriced = false;
   const rows = finals.map(s => {
     const pc = perItem[s.item];
@@ -1012,9 +1006,9 @@ function renderPerUnitPricing(plan) {
     if (total > 0) anyPriced = true;
 
     const unit = total / s.produced;
-    const guildUnit = (total - FACTION_REBATE * owned) / s.produced;
+    const guildUnit = (total - activeFactionReturnRate() * owned) / s.produced;
     const req = planRequestedQty(s.item);
-    const tip = 'One unit of ' + esc(displayName(s.item)) + '\'s share of the plan\'s actual costs — its processing fees (colony tax, slot upkeep and session drift included) plus its materials, allocated down the recipe chain. Rows add up to the Investment and Cost to guild totals above. Guild figure nets out the ' + rebatePct + '% rebate on colonies ' + CMG_FACTION + ' owns.';
+    const tip = 'One unit of ' + esc(displayName(s.item)) + '\'s share of the plan\'s actual costs — its processing fees (colony tax, slot upkeep and session drift included) plus its materials, allocated down the recipe chain. Rows add up to the Investment and faction cost totals above. Faction figure nets out the ' + rebatePct + '% configured return on colonies owned by ' + factionName + '.';
 
     return `<tr>
       <td class="up-item" title="${tip}">${iconFor(s.item)}<span>${esc(displayName(s.item))}</span></td>
@@ -1068,6 +1062,7 @@ function renderPerUnitPricing(plan) {
 // batch rounding included).
 function costHero(cost, totalProduced, gaps, finalCount) {
   const net = cost.grand - cost.rebate;
+  const factionName = window.factionById?.(cost.faction || activeFactionId())?.name || cost.faction || activeFactionId();
   const unknownNote = cost.anyUnknown
     ? ' · ' + gaps.join(' + ') + ' unpriced'
     : '';
@@ -1083,10 +1078,10 @@ function costHero(cost, totalProduced, gaps, finalCount) {
       <span class="cost-hero-value">${totalProduced > 0 ? fmtUC(cost.grand / totalProduced) : '—'}</span>
       <span class="cost-hero-sub">${avgNote}${totalProduced > 0 ? fmt(totalProduced) + ' units made' : 'nothing produced'}</span>
     </div>
-    <div class="cost-hero-block cost-hero-net" title="${Math.round(FACTION_REBATE * 100)}% of every UC spent on colonies ${CMG_FACTION} owns flows back into faction funds — this is the real per-unit price to the guild. With more than one item in the plan this is the average across them, weighted by units made.">
+    <div class="cost-hero-block cost-hero-net" title="${Math.round(activeFactionReturnRate() * 100)}% of eligible spend at colonies owned by ${esc(factionName)} returns to faction funds — this is the cost to that faction. With more than one item in the plan this is the average across them, weighted by units made.">
       <span class="cost-hero-label">Cost to guild / unit</span>
       <span class="cost-hero-value">${totalProduced > 0 ? fmtUC(net / totalProduced) : '—'}</span>
-      <span class="cost-hero-sub">${avgNote}after ${Math.round(FACTION_REBATE * 100)}% rebate</span>
+      <span class="cost-hero-sub">${avgNote}${activeFactionReturnRate() > 0 ? `after ${Math.round(activeFactionReturnRate() * 100)}% return` : 'no configured faction return'}</span>
     </div>
   </div>`;
 }

@@ -313,11 +313,9 @@ function scoreAlternative(alt, totalNeed, outQty) {
 // (window.COSTS, loaded before this file) these helpers price each path at its
 // NET cost to CMG — the per-batch processing fee at the destination plus the
 // raw materials at their mine site, each reduced by the faction rebate where
-// CMG owns the colony — and pickAlternativeIndex takes the cheapest.
 // Colony ownership is read lazily through window hooks that app-core.js
-// installs (it owns COLONY_OWNER / FACTION_REBATE and loads AFTER this file);
-// with no hook installed (test harness, standalone) the factor is 1, i.e. the
-// estimate degrades to plain sticker price.
+// installs; with no hook installed (test harness, standalone) the factor is 1,
+// i.e. the estimate degrades to plain sticker price.
 function colonyFactor(loc) {
   const owned = (typeof window.ENGINE_COLONY_OWNED === 'function') && window.ENGINE_COLONY_OWNED(loc);
   if (!owned) return 1;

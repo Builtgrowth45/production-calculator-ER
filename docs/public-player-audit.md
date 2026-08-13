@@ -1,6 +1,6 @@
 # Public Player and All-Factions Audit — Fresh Baseline
 
-**Status:** Baseline captured before implementation
+**Status:** Baseline captured; first implementation slice complete
 
 **Repository:** `ChrisFromNEPA/production-calculator-ER`
 
@@ -112,3 +112,36 @@ The public site is renderable and broadly navigable, but it does **not** yet mee
 6. Re-run real-browser interaction and accessibility QA after implementation.
 
 No public push or Cloudflare change was performed for this baseline.
+
+## Implementation slice 1 — canonical factions and neutral player baseline
+
+**Completed locally:**
+
+- Added `data/factions.json` as the canonical faction registry, including explicit recipe/client aliases and a safe `UNAFFILIATED` mode.
+- Added the browser-loaded `src/factions.js` registry adapter and loaded it before the store.
+- Added versioned player profile metadata (`schema_version: 2`) with faction persistence and safe migration of legacy inventory-only profiles.
+- Added faction selection to the player bar and new-player flow; imported workspace JSON can carry `faction` without breaking legacy array exports.
+- Replaced fixed CMG colony holdings with local, explicit owner-faction state. Fresh state assigns no colony owner and no faction return.
+- Made faction return policy active-faction dependent. The reviewed 85% value remains CMG-specific metadata and is never applied to other factions or unaffiliated users.
+- Replaced the colony `CMG owns` checkbox with an owner-faction selector.
+- Reworded calculation, gear, footer, and request surfaces to distinguish player spend from faction return without presenting CMG as the required public identity.
+- Updated the pricing regression to assert the new unaffiliated default: no fabricated rebate and gross cost equals cost-to-guild cost.
+
+**Verification:**
+
+- `npm test`: 110 tests passed.
+- `npm run build`: passed; 5,091 files copied into `dist/`.
+- `npm run assets:check`: passed; 4,430 approved binary assets.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- `git diff --check`: passed.
+- Real Chromium fallback against the locally built `dist/`: faction selector and registry option rendered; neutral footer/request copy rendered; no `CMG owns` UI remained; Chromium stderr was empty.
+- Hermes browser harness remains unavailable in this environment (`chrome-not-running`), so this is not claimed as full interactive accessibility QA.
+
+**Remaining audit work:**
+
+- Full interactive faction switching and owner-policy browser traversal.
+- All-faction calculation invariants and alternative-path behavior with explicit owner/faction fixtures.
+- Colony tax/ownership import/export coverage and workspace round trips.
+- Neutralization of remaining generated Academy/product language where it implies guild membership is required.
+- Desktop/mobile/direct-route/offline/accessibility matrix and regression review.
+- Release documentation and release gate after all plan phases pass.

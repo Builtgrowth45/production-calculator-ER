@@ -17,14 +17,42 @@
 // ---- localStorage keys ----
 const LS_KEY = 'cmg_players_v1';
 const PATHS_KEY = 'cmg_paths_v1';
+const PLAYER_SCHEMA_VERSION = 2;
+const DEFAULT_FACTION = 'UNAFFILIATED';
+
+function normalizeFaction(value) {
+  try {
+    if (typeof window.normalizeFactionId === 'function') return window.normalizeFactionId(value);
+  } catch (e) {}
+  const id = String(value == null ? '' : value).trim().toUpperCase();
+  return id || DEFAULT_FACTION;
+}
+
+function normalizePlayerState(state) {
+  const source = state && typeof state === 'object' ? state : {};
+  const players = source.players && typeof source.players === 'object' ? source.players : {};
+  const profiles = source.profiles && typeof source.profiles === 'object' ? source.profiles : {};
+  const migratedProfiles = {};
+  Object.keys(players).forEach(name => {
+    const profile = profiles[name] && typeof profiles[name] === 'object' ? profiles[name] : {};
+    migratedProfiles[name] = { faction: normalizeFaction(profile.faction) };
+  });
+  return {
+    ...source,
+    schema_version: PLAYER_SCHEMA_VERSION,
+    active: typeof source.active === 'string' ? source.active : '',
+    players,
+    profiles: migratedProfiles,
+  };
+}
 
 // ---- Player registry ----
 function loadPlayers() {
   try {
     const raw = localStorage.getItem(LS_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) return normalizePlayerState(JSON.parse(raw));
   } catch (e) { /* corrupt storage — start fresh */ }
-  return { active: '', players: {} };
+  return { schema_version: PLAYER_SCHEMA_VERSION, active: '', players: {}, profiles: {} };
 }
 
 /** Write directly to localStorage only (no push sync). */
@@ -74,6 +102,19 @@ function ensureActivePlayer() {
     savePlayersLocal(PLAYERS);
   }
   return next;
+}
+
+function getActiveFaction() {
+  const name = PLAYERS.active;
+  return normalizeFaction(PLAYERS.profiles?.[name]?.faction);
+}
+
+function setPlayerFaction(name, faction) {
+  if (!name || !PLAYERS.players[name]) return false;
+  PLAYERS.profiles = PLAYERS.profiles || {};
+  PLAYERS.profiles[name] = { ...(PLAYERS.profiles[name] || {}), faction: normalizeFaction(faction) };
+  savePlayers(PLAYERS);
+  return true;
 }
 
 function migrateLocationNames(store) {
@@ -220,6 +261,8 @@ function importPlayer(name, arr) {
       quantity: Math.floor(e.quantity)
     };
   });
+  PLAYERS.profiles = PLAYERS.profiles || {};
+  PLAYERS.profiles[name] = { ...(PLAYERS.profiles[name] || {}), faction: normalizeFaction(PLAYERS.profiles[name]?.faction) };
   migrateLocationNames(PLAYERS); // fold any duplicates the rename created
   PLAYERS.active = name;
   savePlayers(PLAYERS);
@@ -228,7 +271,9 @@ function importPlayer(name, arr) {
 
 function exportPlayer() {
   return {
+    schema_version: PLAYER_SCHEMA_VERSION,
     player: PLAYERS.active,
+    faction: getActiveFaction(),
     inventory: getInv().map(e => ({ item: e.item, location: e.location, quantity: e.quantity }))
   };
 }
@@ -269,6 +314,8 @@ const STORE = {
   deleteEntry,
   migrateLocationNames,
   ensureActivePlayer,
+  getActiveFaction,
+  setPlayerFaction,
 
   // Aggregations (read by engine)
   get INV_TOTAL() { return INV_TOTAL; },

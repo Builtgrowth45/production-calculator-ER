@@ -472,6 +472,13 @@ document.addEventListener('DOMContentLoaded', () => {
     PLAYERS.active = e.target.value; savePlayers(PLAYERS); recomputeInv(); refreshAll();
     ANALYTICS.track('player_switch');
   });
+  document.getElementById('player-faction')?.addEventListener('change', e => {
+    if (!PLAYERS.active || !S.setPlayerFaction) return;
+    S.setPlayerFaction(PLAYERS.active, e.target.value);
+    refreshAll();
+    ANALYTICS.track('player_faction_change', { faction: e.target.value });
+    toast(`Economic context set to ${e.target.options[e.target.selectedIndex]?.textContent || e.target.value}. Recipes remain available.`);
+  });
   document.getElementById('player-new').addEventListener('click', () => {
     // Inline name input instead of browser prompt()
     const existing = document.querySelector('.player-new-input');
@@ -488,16 +495,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const n = inp.value.trim();
         if (!n) { row.remove(); return; }
         if (PLAYERS.players[n]) { toast('That player already exists.'); row.remove(); return; }
-        PLAYERS.players[n] = []; PLAYERS.active = n; savePlayers(PLAYERS); recomputeInv(); refreshAll();
+        PLAYERS.players[n] = [];
+        PLAYERS.profiles = PLAYERS.profiles || {};
+        PLAYERS.profiles[n] = { faction: faction.value || 'UNAFFILIATED' };
+        PLAYERS.active = n; savePlayers(PLAYERS); recomputeInv(); refreshAll();
         row.remove();
       }
       if (e.key === 'Escape') row.remove();
     });
+    const faction = document.createElement('select');
+    faction.setAttribute('aria-label', 'New player faction');
+    faction.innerHTML = (window.ER_FACTIONS?.selectable || []).map(f =>
+      `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('');
     const btn = document.createElement('button');
     btn.textContent = 'Create';
     btn.style.cssText = 'background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer';
     btn.addEventListener('click', () => { inp.dispatchEvent(new KeyboardEvent('keydown', {key:'Enter'})); });
-    row.append(inp, btn);
+    row.append(inp, faction, btn);
     bar.appendChild(row);
     inp.focus();
   });

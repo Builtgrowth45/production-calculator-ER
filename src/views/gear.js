@@ -231,25 +231,25 @@ function renderGearDest() {
   const rate = typeof COLONY_TAX[DESTINATION] === 'number' ? COLONY_TAX[DESTINATION] : 0;
   const factions = (DATA._reference && DATA._reference.factions) || {};
   const ownerName = own ? (factions[own] || own) : 'owner not set';
-  const isCMG = own === CMG_FACTION;
+  const activeFaction = activeFactionId();
+  const activeFactionName = window.factionById?.(activeFaction)?.name || activeFaction;
+  const ownedByActive = own === activeFaction && activeFactionReturnRate() > 0;
   const taxTxt = rate > 0 ? rate + '% tax' : '0% tax';
 
-  // The number a smart player is comparing: how much of THIS set's processing
-  // fees would come back to CMG if the destination were ours.
   let forfeit = 0;
   try {
     const cost = planCost(computeGearPlan());
-    if (!isCMG && cost && cost.total > 0.005) forfeit = cost.total * FACTION_REBATE;
+    if (!ownedByActive && cost && cost.total > 0.005) forfeit = cost.total * activeFactionReturnRate();
   } catch (e) { /* unpriced set — show the plain warning */ }
 
   const ours = Object.entries(COLONY_OWNER)
-    .filter(([, f]) => f === CMG_FACTION).map(([c]) => c).sort();
+    .filter(([, f]) => f === activeFaction).map(([c]) => c).sort();
 
-  status.innerHTML = isCMG
-    ? `<div class="gear-dest-ok">✔ <b>${esc(DESTINATION)}</b> · ${esc(ownerName)} · ${taxTxt} — configured faction return: ${Math.round(FACTION_REBATE * 100)}%.</div>`
-    : `<div class="gear-dest-warn">⚠ <b>${esc(DESTINATION)}</b> · ${esc(ownerName)} · ${taxTxt} — no configured faction return for this colony.` +
-      (forfeit > 0.005 ? ` Producing this set here forfeits ~<b>${fmtUC(forfeit)} UC</b> in potential faction return.` : '') +
-      (ours.length ? ` Switch to ${ours.map(c => esc(c)).join(' or ')} to earn it back.` : '') +
+  status.innerHTML = ownedByActive
+    ? `<div class="gear-dest-ok">✔ <b>${esc(DESTINATION)}</b> · ${esc(ownerName)} · ${taxTxt} — configured ${Math.round(activeFactionReturnRate() * 100)}% ${esc(activeFactionName)} return.</div>`
+    : `<div class="gear-dest-warn">⚠ <b>${esc(DESTINATION)}</b> · ${esc(ownerName)} · ${taxTxt} — no configured ${esc(activeFactionName)} return for this colony.` +
+      (forfeit > 0.005 ? ` Producing this set here misses ~<b>${fmtUC(forfeit)} UC</b> in potential faction return.` : '') +
+      (ours.length ? ` Switch to ${ours.map(c => esc(c)).join(' or ')} to use configured ${esc(activeFactionName)} return.` : '') +
       '</div>';
 }
 
@@ -370,7 +370,7 @@ function showGearPicker(slotName, armorType) {
         const run = c.perRun > 1
           ? `<span class="gpi-cost-run">${fmtUC(c.runNet)} per run of ${c.perRun}</span>` : '';
         costHtml = `<div class="gpi-cost${best ? ' best' : ''}">
-             <span class="gpi-cost-lbl">costs CMG · each</span>
+             <span class="gpi-cost-lbl">costs ${esc(window.factionById?.(activeFactionId())?.name || activeFactionId())} · each</span>
              <span class="gpi-net">${fmtUC(c.rebate > 0.005 ? c.net : c.total)}${c.unknown ? '+' : ''}</span>
              <span class="gpi-cost-sub">${sub}</span>
              ${run}
@@ -388,8 +388,8 @@ function showGearPicker(slotName, armorType) {
             ? `A run at ${esc(DESTINATION)} makes ${c.perRun} and costs ${fmtUC(c.runTotal)} UC, so ${fmtUC(c.total)} per piece`
             : `Making one at ${esc(DESTINATION)} costs ${fmtUC(c.total)} UC`)
           + (c.rebate > 0
-              ? `. ${fmtUC(c.rebate)} per piece returns to ${CMG_FACTION} funds, leaving the guild down ${fmtUC(c.net)} each`
-              : `, and none returns to ${CMG_FACTION} funds because ${esc(DESTINATION)} is not ours`)
+              ? `. ${fmtUC(c.rebate)} per piece returns to ${window.factionById?.(activeFactionId())?.name || activeFactionId()} funds, leaving the faction down ${fmtUC(c.net)} each`
+              : `, and none returns to ${window.factionById?.(activeFactionId())?.name || activeFactionId()} funds because ${esc(DESTINATION)} is not owned by the active faction`)
           + '.'
         : '';
       return `<div class="gear-picker-item${best ? ' gpi-best' : ''}" data-item="${encodeURIComponent(name)}"${
