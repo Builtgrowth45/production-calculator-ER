@@ -8,7 +8,7 @@ Created by **John Snow** with members of the **Colonization & Mining Guild (CMG)
 
 ## Status
 
-This repository is the clean public migration of the earlier private CMG calculator. The application is being adapted for static GitHub Pages hosting while preserving the calculator's useful workflows through local browser storage and explicit import/export.
+This repository is the clean public migration of the earlier private CMG calculator. The application is deployed to GitHub Pages and preserves the calculator's useful workflows through local browser storage and explicit import/export.
 
 ## Development
 
@@ -22,10 +22,10 @@ npm ci
 npm run check
 npm run test:3d
 npm run test:budgets
-npm run assets:report
+npm run assets:check
 ```
 
-`npm run assets:check` is intentionally fail-closed while game-derived binaries lack redistribution approval. It must pass before a public release; use `assets:report` during development to inspect the outstanding review list.
+`npm run assets:check` verifies that every shipped binary has a recorded provenance and project-owner redistribution approval. Use `assets:report` to inspect the inventory.
 
 The Pages artifact is built with `npm run build:pages` into `dist/`. The GitHub Actions workflows build from a clean checkout and deploy only that artifact.
 
@@ -41,4 +41,10 @@ Human-readable source tables, provenance, calculation formulas, known limitation
 
 ## License and asset notice
 
-Original calculator code is intended to be released under the MIT License. Empire Rising game data, names, and extracted assets may be subject to separate rights and are not automatically covered by the software license. See `DISCLAIMER.md` and the forthcoming provenance documentation before redistributing any asset class.
+Original calculator code is released under the MIT License. Empire Rising game data, names, and extracted assets remain subject to separate rights and are not automatically covered by the software license. See `DISCLAIMER.md` and `docs/asset-provenance.md` before redistributing any asset class.
+
+## Live deployment
+
+The public site is available at <https://chrisfromnepa.github.io/production-calculator-ER/>. It is a static GitHub Pages deployment; the application does not require Cloudflare, authentication, a GitHub token, or a shared backend.
+
+Live release verification is recorded in [`docs/release-qa.md`](docs/release-qa.md).
