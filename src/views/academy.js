@@ -1,7 +1,7 @@
 /**
- * src/views/academy.js — Academy tab
+ * src/views/academy.js — public knowledge-base tab
  * ============================================================================
- * Renders the CMG Academy knowledge base (academy/*.md, pre-converted to HTML
+ * Renders the Empire Rising knowledge base (academy/*.md, pre-converted to HTML
  * by scripts/build-academy.mjs into window.ACADEMY_DOCS). Left sidebar = doc
  * list with search; main pane = the selected doc, rendered read-only.
  */
@@ -58,7 +58,7 @@ function renderAcademyPane() {
   pane.innerHTML = `
     <div class="academy-doc-head">
       <h4 class="academy-doc-heading">${esc(doc.title)}</h4>
-      <span class="muted academy-doc-meta">CMG Academy · member knowledge base</span>
+      <span class="muted academy-doc-meta">Empire Rising Knowledge Base · public reference</span>
     </div>
     <div class="academy-doc-body">${doc.html}</div>`;
   // Delegate: internal [text](mining.md) links switch docs; external open new tab.

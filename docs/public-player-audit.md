@@ -195,6 +195,27 @@ No public push or Cloudflare change was performed for this baseline.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - Syntax checks and `git diff --check`: passed.
 
+## Implementation slice 5 — neutral public knowledge surfaces
+
+**Completed locally:**
+
+- Renamed visible Academy navigation and headings to `Knowledge Base` / `Empire Rising Knowledge Base`.
+- Reworded the Academy introduction and document metadata so the reference is public and open to every player.
+- Preserved CMG as factual historical/source attribution rather than a membership requirement.
+- Reworded source Academy guidance from members/officers/guild Discord to players, contributors, and public issues.
+- Neutralized the standalone data-help footer and remaining confirmed membership-oriented copy in the public source tree.
+- Regenerated `src/academy_docs.js` from `academy/*.md`; no generated file was hand-edited.
+
+**Verification:**
+
+- Neutral public-copy contract: 2/2 passed.
+- `npm test`: 130 tests passed.
+- Academy generation: 12 documents rebuilt successfully.
+- `npm run build`: passed; 5,091 files copied into `dist/`.
+- `npm run assets:check`: passed; 4,430 approved binary assets.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- `git diff --check`: passed.
+
 ## Implementation slice 4 — portable public workspace
 
 **Completed locally:**

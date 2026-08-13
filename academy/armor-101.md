@@ -48,7 +48,7 @@ Most of these share the standard inputs (carbon fiber / titanium syntactic foam 
 ## Strategy notes
 
 - **Set-craft, don't piece-craft.** Six pieces share materials; planning the set through the calculator's tray shares the stock ledger, so surplus from one piece feeds the next — the panel even warns you when per-piece planning would over-count batches.
-- **The tiers are the roadmap:** Basic (titanium) → Modified/Altered (carbon fiber) → Tremor (+cobalt). New members should farm the Basic tier while stockpiling titanium; veterans push Tremor and Dilatant 50b.
+- **The tiers are the roadmap:** Basic (titanium) → Modified/Altered (carbon fiber) → Tremor (+cobalt). New players can farm the Basic tier while stockpiling titanium; experienced players can push Tremor and Dilatant 50b.
 - **Faction tags** (e.g. EC) mark recipe origins — some families may gate behind faction unlocks. Verify in-app.
 
 *Source: `game_data.json` recipes, Armor category (255 recipes).*

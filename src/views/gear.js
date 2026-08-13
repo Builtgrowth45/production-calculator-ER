@@ -589,8 +589,8 @@ function reqStatus(msg) {
 
 // Adopt remote inventories: other players' data always wins; the active
 // player's data is only adopted when we have no local edit waiting to push.
-// Players present in the previous remote snapshot but now gone were removed
-// by another guild member — drop them locally too so deletions propagate.
+// Players present in the previous shared snapshot but now gone were removed
+// by another workspace participant — drop them locally too so deletions propagate.
 function adoptRemoteInventory(remote) {
   if (!remote || typeof remote !== 'object') return;
   const prev = SHARED_INV;
@@ -770,8 +770,8 @@ function startReqPolling() {
   });
 }
 
-// Names for assign dropdowns: local players plus anyone seen in the shared
-// requests (so guild members' names propagate across browsers).
+// Names for assign dropdowns: local players plus anyone seen in the
+// shared requests (so participant names propagate across browsers).
 function reqKnownNames() {
   const names = new Set(PLAYERS.players ? Object.keys(PLAYERS.players) : []);
   REQUESTS.forEach(r => {

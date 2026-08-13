@@ -1,14 +1,14 @@
-# 🎓 CMG Academy — Knowledge Base
+# 🎓 Empire Rising Knowledge Base
 
-*Knowledge program for the Colonization & Mining Guild. Data verified against `data/game_data.json`, 2026-08-06.*
+*Public reference guides for Empire Rising. Data verified against `data/game_data.json`, 2026-08-06. Historical and source attribution to the Colonization & Mining Guild (CMG) is retained where relevant.*
 
-The guild's edge is knowing the map, the chains, and the numbers. This is that knowledge, written down so nobody has to relearn it the hard way.
+This is a community-maintained reference for the map, production chains, and game systems — written down so every player can use the same facts.
 
 ## Guides
 
 | Guide | What it covers |
 |---|---|
-| [Mining](mining.md) | All 13 mine sites, what each yields, and the resource choke points that drive guild strategy |
+| [Mining](mining.md) | All 13 mine sites, what each yields, and the resource choke points that drive route planning |
 | [Production 101](production-101.md) | How the economy actually works: mine → refine → manufacture, batch math, fees, colonies |
 | [Armor 101](armor-101.md) | The armor production landscape: the Aramid ladder, Dilatant, the 30+ six-piece families |
 | [Attributes 101](attributes-101.md) | Every stat decoded: the four character-sheet panels, the 5 damage channels, and what your gear actually does |
@@ -22,20 +22,20 @@ The guild's edge is knowing the map, the chains, and the numbers. This is that k
 
 ## How to use this
 
-- **New members:** start with Mining → Production 101 → Armor 101. By the end you'll know what to mine, where, and why.
-- **Veterans:** Drugs is the quick-reference; Mining has the choke-point table that drives route planning.
-- **Officers:** cross-check everything against the live calculator — costs drift with colony taxes and session state.
+- **New players:** start with Mining → Production 101 → Armor 101. By the end you'll know what to mine, where, and why.
+- **Experienced players:** Drugs is the quick-reference; Mining has the choke-point table that drives route planning.
+- **Contributors:** cross-check everything against the calculator — costs drift with colony taxes and local session state.
 
 ## House rules
 
-1. The source of truth is `game_data.json` + the live calculator. If a doc disagrees with the app, **the app wins** — and tell an officer so we can fix whichever is wrong.
+1. The source of truth is `game_data.json` + the calculator. If a doc disagrees with the app, **the app wins** — open a public issue so the source or guide can be corrected.
 2. Known gaps are documented in the guides (e.g. `ultra resilient mineral` has no mine site yet — see [Armor 101](armor-101.md#known-gaps)).
-3. Want a topic covered? Request it in the guild Discord — the academy grows on member questions.
+3. Want a topic covered? Open a public issue or contribution request — the knowledge base grows through community questions.
 
 ## Roadmap
 
 - [x] Mining / Production / Armor / Drugs guides
 - [x] In-app Academy tab — docs auto-converted to the tab by `scripts/build-academy.mjs` → `src/academy_docs.js`
-- [ ] Item spotlights (recurring, Discord)
+- [ ] Item spotlights (community updates)
 - [ ] Gear loadout guides
 - [ ] Colony-by-colony production hub notes
