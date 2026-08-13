@@ -1,14 +1,14 @@
 /* Surviving Battle Nodes and Gear reference surfaces. */
 
 /* Player utility menu must layer above content without escaping the viewport. */
-.playerbar { overflow: visible; isolation: isolate; }
-.player-actions { position: relative; z-index: 90; }
-.player-actions[open] { z-index: 120; }
+.playerbar { position: relative; z-index: 200; overflow: visible; isolation: isolate; }
+.player-actions { position: relative; z-index: 210; }
+.player-actions[open] { z-index: 220; }
 .player-actions > summary { white-space: nowrap; display: inline-flex; align-items: center; gap: .35rem; }
 .player-actions > summary::after { content: '▾'; color: var(--muted); font-size: .65rem; }
 .player-actions[open] > summary::after { content: '▴'; }
 .player-actions-menu {
-  z-index: 130; left: 0; right: auto; width: 240px; min-width: 0;
+  z-index: 230; left: 0; right: auto; width: 240px; min-width: 0;
   max-width: calc(100vw - 1.5rem); max-height: min(70vh, 420px); overflow-y: auto;
   grid-template-columns: 1fr; gap: .35rem; padding: .55rem;
   border-color: var(--line-bright); background: var(--bg2);

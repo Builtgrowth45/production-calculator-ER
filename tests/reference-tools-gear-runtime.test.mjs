@@ -40,8 +40,9 @@ describe('Player Tools overlay containment', () => {
   it('uses a top-layer popover contract that cannot escape the viewport', () => {
     assert.match(css, /\.player-actions-menu\s*\{[^}]*z-index:/s);
     assert.match(css, /\.player-actions-menu\s*\{[^}]*max-width:\s*calc\(100vw/s);
-    assert.match(css, /\.playerbar\s*\{[^}]*overflow:\s*visible/s);
+    assert.match(css, /\.playerbar\s*\{[^}]*z-index:\s*200[^}]*overflow:\s*visible/s);
     assert.match(init, /player-actions[\s\S]*toggle|player-actions[\s\S]*closest/s);
+    assert.match(init, /settings-menu[\s\S]*playerActions\.open\s*=\s*false/s);
   });
 });
 

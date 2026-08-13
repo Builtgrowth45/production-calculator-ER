@@ -390,6 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
   playerActions?.addEventListener('toggle', () => {
     if (playerActions.open) document.querySelector('.settings-menu')?.removeAttribute('open');
   });
+  document.querySelector('.settings-menu')?.addEventListener('toggle', e => {
+    if (e.currentTarget.open && playerActions) playerActions.open = false;
+  });
 
   // apply-plan buttons (event delegation on calc result areas)
   document.getElementById('calc-result').addEventListener('click', e => {
