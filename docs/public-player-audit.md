@@ -145,3 +145,31 @@ No public push or Cloudflare change was performed for this baseline.
 - Neutralization of remaining generated Academy/product language where it implies guild membership is required.
 - Desktop/mobile/direct-route/offline/accessibility matrix and regression review.
 - Release documentation and release gate after all plan phases pass.
+
+## Implementation slice 2 — neutral colony world snapshots
+
+**Completed locally:**
+
+- Added explicit `Unknown / Owner not set` semantics alongside registry-derived faction owners.
+- Added neutral versioned `empire-rising-colony-world` snapshot export/import/reset controls.
+- Validated snapshot schema, faction IDs, tax ranges, and malformed-input rejection before mutation.
+- Preserved owner/tax independence: changing owner never silently changes the configured tax.
+- Kept legacy `cmg_colony_tax_v1` readable while storing new state under `er_colony_world_v2`.
+- Added local-device labeling so world ownership and tax are not presented as live synchronized game data.
+
+**Verification:**
+
+- `npm test`: 118 tests passed.
+- Colony-world source contract: 4/4 passed.
+- Colony-world runtime snapshot tests: 4/4 passed.
+- `npm run build`: passed; 5,091 files copied into `dist/`.
+- `npm run assets:check`: passed; 4,430 approved binary assets.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- `git diff --check`: passed.
+
+**Remaining audit work:**
+
+- Cross-faction math matrix and explicit calculation contexts.
+- Full workspace export/import including player, plans, requests, gear, world state, and preferences.
+- Neutralization of remaining generated Academy/product language where it implies guild membership is required.
+- Desktop/mobile/direct-route/offline/accessibility matrix and release review.

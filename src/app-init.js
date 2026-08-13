@@ -183,6 +183,33 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('col-search')?.addEventListener('input', () => renderColonies());
   document.getElementById('col-priced-only')?.addEventListener('change', () => renderColonies());
+  document.getElementById('colony-world-export')?.addEventListener('click', () => {
+    downloadJSON(exportColonyWorld(), 'empire-rising-colony-world.json');
+    const status = document.getElementById('colony-world-status');
+    if (status) status.textContent = 'Exported the local colony world snapshot.';
+  });
+  document.getElementById('colony-world-reset')?.addEventListener('click', () => {
+    resetColonyWorld();
+    const status = document.getElementById('colony-world-status');
+    if (status) status.textContent = 'Reset local ownership and tax settings; no colony owners are assumed.';
+  });
+  document.getElementById('colony-world-import')?.addEventListener('click', () => document.getElementById('colony-world-import-file')?.click());
+  document.getElementById('colony-world-import-file')?.addEventListener('change', e => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        importColonyWorld(JSON.parse(reader.result));
+        const status = document.getElementById('colony-world-status');
+        if (status) status.textContent = 'Imported the local colony world snapshot.';
+      } catch (err) {
+        const status = document.getElementById('colony-world-status');
+        if (status) status.textContent = `Import rejected: ${err.message}`;
+      } finally { e.target.value = ''; }
+    };
+    reader.readAsText(file);
+  });
   registerViewHook({ view: 'colonies', fn: renderColonies });
   renderColonies();
   // Energy/cooling: 'input' keeps the readout live while dragging, 'change'

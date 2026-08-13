@@ -788,8 +788,13 @@
     <div class="col-toolbar">
       <input id="col-search" placeholder="filter colonies…" aria-label="Filter colonies" />
       <label class="checkbox-label"><input type="checkbox" id="col-priced-only" /> only ones the calculator costs</label>
-      <span class="muted" id="col-count"></span>
-      <span class="muted" id="col-sync-note"></span>
+      <div class="col-toolbar-actions">
+      <button id="colony-world-export" class="ghost" type="button">Export world snapshot</button>
+      <button id="colony-world-import" class="ghost" type="button">Import world snapshot</button>
+      <button id="colony-world-reset" class="ghost" type="button">Reset local world</button>
+      <input id="colony-world-import-file" type="file" accept="application/json,.json" hidden />
+      </div>
+      <div id="colony-world-status" class="muted" aria-live="polite">World ownership and tax settings are stored locally on this device.</div>
     </div>
     <details class="slot-guide">
       <summary>⛏️ How a slot actually works — energy, cooling, heat and cost</summary>

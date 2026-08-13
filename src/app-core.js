@@ -346,6 +346,47 @@ function activeFactionReturnRate() { return factionReturnRate(activeFactionId())
 function saveColonySettings() {
   try { localStorage.setItem('er_colony_world_v2', JSON.stringify({ schema_version: 2, owner: COLONY_OWNER, tax: COLONY_TAX })); } catch (e) {}
 }
+function normalizeColonyWorldOwner(value) {
+  const id = String(value || '').trim().toUpperCase();
+  return window.factionById?.(id) ? id : '';
+}
+function exportColonyWorld() {
+  return {
+    schema_version: 2,
+    type: 'empire-rising-colony-world',
+    owner: { ...COLONY_OWNER },
+    tax: { ...COLONY_TAX },
+    exported_at: new Date().toISOString(),
+  };
+}
+function importColonyWorld(payload) {
+  if (!payload || typeof payload !== 'object' || payload.type !== 'empire-rising-colony-world' || payload.schema_version !== 2) {
+    throw new Error('Invalid colony world snapshot');
+  }
+  const owner = {};
+  const tax = {};
+  Object.entries(payload.owner || {}).forEach(([colony, faction]) => {
+    const id = normalizeColonyWorldOwner(faction);
+    if (id) owner[String(colony)] = id;
+  });
+  Object.entries(payload.tax || {}).forEach(([colony, rate]) => {
+    if (Number.isFinite(rate) && rate >= 0 && rate <= 500) tax[String(colony)] = Math.floor(rate);
+  });
+  COLONY_OWNER = owner;
+  COLONY_TAX = tax;
+  saveColonySettings();
+  refreshEngineFactionContext();
+  if (typeof renderColonyTax === 'function') renderColonyTax();
+  return exportColonyWorld();
+}
+function resetColonyWorld() {
+  COLONY_OWNER = {};
+  COLONY_TAX = {};
+  saveColonySettings();
+  refreshEngineFactionContext();
+  if (typeof renderColonyTax === 'function') renderColonyTax();
+  return exportColonyWorld();
+}
 function taxRateFor(loc) {
   const p = COLONY_TAX[loc];
   return typeof p === 'number' && p > 0 ? p / 100 : 0;
