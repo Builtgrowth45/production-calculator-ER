@@ -4,8 +4,8 @@ This public release is intentionally local-first. The following limitations are 
 
 - There is no login, shared guild database, Cloudflare API, remote analytics endpoint, or real-time collaboration.
 - Player profiles, inventories, plans, requests, gear, preferences, analytics events, and world context live in the current browser unless exported.
-- Colony owners, taxes, faction policies, transport assumptions, drift, and slot settings are user-maintained context; the app does not claim they are live game truth.
-- Faction return policies are not generalized from CMG to every faction. Invalid or unknown policies produce no return.
+- Colony owners, taxes, transport assumptions, drift, and slot settings are user-maintained context; the app does not claim they are live game truth.
+- The 85% colony-owner / 15% Global Dominion split is modeled before tax for every faction. The displayed 50/50 allocation of Global Dominion income to FDC and LED is an explicit assumption, not a verified game formula.
 - Unaffiliated mode reports gross-cost behavior and does not invent ownership or rebates.
 - Production-time estimates and live market/ownership feeds are not provided.
 - The service worker can retain an older static asset until the browser completes an update cycle. Reload with network access after a release if behavior appears stale.

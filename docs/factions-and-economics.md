@@ -1,54 +1,59 @@
 # Factions and economics
 
-The public calculator separates three concepts that are easy to conflate:
+The calculator separates four concepts:
 
-1. **Player spend** — what the selected recipe, materials, destination, tax, and transport require the player to acquire or pay.
-2. **Faction return** — a configured return policy for an explicitly selected faction and explicitly owned colony.
-3. **Net faction cost** — gross player spend after the applicable faction return. This is a planning metric for the faction, not a personal discount unless the player and faction have separately agreed to that interpretation.
+1. **Player spend** — everything paid for mining, production, tax, and the modeled plan.
+2. **Colony-owner return** — 85% of mining or production spend at a colony, calculated before tax, returned to that colony's owner.
+3. **Global Dominion share** — the remaining 15% of that same pre-tax mining or production spend.
+4. **Net faction cost / cost to guild** — player spend minus the 85% that returns to the selected faction at colonies it owns.
 
-## Faction selection
+The owner return is faction-neutral. BOS, CMG, EC, FDC, GOM, LED, MOTB/MOB, and VI all use the same 85% rule when the colony's configured owner matches the active player's faction. `Unaffiliated` receives no owner return.
 
-A player profile may select any faction in the public registry or `Unaffiliated`. Faction selection:
+## Faction and colony selection
 
-- changes the economic context used for return/net-cost calculations;
-- does not restrict the recipes, items, destinations, or reference material visible to the player;
-- is stored in the versioned player profile and included in player/workspace exports;
-- may be changed later without changing inventory quantities.
+The active player profile supplies the faction used by the calculation. The **Colonies** tab supplies the local owner for each colony. The calculator does not invent ownership: an unset or mismatched owner produces no return for the active faction.
 
-New and migrated profiles default to `Unaffiliated`. The calculator does not invent a faction identity, colony holding, rebate, or tax policy.
+For production, ownership is checked at the production colony selected in the calculator. For mined materials, ownership is checked at the chosen mining source for each material, or the material's first valid mining site when no source was pinned.
 
-## Gross and net calculations
+Ownership and tax values are local user-maintained world context, not live synchronized game state. Owner changes do not silently alter tax values.
 
-For a recipe path, the calculator first computes the gross plan from the recipe quantities, owned inventory, material sources, destination, tax, slot settings, drift, and transport assumptions. Gross player spend is invariant across factions when those inputs are identical.
+## Before-tax rule
 
-A faction return is applied only when all of the following are true:
+The 85%/15% split is calculated from mining and production spend **before colony tax**. Tax remains a separate charge and is not returned through the owner share.
 
-- the player has selected a faction with a valid policy;
-- the relevant colony ownership is explicitly set to that faction in the local world snapshot;
-- the policy is within the safe 0–100% range.
+In simplified form for an eligible operation:
 
-Missing, malformed, or out-of-range policy data fails closed to no return. A faction cannot receive a return merely because it is selected in a profile.
+- colony owner: `pre-tax spend × 0.85`
+- Global Dominion: `pre-tax spend × 0.15`
+- tax: calculated separately under the client-derived colony tax formula
 
-## Colony ownership and taxes
+The player still pays the gross amount. The owner return is faction income, not automatically a personal refund.
 
-Colony ownership and tax settings are local user-maintained world context. Each colony can be:
+## Global Dominion allocation assumption
 
-- owned by a selectable faction;
-- explicitly `Unknown / Owner not set`;
-- assigned a tax value within the validated range.
+The calculator displays the Global Dominion's 15% share and currently allocates it **50/50 between FDC and LED for planning purposes**:
 
-Owner changes do not silently change tax values. The app labels this state as local and does not present it as live synchronized game truth. Use dated exports when sharing a world snapshot.
+- FDC: 7.5% of pre-tax mining/production spend
+- LED: 7.5% of pre-tax mining/production spend
 
-## Alternative paths
+That 50/50 FDC/LED allocation is an explicit assumption supplied for this model, not presented as a verified game formula. The UI labels it as assumed so it can be corrected without confusing it with the confirmed 85% owner / 15% Global Dominion split.
 
-When a material has multiple recipe paths, the calculator preserves explicit player path choices. If cost-aware selection is enabled and the paths are priced, it compares faction net cost using the active faction and world context. Without a valid ownership/policy hook it falls back to ordinary sticker-price behavior rather than inventing a rebate.
+## Alternative refinement paths
+
+Explicit player path choices always win. Otherwise, when every alternative is priced, the calculator compares estimated net faction cost using:
+
+- the active player's faction;
+- the selected production colony;
+- selected/fallback mining sources;
+- colony owners configured in **Colonies**;
+- the universal 85% pre-tax owner return.
+
+The path estimate remains a planning snapshot. It does not include every detailed run-time factor represented in the final plan, and the live in-game price should be verified before a large run.
 
 ## Unaffiliated mode
 
-Unaffiliated mode is the honest gross-cost mode. It is useful when the player does not want to model a faction, when colony ownership is unknown, or when a return policy has not been verified. It does not assume CMG, EC, or any other organization owns a colony.
+`Unaffiliated` is gross-cost mode. It is useful when the player does not want to model faction income or when the relevant colony ownership is unknown. Global Dominion information can still be shown as an economy breakdown, but no 85% owner return is subtracted from unaffiliated cost.
 
-## Data and uncertainty
+## Data corrections
 
-Faction aliases and recipe/client codes are maintained in `data/factions.json`. Unknown game mechanics are not silently generalized from one organization to every faction. If a policy, owner, tax, or alias is uncertain, leave it unset or document the source and date in the exported workspace.
-
-To report a data or formula issue, open a public GitHub issue with a minimal reproducible recipe/path and sanitized export. Do not attach credentials, private player data, tokens, or private infrastructure details.
+Faction aliases and client/recipe codes live in `data/factions.json`. To report a formula issue, open a public GitHub issue with a minimal recipe/path and sanitized workspace export. Do not attach credentials, tokens, or private player data.

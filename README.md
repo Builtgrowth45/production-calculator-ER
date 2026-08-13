@@ -45,10 +45,10 @@ The result distinguishes several figures that answer different questions:
 
 - **Estimated investment** — the gross amount the player is expected to spend under the selected prices, production path, destination, taxes, transport, and inventory assumptions.
 - **Cost per unit** — the plan's investment allocated across the requested output quantity.
-- **Faction return** — a modeled return that applies only when the selected faction explicitly owns the relevant colony in your local world-state settings and has a valid policy.
+- **Faction return** — 85% of mining/production spend before tax returns to the colony owner when the selected faction owns the relevant colony in your local world-state settings.
 - **Net faction cost / cost to guild** — gross investment after the applicable faction return. This is a faction planning metric, not automatically a personal discount.
 
-Unknown or invalid ownership and policy information fails safely to **no return**. Use **Unaffiliated** when you want a straightforward gross-cost plan without faction assumptions.
+The remaining 15% is Global Dominion income. The calculator shows an explicitly assumed 50/50 allocation to FDC and LED (7.5% each). Unknown ownership fails safely to **no faction return**. Use **Unaffiliated** when you want a straightforward gross-cost plan without subtracting owner income.
 
 For the complete rules, see [Factions and economics](docs/factions-and-economics.md).
 

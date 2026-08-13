@@ -28,11 +28,9 @@ describe('canonical public faction registry', () => {
     const unaffiliated = registry.factions.find(f => f.id === 'UNAFFILIATED');
     assert.equal(unaffiliated.return_rate, null);
     assert.equal(unaffiliated.return_rate_status, 'unknown');
-    const cmg = registry.factions.find(f => f.id === 'CMG');
-    assert.equal(cmg.return_rate, 0.85);
-    assert.equal(cmg.return_rate_status, 'legacy-reviewed');
-    for (const faction of registry.factions.filter(f => f.id !== 'CMG')) {
-      assert.notEqual(faction.return_rate, 0.85, `${faction.id} must not inherit CMG's return`);
+    for (const faction of registry.factions.filter(f => f.id !== 'UNAFFILIATED')) {
+      assert.equal(faction.return_rate, 0.85, `${faction.id} should use the universal colony-owner return`);
+      assert.equal(faction.return_rate_status, 'confirmed-universal');
     }
   });
 

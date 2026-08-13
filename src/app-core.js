@@ -325,6 +325,7 @@ function costFor(item, altIndex) {
 // surcharge on top of it. Ownership and return policy are local world-state
 // inputs; a fresh browser does not invent ownership for any faction.
 const DEFAULT_RETURN_RATE = 0.85;
+const GLOBAL_DOMINION_RATE = 0.15;
 let COLONY_OWNER = {};   // location → owning faction
 let COLONY_TAX = {};     // location → tax percent charged there
 
@@ -574,6 +575,15 @@ function runCost(base, loc, count) {
   return whole * batchCost(p, MAX_BATCH) + (rest ? batchCost(p, rest) : 0);
 }
 
+// Colony income is split from mining/production spend BEFORE tax: 85% to the
+// colony owner and 15% to the Global Dominion. Tax remains a separate charge.
+function preTaxRunCost(base, loc, count) {
+  count = Math.max(0, Math.floor(count || 0));
+  if (!count) return 0;
+  const p = driftParams(base, loc);
+  return runCost(base, loc, count) - (p.tax * count);
+}
+
 function colonyUnitCost(base, loc) {
   let raw = base + slotUpkeep();
   const rate = (typeof COLONY_TAX[loc] === 'number' ? COLONY_TAX[loc] : 0);
@@ -626,7 +636,7 @@ function acquireCost(plan) {
   //   total — what it actually costs, drift included
   // Reporting only "total minus base" produced a NEGATIVE "slot upkeep" line on
   // long runs, where the drift saving outweighs the surcharge.
-  let base = 0, cold = 0, total = 0, unknown = 0, known = 0, ownSpend = 0, taxPart = 0;
+  let base = 0, cold = 0, total = 0, unknown = 0, known = 0, ownSpend = 0, preTaxSpend = 0, taxPart = 0;
   Object.entries(plan.acquire || {}).forEach(([item, info]) => {
     const unit = materialUnitCost(item);
     if (unit == null) { unknown++; return; }
@@ -640,32 +650,37 @@ function acquireCost(plan) {
     cold += colonyUnitCost(unit, site).total * qty;
     total += t;
     taxPart += driftParams(unit, site).tax * qty;
-    if (site && isOwnColony(site)) ownSpend += t;
+    const preTax = preTaxRunCost(unit, site, qty);
+    preTaxSpend += preTax;
+    if (site && isOwnColony(site)) ownSpend += preTax;
   });
   // surcharge = what the colony adds (tax + slot upkeep), always measured
   // against the cold price so it stays a surcharge. drift = what the run saves
   // by not paying that cold price on every unit. Two separate lines, because on
   // a long run the second outweighs the first.
   return { base, cold, total, surcharge: cold - base, drift: cold - total,
-           taxPart, unknown, known, ownSpend };
+           taxPart, unknown, known, ownSpend, preTaxSpend };
 }
 
 // Total cost of a plan: processing fees + materials to acquire. Reported apart
 // so a plan can show a real number for one while the other is still unpriced.
 function planCost(plan) {
-  let feeBase = 0, feeCold = 0, total = 0, unknown = 0, feeTax = 0;
+  let feeBase = 0, feeCold = 0, total = 0, unknown = 0, feeTax = 0, feePreTax = 0;
   (plan.steps || []).forEach(s => {
     const c = costFor(s.item, s.altIndex);
     if (!c || !s.batches) { unknown++; return; }
     feeBase += c.uc * s.batches;
     feeCold += colonyUnitCost(c.uc, DESTINATION).total * s.batches;
     total += runCost(c.uc, DESTINATION, s.batches);
+    feePreTax += preTaxRunCost(c.uc, DESTINATION, s.batches);
     feeTax += driftParams(c.uc, DESTINATION).tax * s.batches;
   });
   const mat = acquireCost(plan);
   // Spend that earns the faction cut: fees always land at the destination,
   // materials at whichever site each one is mined on.
-  const ownSpend = (isOwnColony(DESTINATION) ? total : 0) + mat.ownSpend;
+  const ownerEligibleSpend = (isOwnColony(DESTINATION) ? feePreTax : 0) + mat.ownSpend;
+  const preTaxSpend = feePreTax + mat.preTaxSpend;
+  const globalDominion = preTaxSpend * GLOBAL_DOMINION_RATE;
   const grand = total + mat.total;
   const base = feeBase + mat.base;
   const tax = feeTax + mat.taxPart;
@@ -694,8 +709,13 @@ function planCost(plan) {
     upkeep: surcharge - tax,   // slot upkeep alone, tax stripped out
     tax,
     drift: (feeCold - total) + mat.drift,
-    rebate: ownSpend * activeFactionReturnRate(),
-    ownSpend,
+    rebate: ownerEligibleSpend * activeFactionReturnRate(),
+    ownSpend: ownerEligibleSpend,
+    ownerEligibleSpend,
+    preTaxSpend,
+    globalDominion,
+    fdcDominionShare: globalDominion / 2,
+    ledDominionShare: globalDominion / 2,
     faction: activeFactionId(),
     returnRate: activeFactionReturnRate(),
     runs, batches,
@@ -915,16 +935,21 @@ function costBreakdown(cost, plan) {
   if (finals.length === 1 && finals[0].produced > 0 && !cost.anyUnknown) {
     rows.push(line(`per ${esc(displayName(finals[0].item))}`,
       fmtUC(cost.grand / finals[0].produced), fmt(finals[0].produced) + ' made', 'cb-unit',
-      'Total plan cost ÷ units made — every fee, tax and drift saving included. The hero strip above shows this bigger, plus the CMG-net per unit.'));
+      'Total plan cost ÷ units made — every fee, tax and drift saving included. The hero strip above shows this bigger, plus the owner-return net per unit.'));
   }
 
   if (cost.rebate > 0.005) {
     const factionName = window.factionById?.(cost.faction)?.name || cost.faction;
     const returnPct = Math.round(cost.returnRate * 100);
     rows.push(line(`↩ back to ${esc(factionName)} funds`, fmtUC(cost.rebate), pctOf(cost.rebate, cost.grand), 'cb-back',
-      `${returnPct}% of the ${fmtUC(cost.ownSpend)} UC spent on colonies owned by ${esc(factionName)}. You still pay the full total — this returns to faction funds, not to you.`));
+      `${returnPct}% of the ${fmtUC(cost.ownSpend)} UC pre-tax mining/production spend on colonies owned by ${esc(factionName)}. Tax is excluded. You still pay the full total — this returns to faction funds, not to you.`));
     rows.push(line('cost to faction / guild', fmtUC(cost.grand - cost.rebate), pctOf(cost.grand - cost.rebate, cost.grand), 'cb-net',
       'Total minus the configured return to faction funds.'));
+  }
+
+  if (cost.globalDominion > 0.005) {
+    rows.push(line('Global Dominion share', fmtUC(cost.globalDominion), pctOf(cost.globalDominion, cost.preTaxSpend), 'cb-dominion',
+      `15% of pre-tax mining/production spend. Assumed 50/50 allocation: FDC ${fmtUC(cost.fdcDominionShare)} / LED ${fmtUC(cost.ledDominionShare)}. The FDC/LED split is an explicit planning assumption.`));
   }
 
   return `<div class="cost-breakdown">${rows.join('')}</div>`;

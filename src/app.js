@@ -819,8 +819,8 @@ function renderCalcPaths() {
   // a path is unpriced (no estimate) or the whole item is (no ★ at all).
   var itemCosts = paths.map(function (p) {
     return p.recipe.inputs_alternatives.map(function (a, i) {
-      // Same estimator the engine's pickAlternativeIndex uses (net of the CMG
-      // rebate at owned colonies when app-core has installed the hook), so the
+      // Same estimator the engine's pickAlternativeIndex uses (net of the 85%
+      // owner return at active-faction colonies), so the
       // ★ cheapest label always matches the path the plan actually picks.
       var net = (window.ENGINE && window.ENGINE.netPathCost) ? window.ENGINE.netPathCost(p.item, i, DESTINATION, {}, 0) : null;
       if (net != null) return net;
@@ -856,7 +856,7 @@ function renderCalcPaths() {
         '<select data-alt="' + encodeURIComponent(p.item) + '" aria-label="Refinement path for ' + esc(p.item) + '">' + opts + '</select>' +
       '</label>';
     }).join('') + '</div>' +
-    (anyPriced ? '<div class="calc-paths-note">≈ estimated UC per unit — processing fee + materials, net of the CMG rebate where we own the colony · ★ = cheapest priced path · prices are a snapshot, verify live in-game</div>' : '');
+    (anyPriced ? '<div class="calc-paths-note">≈ estimated UC per unit — processing fee + materials, net of the 85% owner return where your selected faction owns the colony; tax is separate · ★ = cheapest priced path · prices are a snapshot, verify live in-game</div>' : '');
 }
 
 // ── Collapsible plan sections (persisted) ──
@@ -1043,7 +1043,7 @@ function renderPlan(item, qty, targetEl) {
     <div><span class="eyebrow">Plan at a glance</span><h3>${fmt(qty)} × ${esc(displayName(item))} at ${esc(DESTINATION)}</h3></div>
     <div class="beginner-kpis"><span><b>${fmt(beginnerAcquire)}</b> material units to obtain</span><span><b>${fmt(beginnerSteps)}</b> production steps</span><span><b>${fmtUC(beginnerCost.grand)}</b> Estimated investment</span></div>
     <div class="beginner-next"><b>What to do next</b><span>1. Obtain missing materials</span><span>2. Refine intermediates</span><span>3. Manufacture the final item</span></div>
-    <details><summary>What do these numbers mean?</summary><p>Investment is the estimated up-front spend. Cost per unit divides the plan's actual costs by output. Faction return only changes the separate cost-to-faction figure where a reviewed return is configured.</p></details>
+    <details><summary>What do these numbers mean?</summary><p>Investment is the estimated up-front spend. Cost per unit divides the plan's actual costs by output. When your selected faction owns a mining or production colony, 85% of the pre-tax spend returns to that faction. The remaining 15% goes to the Global Dominion; the displayed 50/50 FDC/LED allocation is an assumption.</p></details>
   </section>`;
 
   const drugRef = (DATA.drugs || []).find(d => d.name === item);

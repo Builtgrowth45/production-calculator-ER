@@ -1,4 +1,4 @@
-const CACHE = 'er-v0.2.0';
+const CACHE = 'er-v0.2.1';
 const SHELL = [
   './',
   './index.html',
@@ -14,6 +14,7 @@ const SHELL = [
   './src/balance_stats.js',
   './src/costs.js',
   './src/armor_classes.js',
+  './src/factions.js',
   './data/icon_hashes.json',
   './icons/icon_catalog.json',
   './models/models_manifest.json',

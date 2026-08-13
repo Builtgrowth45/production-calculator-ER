@@ -324,9 +324,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('picker-grid').addEventListener('click', e => {
     const card = e.target.closest('.pick-card');
     if (!card) return;
+    e.stopPropagation();
     const item = decodeURIComponent(card.dataset.item);
     document.getElementById('calc-item').value = item;
-    runCalculator();
+    toast('Item selected. Set quantity and production colony, then press Calculate.', 2600, 'success');
   });
   // Quick-stats tooltip on hover (shared across picker + gear slots)
   document.getElementById('picker-grid').addEventListener('mouseover', e => {
