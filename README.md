@@ -37,7 +37,11 @@ The public application will not use Cloudflare Workers, GitHub tokens, remote an
 
 ## Data and methodology
 
-Human-readable source tables, provenance, calculation formulas, known limitations, and contribution guidance will live under `data/` and `docs/` as the migration proceeds.
+Human-readable source tables, provenance, calculation formulas, known limitations, and contribution guidance live under `data/` and `docs/`:
+
+- [`docs/factions-and-economics.md`](docs/factions-and-economics.md) — faction selection, gross spend, returns, and net-cost methodology.
+- [`docs/public-player-guide.md`](docs/public-player-guide.md) — setup, tabs, workspace portability, and issue reporting.
+- [`docs/known-limitations.md`](docs/known-limitations.md) — explicit local-first and uncertainty boundaries.
 
 ## License and asset notice
 

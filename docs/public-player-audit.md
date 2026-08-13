@@ -1,6 +1,6 @@
 # Public Player and All-Factions Audit — Fresh Baseline
 
-**Status:** Baseline captured; first implementation slice complete
+**Status:** All-factions candidate implemented locally; release and infrastructure retirement gates remain open
 
 **Repository:** `ChrisFromNEPA/production-calculator-ER`
 

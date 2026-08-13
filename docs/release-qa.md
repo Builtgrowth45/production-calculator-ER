@@ -35,6 +35,27 @@ Verified against the deployed Pages artifact:
 
 The Hermes browser harness could not attach to the available Chromium instance in this environment (`chrome-not-running`). The Chromium fallback verified the deployed DOM and artifact reachability, but did not replace a full interactive accessibility traversal. Future UI changes should repeat the interactive browser matrix when the harness is available.
 
-## Cutover state
+## v1.1.0 all-factions candidate gate
 
-The public Pages site is the active replacement. The legacy Cloudflare Worker remains separately deployed until authenticated Cloudflare access is available to complete resource inventory and retirement.
+The local candidate adds canonical faction profiles, neutral colony-world snapshots, cross-faction economics, workspace portability, neutral public knowledge surfaces, and direct public hash routes. It is not yet a public release.
+
+### Local verification
+
+- 135 Node tests passed.
+- `npm run check` passed, including production build.
+- `npm run assets:check` passed for 4,430 binary assets.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- Gitleaks: no leaks found.
+- Semgrep JavaScript scan: 0 findings.
+- Chromium production-artifact fallback activated `#academy`, `#colonies`, and safe Calculator fallback for an unknown route.
+
+### Release blockers still open
+
+- Do not push, tag, or deploy until explicit authorization and final clean-clone/CI verification.
+- Cloudflare resources remain deployed and untouched; authenticated ownership and complete inventory are required before retirement.
+- GitHub-hosted CI/CodeQL and Pages deployment of the exact candidate SHA have not yet been confirmed.
+- Hermes interactive browser traversal remains unavailable; Chromium fallback does not replace full assistive-technology QA.
+
+### Acceptance mapping
+
+See [`docs/public-player-audit.md`](public-player-audit.md) for the implementation slices, baseline evidence, test results, browser method, and known limitations. See [`docs/factions-and-economics.md`](factions-and-economics.md) and [`docs/public-player-guide.md`](public-player-guide.md) for the public methodology and usage guide.
