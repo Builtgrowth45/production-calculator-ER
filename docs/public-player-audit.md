@@ -251,4 +251,30 @@ No public push or Cloudflare change was performed for this baseline.
 - `npm run build`: passed; 5,091 files copied into `dist/`.
 - `npm run assets:check`: passed; 4,430 approved binary assets.
 - `npm audit --omit=dev`: 0 vulnerabilities.
-- Syntax checks and `git diff --check`: passed.
+## Final local candidate gate — 2026-08-13
+
+The implementation plan's code and documentation work is complete locally. This is a release candidate, not a published release.
+
+**Verified:**
+
+- `npm test`: **135 tests passed**.
+- `npm run check`: passed; production build copied 5,091 files.
+- `npm run test:3d`: passed.
+- `npm run test:budgets`: passed.
+- `npm run assets:check`: passed for 4,430 binary assets.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- Gitleaks: no leaks found.
+- Semgrep JavaScript scan: 0 findings.
+- `git diff --check`: passed.
+- Clean clone with canonical `npm ci`: tests, build, 3D tests, budget tests, asset gate, audit, and diff checks passed.
+- Clean clone with `npm ci --ignore-scripts` correctly exposed a missing optional platform esbuild binary; the release path uses ordinary `npm ci`, which passed. This is recorded as an install-mode caveat, not suppressed.
+- Chromium production artifact: direct `#academy`, `#colonies`, and unknown-route fallback verified; no application uncaught-error markers.
+
+**Still blocked or intentionally not claimed:**
+
+- No push, tag, Pages deployment, or public release has occurred.
+- GitHub-hosted CI, CodeQL, and Pages deployment for this exact candidate SHA remain unverified.
+- Full interactive Hermes browser and assistive-technology traversal remains unavailable; Chromium fallback is documented but is not equivalent.
+- Cloudflare resources remain untouched pending authenticated ownership, complete inventory, retirement, and post-retirement verification.
+
+**Candidate acceptance:** all implementation, local test, security, build, portability, documentation, and Chromium fallback gates pass. The remaining items are external release authorization/infrastructure/interactive-QA gates, not unverified claims of completion.
