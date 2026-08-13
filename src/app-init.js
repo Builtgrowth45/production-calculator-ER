@@ -570,6 +570,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target.files[0]) handleImportFile(e.target.files[0]);
     e.target.value = '';
   });
+  const workspaceFile = document.createElement('input');
+  workspaceFile.type = 'file'; workspaceFile.accept = 'application/json,.json'; workspaceFile.hidden = true;
+  workspaceFile.id = 'workspace-import-file'; document.body.appendChild(workspaceFile);
+  document.getElementById('workspace-export')?.addEventListener('click', () => {
+    downloadJSON(S.exportWorkspace(), 'empire-rising-workspace.json');
+    toast('Exported the complete local workspace.', 3000, 'success');
+  });
+  document.getElementById('workspace-import')?.addEventListener('click', () => workspaceFile.click());
+  workspaceFile.addEventListener('change', e => {
+    const file = e.target.files?.[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try { S.importWorkspace(JSON.parse(reader.result)); refreshAll(); toast('Imported the complete local workspace.', 3000, 'success'); }
+      catch (err) { toast(err.message, 5000, 'error'); }
+      finally { e.target.value = ''; }
+    };
+    reader.readAsText(file);
+  });
   document.getElementById('player-export').addEventListener('click', () => {
     downloadJSON(exportPlayer(), 'cmg-' + PLAYERS.active.replace(/\s+/g, '_') + '.json');
   });

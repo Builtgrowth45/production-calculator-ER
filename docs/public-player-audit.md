@@ -194,3 +194,24 @@ No public push or Cloudflare change was performed for this baseline.
 - `npm run assets:check`: passed; 4,430 approved binary assets.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - Syntax checks and `git diff --check`: passed.
+
+## Implementation slice 4 — portable public workspace
+
+**Completed locally:**
+
+- Added a versioned `empire-rising-workspace` envelope for all whitelisted public local state.
+- Included player profiles/inventory, faction metadata, colony world state, path/source preferences, slot settings, gear toggles, progress markers, muted state, and local analytics data.
+- Added validate-before-mutation import behavior with schema, key, JSON, and size checks.
+- Preserved legacy inventory-only JSON imports unchanged.
+- Added public `Import workspace` and `Export workspace` controls beside player controls.
+- Kept the export boundary local-only; no server, account, or Cloudflare dependency was introduced.
+
+**Verification:**
+
+- `npm test`: 128 tests passed.
+- Workspace source contract: 4/4 passed.
+- Workspace runtime round-trip tests: 2/2 passed.
+- `npm run build`: passed; 5,091 files copied into `dist/`.
+- `npm run assets:check`: passed; 4,430 approved binary assets.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- Syntax checks and `git diff --check`: passed.

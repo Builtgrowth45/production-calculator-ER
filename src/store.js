@@ -19,6 +19,17 @@ const LS_KEY = 'cmg_players_v1';
 const PATHS_KEY = 'cmg_paths_v1';
 const PLAYER_SCHEMA_VERSION = 2;
 const DEFAULT_FACTION = 'UNAFFILIATED';
+const WORKSPACE_SCHEMA_VERSION = 1;
+const WORKSPACE_TYPE = 'empire-rising-workspace';
+const WORKSPACE_KEYS = [
+  'cmg_players_v1', 'cmg_paths_v1', 'er_colony_world_v2', 'cmg_colony_tax_v1',
+  'cmg_destination', 'cmg_obtain_site_v1', 'cmg_transport_source_v1',
+  'cmg_slot_levels_v1', 'cmg_toggles_', 'cmg_boosters_', 'cmg_medikit_',
+  'cmg_medikit_toggle', 'cmg_gearsets_migrated_v1', 'cmg_inv_migrated_v1',
+  'cmg_auto_collapsed_v1', 'cmg_collapsed_sections_v1', 'cmg_produce_done_v1',
+  'cmg_transfers_done_v1', 'cmg_obtained_done_v1', 'cmg_plan_applied_v1',
+  'cmg_muted_v1', 'er_calculator_analytics_v1',
+];
 
 function normalizeFaction(value) {
   try {
@@ -278,6 +289,48 @@ function exportPlayer() {
   };
 }
 
+function workspaceKeyAllowed(key) {
+  return WORKSPACE_KEYS.some(prefix => key === prefix || key.startsWith(prefix));
+}
+
+function validateWorkspace(snapshot) {
+  if (!snapshot || typeof snapshot !== 'object' || snapshot.type !== WORKSPACE_TYPE || snapshot.schema_version !== WORKSPACE_SCHEMA_VERSION) {
+    return 'Invalid workspace snapshot: unsupported type or schema version.';
+  }
+  if (!snapshot.storage || typeof snapshot.storage !== 'object' || Array.isArray(snapshot.storage)) {
+    return 'Invalid workspace snapshot: storage must be an object.';
+  }
+  for (const [key, value] of Object.entries(snapshot.storage)) {
+    if (!workspaceKeyAllowed(key) || typeof value !== 'string' || value.length > 5_000_000) {
+      return `Invalid workspace snapshot: unsupported or oversized storage key "${key}".`;
+    }
+    try { JSON.parse(value); } catch (e) { return `Invalid workspace snapshot: key "${key}" is not JSON.`; }
+  }
+  return null;
+}
+
+function exportWorkspace() {
+  const storage = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && workspaceKeyAllowed(key)) storage[key] = localStorage.getItem(key);
+  }
+  storage[LS_KEY] = JSON.stringify(PLAYERS);
+  return { type: WORKSPACE_TYPE, schema_version: WORKSPACE_SCHEMA_VERSION, storage };
+}
+
+function importWorkspace(snapshot) {
+  const error = validateWorkspace(snapshot);
+  if (error) throw new Error(error);
+  const next = { ...snapshot.storage };
+  if (next[LS_KEY]) next[LS_KEY] = JSON.stringify(normalizePlayerState(JSON.parse(next[LS_KEY])));
+  Object.entries(next).forEach(([key, value]) => localStorage.setItem(key, value));
+  PLAYERS = next[LS_KEY] ? normalizePlayerState(JSON.parse(next[LS_KEY])) : loadPlayers();
+  ensureActivePlayer();
+  recomputeInv();
+  return exportWorkspace();
+}
+
 // ---- Undo support ----
 
 let _undoSnapshot = null;
@@ -327,6 +380,9 @@ const STORE = {
   importPlayer,
   exportPlayer,
   validateImport,
+  exportWorkspace,
+  importWorkspace,
+  validateWorkspace,
 
   // Undo
   snapshotInv,
