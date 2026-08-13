@@ -417,16 +417,11 @@ function updateBulkBar() {
 // § FACTION GALLERY TAB
 // ═══════════════════════════════════════════════════════════════════════════
 
-const FACTIONS = [
-  { id: 'BOS', name: 'Brotherhood of Steel', desc: 'Military order' },
-  { id: 'CMG', name: 'Colonization & Mining Guild', desc: 'Industrial powerhouse' },
-  { id: 'EC', name: 'Eclipse Corporation', desc: 'Corporate empire' },
-  { id: 'FDC', name: 'FDC', desc: 'Federal Defense Coalition' },
-  { id: 'GOM', name: 'GOM', desc: 'Global Operations Militia' },
-  { id: 'LED', name: 'LED', desc: 'Law Enforcement Division' },
-  { id: 'MOB', name: 'MOB', desc: 'Organized syndicates' },
-  { id: 'VTX', name: 'Vortex', desc: 'Vortex Gate authority' },
-];
+const FACTIONS = (window.ER_FACTIONS?.selectable || []).filter(f => f.id !== 'UNAFFILIATED').map(f => ({
+  id: f.asset_code || f.id,
+  name: f.name,
+  desc: f.id === 'CMG' ? 'Industrial powerhouse' : 'Empire Rising faction',
+}));
 
 function renderFactions() {
   const grid = document.getElementById('faction-grid');

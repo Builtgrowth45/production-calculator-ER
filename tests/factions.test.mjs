@@ -35,4 +35,16 @@ describe('canonical public faction registry', () => {
       assert.notEqual(faction.return_rate, 0.85, `${faction.id} must not inherit CMG's return`);
     }
   });
+
+  it('uses the authoritative current faction names', () => {
+    const names = Object.fromEntries(registry.factions.map(f => [f.id, f.name]));
+    assert.equal(names.LED, 'Law Enforcement Department');
+    assert.equal(names.FDC, 'Freedom Defense Corps.');
+    assert.equal(names.GOM, 'Guardians of Mankind');
+    assert.equal(names.BOS, 'Brotherhood of Shadows');
+    assert.equal(names.MOTB, 'Mercenaries of the Blood');
+    assert.equal(names.CMG, 'Colonization and Mining Guild');
+    assert.equal(names.EC, 'EuroCore');
+    assert.equal(names.VI, 'Vortext, Inc.');
+  });
 });

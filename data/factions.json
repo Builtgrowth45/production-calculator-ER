@@ -15,7 +15,7 @@
     },
     {
       "id": "BOS",
-      "name": "Brotherhood of Steel",
+      "name": "Brotherhood of Shadows",
       "aliases": ["BoS"],
       "player_selectable": true,
       "recipe_code": "BOS",
@@ -26,7 +26,7 @@
     },
     {
       "id": "CMG",
-      "name": "Colonization & Mining Guild",
+      "name": "Colonization and Mining Guild",
       "aliases": [],
       "player_selectable": true,
       "recipe_code": "CMG",
@@ -37,8 +37,8 @@
     },
     {
       "id": "EC",
-      "name": "EuroCore / Eclipse Corporation",
-      "aliases": ["Eclipse Corporation", "EuroCore"],
+      "name": "EuroCore",
+      "aliases": [],
       "player_selectable": true,
       "recipe_code": "EC",
       "asset_code": "EC",
@@ -48,8 +48,8 @@
     },
     {
       "id": "FDC",
-      "name": "Freedom Defense Corps",
-      "aliases": ["Federal Defense Coalition"],
+      "name": "Freedom Defense Corps.",
+      "aliases": [],
       "player_selectable": true,
       "recipe_code": "FDC",
       "asset_code": "FDC",
@@ -60,7 +60,7 @@
     {
       "id": "GOM",
       "name": "Guardians of Mankind",
-      "aliases": ["Global Operations Militia", "GoM"],
+      "aliases": ["GoM"],
       "player_selectable": true,
       "recipe_code": "GOM",
       "asset_code": "GOM",
@@ -71,7 +71,7 @@
     {
       "id": "LED",
       "name": "Law Enforcement Department",
-      "aliases": ["Law Enforcement Division"],
+      "aliases": [],
       "player_selectable": true,
       "recipe_code": "LED",
       "asset_code": "LED",
@@ -92,7 +92,7 @@
     },
     {
       "id": "VI",
-      "name": "Vortex Inc.",
+      "name": "Vortext, Inc.",
       "aliases": ["VC", "VTX", "Vortex"],
       "player_selectable": true,
       "recipe_code": "VI",
