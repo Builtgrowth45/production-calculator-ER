@@ -13,7 +13,7 @@
   @font-face { font-family: 'Orbitron'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('fonts/orbitron-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
   @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 </style>
-<link rel="stylesheet" href="src/styles.css?v=32" />
+<link rel="stylesheet" href="src/styles.css?v=33" />
 <link rel="stylesheet" href="src/styles/ux-release.css?v=3" />
 <link rel="stylesheet" href="src/styles/surviving-reference.css?v=2" />
 <script src="src/vendor/chart.min.js" defer></script>
@@ -613,47 +613,24 @@
 
 
 
-  <!-- WORLDS -->
+  <!-- COLONIES -->
   <section id="view-colonies" class="view" role="tabpanel" aria-label="Colonies">
-    <h3 class="view-title">🌍 Colonies</h3>
-    <p class="muted" style="font-size:0.75rem;max-width:720px">
-    Each device keeps its own production requests, gear presets, inventory, taxes, and owners.
-    Use the export/import controls to share a snapshot; no server or account is required.
-    </p>
-    <div class="col-toolbar">
-      <input id="col-search" placeholder="filter colonies…" aria-label="Filter colonies" />
-      <label class="checkbox-label"><input type="checkbox" id="col-priced-only" /> only ones the calculator costs</label>
-      <div class="col-toolbar-actions">
-      <button id="colony-world-export" class="ghost" type="button">Export world snapshot</button>
-      <button id="colony-world-import" class="ghost" type="button">Import world snapshot</button>
-      <button id="colony-world-reset" class="ghost" type="button">Reset local world</button>
-      <input id="colony-world-import-file" type="file" accept="application/json,.json" hidden />
+    <div class="colonies-shell">
+      <div class="colonies-hero">
+        <div><span class="eyebrow">World operations</span><h3 class="view-title">🌍 Colonies</h3><p>See who controls each production world, what it mines, and how ownership changes your calculator costs.</p></div>
+        <span class="colonies-local-badge">● Local world state</span>
       </div>
-      <div id="colony-world-status" class="muted" aria-live="polite">World ownership and tax settings are stored locally on this device.</div>
+      <div id="colonies-overview" class="colonies-overview" aria-label="Colony overview"><div class="col-metric"><b id="col-metric-production">—</b><span>production colonies</span></div><div class="col-metric"><b id="col-metric-owned">—</b><span>your faction</span></div><div class="col-metric"><b id="col-metric-joint">—</b><span>joint holdings</span></div><div class="col-metric"><b id="col-metric-taxed">—</b><span>taxed worlds</span></div></div>
+      <div id="colonies-toolbar" class="col-toolbar colonies-toolbar">
+        <label class="colonies-search"><span>Find a colony or resource</span><input id="col-search" placeholder="Search ore, world, or faction…" aria-label="Filter colonies and resources" /></label>
+        <label class="colonies-filter"><span>Show</span><select id="col-filter" aria-label="Filter colony cards"><option value="all">All production worlds</option><option value="mine">My faction's worlds</option><option value="joint">Joint ownership</option><option value="reference">Other known worlds</option></select></label>
+        <label class="checkbox-label colonies-legacy-filter"><input type="checkbox" id="col-priced-only" /> production only</label>
+        <details id="colonies-world-data" class="colonies-world-data"><summary>World data</summary><div><span id="colony-world-status" class="muted" aria-live="polite">Saved on this device</span><button id="colony-world-export" class="ghost" type="button">Export</button><button id="colony-world-import" class="ghost" type="button">Import</button><button id="colony-world-reset" class="ghost danger" type="button">Reset</button><input id="colony-world-import-file" type="file" accept="application/json,.json" hidden /></div></details>
+      </div>
+      <section id="colonies-production" aria-labelledby="colonies-production-title"><div class="colonies-section-head"><div><span class="eyebrow">Actionable worlds</span><h4 id="colonies-production-title">Production colonies</h4></div><span id="col-count" class="muted"></span></div><div class="colonies-grid col-grid" id="col-grid"></div></section>
+      <section id="colonies-reference" class="colonies-reference" aria-labelledby="colonies-reference-title"><div class="colonies-section-head"><div><span class="eyebrow">Reference</span><h4 id="colonies-reference-title">Other known worlds</h4></div></div><div id="col-reference-grid" class="colonies-reference-grid"></div></section>
+      <details id="colonies-slot-guide" class="slot-guide"><summary>⛏️ How a slot works — energy, cooling, heat and cost</summary><div class="colonies-guide-copy"><h4>Cost of one batch</h4><p>Start from the item's listed price, add the slot upkeep, then the colony's tax. Mining triples the base before any of that, which is already baked into the material prices shown elsewhere in the app.</p><ul><li><b>Energy</b> runs 1–21 and <b>cooling</b> 0–21. Energy can't be switched off; cooling can. Most production sits at <b>5 energy, 0 cooling</b>.</li><li>Both <em>raise</em> the price, by a flat amount per level: <b>1.43 UC</b> per energy level and <b>0.95</b> per cooling level.</li><li>Tax is not a plain markup. A rate above 10% discounts the base first.</li></ul><h4>Heat and speed</h4><p>Energy generates heat continuously and cooling removes it. As heat rises, effectiveness falls and production slows. A long hot run is slower but cheaper per unit.</p><p class="muted"><b>Still not modelled:</b> exact speed loss. This page estimates cost, not run duration.</p></div></details>
     </div>
-    <details class="slot-guide">
-      <summary>⛏️ How a slot actually works — energy, cooling, heat and cost</summary>
-
-      <h4>Cost of one batch</h4>
-      <p>Start from the item's listed price, add the slot upkeep, then the colony's tax. Mining triples the base before any of that, which is already baked into the material prices shown elsewhere in the app.</p>
-      <ul>
-        <li><b>Energy</b> runs 1–21 and <b>cooling</b> 0–21. Energy can't be switched off; cooling can. Most production sits at <b>5 energy, 0 cooling</b>.</li>
-        <li>Both <em>raise</em> the price, by a flat amount per level: <b>1.43 UC</b> per energy level and <b>0.95</b> per cooling level, so a maxed slot adds 50 UC whether the run costs 69 or 4997.</li>
-        <li>Tax is not a plain markup. A rate <em>above</em> 10% discounts the base first, so 50% works out near 1.33× and even 100% only reaches about 1.50×.</li>
-      </ul>
-      <p class="muted">Confirmed against a chemical substance (base 36) on an untaxed colony: 5 energy → 43 UC, 11 energy → 52, and maxed energy and cooling → 86. That last one is what fixes the top of the scale at <b>21</b> rather than 22: level 21 contributes exactly the 30 + 20 that makes 86, where level 22 would give 88.</p>
-
-      <h4>Heat and speed</h4>
-      <p>Energy generates heat continuously and cooling removes it, so the two are in a race rather than at a fixed setting. Heat <b>fluctuates with the energy level and climbs as the run goes on</b>: a pairing that looks balanced early can drift hot once cooling stops keeping up. As heat rises <b>effectiveness</b> falls, and production slows with it.</p>
-      <p><b>Read effectiveness off the bar</b>, not the <q>100%</q> printed beside it — that is the top of the scale, the same as the 100% marks on the energy and cooling columns.</p>
-      <p>So cooling's 20 UC is not dead weight; it buys sustained speed. And the drift runs both ways: the client lowers the price as heat accumulates, meaning <b>a long hot run is slower but cheaper per unit</b>.</p>
-
-      <p><b>The price drift is now modelled.</b> A plastic run at Paris on 5 bars read 411, 407, 406, 405 … down to 370 over 31 items, and every one of those is reproduced exactly by the arithmetic in <code>calc.txt</code>. So a run's cost is <em>not</em> unit price × count: quoting it that way overstates a 100-unit run by about 14% and a 200-unit run by nearly 30%. Every total in this app now sums the real per-item price across the run, treating each production step as its own session starting cold.</p>
-
-      <p class="muted"><b>Still not modelled:</b> the speed loss. Heat and effectiveness have no known numbers, so nothing here estimates how <em>long</em> a run takes — only what it costs. Runs longer than about 360 items are also extrapolation; the drift is floored at zero rather than allowed to go negative.</p>
-    </details>
-
-    <div class="col-grid" id="col-grid"></div>
   </section>
 
 </main>
@@ -719,7 +696,7 @@
 <script src="src/ui/value-transition.js?v=1"></script>
 <script src="src/ui/r3f-loader.js?v=1"></script>
 <script src="src/ui/spatial-emphasis.js?v=1"></script>
-<script src="src/app.js?v=81"></script>
+<script src="src/app.js?v=82"></script>
 <script src="src/ui/legacy-3d-loader.js?v=1"></script>
 <script src="src/views/models.js?v=22"></script>
 <script src="src/views/character.js?v=2"></script>
@@ -727,7 +704,7 @@
 <script src="src/views/gear.js?v=21"></script>
 <script src="src/views/inventory.js?v=26"></script>
 <script src="src/views/player.js?v=4"></script>
-<script src="src/app-init.js?v=43"></script>
+<script src="src/app-init.js?v=44"></script>
 <script>
   // Register service worker for offline support
   if ('serviceWorker' in navigator) {

@@ -192,20 +192,22 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalcPaths();
   // Colonies tab: tax/owner edits, plus its filters.
   document.getElementById('col-grid')?.addEventListener('change', e => {
-    const el = e.target.closest('[data-ct-tax], [data-ct-own]');
+    const el = e.target.closest('[data-ct-tax], [data-ct-own], [data-colony-owner], [data-colony-clear]');
     if (el) onColonyTaxChange(el);
   });
   document.getElementById('col-search')?.addEventListener('input', () => renderColonies());
   document.getElementById('col-priced-only')?.addEventListener('change', () => renderColonies());
+  document.getElementById('col-filter')?.addEventListener('change', () => renderColonies());
   document.getElementById('colony-world-export')?.addEventListener('click', () => {
     downloadJSON(exportColonyWorld(), 'empire-rising-colony-world.json');
     const status = document.getElementById('colony-world-status');
     if (status) status.textContent = 'Exported the local colony world snapshot.';
   });
   document.getElementById('colony-world-reset')?.addEventListener('click', () => {
+    if (!window.confirm('Reset local colony ownership and tax settings to the default world?')) return;
     resetColonyWorld();
     const status = document.getElementById('colony-world-status');
-    if (status) status.textContent = 'Reset local ownership and tax settings; no colony owners are assumed.';
+    if (status) status.textContent = 'Reset local ownership and tax settings to the default world.';
   });
   document.getElementById('colony-world-import')?.addEventListener('click', () => document.getElementById('colony-world-import-file')?.click());
   document.getElementById('colony-world-import-file')?.addEventListener('change', e => {

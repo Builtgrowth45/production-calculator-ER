@@ -31,16 +31,18 @@ describe('neutral colony world state', () => {
     assert.match(app, /Owner not set/);
   });
 
-  it('constrains the owner picker to its colony card at every grid width', () => {
-    assert.match(styles, /\.cc-own\s*\{[^}]*width:\s*100%[^}]*min-width:\s*0/s);
-    assert.match(styles, /\.cc-own select\s*\{[^}]*width:\s*100%[^}]*max-width:\s*100%/s);
+  it('constrains the owner editor to its colony card at every grid width', () => {
+    assert.match(styles, /\.colony-editor\s*\{/);
+    assert.match(styles, /\.owner-check\s*\{/);
+    assert.match(styles, /\.colonies-grid\s*\{[^}]*minmax\(0,\s*1fr\)/s);
   });
 
   it('keeps owner changes separate from tax changes', () => {
     assert.match(app, /COLONY_OWNER\[c\] = owner/);
     assert.doesNotMatch(app, /COLONY_TAX\[c\] = 0/);
     assert.match(app, /data-ct-tax/);
-    assert.match(app, /data-ct-own/);
+    assert.match(app, /data-colony-owner/);
+    assert.match(app, /data-colony-clear/);
   });
 
   it('labels local world state and provides portability controls', () => {
