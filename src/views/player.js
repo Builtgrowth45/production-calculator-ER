@@ -152,11 +152,11 @@ const CALC_GUIDE_KEY = 'er_calc_guide_dismissed_v1';
 function isCalcGuideDismissed() {
   try { return localStorage.getItem(CALC_GUIDE_KEY) === '1'; } catch (e) { return false; }
 }
-function dismissCalcGuide() {
+function dismissCalcGuide({ focus = true } = {}) {
   try { localStorage.setItem(CALC_GUIDE_KEY, '1'); } catch (e) {}
   const guide = document.getElementById('calc-guide');
   if (guide) guide.hidden = true;
-  document.getElementById('picker-search')?.focus();
+  if (focus) document.getElementById('picker-search')?.focus();
 }
 
 function pushRecent(item, qty) {

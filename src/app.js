@@ -1156,6 +1156,9 @@ function runCalculator() {
       SAMPLE_RUN = false;
     } else {
       pushRecent(item, qty);
+      // A real first calculation completes onboarding immediately. Do not move
+      // focus here: runCalculator() moves it to the result below.
+      if (typeof dismissCalcGuide === 'function') dismissCalcGuide({ focus: false });
     }
     out.tabIndex = -1;
     out.scrollIntoView({ behavior: 'smooth', block: 'start' });

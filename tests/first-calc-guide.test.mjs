@@ -84,7 +84,13 @@ describe('safe sample-plan path', () => {
     assert.doesNotMatch(fnBlock, /PLAYERS\.players\[/);
   });
 
-  it('keeps sample runs out of the recent list (no phantom user history)', () => {
+  it('hides and persists the guide after a normal successful calculation without stealing result focus', () => {
+    assert.match(app, /pushRecent\(item, qty\);[\s\S]*dismissCalcGuide\(\{ focus: false \}\)/);
+    assert.match(player, /function dismissCalcGuide\(\{ focus = true \} = \{\}\)/);
+    assert.match(player, /if \(focus\) document\.getElementById\('picker-search'\)\?\.focus\(\)/);
+  });
+
+  it('sample runs out of the recent list (no phantom user history)', () => {
     // runCalculator keeps its existing signature; the sample sets a transient
     // SAMPLE_RUN marker that is consumed by the next successful render, so
     // the same runCalculator() path is used with identical semantics.
