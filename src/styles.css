@@ -656,6 +656,9 @@ footer {
   border-color: var(--accent-dim);
   background: var(--bg-hover);
 }
+/* The author display:inline-flex above outranks the UA [hidden] rule, so the
+   offline/update chips must hide explicitly until their state is active. */
+.footer-chip[hidden] { display: none; }
 
 /* ---- trust status bar (data freshness / offline / update) ---- */
 .trust-chip { font-size: 0.625rem; }

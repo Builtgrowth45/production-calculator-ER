@@ -102,7 +102,7 @@ function renderDrugs() {
   }).join('');
 
   const countEl = document.getElementById('drug-count');
-  if (countEl) countEl.textContent = `${list.length} of ${drugs.length} drugs · live effects`;
+  if (countEl) countEl.textContent = `${list.length} of ${drugs.length} drugs · effects from the ER Balance Sheet snapshot`;
 
   document.getElementById('drug-table').innerHTML =
     `<table><thead><tr>
