@@ -1,4 +1,11 @@
-const CACHE = 'er-v0.2.8';
+const CACHE = 'er-v0.2.9';
+// SHELL is the install-time precache: only assets the app needs immediately
+// to render and calculate. Optional 3D/chart payloads (three.js, the R3F
+// workbench bundle, Chart.js, and the model manifest) are intentionally NOT
+// precached — they are fetched on demand by the runtime lazy loaders
+// (src/ui/r3f-loader.js, src/ui/legacy-3d-loader.js, src/views/models.js)
+// and then cached by the network-first fetch handler below. Precache stays
+// lean so install completes fast and cold-start bytes stay low.
 const SHELL = [
   './',
   './index.html',
@@ -18,19 +25,13 @@ const SHELL = [
   './src/factions.js',
   './data/icon_hashes.json',
   './icons/icon_catalog.json',
-  './models/models_manifest.json',
   './src/app-core.js',
   './src/ui/motion.js',
   './src/ui/value-transition.js',
   './src/ui/r3f-loader.js',
   './src/ui/spatial-emphasis.js',
   './src/ui/legacy-3d-loader.js',
-  './src/generated/er-3d-workbench.js',
   './src/app.js',
-  './src/vendor/chart.min.js',
-  './src/vendor/three/three.min.js',
-  './src/vendor/three/OrbitControls.js',
-  './src/vendor/three/GLTFLoader.js',
   './src/views/models.js',
   './src/views/reference.js',
   './src/views/gear.js',
