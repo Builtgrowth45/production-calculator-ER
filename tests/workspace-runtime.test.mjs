@@ -1,4 +1,4 @@
-// Runtime round-trip tests for the public workspace envelope.
+// Runtime tests for the public workspace envelope and its storage transaction.
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -13,39 +13,100 @@ globalThis.localStorage = {
   key(i) { return Object.keys(this._data)[i] || null; },
   getItem(k) { return this._data[k] ?? null; },
   setItem(k, v) { this._data[k] = String(v); },
+  removeItem(k) { delete this._data[k]; },
 };
 globalThis.document = { getElementById() { return null; }, querySelectorAll() { return []; } };
 require(join(root, 'src', 'store.js'));
 const S = window.STORE;
 
-beforeEach(() => { localStorage._data = {}; S.PLAYERS.active = ''; S.PLAYERS.players = {}; S.PLAYERS.profiles = {}; });
+beforeEach(() => {
+  localStorage._data = {};
+  localStorage.failOn = null;
+  localStorage.setItem = function(k, v) {
+    if (this.failOn === k) {
+      this.failOn = null;
+      throw new Error(`write failed for ${k}`);
+    }
+    this._data[k] = String(v);
+  };
+  S.PLAYERS.active = '';
+  S.PLAYERS.players = {};
+  S.PLAYERS.profiles = {};
+});
 
 describe('workspace snapshot runtime', () => {
-  it('round-trips player profiles, inventory, preferences, and colony state', () => {
+  it('round-trips raw localStorage values and player state', () => {
     S.importPlayer('Chris', [{ item: 'coal', location: 'Andromeda', quantity: 84 }]);
     S.setPlayerFaction('Chris', 'CMG');
     localStorage.setItem('er_colony_world_v2', JSON.stringify({ schema_version: 2, owner: { Paris: 'CMG' }, tax: { Paris: 15 } }));
-    localStorage.setItem('cmg_destination', JSON.stringify('Paris'));
+    localStorage.setItem('cmg_destination', 'Paris');
+
     const snapshot = S.exportWorkspace();
     assert.equal(snapshot.type, 'empire-rising-workspace');
-    assert.equal(snapshot.schema_version, 1);
-    assert.ok(snapshot.storage.cmg_players_v1.includes('Chris'));
-    assert.equal(snapshot.storage.cmg_destination, JSON.stringify('Paris'));
+    assert.equal(snapshot.schema_version, 2);
+    assert.equal(snapshot.storage.cmg_destination, 'Paris');
 
-    localStorage._data = {};
+    localStorage._data = { cmg_destination: 'Berlin' };
     S.importWorkspace(snapshot);
+    assert.equal(localStorage.getItem('cmg_destination'), 'Paris');
     assert.equal(S.PLAYERS.active, 'Chris');
     assert.equal(S.getActiveFaction(), 'CMG');
     assert.deepEqual(S.getInv(), [{ item: 'coal', location: 'Andromeda', quantity: 84 }]);
-    assert.equal(localStorage.getItem('er_colony_world_v2'), snapshot.storage.er_colony_world_v2);
   });
 
-  it('rejects unsupported keys and malformed JSON before changing storage', () => {
-    localStorage.setItem('cmg_destination', JSON.stringify('Berlin'));
+  it('imports the older supported schema through migration', () => {
+    const legacy = {
+      type: 'empire-rising-workspace',
+      schema_version: 1,
+      storage: { cmg_destination: 'Paris' },
+    };
+    S.importWorkspace(legacy);
+    assert.equal(localStorage.getItem('cmg_destination'), 'Paris');
+    assert.equal(S.exportWorkspace().schema_version, 2);
+  });
+
+  it('replaces all allowed keys and removes stale namespaced keys', () => {
+    localStorage.setItem('cmg_destination', 'Berlin');
+    localStorage.setItem('cmg_toggles_old_player', '{"dark":true}');
+    localStorage.setItem('cmg_obtain_site_v1', 'old-site');
+    localStorage.setItem('unrelated_key', 'keep');
+
+    S.importWorkspace({
+      type: 'empire-rising-workspace', schema_version: 2,
+      storage: { cmg_destination: 'Paris' },
+    });
+
+    assert.equal(localStorage.getItem('cmg_destination'), 'Paris');
+    assert.equal(localStorage.getItem('cmg_toggles_old_player'), null);
+    assert.equal(localStorage.getItem('cmg_obtain_site_v1'), null);
+    assert.equal(localStorage.getItem('unrelated_key'), 'keep');
+  });
+
+  it('rejects malformed input with zero storage or in-memory mutation', () => {
+    localStorage.setItem('cmg_destination', 'Berlin');
+    localStorage.setItem('cmg_toggles_old_player', '{"dark":true}');
+    const beforeStorage = { ...localStorage._data };
+    const beforePlayers = JSON.stringify(S.PLAYERS);
+
+    assert.throws(() => S.importWorkspace({
+      type: 'empire-rising-workspace', schema_version: 2,
+      storage: { cmg_destination: 42 },
+    }), /Invalid workspace snapshot/);
+    assert.deepEqual(localStorage._data, beforeStorage);
+    assert.equal(JSON.stringify(S.PLAYERS), beforePlayers);
+  });
+
+  it('rolls back every allowed key when a localStorage write fails', () => {
+    localStorage.setItem('cmg_destination', 'Berlin');
+    localStorage.setItem('cmg_toggles_old_player', '{"dark":true}');
+    localStorage.setItem('cmg_obtain_site_v1', 'old-site');
     const before = { ...localStorage._data };
-    assert.throws(() => S.importWorkspace({ type: 'empire-rising-workspace', schema_version: 1, storage: { secret_key: '"no"' } }), /Invalid workspace snapshot/);
-    assert.deepEqual(localStorage._data, before);
-    assert.throws(() => S.importWorkspace({ type: 'empire-rising-workspace', schema_version: 1, storage: { cmg_destination: 'not-json' } }), /Invalid workspace snapshot/);
+    localStorage.failOn = 'cmg_destination';
+
+    assert.throws(() => S.importWorkspace({
+      type: 'empire-rising-workspace', schema_version: 2,
+      storage: { cmg_destination: 'Paris', cmg_paths_v1: 'new-paths' },
+    }), /failed|rollback/i);
     assert.deepEqual(localStorage._data, before);
   });
 });

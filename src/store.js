@@ -19,7 +19,8 @@ const LS_KEY = 'cmg_players_v1';
 const PATHS_KEY = 'cmg_paths_v1';
 const PLAYER_SCHEMA_VERSION = 2;
 const DEFAULT_FACTION = 'UNAFFILIATED';
-const WORKSPACE_SCHEMA_VERSION = 1;
+const WORKSPACE_SCHEMA_VERSION = 2;
+const WORKSPACE_SUPPORTED_SCHEMA_VERSIONS = [1, WORKSPACE_SCHEMA_VERSION];
 const WORKSPACE_TYPE = 'empire-rising-workspace';
 const WORKSPACE_KEYS = [
   'cmg_players_v1', 'cmg_paths_v1', 'er_colony_world_v2', 'cmg_colony_tax_v1',
@@ -293,7 +294,8 @@ function workspaceKeyAllowed(key) {
 }
 
 function validateWorkspace(snapshot) {
-  if (!snapshot || typeof snapshot !== 'object' || snapshot.type !== WORKSPACE_TYPE || snapshot.schema_version !== WORKSPACE_SCHEMA_VERSION) {
+  if (!snapshot || typeof snapshot !== 'object' || snapshot.type !== WORKSPACE_TYPE ||
+      !WORKSPACE_SUPPORTED_SCHEMA_VERSIONS.includes(snapshot.schema_version)) {
     return 'Invalid workspace snapshot: unsupported type or schema version.';
   }
   if (!snapshot.storage || typeof snapshot.storage !== 'object' || Array.isArray(snapshot.storage)) {
@@ -303,28 +305,56 @@ function validateWorkspace(snapshot) {
     if (!workspaceKeyAllowed(key) || typeof value !== 'string' || value.length > 5_000_000) {
       return `Invalid workspace snapshot: unsupported or oversized storage key "${key}".`;
     }
-    try { JSON.parse(value); } catch (e) { return `Invalid workspace snapshot: key "${key}" is not JSON.`; }
+  }
+  if (snapshot.storage[LS_KEY] !== undefined) {
+    try { normalizePlayerState(JSON.parse(snapshot.storage[LS_KEY])); }
+    catch (e) { return `Invalid workspace snapshot: key "${LS_KEY}" is not valid player JSON.`; }
   }
   return null;
 }
 
-function exportWorkspace() {
+function migrateWorkspace(snapshot) {
+  const error = validateWorkspace(snapshot);
+  if (error) throw new Error(error);
+  return { type: WORKSPACE_TYPE, schema_version: WORKSPACE_SCHEMA_VERSION, storage: { ...snapshot.storage } };
+}
+
+function readAllowedStorage() {
   const storage = {};
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key && workspaceKeyAllowed(key)) storage[key] = localStorage.getItem(key);
   }
+  return storage;
+}
+
+function exportWorkspace() {
+  const storage = readAllowedStorage();
   storage[LS_KEY] = JSON.stringify(PLAYERS);
   return { type: WORKSPACE_TYPE, schema_version: WORKSPACE_SCHEMA_VERSION, storage };
 }
 
+function restoreAllowedStorage(previous, next) {
+  const keys = new Set([...Object.keys(previous), ...Object.keys(next)]);
+  for (const key of keys) {
+    if (next[key] === undefined) localStorage.removeItem(key);
+    else localStorage.setItem(key, next[key]);
+  }
+}
+
 function importWorkspace(snapshot) {
-  const error = validateWorkspace(snapshot);
-  if (error) throw new Error(error);
-  const next = { ...snapshot.storage };
-  if (next[LS_KEY]) next[LS_KEY] = JSON.stringify(normalizePlayerState(JSON.parse(next[LS_KEY])));
-  Object.entries(next).forEach(([key, value]) => localStorage.setItem(key, value));
-  PLAYERS = next[LS_KEY] ? normalizePlayerState(JSON.parse(next[LS_KEY])) : loadPlayers();
+  const migrated = migrateWorkspace(snapshot);
+  const previous = readAllowedStorage();
+  try {
+    restoreAllowedStorage(previous, migrated.storage);
+  } catch (cause) {
+    try { restoreAllowedStorage({}, previous); }
+    catch (rollbackError) {
+      throw new Error(`Workspace import failed and rollback failed: ${rollbackError.message}`);
+    }
+    throw new Error(`Workspace import failed; changes rolled back: ${cause.message}`);
+  }
+  PLAYERS = migrated.storage[LS_KEY] ? normalizePlayerState(JSON.parse(migrated.storage[LS_KEY])) : loadPlayers();
   ensureActivePlayer();
   recomputeInv();
   return exportWorkspace();
