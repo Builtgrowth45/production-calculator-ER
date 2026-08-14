@@ -37,6 +37,7 @@ describe('settings, ER branding, and Drugs reference surface', () => {
     assert.match(reference, /DRUG_ADVERSE_POSITIVE_STATS\.has\(k\)/);
     assert.match(reference, /staminadrain/);
     assert.match(reference, /protectionreduction/);
+    assert.match(reference, /window\.BALANCE_STATS\?\.items\?\.find\(it => it\.name === name\)/);
     assert.match(reference, /<th scope="col">Positive<\/th><th scope="col">Negative<\/th><th scope="col" class="r">Duration<\/th>/);
   });
 
@@ -48,6 +49,6 @@ describe('settings, ER branding, and Drugs reference surface', () => {
   });
 
   it('bumps the offline shell for the runtime change', () => {
-    assert.match(sw, /const CACHE\s*=\s*['"]er-v0\.2\.10['"]/);
+    assert.match(sw, /const CACHE\s*=\s*['"]er-v0\.2\.11['"]/);
   });
 });

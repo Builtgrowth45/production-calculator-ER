@@ -18,8 +18,10 @@ const DRUG_ADVERSE_POSITIVE_STATS = new Set([
 ]);
 const DRUG_HIDDEN_STATS = new Set(['durationseconds', 'addiction', 'illegal']);
 
-/** Live combat stats for a drug: sheet-merged recipe output.stats (sheet wins). */
+/** Live combat stats for a drug: the published Balance Sheet row wins. */
 function drugLiveStats(name) {
+  const sheetItem = window.BALANCE_STATS?.items?.find(it => it.name === name);
+  if (sheetItem) return sheetItem.stats || {};
   const r = DATA.recipes.find(rr => rr.output.item === name);
   return (r && r.output.stats) || null;
 }
@@ -41,7 +43,7 @@ function sheetStatKeys() {
 
 /** Split a stats object into positive/negative chips (duration gets its own column). */
 function drugChips(stats) {
-  if (!stats || !Object.keys(stats).length) return null;
+  if (stats === null || stats === undefined) return null;
   const pos = [], neg = [];
   for (const [k, v] of Object.entries(stats)) {
     if (DRUG_HIDDEN_STATS.has(k)) continue;
