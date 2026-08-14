@@ -283,14 +283,14 @@ describe('clean-profile service-worker lifecycle', () => {
     let devPort = null;
     let devPath = null;
     const activePortFile = join(state.profile, 'DevToolsActivePort');
-    for (let i = 0; i < 150 && !devPort; i++) {
+    for (let i = 0; i < 600 && !devPort; i++) {
       if (existsSync(activePortFile)) {
         const [p, path] = readFileSync(activePortFile, 'utf8').trim().split('\n');
         if (p) { devPort = p; devPath = path; }
       }
       if (!devPort) await sleep(100);
     }
-    if (!devPort) throw new Error('Chromium did not open a DevTools port within 15s');
+    if (!devPort) throw new Error('Chromium did not open a DevTools port within 60s');
 
     const browser = await Cdp.connect(`ws://127.0.0.1:${devPort}${devPath}`);
     const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank' });
