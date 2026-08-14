@@ -40,6 +40,7 @@ const SHELL = [
   './src/views/inventory.js',
   './src/views/player.js',
   './src/app-init.js',
+  './src/ui/trust-indicators.js',
   './fonts/orbitron-latin.woff2',
   './fonts/jetbrains-mono-latin.woff2',
   './manifest.webmanifest',

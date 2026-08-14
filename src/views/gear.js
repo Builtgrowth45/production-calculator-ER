@@ -679,7 +679,7 @@ function renderGearSets() {
 }
 
 
-// § LIVE COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS)
+// § COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS)
 // ═══════════════════════════════════════════════════════════════════════
 // Renders every item from the live balance sheet (data/balance_stats.json →
 // src/balance_stats.js) with its stat block, cross-linked to the recipe list
@@ -740,7 +740,7 @@ function initBalanceBrowser() {
   }
   if (BALANCE_ITEMS.length) { renderBalanceBrowser(); return; }
   const meta = document.getElementById('gear-balance-meta');
-  if (meta) meta.textContent = `${BALANCE_STATS.items.length} items · fetched ${BALANCE_STATS._meta.fetched} · live Google Sheet`;
+  if (meta) meta.textContent = `${BALANCE_STATS.items.length} items · fetched ${BALANCE_STATS._meta.fetched} · ER Balance Sheet snapshot`;
   BALANCE_ITEMS = BALANCE_STATS.items.map(it => {
     const recipe = balRecipe(it.name);
     return {

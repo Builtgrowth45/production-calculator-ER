@@ -405,10 +405,10 @@
       </div>
     </div>
 
-    <!-- LIVE COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS) -->
+    <!-- COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS) -->
     <div class="gear-balance-browser" id="gear-balance-browser">
       <div class="gear-balance-head">
-        <div><h4>⚔️ Live Combat Stats — ER Balance Sheet</h4><p>Search and compare the authoritative combat-stat snapshot. Craftable items link back to calculator data; reference items come from the sheet only.</p></div>
+        <div><h4>⚔️ Combat Stats — ER Balance Sheet</h4><p>Search and compare the authoritative combat-stat snapshot. Craftable items link back to calculator data; reference items come from the sheet only.</p></div>
         <div class="gear-balance-status"><strong id="gear-balance-count" aria-live="polite">Loading…</strong><span class="gear-balance-meta muted" id="gear-balance-meta"></span></div>
       </div>
       <div class="gear-balance-controls">
@@ -435,7 +435,7 @@
   <!-- DRUGS -->
   <section id="view-drugs" class="view" role="tabpanel" aria-label="Drugs">
     <h3 class="view-title">💊 Drug / Booster Production</h3>
-    <p class="muted" style="font-size:0.75rem">Combat boosters — live effects from the ER Balance Sheet, code combination, tier, and effect duration. Positive and negative effects are separated using the live stat direction.</p>
+    <p class="muted" style="font-size:0.75rem">Combat boosters — effects from the ER Balance Sheet snapshot, code combination, tier, and effect duration. Positive and negative effects are separated using the live stat direction.</p>
     <div class="drug-toolbar">
       <label>Sort by
         <select id="drug-sort">
@@ -679,8 +679,14 @@
 
 
 <footer>
-  <span id="stats"></span>
-
+  <div id="app-trust" class="footer-bar" aria-label="Data and connection status">
+    <span id="trust-data" class="footer-chip trust-chip trust-data" title="Snapshot data bundled with this app build."></span>
+    <span id="trust-online" class="footer-chip trust-chip trust-online" role="status" aria-live="polite" hidden></span>
+    <span id="trust-update" class="footer-chip trust-chip trust-update" role="status" aria-live="polite" hidden>
+      <span id="trust-update-text"></span>
+      <button type="button" id="trust-update-reload" class="trust-reload">Reload</button>
+    </span>
+  </div>
 </footer>
 
 <script src="src/game_data.js?v=27"></script>
@@ -705,12 +711,7 @@
 <script src="src/views/inventory.js?v=26"></script>
 <script src="src/views/player.js?v=4"></script>
 <script src="src/app-init.js?v=44"></script>
-<script>
-  // Register service worker for offline support
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  }
-</script>
+<script src="src/ui/trust-indicators.js?v=1"></script>
 
 </body>
 </html>
