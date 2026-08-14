@@ -571,6 +571,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('onboarding-import')?.addEventListener('click', () =>
     document.getElementById('workspace-import')?.click());
+  // Guided first-calculation (P4): dismiss and sample-plan wiring.
+  document.getElementById('calc-guide-dismiss')?.addEventListener('click', () => dismissCalcGuide());
+  document.getElementById('calc-guide-sample')?.addEventListener('click', loadSamplePlan);
   // Remove player — two-click confirm; deletes locally only.
   let playerRemoveArmed = null;
   document.getElementById('player-remove')?.addEventListener('click', () => {

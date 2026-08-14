@@ -148,6 +148,23 @@
       <div class="first-run-copy"><span class="eyebrow">Start here</span><h2 id="first-run-title">Plan your first production run</h2><p>Choose an item and quantity. The calculator shows what to mine, move, refine, manufacture, and what the run should cost. Everything stays on this device.</p></div>
       <div class="first-run-form"><label>Player name<input id="onboarding-name" autocomplete="nickname" placeholder="Your character name" /></label><label>Faction <select id="onboarding-faction" aria-label="Onboarding faction"></select><small>Economic context only; recipes stay available.</small></label><button id="onboarding-create" class="primary">Create player and start</button><button id="onboarding-import" class="ghost">Import existing workspace</button></div>
     </section>
+    <section id="calc-guide" class="calc-guide ui-panel" aria-labelledby="calc-guide-title" hidden>
+      <div class="calc-guide-copy">
+        <span class="eyebrow">First plan? Follow along</span>
+        <h2 id="calc-guide-title">Plan your first production run</h2>
+        <ol class="calc-guide-steps">
+          <li><b>Choose an item</b> — click a card in the catalog, or search by name.</li>
+          <li><b>Set quantity, colony, and inventory</b> — how many you want, where to make it, and whether to ignore stock you already hold.</li>
+          <li><b>Calculate your plan</b> — press Calculate and the checklist builds itself.</li>
+          <li><b>Read the result</b> — obtain materials, refine, manufacture. “Show the math” explains every number.</li>
+        </ol>
+      </div>
+      <div class="calc-guide-actions">
+        <button id="calc-guide-sample" class="primary" type="button">▶ Try a sample plan</button>
+        <button id="calc-guide-dismiss" class="ghost" type="button" aria-label="Hide this guide">Got it — hide this</button>
+        <p class="muted calc-guide-note">The sample loads a ready-made plan for <b>10 × Emergency MediKit</b>. It only fills the calculator — nothing is applied to your inventory.</p>
+      </div>
+    </section>
     <div class="calc-workbench" id="calc-workbench">
       <ol class="calc-steps" aria-label="Calculator workflow"><li><b>1</b><span>Choose an item<small>Browse or search the catalog</small></span></li><li><b>2</b><span>Set quantity and colony<small>Tell us what and where</small></span></li><li><b>3</b><span>Calculate your plan<small>Follow the production checklist</small></span></li></ol>
       <aside class="calc-browser" aria-label="Item browser">

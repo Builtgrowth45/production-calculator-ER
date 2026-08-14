@@ -44,6 +44,12 @@ var PLAN_SIG_KEY = 'cmg_plan_sig_v1';
 var LAST_PLAN_SIG = '';
 try { LAST_PLAN_SIG = localStorage.getItem(PLAN_SIG_KEY) || ''; } catch (e) {}
 
+// One-shot "sample run" marker, consumed by the very next successful render.
+// The guided sample plan goes through the exact same runCalculator() path as a
+// real calculation (same semantics), but must not pollute the player's recent
+// history. This is transient, never persisted.
+var SAMPLE_RUN = false;
+
 // One-shot "just applied" marker, consumed by the very next render.
 //
 // This used to be a PERSISTED signature, which was wrong: a signature is not
@@ -1132,7 +1138,14 @@ function runCalculator() {
   }
   if (ok) {
     LAST_SINGLE = { item, qty };
-    pushRecent(item, qty);
+    if (SAMPLE_RUN) {
+      // Sample plans are demonstrations — they don't belong in the player's
+      // recent history. The marker is consumed here, so any later render of
+      // the same target records recents normally.
+      SAMPLE_RUN = false;
+    } else {
+      pushRecent(item, qty);
+    }
     out.tabIndex = -1;
     out.scrollIntoView({ behavior: 'smooth', block: 'start' });
     out.focus({ preventScroll: true });
@@ -1142,6 +1155,24 @@ function runCalculator() {
   updateShareLink();
   window.CMG_VALUE_TRANSITION?.markChanged(out);
   window.CMG_VALUE_TRANSITION?.announce({ item, quantity: qty, result: out });
+}
+
+// ---- Guided sample plan (P4) ----
+// Safe by construction: it only fills the calculator inputs and runs the
+// normal calculation path. Nothing is applied to inventory, no player or
+// saved-plan state is created, and the run is kept out of the recent list.
+function loadSamplePlan() {
+  const sampleItem = 'Emergency MediKit';
+  const sampleQty = 10;
+  const itemInput = document.getElementById('calc-item');
+  const qtyInput = document.getElementById('calc-qty');
+  if (!itemInput || !ALL_ITEMS.has(sampleItem)) { toast('Sample plan unavailable — pick an item from the catalog instead.', 4000, 'error'); return; }
+  itemInput.value = sampleItem;
+  if (qtyInput) qtyInput.value = String(sampleQty);
+  dismissCalcGuide(); // the sample demonstrates the full flow
+  SAMPLE_RUN = true;
+  runCalculator();
+  toast('Sample plan loaded — nothing was applied to your inventory.', 4000, 'success');
 }
 
 // ---- Multi-item tray ----

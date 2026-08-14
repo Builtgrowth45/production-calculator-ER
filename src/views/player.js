@@ -15,9 +15,11 @@ function renderPlayerBar() {
   const names = Object.keys(PLAYERS.players).sort();
   const firstRun = document.getElementById('first-run');
   const workbench = document.getElementById('calc-workbench');
+  const guide = document.getElementById('calc-guide');
   const playerbar = document.querySelector('.playerbar');
   if (firstRun) firstRun.hidden = names.length !== 0;
   if (workbench) workbench.hidden = names.length === 0;
+  if (guide) guide.hidden = names.length === 0 || isCalcGuideDismissed() || RECENT.length > 0;
   if (playerbar) playerbar.hidden = names.length === 0;
   if (names.length === 0) {
     sel.innerHTML = '<option value="" disabled selected>No players yet — create or import one</option>';
@@ -142,6 +144,20 @@ function handleImportFile(file) {
 const RECENT_KEY = 'cmg_recent_v1';
 let RECENT = [];
 try { RECENT = JSON.parse(localStorage.getItem(RECENT_KEY)) || []; } catch (e) { RECENT = []; }
+
+// ---- Guided first-calculation (P4) ----
+// Device-level dismissal: once a player hides the guide or runs any
+// calculation, returning users never see it again.
+const CALC_GUIDE_KEY = 'er_calc_guide_dismissed_v1';
+function isCalcGuideDismissed() {
+  try { return localStorage.getItem(CALC_GUIDE_KEY) === '1'; } catch (e) { return false; }
+}
+function dismissCalcGuide() {
+  try { localStorage.setItem(CALC_GUIDE_KEY, '1'); } catch (e) {}
+  const guide = document.getElementById('calc-guide');
+  if (guide) guide.hidden = true;
+  document.getElementById('picker-search')?.focus();
+}
 
 function pushRecent(item, qty) {
   RECENT = [{ item, qty }, ...RECENT.filter(r => r.item !== item)].slice(0, 8);
