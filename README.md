@@ -202,11 +202,20 @@ That command runs the complete Node test suite and creates the production Pages 
 Additional focused gates:
 
 ```bash
-npm run test:3d       # build and verify the optional React Three Fiber bundle
-npm run test:budgets  # verify 3D size and performance contracts
-npm run assets:check  # enforce recorded provenance for shipped binary assets
-npm run assets:report # inspect the asset inventory without enforcing the gate
+npm run test:3d        # build and verify the optional React Three Fiber bundle
+npm run test:budgets   # verify 3D size and performance contracts
+npm run test:sw-update # clean-profile browser test of the service-worker update lifecycle
+npm run assets:check   # enforce recorded provenance for shipped binary assets
+npm run assets:report  # inspect the asset inventory without enforcing the gate
 ```
+
+`test:sw-update` launches a headless Chromium build with a fresh temporary
+profile (never a shared/stale one) and drives the trust-indicator update flow
+over the DevTools Protocol: first install keeps the update chip hidden, a
+changed service worker exposes it, Reload applies the new worker, and an
+offline reload still renders the shell from cache. It needs a Chromium binary —
+set `CHROMIUM_BIN`, or install Playwright's Chromium under
+`~/.cache/ms-playwright` (this project has no browser-automation dependency).
 
 The main scripts are:
 
