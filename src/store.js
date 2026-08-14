@@ -31,6 +31,10 @@ const WORKSPACE_KEYS = [
   'cmg_transfers_done_v1', 'cmg_obtained_done_v1', 'cmg_plan_applied_v1',
   'cmg_muted_v1',
 ];
+const WORKSPACE_RAW_KEYS = [
+  'cmg_destination', 'cmg_medikit_', 'cmg_medikit_toggle',
+  'cmg_gearsets_migrated_v1', 'cmg_inv_migrated_v1',
+];
 
 function normalizeFaction(value) {
   try {
@@ -293,6 +297,10 @@ function workspaceKeyAllowed(key) {
   return WORKSPACE_KEYS.some(prefix => key === prefix || key.startsWith(prefix));
 }
 
+function workspaceKeyIsRaw(key) {
+  return WORKSPACE_RAW_KEYS.some(prefix => key === prefix || key.startsWith(prefix));
+}
+
 function validateWorkspace(snapshot) {
   if (!snapshot || typeof snapshot !== 'object' || snapshot.type !== WORKSPACE_TYPE ||
       !WORKSPACE_SUPPORTED_SCHEMA_VERSIONS.includes(snapshot.schema_version)) {
@@ -305,6 +313,8 @@ function validateWorkspace(snapshot) {
     if (!workspaceKeyAllowed(key) || typeof value !== 'string' || value.length > 5_000_000) {
       return `Invalid workspace snapshot: unsupported or oversized storage key "${key}".`;
     }
+    if (workspaceKeyIsRaw(key)) continue;
+    try { JSON.parse(value); } catch (e) { return `Invalid workspace snapshot: key "${key}" is not valid JSON.`; }
   }
   if (snapshot.storage[LS_KEY] !== undefined) {
     try { normalizePlayerState(JSON.parse(snapshot.storage[LS_KEY])); }

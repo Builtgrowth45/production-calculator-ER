@@ -90,7 +90,7 @@ describe('workspace snapshot runtime', () => {
 
     assert.throws(() => S.importWorkspace({
       type: 'empire-rising-workspace', schema_version: 2,
-      storage: { cmg_destination: 42 },
+      storage: { cmg_toggles_old_player: 'not-json' },
     }), /Invalid workspace snapshot/);
     assert.deepEqual(localStorage._data, beforeStorage);
     assert.equal(JSON.stringify(S.PLAYERS), beforePlayers);
@@ -104,7 +104,7 @@ describe('workspace snapshot runtime', () => {
 
     assert.throws(() => S.importWorkspace({
       type: 'empire-rising-workspace', schema_version: 2,
-      storage: { cmg_destination: 'Paris', cmg_paths_v1: 'new-paths', cmg_toggles_earlier: 'new-early', cmg_toggles_later: 'new-late' },
+      storage: { cmg_destination: 'Paris', cmg_paths_v1: '"new-paths"', cmg_toggles_earlier: '"new-early"', cmg_toggles_later: '"new-late"' },
     }), /failed|rollback/i);
     assert.deepEqual(localStorage._data, before);
   });
