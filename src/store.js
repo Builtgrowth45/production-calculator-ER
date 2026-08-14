@@ -348,7 +348,11 @@ function importWorkspace(snapshot) {
   try {
     restoreAllowedStorage(previous, migrated.storage);
   } catch (cause) {
-    try { restoreAllowedStorage({}, previous); }
+    try {
+      // Re-read the partially written allowed state so rollback also removes
+      // keys introduced before the failure.
+      restoreAllowedStorage(readAllowedStorage(), previous);
+    }
     catch (rollbackError) {
       throw new Error(`Workspace import failed and rollback failed: ${rollbackError.message}`);
     }

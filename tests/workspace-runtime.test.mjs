@@ -96,16 +96,15 @@ describe('workspace snapshot runtime', () => {
     assert.equal(JSON.stringify(S.PLAYERS), beforePlayers);
   });
 
-  it('rolls back every allowed key when a localStorage write fails', () => {
+  it('rolls back every allowed key, including newly introduced keys, when a write fails', () => {
     localStorage.setItem('cmg_destination', 'Berlin');
-    localStorage.setItem('cmg_toggles_old_player', '{"dark":true}');
     localStorage.setItem('cmg_obtain_site_v1', 'old-site');
     const before = { ...localStorage._data };
-    localStorage.failOn = 'cmg_destination';
+    localStorage.failOn = 'cmg_toggles_later';
 
     assert.throws(() => S.importWorkspace({
       type: 'empire-rising-workspace', schema_version: 2,
-      storage: { cmg_destination: 'Paris', cmg_paths_v1: 'new-paths' },
+      storage: { cmg_destination: 'Paris', cmg_paths_v1: 'new-paths', cmg_toggles_earlier: 'new-early', cmg_toggles_later: 'new-late' },
     }), /failed|rollback/i);
     assert.deepEqual(localStorage._data, before);
   });
