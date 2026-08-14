@@ -29,6 +29,7 @@
 .bn-key.bn-node, .bn-type.bn-node { color: #48b2ff; }
 .bn-layout { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr); gap: 1rem; align-items: start; }
 .bn-table-wrap, .bn-map { min-width: 0; margin: 0; }
+.bn-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .bn-notes { background: var(--panel); border-left: 3px solid var(--accent); border-radius: 5px; padding: .65rem .8rem; margin-bottom: .65rem; font-size: .74rem; line-height: 1.5; }
 .bn-table { width: 100%; border-collapse: collapse; font-size: .78rem; background: var(--panel); border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
 .bn-table th { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--line-bright); color: var(--accent-bright); font-size: .65rem; text-transform: uppercase; }

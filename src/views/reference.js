@@ -105,9 +105,11 @@ function renderDrugs() {
   if (countEl) countEl.textContent = `${list.length} of ${drugs.length} drugs · effects from the ER Balance Sheet snapshot`;
 
   document.getElementById('drug-table').innerHTML =
-    `<table><thead><tr>
-      <th>Drug</th><th>Positive</th><th>Negative</th><th class="r">Duration</th><th title="Chem station power level: Low / Medium / High">Power</th><th class="r">Code</th>
-    </tr></thead><tbody>${rows}</tbody></table>`;
+    `<table>
+      <caption class="sr-only">Drug and booster production — effects, duration, power, and code</caption>
+      <thead><tr>
+        <th scope="col">Drug</th><th scope="col">Positive</th><th scope="col">Negative</th><th scope="col" class="r">Duration</th><th scope="col" title="Chem station power level: Low / Medium / High">Power</th><th scope="col" class="r">Code</th>
+      </tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 
@@ -177,7 +179,7 @@ function renderBattleNodes() {
   wrap.innerHTML = `<div class="bn-layout">
     <div class="bn-table-wrap">
       ${notes}
-      <table class="bn-table"><thead><tr><th>Node</th><th>Type</th><th>Nearest Vort</th></tr></thead><tbody>${rows}</tbody></table>
+      <table class="bn-table"><thead><tr><th scope="col">Node</th><th scope="col">Type</th><th scope="col">Nearest Vort</th></tr></thead><tbody>${rows}</tbody></table>
     </div>
     ${map}
   </div>`;

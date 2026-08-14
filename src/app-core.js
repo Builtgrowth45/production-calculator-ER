@@ -1169,13 +1169,14 @@ function renderPerUnitPricing(plan) {
     </div>
     <div class="unit-scroll">
       <table class="unit-table">
+        <caption class="sr-only">Per-unit pricing — one row per item this plan produces</caption>
         <thead><tr>
-          <th class="up-item">Item</th>
-          <th class="up-num">Req</th>
-          <th class="up-num">Made</th>
-          <th class="up-num">Batches</th>
-          <th class="up-num">Cost/unit</th>
-          <th class="up-num">Cost to guild/unit</th>
+          <th scope="col" class="up-item">Item</th>
+          <th scope="col" class="up-num">Req</th>
+          <th scope="col" class="up-num">Made</th>
+          <th scope="col" class="up-num">Batches</th>
+          <th scope="col" class="up-num">Cost/unit</th>
+          <th scope="col" class="up-num">Cost to guild/unit</th>
         </tr></thead>
         <tbody>${rows.join('')}</tbody>
       </table>

@@ -229,7 +229,9 @@ function renderInventory() {
     return `<tr><td>${iconFor(name)}<span class="idp-link" role="button" tabindex="0" data-idp="${encodeURIComponent(name)}">${esc(displayName(name))}</span></td><td style="text-align:right">${fmt(info.total)}</td><td>${locs} ${mined}</td></tr>`;
   }).join('');
   document.getElementById('inv-table').innerHTML =
-    `<table><thead><tr><th>Item</th><th>Total</th><th>Locations</th></tr></thead><tbody>${body}</tbody></table>`;
+    `<table>
+      <caption class="sr-only">Inventory totals by item — total held and locations</caption>
+      <thead><tr><th scope="col">Item</th><th scope="col">Total</th><th scope="col">Locations</th></tr></thead><tbody>${body}</tbody></table>`;
   renderInvDashboard();
 }
 
@@ -354,7 +356,7 @@ function showInvItemDetail(name) {
     '<div class="idp-total">Total held: <b>' + fmt(total) + '</b></div>';
 
   if (locs.length) {
-    html += '<h5>Locations</h5><table class="idp-table"><thead><tr><th>Zone</th><th class="r">Qty</th></tr></thead><tbody>' +
+    html += '<h5>Locations</h5><table class="idp-table"><thead><tr><th scope="col">Zone</th><th scope="col" class="r">Qty</th></tr></thead><tbody>' +
       locs.map(function(l) {
         return '<tr><td>' + esc(l.location) + '</td><td class="r">' + fmt(l.qty) + '</td></tr>';
       }).join('') + '</tbody></table>';

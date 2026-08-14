@@ -37,7 +37,7 @@ describe('settings, ER branding, and Drugs reference surface', () => {
     assert.match(reference, /DRUG_ADVERSE_POSITIVE_STATS\.has\(k\)/);
     assert.match(reference, /staminadrain/);
     assert.match(reference, /protectionreduction/);
-    assert.match(reference, /<th>Positive<\/th><th>Negative<\/th><th class="r">Duration<\/th>/);
+    assert.match(reference, /<th scope="col">Positive<\/th><th scope="col">Negative<\/th><th scope="col" class="r">Duration<\/th>/);
   });
 
   it('does not expose the stale ChemSub or derived total columns on Drugs', () => {

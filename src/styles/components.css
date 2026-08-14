@@ -19,6 +19,43 @@
 .ui-metric { font-variant-numeric: tabular-nums; }
 .ui-table-wrap { min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .ui-table-wrap table { min-width: 38rem; }
+
+/* P3 mobile tables — pinned key column.
+   Wide data tables scroll inside their wrappers (`.ui-table-wrap`,
+   `.unit-scroll`, `.bn-table-wrap`). Below the tablet breakpoint the first
+   column — the item/node name — stays pinned so it remains readable while
+   the rest of the row scrolls. Desktop (≥768px) keeps the plain table
+   layout untouched. `border-collapse: separate` is required for sticky
+   cells to paint over their neighbours. */
+@media (max-width: 767px) {
+  .ui-table-wrap table,
+  .unit-scroll table,
+  .bn-table-wrap table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .ui-table-wrap table th:first-child,
+  .ui-table-wrap table td:first-child,
+  .unit-scroll table th:first-child,
+  .unit-scroll table td:first-child,
+  .bn-table-wrap table th:first-child,
+  .bn-table-wrap table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--bg);
+    border-right: 1px solid var(--line);
+  }
+  /* Sticky cells must match the surface behind the table they pin. */
+  .unit-scroll table th:first-child,
+  .unit-scroll table td:first-child {
+    background: var(--panel2);
+  }
+  .bn-table-wrap table th:first-child,
+  .bn-table-wrap table td:first-child {
+    background: var(--panel);
+  }
+}
 .ui-list-state:empty::before { content: 'Nothing to show yet.'; display: block; padding: 1rem; color: var(--muted); text-align: center; }
 .ui-empty { padding: 1.25rem; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: var(--component-radius-md); }
 .ui-loading { color: var(--cyan); }
