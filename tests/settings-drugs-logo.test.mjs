@@ -48,6 +48,6 @@ describe('settings, ER branding, and Drugs reference surface', () => {
   });
 
   it('bumps the offline shell for the runtime change', () => {
-    assert.match(sw, /const CACHE\s*=\s*['"]er-v0\.2\.9['"]/);
+    assert.match(sw, /const CACHE\s*=\s*['"]er-v0\.2\.10['"]/);
   });
 });

@@ -1,11 +1,12 @@
-const CACHE = 'er-v0.2.9';
+const CACHE = 'er-v0.2.10';
 // SHELL is the install-time precache: only assets the app needs immediately
 // to render and calculate. Optional 3D/chart payloads (three.js, the R3F
 // workbench bundle, Chart.js, and the model manifest) are intentionally NOT
 // precached — they are fetched on demand by the runtime lazy loaders
-// (src/ui/r3f-loader.js, src/ui/legacy-3d-loader.js, src/views/models.js)
-// and then cached by the network-first fetch handler below. Precache stays
-// lean so install completes fast and cold-start bytes stay low.
+// (src/ui/r3f-loader.js, src/ui/legacy-3d-loader.js, src/ui/chart-loader.js,
+// src/views/models.js) and then cached by the network-first fetch handler
+// below. Precache stays lean so install completes fast and cold-start bytes
+// stay low.
 const SHELL = [
   './',
   './index.html',
@@ -31,6 +32,7 @@ const SHELL = [
   './src/ui/r3f-loader.js',
   './src/ui/spatial-emphasis.js',
   './src/ui/legacy-3d-loader.js',
+  './src/ui/chart-loader.js',
   './src/app.js',
   './src/views/models.js',
   './src/views/reference.js',

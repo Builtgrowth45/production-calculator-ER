@@ -407,6 +407,10 @@ function closeInvDetail() {
 }
 
 // ── Inventory charts (lazy — rendered when the <details> is expanded) ──
+// Chart.js itself is also lazy: it is not part of the initial payload. The
+// first expand pulls src/vendor/chart.min.js in via the chart-loader stub
+// (src/ui/chart-loader.js, window.cmgLoadChart) and the service worker
+// runtime-caches it, so repeated opens cost nothing extra.
 var invChartInstances = {};
 
 // Chart.js draws to canvas and cannot resolve CSS custom properties
@@ -497,7 +501,23 @@ function invIsMaterial(name) {
 }
 
 function renderInvCharts() {
-  if (typeof Chart === 'undefined') return; // vendor script still loading
+  if (typeof Chart === 'undefined') {
+    // Vendor script not loaded yet — pull it in on demand (single-flight via
+    // the chart-loader stub) and render as soon as it lands. If the fetch
+    // fails, surface it instead of leaving the panel silently blank.
+    if (typeof window.cmgLoadChart !== 'function') return;
+    window.cmgLoadChart().then(function() { renderInvCharts(); }).catch(function(err) {
+      console.error('[inventory] Chart.js failed to load:', err);
+      var grid = document.getElementById('inv-charts');
+      var empty = document.getElementById('inv-charts-empty');
+      if (empty) {
+        empty.hidden = false;
+        empty.textContent = 'Charts could not be loaded — reopen the panel to try again.';
+      }
+      if (grid) grid.style.display = 'none';
+    });
+    return;
+  }
   var cv = {
     colony: document.getElementById('inv-chart-colony'),
     items: document.getElementById('inv-chart-topitems'),

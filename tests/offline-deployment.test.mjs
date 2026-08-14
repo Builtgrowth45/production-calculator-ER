@@ -10,14 +10,16 @@ const sw = readFileSync(join(root, 'sw.js'), 'utf8');
 const html = readFileSync(join(root, 'index.html'), 'utf8');
 const r3fLoader = readFileSync(join(root, 'src/ui/r3f-loader.js'), 'utf8');
 const legacyLoader = readFileSync(join(root, 'src/ui/legacy-3d-loader.js'), 'utf8');
+const chartLoader = readFileSync(join(root, 'src/ui/chart-loader.js'), 'utf8');
 const modelsView = readFileSync(join(root, 'src/views/models.js'), 'utf8');
 
-// The lazy-loading mechanism: these tiny loader stubs are the ONLY 3D-related
+// The lazy-loading mechanism: these tiny loader stubs are the ONLY 3D/chart
 // files allowed in the install-time SHELL precache. They gate the on-demand
 // fetch of the heavy payloads below.
 const SHELL_LAZY_LOADERS = [
   './src/ui/r3f-loader.js',
   './src/ui/legacy-3d-loader.js',
+  './src/ui/chart-loader.js',
 ];
 
 // Optional 3D/chart payloads. These must NEVER be install-precached; they are
@@ -52,6 +54,7 @@ describe('offline and deployment verification', () => {
     assert.match(legacyLoader, /src\/vendor\/three\/three\.min\.js/);
     assert.match(legacyLoader, /src\/vendor\/three\/OrbitControls\.js/);
     assert.match(legacyLoader, /src\/vendor\/three\/GLTFLoader\.js/);
+    assert.match(chartLoader, /src\/vendor\/chart\.min\.js/);
     assert.match(modelsView, /fetch\('models\/models_manifest\.json'\)/);
     // …and the fetch handler still runtime-caches what it serves.
     assert.match(sw, /cache\.put\(e\.request, clone\)/);
@@ -61,5 +64,8 @@ describe('offline and deployment verification', () => {
     assert.doesNotMatch(html, /src="src\/generated\/er-3d-workbench\.js\?v=1"/);
     assert.match(html, /src="src\/ui\/r3f-loader\.js\?v=1"/);
     assert.match(html, /src="src\/ui\/legacy-3d-loader\.js\?v=1"/);
+    assert.match(html, /src="src\/ui\/chart-loader\.js\?v=1"/);
+    // Chart.js itself must never be part of the page entry — only its loader.
+    assert.doesNotMatch(html, /src="src\/vendor\/chart\.min\.js/);
   });
 });

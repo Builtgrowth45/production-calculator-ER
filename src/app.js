@@ -16,8 +16,9 @@
  *   src/views/inventory.js — Zone editor, mining, and inventory
  *   src/views/player.js    — Player bar, toast, import/export, share
  *
- * LOAD ORDER: game_data → store → engine → chart.min
- *             → app-core → app.js → views/* → app-init
+ * LOAD ORDER: game_data → store → engine → app-core → app.js → views/* → app-init
+ *             (Chart.js and the 3D payloads are NOT part of the entry — they
+ *              load on demand via the src/ui/*-loader.js stubs)
  */
 'use strict';
 
