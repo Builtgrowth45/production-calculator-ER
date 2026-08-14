@@ -851,7 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (e.key === 'Escape') {
       const overlay = document.getElementById('gear-picker-overlay');
-      if (overlay && !overlay.hidden) overlay.hidden = true;
+      if (overlay && !overlay.hidden) closeGearPicker();
     }
   });
 
@@ -872,6 +872,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target.classList.contains('gear-toggle')) return;
       var st = slot.dataset.slotType || 'armor';
       showGearPicker(slot.dataset.slot, st === 'armor' ? slot.dataset.armorType : st);
+    });
+    // Keyboard users reach the same picker with Enter/Space on a focused slot.
+    slot.addEventListener('keydown', e => {
+      if (e.target !== slot) return; // the toggle checkbox handles its own keys
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        var st = slot.dataset.slotType || 'armor';
+        showGearPicker(slot.dataset.slot, st === 'armor' ? slot.dataset.armorType : st);
+      }
     });
     slot.addEventListener('contextmenu', e => {
       e.preventDefault();
@@ -915,12 +924,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.prepend(swatch);
   });
 
-  // Picker close
-  document.getElementById('gear-picker-close').addEventListener('click', () => {
-    document.getElementById('gear-picker-overlay').hidden = true;
-  });
+  // Picker close — every path restores focus to the triggering slot.
+  document.getElementById('gear-picker-close').addEventListener('click', closeGearPicker);
   document.getElementById('gear-picker-overlay').addEventListener('click', e => {
-    if (e.target === e.currentTarget) e.target.hidden = true;
+    if (e.target === e.currentTarget) closeGearPicker();
   });
   // Save/Load/Clear/Export/Import gear sets
   document.getElementById('gear-save-set').addEventListener('click', () => {

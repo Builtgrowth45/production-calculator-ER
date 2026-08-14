@@ -321,41 +321,41 @@
         <h4 class="gear-title">Armor Loadout</h4>
         <div class="gear-paperdoll">
           <!-- Armor row 1 -->
-          <div class="gear-slot" data-slot="Helmet" data-category="Armor" data-armor-type="Helmet">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="Helmet" data-category="Armor" data-armor-type="Helmet">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Helmet</div>
           </div>
-          <div class="gear-slot" data-slot="ShoulderPads" data-category="Armor" data-armor-type="ShoulderPads">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="ShoulderPads" data-category="Armor" data-armor-type="ShoulderPads">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Shoulders</div>
           </div>
-          <div class="gear-slot" data-slot="TorsoArmor" data-category="Armor" data-armor-type="TorsoArmor">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="TorsoArmor" data-category="Armor" data-armor-type="TorsoArmor">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Torso</div>
           </div>
           <!-- Armor row 2 -->
-          <div class="gear-slot" data-slot="ArmPads" data-category="Armor" data-armor-type="ArmPads">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="ArmPads" data-category="Armor" data-armor-type="ArmPads">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Arms</div>
           </div>
-          <div class="gear-slot" data-slot="Gloves" data-category="Armor" data-armor-type="Gloves">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="Gloves" data-category="Armor" data-armor-type="Gloves">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Gloves</div>
           </div>
-          <div class="gear-slot" data-slot="LegPads" data-category="Armor" data-armor-type="LegPads">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="LegPads" data-category="Armor" data-armor-type="LegPads">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Legs</div>
           </div>
           <!-- Boosters + Medikit row -->
-          <div class="gear-slot" data-slot="booster-0" data-slot-type="booster" data-category="Drugs">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="booster-0" data-slot-type="booster" data-category="Drugs">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Booster 1</div>
           </div>
-          <div class="gear-slot" data-slot="booster-1" data-slot-type="booster" data-category="Drugs">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="booster-1" data-slot-type="booster" data-category="Drugs">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Booster 2</div>
           </div>
-          <div class="gear-slot" data-slot="medikit" data-slot-type="medikit" data-category="Medical">
+          <div class="gear-slot" tabindex="0" role="button" data-slot="medikit" data-slot-type="medikit" data-category="Medical">
             <div class="gear-slot-icon"></div>
             <div class="gear-slot-label">Medikit</div>
           </div>
@@ -645,7 +645,7 @@
     </div>
 
 <div id="gear-picker-overlay" class="gear-picker-overlay" hidden>
-      <div class="gear-picker-modal">
+      <div class="gear-picker-modal" role="dialog" aria-modal="true" aria-labelledby="gear-picker-title">
         <div class="gear-picker-head">
           <span id="gear-picker-title">Select Armor</span>
           <button id="gear-picker-close" class="ghost" aria-label="Close">×</button>
@@ -674,7 +674,7 @@
           </select>
         </div>
         <p class="gpi-help">Prices are <b>per piece</b>, made from scratch at your production colony — a run makes 3, so the run total is shown underneath. <b>Cost</b> includes materials, processing, transport, and configured local colony settings.</p>
-        <div class="gear-picker-body" id="gear-picker-items"></div>
+        <div class="gear-picker-body" id="gear-picker-items" role="listbox" aria-labelledby="gear-picker-title"></div>
       </div>
     </div>
 

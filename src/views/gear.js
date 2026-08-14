@@ -268,12 +268,79 @@ function wireGearDest() {
   };
 }
 
+// § GEAR PICKER — modal focus management
+// ═══════════════════════════════════════════════════════════════════════════
+// The picker is a modal dialog: opening it saves the slot that triggered it,
+// focus moves into the search field, Tab is trapped inside the overlay, Escape
+// closes it, and every close path returns focus to the triggering slot.
+// The option list is a single-select listbox: options carry role="option",
+// exactly one has a roving tabindex="0", and arrow keys move the active option
+// via aria-activedescendant (APG listbox pattern).
+let gearPickerTrigger = null;
+let gearPickerActiveIndex = 0;
+
+// Close the picker and hand focus back to whatever slot opened it.
+function closeGearPicker() {
+  const overlay = document.getElementById('gear-picker-overlay');
+  if (overlay) overlay.hidden = true;
+  document.removeEventListener('keydown', onGearPickerKey);
+  const trigger = gearPickerTrigger;
+  gearPickerTrigger = null;
+  if (trigger && typeof trigger.focus === 'function') trigger.focus();
+}
+
+// Move the highlighted option (roving tabindex + aria-activedescendant).
+function moveGearPickerActive(key) {
+  const listbox = document.getElementById('gear-picker-items');
+  const options = Array.from(listbox.querySelectorAll('.gear-picker-item'));
+  if (!options.length) return;
+  let index = gearPickerActiveIndex;
+  if (key === 'ArrowDown') index = Math.min(index + 1, options.length - 1);
+  else if (key === 'ArrowUp') index = Math.max(index - 1, 0);
+  else if (key === 'Home') index = 0;
+  else if (key === 'End') index = options.length - 1;
+  gearPickerActiveIndex = index;
+  options.forEach((el, i) => { el.tabIndex = i === index ? 0 : -1; });
+  const active = options[index];
+  listbox.setAttribute('aria-activedescendant', active.id);
+  active.focus();
+}
+
+// Keyboard contract for the picker modal. The item detail popup, when open
+// above the picker, owns the keyboard instead.
+function onGearPickerKey(e) {
+  if (document.querySelector('.item-popup-overlay')) return;
+  const overlay = document.getElementById('gear-picker-overlay');
+  if (!overlay || overlay.hidden) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeGearPicker(); return; }
+  if (e.key === 'Tab') {
+    const focusables = Array.from(overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+      .filter(el => el.offsetParent !== null || el === document.activeElement);
+    if (!focusables.length) { e.preventDefault(); return; }
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === overlay)) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+    return;
+  }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End') {
+    e.preventDefault();
+    moveGearPickerActive(e.key);
+  }
+}
+
 function showGearPicker(slotName, armorType) {
   const overlay = document.getElementById('gear-picker-overlay');
   const title = document.getElementById('gear-picker-title');
   const body = document.getElementById('gear-picker-items');
   const factionSel = document.getElementById('gear-picker-faction');
   if (!overlay || !body) return;
+
+  // The slot that opened the picker is where focus must return on close.
+  gearPickerTrigger = document.querySelector('[data-slot="' + slotName + '"]') || document.activeElement;
 
   const slotType = (document.querySelector('[data-slot="' + slotName + '"]')?.dataset?.slotType) || 'armor';
   const slotCat = document.querySelector('[data-slot="' + slotName + '"]')?.dataset?.category || 'Armor';
@@ -404,18 +471,43 @@ function showGearPicker(slotName, armorType) {
       </div>`;
     }).join('') || '<div class="muted" style="padding:1rem">No items found for this slot/faction/weight.</div>';
 
-    body.querySelectorAll('.gear-picker-item').forEach(el => {
-      el.addEventListener('click', () => {
-        const item = decodeURIComponent(el.dataset.item);
-        const slotEl = document.querySelector('[data-slot="' + slotName + '"]');
-        const st = slotEl?.dataset?.slotType || 'armor';
-        if (st === 'armor') { GEAR[slotName] = item; saveGear(GEAR); }
-        else if (st === 'booster') { BOOSTERS[parseInt(slotName.split('-')[1])] = item; saveBoosters(); }
-        else if (st === 'medikit') { MEDIKIT = item; saveMedikit(); }
-        renderGear(); renderGearSets();
-        overlay.hidden = true;
-      });
+    // Listbox semantics: options carry role/id; the currently equipped piece
+    // is aria-selected. Exactly one option keeps the roving tabindex, so Tab
+    // enters the list once and arrow keys move between options.
+    const optionEls = Array.from(body.querySelectorAll('.gear-picker-item'));
+    const equippedName = GEAR[slotName];
+    let activeFound = false;
+    optionEls.forEach((el, i) => {
+      el.setAttribute('role', 'option');
+      el.setAttribute('id', 'gear-picker-opt-' + i);
+      const selected = decodeURIComponent(el.dataset.item) === equippedName;
+      el.setAttribute('aria-selected', selected ? 'true' : 'false');
+      if (selected) { gearPickerActiveIndex = i; activeFound = true; }
     });
+    if (!activeFound || gearPickerActiveIndex >= optionEls.length) gearPickerActiveIndex = 0;
+    optionEls.forEach((el, i) => { el.tabIndex = i === gearPickerActiveIndex ? 0 : -1; });
+    if (optionEls.length) {
+      body.setAttribute('aria-activedescendant', optionEls[gearPickerActiveIndex].id);
+      optionEls.forEach(el => {
+        el.addEventListener('click', () => selectItem(el));
+        el.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectItem(el); }
+        });
+      });
+    }
+  }
+
+  // Equip the picked item and close the modal. Keyboard users reach this via
+  // Enter/Space on a focused option; mouse users via click.
+  function selectItem(el) {
+    const item = decodeURIComponent(el.dataset.item);
+    const slotEl = document.querySelector('[data-slot="' + slotName + '"]');
+    const st = slotEl?.dataset?.slotType || 'armor';
+    if (st === 'armor') { GEAR[slotName] = item; saveGear(GEAR); }
+    else if (st === 'booster') { BOOSTERS[parseInt(slotName.split('-')[1])] = item; saveBoosters(); }
+    else if (st === 'medikit') { MEDIKIT = item; saveMedikit(); }
+    renderGear(); renderGearSets();
+    closeGearPicker();
   }
 
   renderItemList('');
@@ -481,6 +573,13 @@ function showGearPicker(slotName, armorType) {
   });
 
   overlay.hidden = false;
+  // Focus-in: move focus into the modal's primary control (the search field).
+  // The keyboard contract (Escape/trap/arrows) is installed for as long as the
+  // picker stays open; closeGearPicker removes it.
+  document.removeEventListener('keydown', onGearPickerKey);
+  document.addEventListener('keydown', onGearPickerKey);
+  const searchFocus = document.getElementById('gear-picker-search');
+  if (searchFocus && typeof searchFocus.focus === 'function') searchFocus.focus();
 }
 
 function renderGearSets() {

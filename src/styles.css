@@ -3075,6 +3075,10 @@ button.x:hover { color: #ff5577; }
   box-shadow: 0 0 20px rgba(255,45,149,.35), inset 0 0 15px rgba(255,45,149,.05);
   transform: translateY(-2px);
 }
+.gear-slot:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+  border-color: var(--accent-bright);
+}
 .gear-slot.equipped {
   border-style: solid; border-color: var(--accent);
   box-shadow: 0 0 12px rgba(255,45,149,.3), inset 0 0 8px rgba(255,45,149,.04);
@@ -3201,6 +3205,10 @@ button.x:hover { color: #ff5577; }
 .gear-picker-body { padding: 0.4rem 0.5rem 0.6rem; overflow-y: auto; flex: 1 1 auto; }
 .gear-picker-item { cursor: pointer; transition: background .15s, border-color .15s; }
 .gear-picker-item:hover { background: var(--panel); border-color: var(--line-bright); }
+.gear-picker-item:focus-visible {
+  background: var(--panel); border-color: var(--accent);
+  outline: 2px solid var(--accent); outline-offset: -2px;
+}
 .gear-picker-item .gpi-icon { width: 32px; height: 32px; flex-shrink: 0; }
 .gear-picker-item .gpi-icon img { width: 32px; height: 32px; }
 .gear-picker-item .gpi-name { font-size: 0.8125rem; color: var(--text); font-weight: 600; }

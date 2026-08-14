@@ -180,6 +180,9 @@ function showItemDetail(item) {
   const old = document.querySelector('.item-popup-overlay');
   if (old) old.remove();
 
+  // Remember the trigger so closing the popup can return focus to it.
+  const lastFocused = document.activeElement;
+
   const overlay = document.createElement('div');
   overlay.className = 'item-popup-overlay';
 
@@ -235,7 +238,7 @@ function showItemDetail(item) {
       '<span class="ip-drug-total">Total <b>' + fmt(drugRef.total_uc) + ' UC</b></span></div></div>';
   }
 
-  overlay.innerHTML = '<div class="item-popup" role="dialog" aria-label="Item details for ' + esc(displayName(item)) + '">' +
+  overlay.innerHTML = '<div class="item-popup" role="dialog" aria-modal="true" aria-label="Item details for ' + esc(displayName(item)) + '">' +
     '<button class="ip-close" aria-label="Close">&times;</button>' +
     '<div class="ip-header"><span class="ip-icon">' + iconFor(item) + '</span><div><h2>' + esc(displayName(item)) + '</h2>' +
     '<div class="ip-tags">' +
@@ -253,13 +256,38 @@ function showItemDetail(item) {
     '<div class="ip-section ip-model-section"><button class="ip-model ghost" data-ip-model="' + encodeURIComponent(item) + '">🧊 Find 3D model</button><div class="ip-model-status muted" aria-live="polite"></div><div class="cmg-preview-slot" data-cmg-3d-preview hidden aria-label="3D item preview"></div></div>' +
     '</div>';
 
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-  overlay.querySelector('.ip-close').addEventListener('click', () => overlay.remove());
-  document.addEventListener('keydown', function escClose(e) {
-    if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', escClose); }
-  });
+  // Every close path funnels through closePopup: it tears down the overlay,
+  // drops the keyboard handler, and hands focus back to whatever opened it.
+  function closePopup() {
+    overlay.remove();
+    document.removeEventListener('keydown', onPopupKey);
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
+  overlay.querySelector('.ip-close').addEventListener('click', closePopup);
+
+  // Keyboard contract: Escape closes the modal; Tab is trapped inside it so
+  // focus cannot leak out to the page behind the overlay.
+  function onPopupKey(e) {
+    if (e.key === 'Escape') { e.preventDefault(); closePopup(); return; }
+    if (e.key === 'Tab') {
+      const focusables = Array.from(overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+        .filter(el => el.offsetParent !== null || el === document.activeElement);
+      if (!focusables.length) { e.preventDefault(); return; }
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === overlay)) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    }
+  }
+  document.addEventListener('keydown', onPopupKey);
+
   overlay.querySelectorAll('[data-ip-item]').forEach(btn => {
-    btn.addEventListener('click', () => { const name = decodeURIComponent(btn.dataset.ipItem); overlay.remove(); showItemDetail(name); });
+    btn.addEventListener('click', () => { const name = decodeURIComponent(btn.dataset.ipItem); closePopup(); showItemDetail(name); });
   });
   const modelBtn = overlay.querySelector('[data-ip-model]');
   if (modelBtn) modelBtn.addEventListener('click', async () => {
@@ -290,9 +318,13 @@ function showItemDetail(item) {
     const name = decodeURIComponent(calcBtn.dataset.ipCalc);
     document.getElementById('calc-item').value = name;
     document.querySelector('.tab[data-view="calc"]').click();
-    overlay.remove(); runCalculator();
+    closePopup(); runCalculator();
   });
   document.body.appendChild(overlay);
+  // Focus-in: move focus into the dialog. The close control is its first tab
+  // stop, so it is the safest initial target for both mouse and keyboard.
+  const closeBtn = overlay.querySelector('.ip-close');
+  if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
   requestAnimationFrame(() => overlay.classList.add('show'));
 }
 
