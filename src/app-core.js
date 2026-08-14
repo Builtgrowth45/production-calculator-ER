@@ -727,21 +727,26 @@ function acquireCost(plan) {
 
 // Total cost of a plan: processing fees + materials to acquire. Reported apart
 // so a plan can show a real number for one while the other is still unpriced.
-function planCost(plan) {
+// `dest` is the production colony the plan ran at (fee tax/upkeep follow it,
+// and so does the owner-return eligibility). Existing callers pass nothing and
+// get the current DESTINATION — the what-if colony comparison passes the
+// candidate colony so the SAME plan can be priced somewhere else.
+function planCost(plan, dest) {
+  const loc = dest || DESTINATION;
   let feeBase = 0, feeCold = 0, total = 0, unknown = 0, feeTax = 0, feePreTax = 0;
   (plan.steps || []).forEach(s => {
     const c = costFor(s.item, s.altIndex);
     if (!c || !s.batches) { unknown++; return; }
     feeBase += c.uc * s.batches;
-    feeCold += colonyUnitCost(c.uc, DESTINATION).total * s.batches;
-    total += runCost(c.uc, DESTINATION, s.batches);
-    feePreTax += preTaxRunCost(c.uc, DESTINATION, s.batches);
-    feeTax += driftParams(c.uc, DESTINATION).tax * s.batches;
+    feeCold += colonyUnitCost(c.uc, loc).total * s.batches;
+    total += runCost(c.uc, loc, s.batches);
+    feePreTax += preTaxRunCost(c.uc, loc, s.batches);
+    feeTax += driftParams(c.uc, loc).tax * s.batches;
   });
   const mat = acquireCost(plan);
   // Spend that earns the faction cut: fees always land at the destination,
   // materials at whichever site each one is mined on.
-  const ownerEligibleSpend = (isOwnColony(DESTINATION) ? feePreTax : 0) + mat.ownSpend;
+  const ownerEligibleSpend = (isOwnColony(loc) ? feePreTax : 0) + mat.ownSpend;
   const preTaxSpend = feePreTax + mat.preTaxSpend;
   const globalDominion = preTaxSpend * GLOBAL_DOMINION_RATE;
   const grand = total + mat.total;
@@ -1426,6 +1431,240 @@ function showTheMathPanel(plan) {
         ${guildRow}
       </section>
       <p class="show-math-foot muted">Every figure here is the same calculation the cost panel above uses — nothing new is invented and nothing changes if you open this. Prices are a snapshot of the bundled cost data; verify live in-game.</p>
+    </div>
+  </details>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DECISION SUMMARY — player-readable tradeoffs from the plan's own numbers
+// ═══════════════════════════════════════════════════════════════════════════
+// The cost panel states figures; this disclosure turns them into the choices
+// they imply, using ONLY values planCost/netPathCost already compute — no new
+// fields, no changed semantics, no invented rankings:
+//   * up-front investment, cost/unit and cost-to-guild/unit are exactly the
+//     hero strip's numbers (they must never diverge),
+//   * the cheapest refinement path is the same netPathCost estimate the ⚙ path
+//     picker shows, so the ★ here can never contradict the ★ there,
+//   * speed is labelled honestly: the game publishes no craft durations, so
+//     slot runs are the only honest measure — and unavailable metrics are
+//     called out instead of guessed.
+function decisionSummary(plan) {
+  const cost = planCost(plan);
+  const steps = (plan && plan.steps) || [];
+  const finals = steps.filter(s => s.type === 'manufacture' && s.produced > 0);
+  const produced = finals.reduce((s, x) => s + x.produced, 0);
+  const finalCount = finals.length;
+  const factionName = window.factionById?.(cost.faction || activeFactionId())?.name || cost.faction || activeFactionId();
+  const returnPct = Math.round(cost.returnRate * 100);
+  const unknownNote = cost.anyUnknown
+    ? '<div class="decision-unknown">Some recipe paths or materials have no price in the cost data yet, so the figures below cover only what is priced — they are partial.</div>'
+    : '';
+  const line = (label, value, note) =>
+    `<div class="decision-line"><span class="decision-line-label">${label}</span>` +
+    (note ? `<span class="decision-line-note">${note}</span>` : '') +
+    `<span class="decision-line-val">${value}</span></div>`;
+
+  let rows = '';
+  rows += line('Up-front investment', fmtUC(cost.grand) + ' UC',
+    'fees ' + fmtUC(cost.total) + ' + materials ' + fmtUC(cost.materials) + ' — what leaves your account today');
+  if (produced > 0) {
+    rows += line('Cost per unit', fmtUC(cost.grand / produced) + ' UC',
+      'Investment ÷ ' + fmt(produced) + ' unit' + (produced === 1 ? '' : 's') +
+      (finalCount > 1 ? ' (' + finalCount + ' items, weighted by units made)' : ''));
+    const net = cost.grand - cost.rebate;
+    rows += line('Cost to guild per unit', fmtUC(net / produced) + ' UC',
+      returnPct > 0
+        ? 'after the ' + returnPct + '% return to ' + esc(factionName) + ' funds — what the faction is really out of pocket'
+        : 'no configured faction return — same as cost per unit');
+  }
+
+  // Cheapest refinement path: one line per step whose recipe has alternative
+  // input sets. The estimate is the same netPathCost the ⚙ path picker uses,
+  // so the ★ can never disagree with the picker's.
+  const altSteps = steps.filter(s => {
+    const recs = RECIPES_BY_OUTPUT[s.item];
+    if (!recs || !recs.length) return false;
+    const r = DATA.recipes[recs[0]._idx];
+    return !!(r.inputs_alternatives && r.inputs_alternatives.length > 1);
+  });
+  if (altSteps.length) {
+    altSteps.forEach(s => {
+      const recs = RECIPES_BY_OUTPUT[s.item];
+      const r = DATA.recipes[recs[0]._idx];
+      const used = s.altIndex != null ? s.altIndex
+        : (ALTERNATIVE_CHOICES[s.item] != null ? ALTERNATIVE_CHOICES[s.item] : 0);
+      const usedDesc = (r.inputs_alternatives[used] || r.inputs_alternatives[0] || [])
+        .map(x => fmt(x.quantity) + ' ' + esc(x.item)).join(' + ');
+      const costs = r.inputs_alternatives.map((a, i) =>
+        window.ENGINE.netPathCost ? window.ENGINE.netPathCost(s.item, i, DESTINATION, {}, 0) : null);
+      const priced = costs.some(c => c != null);
+      let note;
+      if (priced) {
+        let best = 0;
+        for (let i = 1; i < costs.length; i++) {
+          if (costs[i] != null && (costs[best] == null || costs[i] < costs[best])) best = i;
+        }
+        const usedCost = costs[used];
+        if (usedCost != null && used === best) {
+          note = '≈ ' + fmtUC(costs[best]) + ' UC/unit · ★ cheapest priced path — the plan uses it';
+        } else if (usedCost != null) {
+          note = '≈ ' + fmtUC(costs[best]) + ' UC/unit · the cheapest priced path is another one';
+        } else {
+          note = '≈ ' + fmtUC(costs[best]) + ' UC/unit cheapest — the path this plan uses has no price data yet';
+        }
+      } else {
+        note = 'no price data for any path — cheapest not ranked';
+      }
+      rows += line('Cheapest refinement path · ' + esc(displayName(s.item)), usedDesc, note);
+    });
+  } else {
+    rows += line('Cheapest refinement path', '—', 'no alternative paths in this plan — the recipe set is fixed');
+  }
+
+  rows += line('Speed', fmt(cost.runs) + ' slot run' + (cost.runs === 1 ? '' : 's') + ' · ' +
+    fmt(cost.batches) + ' slot-batch' + (cost.batches === 1 ? '' : 'es'),
+    'the game publishes no craft durations — slot runs are the honest speed measure (fewer runs = done sooner)');
+
+  return `<details class="decision-summary" data-decision-summary>
+    <summary>Decision summary</summary>
+    <div class="decision-summary-body">
+      ${unknownNote}
+      ${rows}
+      <p class="decision-foot muted">Every figure is the same calculation the cost panel uses — nothing new is invented here. Prices are a snapshot of the bundled cost data; verify live in-game.</p>
+    </div>
+  </details>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COLONY WHAT-IF — the same plan recomputed at every production colony
+// ═══════════════════════════════════════════════════════════════════════════
+// A lightweight "what if this ran elsewhere?" comparison. Each candidate
+// destination is fed through the ENGINE'S OWN compute()/planCost() with the
+// plan's real inputs (stock, chosen paths, discounts) — only the destination
+// changes, so colony tax, ownership rebates, mine sites and transport all
+// follow the candidate exactly as the calculator would price it. Nothing is
+// ranked that the data cannot back: rows with unpriced items show n/a, and
+// ★ cheapest is awarded only to a UNIQUE cheapest fully-priced colony.
+// spec = { items: [{item, qty}], chosen, ledger, invLoc, discounts, dest }
+function colonyCompareRows(spec) {
+  const dest = (spec && spec.dest) || DESTINATION;
+  const items = (spec && spec.items) || [];
+  if (!items.length) return [];
+  const chosen = (spec && spec.chosen) || {};
+  const ledger = (spec && spec.ledger) || {};
+  const invLoc = (spec && spec.invLoc) || null;
+  const discounts = (spec && spec.discounts) || { prod: 0, mine: 0, trans: 0 };
+
+  const computed = colonyList().map(colony => {
+    let res, cost;
+    try {
+      res = compute(items, chosen, Object.assign({}, ledger), invLoc, colony, discounts);
+      cost = planCost(res.plan, colony);
+    } catch (e) {
+      return {
+        colony, tax: typeof COLONY_TAX[colony] === 'number' ? COLONY_TAX[colony] : 0,
+        owners: colonyOwnerIds(colony), owned: isOwnColony(colony),
+        investment: null, perUnit: null, guildUnit: null,
+        unknown: true, produced: 0, runs: 0, batches: 0, here: colony === dest,
+      };
+    }
+    const finals = (res.plan.steps || []).filter(s => s.type === 'manufacture' && s.produced > 0);
+    const made = finals.reduce((s, x) => s + x.produced, 0);
+    const priced = !cost.anyUnknown && made > 0;
+    return {
+      colony, tax: typeof COLONY_TAX[colony] === 'number' ? COLONY_TAX[colony] : 0,
+      owners: colonyOwnerIds(colony), owned: isOwnColony(colony),
+      investment: priced ? cost.grand : null,
+      perUnit: priced ? cost.grand / made : null,
+      guildUnit: priced ? (cost.grand - cost.rebate) / made : null,
+      unknown: cost.anyUnknown, produced: made,
+      runs: cost.runs, batches: cost.batches, here: colony === dest,
+    };
+  });
+
+  // Delta vs the current destination, and the ★: a unique cheapest among the
+  // fully priced rows. A flat world (all equal) or a tied minimum gets NO ★ —
+  // claiming a cheapest that isn't one would be an invented ranking.
+  const hereRow = computed.find(r => r.here);
+  const hereGuild = hereRow && hereRow.guildUnit != null ? hereRow.guildUnit : null;
+  computed.forEach(r => {
+    // A delta against itself is meaningless — the here row's cell shows —.
+    r.delta = r.here ? null : (r.guildUnit != null && hereGuild != null ? r.guildUnit - hereGuild : null);
+    r.cheapest = false;
+  });
+  const pricedRows = computed.filter(r => r.guildUnit != null);
+  if (pricedRows.length >= 2) {
+    const distinct = [...new Set(pricedRows.map(r => r.guildUnit))].sort((a, b) => a - b);
+    if (distinct.length >= 2) {
+      const minVal = distinct[0];
+      const minRows = pricedRows.filter(r => r.guildUnit === minVal);
+      if (minRows.length === 1) minRows[0].cheapest = true;
+    }
+  }
+
+  // Current destination first, then priced rows cheapest-first, then unpriced
+  // rows alphabetically — a sort of derived numbers, never a made-up ranking.
+  const order = r => r.here ? 0 : (r.guildUnit != null ? 1 : 2);
+  computed.sort((a, b) =>
+    order(a) - order(b) ||
+    (a.guildUnit != null && b.guildUnit != null ? a.guildUnit - b.guildUnit : a.colony.localeCompare(b.colony)));
+  return computed;
+}
+
+function renderColonyCompare(spec) {
+  const rows = colonyCompareRows(spec);
+  if (!rows.length) return '';
+  const anyPriced = rows.some(r => r.guildUnit != null);
+  const pricedCount = rows.filter(r => r.guildUnit != null).length;
+
+  const ownerLabel = ids => ids.length
+    ? ids.map(id => esc(window.factionById?.(id)?.name || id)).join(' + ')
+    : '<span class="cc-na">—</span>';
+  const rowHtml = rows.map(r => {
+    const deltaCell = r.delta != null && Math.abs(r.delta) > 0.0001
+      ? `<span class="cc-delta ${r.delta < 0 ? 'better' : 'worse'}">${r.delta < 0 ? '−' : '+'}${fmtUC(Math.abs(r.delta))}</span>`
+      : (r.here ? '<span class="cc-na">—</span>' : '<span class="cc-na">same</span>');
+    return `<tr${r.here ? ' class="cc-here"' : ''}>
+      <td class="cc-colony">${r.here ? '<span class="cc-here-tag">here</span> ' : ''}${esc(r.colony)}${r.cheapest ? ' <span class="cc-star" title="Cheapest cost to guild per unit">★</span>' : ''}</td>
+      <td class="cc-num">${r.tax}%</td>
+      <td class="cc-owner">${ownerLabel(r.owners)}</td>
+      <td class="cc-num">${r.investment != null ? fmtUC(r.investment) : '<span class="cc-na">n/a</span>'}</td>
+      <td class="cc-num">${r.perUnit != null ? fmtUC(r.perUnit) : '<span class="cc-na">n/a</span>'}</td>
+      <td class="cc-num cc-guild">${r.guildUnit != null ? fmtUC(r.guildUnit) : '<span class="cc-na">n/a</span>'}</td>
+      <td class="cc-num">${deltaCell}</td>
+      <td class="cc-action">${r.here ? '' : `<button type="button" class="ghost cc-plan" data-whatif-plan="${encodeURIComponent(r.colony)}">Plan here</button>`}</td>
+    </tr>`;
+  }).join('');
+
+  const gapNote = anyPriced && pricedCount < rows.length
+    ? ' <span class="cc-gap">Some colonies are not fully priced (n/a) — cheapest is ranked among priced ones only.</span>'
+    : '';
+  const noPriceNote = !anyPriced
+    ? '<div class="cc-noprice">Price data is unavailable for this plan — the cheapest colony cannot be ranked.</div>'
+    : '';
+
+  return `<details class="colony-compare" data-colony-compare>
+    <summary>Compare colonies — what if this ran elsewhere?</summary>
+    <div class="colony-compare-body">
+      <p class="colony-compare-intro muted">Same stock, same refinement paths — only the production colony changes. Figures come from the same engine the calculator uses; tax, ownership returns, mine sites and transport all follow the destination.</p>
+      ${noPriceNote}
+      <div class="unit-scroll">
+        <table class="unit-table colony-compare-table">
+          <caption class="sr-only">Colony comparison — investment, cost per unit and cost to guild per unit at each production colony</caption>
+          <thead><tr>
+            <th scope="col">Colony</th>
+            <th scope="col" class="cc-num">Tax</th>
+            <th scope="col">Owner</th>
+            <th scope="col" class="cc-num">Investment</th>
+            <th scope="col" class="cc-num">Cost/unit</th>
+            <th scope="col" class="cc-num">Cost to guild/unit</th>
+            <th scope="col" class="cc-num">vs here</th>
+            <th scope="col"><span class="sr-only">Action</span></th>
+          </tr></thead>
+          <tbody>${rowHtml}</tbody>
+        </table>
+      </div>
+      <p class="unit-note">★ = cheapest cost to guild per unit among fully priced colonies · “here” is your current production colony · vs here is guild/unit minus this colony's · Plan here re-runs the whole plan at that colony (transport, mine sites, tax and the owner return all follow). Prices are a snapshot — verify live in-game.${gapNote}</p>
     </div>
   </details>`;
 }

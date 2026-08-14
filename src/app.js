@@ -1010,9 +1010,15 @@ function renderPlan(item, qty, targetEl) {
   const planApplied = syncPlanIdentity(planSig);
   const altChoices = Object.assign({}, ALTERNATIVE_CHOICES);
   const discounts = getDiscounts();
+  // The SAME starting stock the plan below is computed from. compute() mutates
+  // the ledger it is handed (owned stock is deducted as the plan is built), so
+  // the what-if comparison gets its own untouched copy — otherwise its "here"
+  // row would re-plan from post-consumption stock and disagree with the plan
+  // on screen.
+  const planLedger = Object.assign({}, INV_TOTAL);
   let result, plan;
   try {
-    result = compute(item, qty, altChoices, Object.assign({}, INV_TOTAL), INV_LOCATIONS, DESTINATION, discounts);
+    result = compute(item, qty, altChoices, Object.assign({}, planLedger), INV_LOCATIONS, DESTINATION, discounts);
     plan = result.plan;
     if (targetEl && targetEl.id) LAST_PLANS[targetEl.id] = plan;
   } catch (e) {
@@ -1074,9 +1080,14 @@ function renderPlan(item, qty, targetEl) {
         ? 'Holding <b>' + fmt(alreadyHave) + '</b> · plan makes <b>' + fmt(qty) + '</b> more → <b>' + fmt(alreadyHave + qty) + '</b> total. Existing stock is left alone.'
         : 'This plan produces <b>' + fmt(qty) + '</b>.'}</div>
       ${beginnerHtml}
+      ${decisionSummary(plan)}
       ${drugPlanHtml}
       ${showTheMathPanel(plan)}
       ${statsHtml}
+      ${renderColonyCompare({
+        items: [{ item, qty }], chosen: altChoices, ledger: planLedger,
+        invLoc: INV_LOCATIONS, discounts, dest: DESTINATION,
+      })}
       <div id="calc-paths" class="calc-paths" hidden></div>
       ${dashboardHtml}
 
@@ -1221,6 +1232,10 @@ function runMultiPlan() {
 
   // Build a shared ledger from current inventory
   const ledger = Object.assign({}, INV_TOTAL);
+  // Untouched copy for the what-if comparison — compute() mutates `ledger` as
+  // it deducts owned stock, so the comparison must start from the same full
+  // inventory the plan on screen started from.
+  const specLedger = Object.assign({}, INV_TOTAL);
   const invLoc = {};
   for (const k in INV_LOCATIONS) invLoc[k] = INV_LOCATIONS[k].map(l => ({ ...l }));
 
@@ -1247,6 +1262,11 @@ function runMultiPlan() {
   const dashboardHtml = renderMaterialDashboard(plan);
   if (statsHtml) html += statsHtml;
   html += showTheMathPanel(plan);
+  html += decisionSummary(plan);
+  html += renderColonyCompare({
+    items: CALC_TRAY, chosen: ALTERNATIVE_CHOICES, ledger: specLedger, invLoc,
+    discounts, dest: DESTINATION,
+  });
   if (dashboardHtml) html += dashboardHtml;
 
   // ---- Sections (combined) — same 4 collapsible steps as the single plan ----

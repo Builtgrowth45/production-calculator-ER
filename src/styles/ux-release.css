@@ -99,6 +99,53 @@ header:has(.settings-menu[open]) { position: relative; z-index: 300; }
   .show-math-line-val { text-align: left; white-space: normal; }
 }
 
+/* Decision summary — the tradeoff narrative. Same native details/summary
+   disclosure language as show-the-math, but framed as choices: up-front
+   investment, cost/unit, cost-to-guild/unit, cheapest refinement path and
+   speed (slot runs — the game publishes no craft durations). */
+.decision-summary { margin: .75rem 0; border: 1px solid var(--line-bright); border-radius: 6px; background: var(--panel2); }
+.decision-summary > summary { cursor: pointer; padding: .75rem; color: var(--accent-bright); font-size: .7rem; font-weight: 600; letter-spacing: .04em; }
+.decision-summary > summary::-webkit-details-marker { display: none; }
+.decision-summary > summary::before { content: '⚖ '; }
+.decision-summary[open] > summary { border-bottom: 1px solid var(--line); }
+.decision-summary-body { padding: .75rem; display: grid; gap: .4rem; }
+.decision-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .15rem .6rem; align-items: baseline; padding: .3rem .45rem; border-radius: 4px; background: var(--panel); font-size: .7rem; }
+.decision-line-label { color: var(--text); font-weight: 600; }
+.decision-line-note { grid-column: 1 / -1; color: var(--muted); font-size: .62rem; line-height: 1.45; }
+.decision-line-val { font-weight: 600; color: var(--accent-bright); text-align: right; white-space: nowrap; }
+.decision-unknown { padding: .4rem .5rem; border: 1px solid color-mix(in srgb, var(--warn) 45%, transparent); border-radius: 4px; color: var(--warn); font-size: .66rem; line-height: 1.5; }
+.decision-foot { margin: .25rem 0 0; font-size: .62rem; line-height: 1.5; max-width: 72ch; }
+@media (max-width: 520px) {
+  .decision-line { grid-template-columns: 1fr; }
+  .decision-line-val { text-align: left; white-space: normal; }
+}
+
+/* Colony what-if comparison — the same plan priced at every production
+   colony. Reuses the per-unit pricing table's scroll container so narrow
+   phones pan instead of squashing the columns. */
+.colony-compare { margin: .75rem 0; border: 1px solid var(--line-bright); border-radius: 6px; background: var(--panel2); }
+.colony-compare > summary { cursor: pointer; padding: .75rem; color: var(--accent-bright); font-size: .7rem; font-weight: 600; letter-spacing: .04em; }
+.colony-compare > summary::-webkit-details-marker { display: none; }
+.colony-compare > summary::before { content: '🌍 '; }
+.colony-compare[open] > summary { border-bottom: 1px solid var(--line); }
+.colony-compare-body { padding: .6rem .75rem .5rem; display: grid; gap: .45rem; }
+.colony-compare-intro { margin: 0; font-size: .66rem; color: var(--muted); line-height: 1.5; max-width: 72ch; }
+.colony-compare-table .cc-num { text-align: right; font-weight: 600; }
+.colony-compare-table th.cc-num { text-align: right; }
+.colony-compare-table tr.cc-here { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.colony-compare-table .cc-colony { font-weight: 600; white-space: nowrap; }
+.colony-compare-table .cc-here-tag { color: var(--accent-bright); font-size: .6rem; letter-spacing: .05em; text-transform: uppercase; }
+.colony-compare-table .cc-star { color: var(--warn); }
+.colony-compare-table .cc-guild { color: var(--ok); }
+.colony-compare-table .cc-na { color: var(--muted); font-weight: 400; }
+.colony-compare-table .cc-delta { color: var(--muted); font-weight: 600; }
+.colony-compare-table .cc-delta.better { color: var(--ok); }
+.colony-compare-table .cc-delta.worse { color: var(--bad); }
+.colony-compare-table .cc-owner { white-space: nowrap; }
+.colony-compare-table .cc-plan { font-size: .66rem; padding: .2rem .5rem; white-space: nowrap; }
+.colony-compare-table .cc-gap { color: var(--warn); }
+.cc-noprice { padding: .4rem .5rem; border: 1px solid color-mix(in srgb, var(--warn) 45%, transparent); border-radius: 4px; color: var(--warn); font-size: .66rem; line-height: 1.5; }
+
 /* Faction palettes stay semantic: surfaces remain readable; identity lives in tokens. */
 [data-theme="bos"] { --bg:#07060a;--bg2:#0e0b14;--panel:#17121e;--panel2:#110d17;--line:#30243b;--line-bright:#59365f;--text:#f5eef8;--muted:#b3a2ba;--accent:#c0265e;--accent-bright:#ef5a89;--accent-dim:#86183e;--cyan:#a78bfa;--cyan-dim:#7c3aed;--purple:#7e22ce;--purple-dim:#581c87;--warn:#f59e0b;--bad:#ef4444;--good:#22c55e; }
 [data-theme="ec"] { --bg:#050a12;--bg2:#09111d;--panel:#101b2b;--panel2:#0b1522;--line:#243750;--line-bright:#3f638d;--text:#f3f7fb;--muted:#a7b7ca;--accent:#2f80ed;--accent-bright:#67b1ff;--accent-dim:#1f5cae;--cyan:#7dd3fc;--cyan-dim:#38bdf8;--purple:#64748b;--purple-dim:#475569;--warn:#fbbf24;--bad:#ef4444;--good:#22c55e; }

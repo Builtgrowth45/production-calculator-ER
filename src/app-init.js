@@ -502,6 +502,26 @@ document.addEventListener('DOMContentLoaded', () => {
     toast(`Combined plan applied. Ctrl+Z to undo.`, 3000, 'success');
   });
 
+  // What-if colony comparison: "Plan here" switches the production colony and
+  // re-runs the whole plan — same stock and paths, new destination. The
+  // comparison table recomputed every candidate with the engine, so switching
+  // here must land on exactly the numbers the row showed.
+  ['calc-result', 'calc-multi'].forEach(id => {
+    document.getElementById(id).addEventListener('click', e => {
+      const btn = e.target.closest('[data-whatif-plan]');
+      if (!btn) return;
+      const colony = decodeURIComponent(btn.dataset.whatifPlan);
+      const destSel = document.getElementById('calc-dest');
+      if (destSel) destSel.value = colony;
+      DESTINATION = colony;
+      saveDestination();
+      updateColonyTaxNote();
+      if (CALC_TRAY.length) runMultiPlan();
+      else if (document.querySelector('#calc-result .plan-summary')) runCalculator();
+      else toast('Production colony set to ' + colony + '.');
+    });
+  });
+
 
   // Player bar
   document.getElementById('player-select').addEventListener('change', e => {
