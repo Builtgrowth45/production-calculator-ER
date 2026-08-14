@@ -47,22 +47,14 @@ const SHELL = [
   './favicon.svg'
 ];
 
-  // Install: cache app shell — log failures, never swallow
-  // The cache is scoped by the service-worker registration URL on Pages.
+// Install: cache app shell; a required asset failure rejects installation.
+// The cache is scoped by the service-worker registration URL on Pages.
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(cache =>
-      Promise.allSettled(
-        SHELL.map(url =>
-          cache.add(url).catch(err => {
-            console.error('[SW] precache failed:', url, err.message);
-            throw err;
-          })
-        )
-      )
-    )
+    caches.open(CACHE)
+      .then(cache => cache.addAll(SHELL))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
 // Activate: clean old caches

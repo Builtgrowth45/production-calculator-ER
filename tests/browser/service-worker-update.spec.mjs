@@ -207,6 +207,7 @@ const state = {
   profile: null,
   page: null,
   swOverride: false,
+  shellFailure: false,
   baseCache: null,
   updateCache: null,
 };
@@ -235,6 +236,11 @@ describe('clean-profile service-worker lifecycle', () => {
         const url = new URL(req.url, 'http://127.0.0.1');
         let pathname = decodeURIComponent(url.pathname);
         if (pathname === '/') pathname = '/index.html';
+        if (state.shellFailure && pathname === '/index.html') {
+          res.writeHead(503, { 'Content-Type': 'text/plain' });
+          res.end('required shell asset deliberately unavailable');
+          return;
+        }
         const file = join(dist, pathname);
         let body = await readFile(file);
         if (pathname === '/sw.js' && state.swOverride) body = Buffer.from(changedSw);
@@ -346,10 +352,44 @@ describe('clean-profile service-worker lifecycle', () => {
     assert.ok(keys.includes(baseCache), `expected precache ${baseCache}, found ${keys.join(', ')}`);
   });
 
-  it('a subsequent changed service worker exposes the update chip', async () => {
-    const { page } = state;
-    // Controlled "deploy": the server now serves different sw.js bytes.
+  it('rejects a defective update install and keeps the existing worker in control', async () => {
+    const { page, baseCache } = state;
     state.swOverride = true;
+    state.shellFailure = true;
+    await evalJs(page, `window.__initialController = navigator.serviceWorker.controller;`);
+
+    await evalJs(
+      page,
+      `(async () => { const reg = await navigator.serviceWorker.getRegistration(); await reg.update(); return true; })()`,
+      true,
+    );
+    await waitFor(
+      page,
+      `(async () => { const reg = await navigator.serviceWorker.getRegistration(); return !reg.installing && !reg.waiting; })()`,
+      { description: 'defective worker install to finish and be discarded', awaitPromise: true },
+    );
+
+    const snapshot = await evalJs(page, `(async () => {
+      const reg = await navigator.serviceWorker.getRegistration();
+      return {
+        activeState: reg.active && reg.active.state,
+        controller: !!navigator.serviceWorker.controller,
+        caches: await caches.keys(),
+      };
+    })()`, true);
+    assert.equal(snapshot.activeState, 'activated', 'the previous worker must remain active');
+    assert.equal(snapshot.controller, true, 'the defective worker must not take control');
+    assert.equal(
+      await evalJs(page, `navigator.serviceWorker.controller === window.__initialController`),
+      true,
+      'the original controller must remain in control after the failed install',
+    );
+    assert.ok(snapshot.caches.includes(baseCache), `the original cache must remain: ${snapshot.caches.join(', ')}`);
+  });
+
+  it('restored required shell assets allow the update to install successfully', async () => {
+    const { page } = state;
+    state.shellFailure = false;
 
     await evalJs(
       page,
@@ -357,14 +397,13 @@ describe('clean-profile service-worker lifecycle', () => {
       true,
     );
 
-    // updatefound -> installed/activated must surface the chip with a reload prompt.
     const chipText = await waitFor(
       page,
       `(() => { const chip = document.getElementById('trust-update'); return (chip && !chip.hidden) ? document.getElementById('trust-update-text').textContent : null; })()`,
-      { description: 'update chip to appear after a changed service worker' },
+      { description: 'update chip to appear after the restored shell install' },
     );
-    assert.match(chipText, /update/i, 'chip must announce the update');
-    assert.match(chipText, /reload/i, 'chip must offer a reload');
+    assert.match(chipText, /update/i, 'chip must announce the restored update');
+    assert.match(chipText, /reload/i, 'chip must offer a reload for the restored update');
   });
 
   it('Reload applies the new worker, swaps the cache, and clears the chip', async () => {
