@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const root = process.cwd();
 const manifestPath = path.join(root, 'data', 'asset-provenance.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const failures = [];
 const binaryExt = new Set(['.png', '.webp', '.jpg', '.jpeg', '.gif', '.svg', '.glb', '.gltf', '.ogg', '.mp3', '.wav', '.dtx', '.stl', '.woff', '.woff2']);
-const ignored = new Set(['node_modules', '.git', 'dist']);
+const ignored = new Set(['node_modules', '.git', 'dist', '.worktrees', '.hermes']);
+
+function isBinaryFile(name) {
+  return binaryExt.has(path.extname(name).toLowerCase());
+}
 
 function filesUnder(relative) {
   const base = relative.replace('/**', '').split(',')[0].trim();
@@ -27,16 +32,39 @@ function filesUnder(relative) {
   return out;
 }
 
-const binaryFiles = [];
-const walkRoot = dir => {
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (ignored.has(entry.name)) continue;
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) walkRoot(full);
-    else if (binaryExt.has(path.extname(entry.name).toLowerCase())) binaryFiles.push(path.relative(root, full).replaceAll(path.sep, '/'));
+// Directory-walk fallback for non-git contexts (e.g. a release tarball without
+// .git). Applies the same exclusions, including untracked tooling trees.
+function walkBinaryFiles() {
+  const out = [];
+  const walk = dir => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (ignored.has(entry.name)) continue;
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (isBinaryFile(entry.name)) out.push(path.relative(root, full).replaceAll(path.sep, '/'));
+    }
+  };
+  walk(root);
+  return out;
+}
+
+// Gate tracked repository files only. Untracked trees (.worktrees/, .hermes/,
+// scratch dirs) are not shipped, so they must never fail the gate. Falls back
+// to the directory walk when git is unavailable or root is not a git checkout.
+function binaryFilesToCheck() {
+  try {
+    const listing = execFileSync('git', ['ls-files', '-z', '--full-name'], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    return listing.split('\0').filter(Boolean).filter(isBinaryFile);
+  } catch {
+    return walkBinaryFiles();
   }
-};
-walkRoot(root);
+}
+
+const binaryFiles = binaryFilesToCheck();
 
 for (const file of binaryFiles) {
   const record = manifest.records.find(r => {
