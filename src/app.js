@@ -1069,6 +1069,7 @@ function renderPlan(item, qty, targetEl) {
         : 'This plan produces <b>' + fmt(qty) + '</b>.'}</div>
       ${beginnerHtml}
       ${drugPlanHtml}
+      ${showTheMathPanel(plan)}
       ${statsHtml}
       <div id="calc-paths" class="calc-paths" hidden></div>
       ${dashboardHtml}
@@ -1214,6 +1215,7 @@ function runMultiPlan() {
   const statsHtml = renderPlanStats(plan);
   const dashboardHtml = renderMaterialDashboard(plan);
   if (statsHtml) html += statsHtml;
+  html += showTheMathPanel(plan);
   if (dashboardHtml) html += dashboardHtml;
 
   // ---- Sections (combined) — same 4 collapsible steps as the single plan ----

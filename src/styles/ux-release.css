@@ -58,6 +58,31 @@ header:has(.settings-menu[open]) { position: relative; z-index: 300; }
 .expert-details[open] > summary { border-bottom: 1px solid var(--line); color: var(--accent-bright); }
 .expert-details .plan-top { padding: .75rem; }
 
+/* Show-the-math disclosure: the player-readable arithmetic path. Native
+   details/summary, so keyboard and screen-reader behaviour come for free. */
+.show-math { margin: .75rem 0; border: 1px solid var(--line-bright); border-radius: 6px; background: var(--panel2); }
+.show-math > summary { cursor: pointer; padding: .75rem; color: var(--accent-bright); font-size: .7rem; font-weight: 600; letter-spacing: .04em; }
+.show-math > summary::-webkit-details-marker { display: none; }
+.show-math > summary::before { content: '🧮 '; }
+.show-math[open] > summary { border-bottom: 1px solid var(--line); }
+.show-math-body { padding: .75rem; display: grid; gap: .9rem; }
+.show-math-section { display: grid; gap: .4rem; }
+.show-math-title { margin: 0; font-size: .78rem; letter-spacing: .03em; color: var(--text); }
+.show-math-summary { margin: 0; font-size: .68rem; color: var(--muted); line-height: 1.5; max-width: 72ch; }
+.show-math-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .15rem .6rem; align-items: baseline; padding: .3rem .45rem; border-radius: 4px; background: var(--panel); font-size: .7rem; }
+.show-math-line-label { color: var(--text); }
+.show-math-line-note { grid-column: 1 / -1; color: var(--muted); font-size: .62rem; line-height: 1.45; }
+.show-math-line-val { font-weight: 600; color: var(--accent-bright); text-align: right; white-space: nowrap; }
+.show-math-step { display: flex; flex-wrap: wrap; gap: .2rem .5rem; align-items: baseline; padding: .25rem .45rem; border-radius: 4px; background: var(--panel); font-size: .68rem; }
+.show-math-step-name { font-weight: 600; color: var(--text); }
+.show-math-step-math { color: var(--muted); }
+.show-math-unknown { padding: .4rem .5rem; border: 1px solid color-mix(in srgb, var(--warn) 45%, transparent); border-radius: 4px; color: var(--warn); font-size: .66rem; line-height: 1.5; }
+.show-math-foot { margin: 0; font-size: .62rem; line-height: 1.5; max-width: 72ch; }
+@media (max-width: 520px) {
+  .show-math-line { grid-template-columns: 1fr; }
+  .show-math-line-val { text-align: left; white-space: normal; }
+}
+
 /* Faction palettes stay semantic: surfaces remain readable; identity lives in tokens. */
 [data-theme="bos"] { --bg:#07060a;--bg2:#0e0b14;--panel:#17121e;--panel2:#110d17;--line:#30243b;--line-bright:#59365f;--text:#f5eef8;--muted:#b3a2ba;--accent:#c0265e;--accent-bright:#ef5a89;--accent-dim:#86183e;--cyan:#a78bfa;--cyan-dim:#7c3aed;--purple:#7e22ce;--purple-dim:#581c87;--warn:#f59e0b;--bad:#ef4444;--good:#22c55e; }
 [data-theme="ec"] { --bg:#050a12;--bg2:#09111d;--panel:#101b2b;--panel2:#0b1522;--line:#243750;--line-bright:#3f638d;--text:#f3f7fb;--muted:#a7b7ca;--accent:#2f80ed;--accent-bright:#67b1ff;--accent-dim:#1f5cae;--cyan:#7dd3fc;--cyan-dim:#38bdf8;--purple:#64748b;--purple-dim:#475569;--warn:#fbbf24;--bad:#ef4444;--good:#22c55e; }

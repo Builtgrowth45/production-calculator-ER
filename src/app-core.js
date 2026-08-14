@@ -1284,6 +1284,152 @@ function renderPlanStats(plan) {
   return `<div class="plan-top">${kpiHtml}${costPanel}${renderPerUnitPricing(plan)}</div>`;
 }
 
+// ── Show the math: player-readable walkthrough of the plan's arithmetic ──
+// The cost panel states the numbers; this disclosure spells out how each one
+// is derived, in plain language, using ONLY the values the plan and planCost
+// already computed — no new fields, no changed semantics. It is a native
+// <details>/<summary> disclosure so keyboard and screen-reader users get the
+// same path as everyone else. Covers recipe time (slot runs, which is how the
+// game measures duration — it publishes no wall-clock time), material totals,
+// fees & tax, colony/transport adjustments, and the three headline figures.
+function showTheMathPanel(plan) {
+  const cost = planCost(plan);
+  const steps = (plan && plan.steps) || [];
+  const acquire = Object.entries((plan && plan.acquire) || {});
+  const transport = Object.entries((plan && plan.transport) || {});
+  const finals = steps.filter(s => s.type === 'manufacture' && s.produced > 0);
+  const totalProduced = finals.reduce((s, x) => s + x.produced, 0);
+  const finalCount = finals.length;
+  const factionName = window.factionById?.(cost.faction || activeFactionId())?.name || cost.faction || activeFactionId();
+  const returnPct = Math.round(cost.returnRate * 100);
+  const unknownNote = cost.anyUnknown
+    ? '<div class="show-math-unknown">Some recipe paths or materials have no price in the cost data yet, so the figures below cover only what is priced — they are partial.</div>'
+    : '';
+
+  const line = (label, value, note) =>
+    `<div class="show-math-line"><span class="show-math-line-label">${label}</span>` +
+    (note ? `<span class="show-math-line-note">${note}</span>` : '') +
+    `<span class="show-math-line-val">${value}</span></div>`;
+
+  // ---- 1) Recipe time — how long the slots run ----
+  let timeRows = '';
+  steps.forEach(s => {
+    if (!s.batches) return;
+    const need = s.produced - (s.surplus || 0);
+    timeRows += `<div class="show-math-step"><span class="show-math-step-name">${esc(displayName(s.item))}</span>` +
+      `<span class="show-math-step-math">need ${fmt(need)} → ${fmt(s.batches)} run${s.batches > 1 ? 's' : ''} of ${fmt(s.outQty)} → ${fmt(s.produced)} made${s.surplus > 0 ? ' (+' + fmt(s.surplus) + ' surplus)' : ''}</span></div>`;
+  });
+  acquire.forEach(([item, info]) => {
+    if (!(info.qty > 0)) return;
+    timeRows += `<div class="show-math-step"><span class="show-math-step-name">${esc(displayName(item))}</span>` +
+      `<span class="show-math-step-math">mine ${fmt(info.qty)} run${info.qty > 1 ? 's' : ''}</span></div>`;
+  });
+
+  // ---- 2) Material totals ----
+  const totalAcquire = acquire.reduce((s, [, info]) => s + (info.qty || 0), 0);
+  let matRows = '';
+  acquire.forEach(([item, info]) => {
+    const qty = info.qty || 0;
+    const unit = materialUnitCost(item);
+    const site = obtainSiteFor(item, info);
+    if (unit == null) {
+      matRows += line(esc(displayName(item)), fmt(qty) + ' unit' + (qty === 1 ? '' : 's'), 'no price data yet — billed cost unknown');
+      return;
+    }
+    const billed = runCost(unit, site, qty);
+    matRows += line(esc(displayName(item)), fmt(qty) + ' × ' + fmtUC(unit) + ' → ' + fmtUC(billed) + ' UC',
+      'mined at ' + esc(site || 'an unknown site') + ' — tax and drift applied');
+  });
+
+  // ---- 3) Fees & tax ----
+  let feeRows = '';
+  steps.forEach(s => {
+    const c = costFor(s.item, s.altIndex);
+    if (!c || !s.batches) return;
+    const billed = stepCost(s);
+    feeRows += line(esc(displayName(s.item)), fmt(s.batches) + ' × ' + fmtUC(c.uc) + ' → ' + fmtUC(billed) + ' UC',
+      'per-run fee billed at ' + esc(DESTINATION) + ' — tax, slot upkeep and drift applied');
+  });
+  if (cost.upkeep > 0.005) {
+    feeRows += line('slot upkeep', '+ ' + fmtUC(cost.upkeep) + ' UC', '⚡' + ENERGY_LEVEL + ' energy · ❄' + COOLING_LEVEL + ' cooling, per run');
+  }
+  if (cost.tax > 0.005) {
+    feeRows += line('colony tax', '+ ' + fmtUC(cost.tax) + ' UC', 'charged at ' + esc(DESTINATION));
+  }
+  if (cost.drift > 0.005) {
+    feeRows += line('session drift', '− ' + fmtUC(cost.drift) + ' UC', 'long-run discount across ' + fmt(cost.batches) + ' slot-batch' + (cost.batches === 1 ? '' : 'es'));
+  }
+
+  // ---- 4) Colony & transport adjustments ----
+  let adjRows = '';
+  transport.forEach(([item, info]) => {
+    (info.from || []).forEach(col => {
+      const qty = (info.fromQty && info.fromQty[col]) || 0;
+      if (!qty) return;
+      adjRows += line(esc(displayName(item)), 'move ' + fmt(qty) + ' → ' + esc(DESTINATION), 'from ' + esc(col));
+    });
+  });
+  if (cost.rebate > 0.005) {
+    adjRows += line('faction return', fmtUC(cost.rebate) + ' UC back to ' + esc(factionName),
+      returnPct + '% of the ' + fmtUC(cost.ownSpend) + ' UC pre-tax spend on colonies owned by ' + esc(factionName));
+  }
+  if (cost.globalDominion > 0.005) {
+    adjRows += line('Global Dominion share', fmtUC(cost.globalDominion) + ' UC',
+      '15% of the ' + fmtUC(cost.preTaxSpend) + ' UC pre-tax spend · FDC ' + fmtUC(cost.fdcDominionShare) + ' / LED ' + fmtUC(cost.ledDominionShare));
+  }
+
+  // ---- 5–7) Headline figures ----
+  const invRow = line('Investment', fmtUC(cost.grand) + ' UC',
+    'fees ' + fmtUC(cost.total) + ' + materials ' + fmtUC(cost.materials));
+  let unitRow = '';
+  if (totalProduced > 0) {
+    unitRow = line('Cost per unit', fmtUC(cost.grand / totalProduced) + ' UC',
+      'Investment ÷ ' + fmt(totalProduced) + ' unit' + (totalProduced === 1 ? '' : 's') +
+      (finalCount > 1 ? ' (' + finalCount + ' items, weighted by units made)' : ''));
+  }
+  let guildRow = '';
+  if (totalProduced > 0) {
+    const net = cost.grand - cost.rebate;
+    guildRow = line('Cost to guild per unit', fmtUC(net / totalProduced) + ' UC',
+      returnPct > 0
+        ? '(' + fmtUC(cost.grand) + ' − ' + fmtUC(cost.rebate) + ' rebate) ÷ ' + fmt(totalProduced) + ' unit' + (totalProduced === 1 ? '' : 's')
+        : 'same as cost per unit — no faction return configured');
+  }
+
+  return `<details class="show-math" data-show-math>
+    <summary>Show the math</summary>
+    <div class="show-math-body">
+      ${unknownNote}
+      <section class="show-math-section">
+        <h4 class="show-math-title">Recipe time — how long the slots run</h4>
+        <p class="show-math-summary">${fmt(cost.runs)} run${cost.runs === 1 ? '' : 's'} across ${fmt(cost.batches)} slot-batch${cost.batches === 1 ? '' : 'es'}. One run is one batch at a slot; the long-run discount resets every ${MAX_BATCH} runs. The game does not publish wall-clock durations, so this is measured in slot runs.</p>
+        ${timeRows || '<p class="muted">No production runs in this plan.</p>'}
+      </section>
+      <section class="show-math-section">
+        <h4 class="show-math-title">Material totals</h4>
+        <p class="show-math-summary">${fmt(totalAcquire)} unit${totalAcquire === 1 ? '' : 's'} to obtain across ${acquire.length} material${acquire.length === 1 ? '' : 's'}, billed at each material's own mine site — tax follows the mine, not the destination.</p>
+        ${matRows || '<p class="muted">No materials to obtain — owned stock covers the plan.</p>'}
+      </section>
+      <section class="show-math-section">
+        <h4 class="show-math-title">Fees and tax</h4>
+        <p class="show-math-summary">Processing fees are billed per run at ${esc(DESTINATION)}, with colony tax, slot upkeep and the long-run drift discount applied per batch.</p>
+        ${feeRows || '<p class="muted">No priced processing fees in this plan.</p>'}
+      </section>
+      <section class="show-math-section">
+        <h4 class="show-math-title">Colony and transport adjustments</h4>
+        ${adjRows || '<p class="muted">No colony or transport adjustments apply to this plan.</p>'}
+      </section>
+      <section class="show-math-section show-math-headlines">
+        <h4 class="show-math-title">Headline figures</h4>
+        ${invRow}
+        ${unitRow}
+        ${guildRow}
+      </section>
+      <p class="show-math-foot muted">Every figure here is the same calculation the cost panel above uses — nothing new is invented and nothing changes if you open this. Prices are a snapshot of the bundled cost data; verify live in-game.</p>
+    </div>
+  </details>`;
+}
+
 
 
 // ---- Progressive feature flags ----
