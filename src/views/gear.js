@@ -279,6 +279,16 @@ function wireGearDest() {
 let gearPickerTrigger = null;
 let gearPickerActiveIndex = 0;
 
+// Equipped item for a gear slot, resolved by slot type. The picker marks the
+// equipped option aria-selected and seeds the roving tabindex from this, so
+// armor (GEAR[slotName]), medikit (MEDIKIT) and boosters (BOOSTERS[slot
+// index]) must all resolve to the real equipped piece.
+function equippedNameForSlot(slotName, slotType) {
+  if (slotType === 'medikit') return MEDIKIT;
+  if (slotType === 'booster') return BOOSTERS[parseInt(slotName.split('-')[1])];
+  return GEAR[slotName];
+}
+
 // Close the picker and hand focus back to whatever slot opened it.
 function closeGearPicker() {
   const overlay = document.getElementById('gear-picker-overlay');
@@ -475,7 +485,10 @@ function showGearPicker(slotName, armorType) {
     // is aria-selected. Exactly one option keeps the roving tabindex, so Tab
     // enters the list once and arrow keys move between options.
     const optionEls = Array.from(body.querySelectorAll('.gear-picker-item'));
-    const equippedName = GEAR[slotName];
+    // Equipped piece resolved per slot type — armor from GEAR[slotName],
+    // medikit from MEDIKIT, booster from BOOSTERS[slot index]. Reading only
+    // GEAR[slotName] left medikit/booster options never aria-selected.
+    const equippedName = equippedNameForSlot(slotName, slotType);
     let activeFound = false;
     optionEls.forEach((el, i) => {
       el.setAttribute('role', 'option');
