@@ -50,7 +50,7 @@ const {
   compute, RECIPES_BY_OUTPUT, CRAFTABLE, MINED, MINE_SITES,
   FINAL_ITEMS, ALL_ITEMS, CATEGORIES, ALTERNATIVE_CHOICES, LOCATIONS,
   pickAlternativeIndex, scoreAlternative, concreteInputs,
-  esc, displayName, fmt, iconFor, itemTypeLabel, showItemDetail,
+  esc, displayName, normalizeSearchText, fmt, iconFor, itemTypeLabel, showItemDetail,
 } = window.ENGINE;
 // Global declarations — engine.js and store.js use IIFEs, so these MUST be declared here
 const DATA = window.GAME_DATA;
@@ -254,6 +254,10 @@ function initPickerFilters() {
     const o = document.createElement('option'); o.value = c; o.textContent = c;
     sel.appendChild(o);
   });
+  // The placeholder count must track the live item catalog, not a stale
+  // hardcoded number (the catalog grows as recipes are added).
+  const search = document.getElementById('picker-search');
+  if (search) search.placeholder = `Search ${FINAL_ITEMS.length} final items…`;
 }
 
 function catOf(item) {
@@ -280,11 +284,11 @@ function siteColor(site) {
 }
 
 function renderPicker() {
-  const q = (document.getElementById('picker-search').value || '').trim().toLowerCase();
+  const q = normalizeSearchText(document.getElementById('picker-search').value);
   const cat = document.getElementById('picker-cat').value;
   const matches = FINAL_ITEMS.filter(name => {
     if (cat && catOf(name) !== cat) return false;
-    if (q && !name.toLowerCase().includes(q)) return false;
+    if (q && !normalizeSearchText(name).includes(q)) return false;
     return true;
   });
   const grid = document.getElementById('picker-grid');
@@ -299,7 +303,7 @@ function renderPicker() {
         <span class="pick-type">${esc(typeLabel)}</span>
         <span class="pick-have${have > 0 ? ' have' : ''}" aria-label="${have > 0 ? fmt(have) + ' owned' : 'none owned'}">${have > 0 ? fmt(have) : '—'}</span>
       </button>`;
-  }).join('') || '<div class="muted" style="padding:20px;text-align:center">No items match.</div>';
+  }).join('') || `<div class="muted" style="padding:20px;text-align:center">No items match${q ? ' for “' + esc(document.getElementById('picker-search').value.trim()) + '”' : ''}. Try a shorter term, another spelling, or clear the category filter.</div>`;
   document.getElementById('picker-count').textContent = `${matches.length} final items`;
 }
 

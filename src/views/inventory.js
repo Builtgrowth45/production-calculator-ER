@@ -196,12 +196,15 @@ function doZoneMove() {
 }
 
 function renderInventory() {
-  const q = (document.getElementById('inv-search')?.value || '').trim().toLowerCase();
+  // Normalized so common spelling variants (e.g. medkit vs the game's
+  // MediKit) match; see engine.normalizeSearchText.
+  const normalizeSearchText = window.ENGINE.normalizeSearchText;
+  const q = normalizeSearchText(document.getElementById('inv-search')?.value || '');
   const materialsOnly = document.getElementById('inv-materials-only')?.checked;
   const inv = getInv();
   const items = {};
   inv.forEach(e => {
-    if (q && !(e.item.toLowerCase().includes(q) || e.location.toLowerCase().includes(q))) return;
+    if (q && !(normalizeSearchText(e.item).includes(q) || normalizeSearchText(e.location).includes(q))) return;
     if (materialsOnly) {
       if (MINE_SITES[e.item]) { /* raw material — keep */ }
       else {
@@ -277,10 +280,11 @@ function renderQuickPicker() {
 
   // Free-text search across ALL items. Without this the grid capped at 60 of
   // 300+ items, so anything you didn't already stock was unreachable except by
-  // typing its exact name.
-  var term = (document.getElementById('qp-search')?.value || '').trim().toLowerCase();
+  // typing its exact name. Normalized like the other item searches so common
+  // spelling variants (e.g. medkit vs MediKit) match.
+  var term = normalizeSearchText(document.getElementById('qp-search')?.value || '');
   if (term) {
-    filtered = filtered.filter(function(name) { return name.toLowerCase().indexOf(term) !== -1; });
+    filtered = filtered.filter(function(name) { return normalizeSearchText(name).indexOf(term) !== -1; });
   }
 
   // "have" reflects the ZONE you're stocking, not the global total — that's the

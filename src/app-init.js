@@ -55,6 +55,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.querySelector('.tab.active')?.setAttribute('aria-selected', 'true');
 
+  // WAI-ARIA tabs pattern for the default legacy tablist: ArrowLeft/Right and
+  // Home/End move roving focus between the visible tabs (activation stays on
+  // Enter/Space/click — arrows never navigate, matching the v2 handler).
+  const legacyNav = document.getElementById('legacy-nav');
+  if (legacyNav) {
+    legacyNav.addEventListener('keydown', e => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+      const tabs = [...legacyNav.querySelectorAll('[role="tab"]')].filter(t => !t.closest('[hidden]'));
+      const current = tabs.indexOf(document.activeElement);
+      if (current < 0) return;
+      e.preventDefault();
+      const next = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 :
+        (current + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[next].focus();
+    });
+  }
+
   // Grouped navigation v2 is opt-in; it delegates to the same setView lifecycle
   // as the legacy tabs so hooks and deep links remain consistent.
   const navV2 = document.getElementById('nav-v2');

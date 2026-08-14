@@ -323,9 +323,11 @@ function showGearPicker(slotName, armorType) {
     const weightFilter = document.getElementById('gear-picker-weight')?.value || '';
     if (weightFilter === '?') filtered = filtered.filter(name => isArmor(name) && !armorWeightOf(name));
     else if (weightFilter) filtered = filtered.filter(name => armorWeightOf(name) === weightFilter);
-    // Search filter
-    const searchQ = (document.getElementById('gear-picker-search')?.value || '').toLowerCase();
-    if (searchQ) filtered = filtered.filter(name => name.toLowerCase().includes(searchQ));
+    // Search filter — normalized so common spelling variants (e.g. medkit vs
+    // the game's MediKit) match; see engine.normalizeSearchText.
+    const normalizeSearchText = window.ENGINE.normalizeSearchText;
+    const searchQ = normalizeSearchText(document.getElementById('gear-picker-search')?.value || '');
+    if (searchQ) filtered = filtered.filter(name => normalizeSearchText(name).includes(searchQ));
 
     // Cost every candidate once, then sort. Priced from scratch at the current
     // destination so taxes, mine sites, slot levels and drift all count.

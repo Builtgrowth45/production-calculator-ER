@@ -62,6 +62,25 @@ function displayName(item) {
   return item.replace(/\b\w+/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 }
 
+// ---- Search text normalization ----------------------------------------------
+// The game data spells the healing kits "MediKit" ("Small MediKit", …) while
+// players overwhelmingly type "medkit" — and sometimes "med kit" or "medi kit".
+// Normalize BOTH the query and the candidate before substring matching:
+// lowercase, drop apostrophes and punctuation/spaces, then fold known spelling
+// variants. A small alias table (not a dictionary) so future aliases are one
+// line each and every search surface shares the same behavior.
+const SEARCH_ALIASES = [
+  [/medikit/g, 'medkit'],   // MediKit/medikit → medkit
+];
+function normalizeSearchText(s) {
+  let t = String(s || '')
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '');
+  for (const [re, rep] of SEARCH_ALIASES) t = t.replace(re, rep);
+  return t;
+}
+
 // ---- Number formatting ----
 function fmt(n) { return Number(n).toLocaleString(); }
 
@@ -677,7 +696,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     FINAL_ITEMS, ALL_ITEMS, CATEGORIES, ALTERNATIVE_CHOICES, LOCATIONS,
     pickAlternativeIndex, scoreAlternative, concreteInputs,
     netPathCost, netUnitCost, colonyFactor,
-    esc, displayName, fmt, iconFor, itemTypeLabel, showItemDetail,
+    esc, displayName, normalizeSearchText, fmt, iconFor, itemTypeLabel, showItemDetail,
     /** Proxy that delegates every property access to window.STORE.INV_TOTAL */
     get INV_TOTAL() { return INV_TOTAL; },
     set INV_TOTAL(v) { window.STORE.INV_TOTAL = v; },
@@ -690,7 +709,7 @@ window.ENGINE = {
   FINAL_ITEMS, ALL_ITEMS, CATEGORIES, ALTERNATIVE_CHOICES, LOCATIONS,
   pickAlternativeIndex, scoreAlternative, concreteInputs,
   netPathCost, netUnitCost, colonyFactor,
-  esc, displayName, fmt, iconFor, itemTypeLabel, showItemDetail,
+  esc, displayName, normalizeSearchText, fmt, iconFor, itemTypeLabel, showItemDetail,
   /** item → preferred source colony for transport (live, set by the UI) */
   get TRANSPORT_SOURCE() { return TRANSPORT_SOURCE; },
   set TRANSPORT_SOURCE(v) { TRANSPORT_SOURCE = v || {}; },
