@@ -1270,6 +1270,9 @@ function runMultiPlan() {
     items: CALC_TRAY, chosen: ALTERNATIVE_CHOICES, ledger: specLedger, invLoc,
     discounts, dest: DESTINATION,
   });
+  // The shared picker renderer needs a mount point in combined plans too.
+  // Without it, renderCalcPaths() exits after the single-plan result is cleared.
+  html += '<div id="calc-paths" class="calc-paths" hidden></div>';
   if (dashboardHtml) html += dashboardHtml;
 
   // ---- Sections (combined) — same 4 collapsible steps as the single plan ----
