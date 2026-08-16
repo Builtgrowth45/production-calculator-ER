@@ -1911,6 +1911,8 @@ const STAT_LABELS = {
   durationseconds: 'Duration', medkitcooldown: 'CD',
   defenserating: 'Defense', blockrating: 'Block', critoffenserating: 'Crit',
   health: 'Health', stamina: 'Stamina', aura: 'Aura',
+  addiction: 'Addiction', addictiontreatment: 'Addiction Tx', illegal: 'Illegal',
+  classification: 'Class',
 };
 
 // Official stat definitions (in-game attribute help text, verified 2026-08-08).
@@ -1958,6 +1960,10 @@ const STAT_DEFS = {
   health: 'Body health pool.',
   stamina: 'Stamina pool — drained by sprinting and abilities.',
   aura: 'Aura pool — drained by aura abilities.',
+  addiction: 'Addiction chance or severity from this item.',
+  addictiontreatment: 'Addiction treatment effect from this item.',
+  illegal: 'Illegal-use classification or penalty value from this item.',
+  classification: 'Published item classification value.',
 };
 
 // ═══════════════════════════════════════════════════════════════════════════

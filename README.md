@@ -151,6 +151,18 @@ Never put passwords, tokens, private URLs, connection strings, or private player
 
 The project contains community-maintained game data and assumptions. Values can become incomplete or outdated as Empire Rising changes.
 
+### Authoritative combat-stat source
+
+Combat and item stats use the published **[ER - Balance Sheet](https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/pubhtml?gid=29503079&single=true)** tab (`gid=29503079`) as the authoritative reference. The published HTML URL is recorded in `data/balance_stats.json`; the update command fetches its machine-readable CSV export, validates duplicate rows, writes the canonical snapshot, and regenerates the recipe/runtime consumers.
+
+To refresh the stats from that source:
+
+```bash
+npm run stats:update
+```
+
+The calculator still displays a dated snapshot rather than claiming live synchronization. Verify important values against the published sheet and the live game.
+
 When reporting a data problem, include:
 
 - the item, recipe, colony, or faction involved;

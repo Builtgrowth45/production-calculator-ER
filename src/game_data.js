@@ -3034,8 +3034,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -3299,8 +3299,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -4283,8 +4283,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -4556,8 +4556,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -5516,8 +5516,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -5789,8 +5789,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -6740,8 +6740,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -7013,8 +7013,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -7964,8 +7964,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -8237,8 +8237,8 @@ window.GAME_DATA = {
           "endurance": 15,
           "reflection": 15,
           "resistance": 15,
-          "staminaregen": 0.4,
-          "addictiontreatment": 0.03
+          "staminaregen": 0.5,
+          "addictiontreatment": 0.04
         }
       },
       "inputs": [
@@ -11340,9 +11340,10 @@ window.GAME_DATA = {
         "category": "Drugs",
         "stats": {
           "durationseconds": 360,
+          "agility": -2,
           "healthregen": 1,
-          "staminadrain": -2,
-          "agility": -2
+          "addiction": 0.08,
+          "illegal": 1000
         }
       },
       "inputs": [
@@ -11583,7 +11584,9 @@ window.GAME_DATA = {
         "stats": {
           "durationseconds": 360,
           "bioregen": 2,
-          "staminadrain": -2
+          "addiction": 0.04,
+          "staminadrain": 0.2,
+          "illegal": 1000
         }
       },
       "inputs": [

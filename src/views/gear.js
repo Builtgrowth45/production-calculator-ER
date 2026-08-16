@@ -698,7 +698,7 @@ function balNorm(s) {
     .replace(/med\s?ikit/g, 'medkit');
 }
 const BAL_ALIASES = {
-  // Sheet's own typos; recipes carry the sheet's names since 2026-08-11.
+  // Sheet's own typos; recipes carry the published sheet's canonical names.
   'infensus minimist gloves': 'infensus minimalist gloves',
   'pythica sustained gloves': 'pythica sustained battle gloves',
 };

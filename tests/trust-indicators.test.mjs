@@ -36,9 +36,9 @@ describe('data freshness indicator', () => {
     const meta = trust.collectDataMeta(gameData, balanceStats, costs, armorClasses);
     assert.ok(meta.fields.length >= 3, 'should read at least the three dated datasets');
     // The newest bundled dataset is the balance sheet fetch.
-    assert.equal(meta.latest, '2026-08-11');
+    assert.equal(meta.latest, balanceStats._meta.fetched);
     const label = trust.formatDataLabel(meta);
-    assert.match(label, /2026-08-11/);
+    assert.match(label, new RegExp(balanceStats._meta.fetched));
     assert.match(label, /snapshot/i);
     // Source attribution is explicit and truthful.
     assert.match(meta.sources, /Balance Sheet/i);
@@ -106,7 +106,8 @@ describe('footer wiring', () => {
 
       trust.initTrustIndicators();
 
-      assert.match(els['trust-data'].textContent, /2026-08-11/);
+      const fetched = JSON.parse(readFileSync(join(root, 'data/balance_stats.json'), 'utf8'))._meta.fetched;
+      assert.match(els['trust-data'].textContent, new RegExp(fetched));
       assert.match(els['trust-data'].title, /Balance Sheet/);
       assert.equal(els['trust-online'].hidden, true, 'online start keeps the offline chip hidden');
       assert.equal(els['trust-update'].hidden, true, 'no update yet keeps the update chip hidden');

@@ -3033,8 +3033,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -3298,8 +3298,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -4282,8 +4282,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -4555,8 +4555,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -5515,8 +5515,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -5788,8 +5788,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -6739,8 +6739,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -7012,8 +7012,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -7963,8 +7963,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -8236,8 +8236,8 @@
      "endurance": 15,
      "reflection": 15,
      "resistance": 15,
-     "staminaregen": 0.4,
-     "addictiontreatment": 0.03
+     "staminaregen": 0.5,
+     "addictiontreatment": 0.04
     }
    },
    "inputs": [
@@ -11339,9 +11339,10 @@
     "category": "Drugs",
     "stats": {
      "durationseconds": 360,
+     "agility": -2,
      "healthregen": 1,
-     "staminadrain": -2.0,
-     "agility": -2
+     "addiction": 0.08,
+     "illegal": 1000
     }
    },
    "inputs": [
@@ -11582,7 +11583,9 @@
     "stats": {
      "durationseconds": 360,
      "bioregen": 2,
-     "staminadrain": -2.0
+     "addiction": 0.04,
+     "staminadrain": 0.2,
+     "illegal": 1000
     }
    },
    "inputs": [

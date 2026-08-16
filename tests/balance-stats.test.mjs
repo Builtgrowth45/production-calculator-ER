@@ -2,8 +2,8 @@
 // Guards the data/balance_stats.json → src/balance_stats.js pipeline and the
 // merge into recipe output.stats (scripts/update_balance_stats.py):
 //   - the generated window.BALANCE_STATS loads with all items + stats
-//   - every balance item that maps to a recipe agrees with that recipe's
-//     output.stats on the sheet-provided keys (sheet is authoritative)
+//   - every balance item that maps to a recipe agrees exactly with that
+//     recipe's output.stats (the sheet is authoritative for the whole row)
 //   - the previously-empty armor stat gaps are filled
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
@@ -52,8 +52,10 @@ function findRecipe(name) {
 describe('live balance sheet ingest', () => {
   it('BALANCE_STATS loads with meta and every item has a name + stats object', () => {
     assert.ok(BALANCE, 'window.BALANCE_STATS undefined');
-    assert.equal(BALANCE.items.length, 386);
+    assert.equal(BALANCE.items.length, BALANCE._meta.rows_unique);
     assert.match(BALANCE._meta.source, /Balance Sheet/);
+    assert.match(BALANCE._meta.source_url, /pubhtml\?gid=29503079/);
+    assert.match(BALANCE._meta.source_csv_url, /output=csv/);
     for (const it of BALANCE.items) {
       assert.ok(it.name && it.name.length, 'item missing name');
       assert.ok(it.stats && typeof it.stats === 'object', `${it.name}: stats not object`);
@@ -77,20 +79,17 @@ describe('live balance sheet ingest', () => {
     }
   });
 
-  it('merged recipe stats agree with the sheet on every sheet-provided key', () => {
+  it('merged recipe stats exactly agree with the authoritative sheet rows', () => {
     let checked = 0;
     for (const it of BALANCE.items) {
-      if (!Object.keys(it.stats).length) continue;
       const recipe = findRecipe(it.name);
       if (!recipe) continue;
       checked++;
       const rs = recipe.output.stats || {};
-      for (const [k, v] of Object.entries(it.stats)) {
-        assert.ok(k in rs, `${recipe.output.item}: sheet key '${k}' missing from recipe stats`);
-        assert.equal(rs[k], v, `${recipe.output.item}: ${k} recipe=${rs[k]} sheet=${v}`);
-      }
+      const canonical = stats => JSON.stringify(Object.fromEntries(Object.entries(stats).sort(([a], [b]) => a.localeCompare(b))));
+      assert.equal(canonical(rs), canonical(it.stats), `${recipe.output.item}: recipe stats differ from sheet row`);
     }
-    assert.ok(checked > 250, `expected >250 matched recipes, got ${checked}`);
+    assert.ok(checked > 300, `expected >300 matched recipes, got ${checked}`);
   });
 
   it('previously-empty armor stat gaps are now filled', () => {

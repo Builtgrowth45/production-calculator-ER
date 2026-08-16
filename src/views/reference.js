@@ -26,7 +26,7 @@ function drugLiveStats(name) {
   return (r && r.output.stats) || null;
 }
 
-/** Keys the live balance sheet publishes (any item) — recipe-only keys excluded. */
+/** Keys the published balance sheet uses across its item rows. */
 let SHEET_STAT_KEYS = null;
 function sheetStatKeys() {
   if (SHEET_STAT_KEYS === null) {

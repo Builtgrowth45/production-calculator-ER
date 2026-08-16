@@ -1,8 +1,12 @@
 // GENERATED — edit data/balance_stats.json (or re-run scripts/update_balance_stats.py)
 window.BALANCE_STATS = {
   "_meta": {
-    "source": "ER - Balance Sheet (Google Sheets, gid=29503079, pubhtml)",
-    "fetched": "2026-08-11",
+    "source": "ER - Balance Sheet (Google Sheets, published HTML, gid=29503079)",
+    "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/pubhtml?gid=29503079&single=true",
+    "source_csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/pub?gid=29503079&single=true&output=csv",
+    "sheet_title": "ER - Balance Sheet",
+    "sheet_gid": "29503079",
+    "fetched": "2026-08-16",
     "rows_raw": 397,
     "rows_unique": 386,
     "note": "Live combat stats — authoritative for recipe output.stats."
@@ -368,7 +372,8 @@ window.BALANCE_STATS = {
       "name": "Adrenaline Autoinjector",
       "stats": {
         "durationseconds": 1,
-        "classification": 1
+        "classification": 1,
+        "staminaregen": 25
       }
     },
     {
@@ -381,22 +386,30 @@ window.BALANCE_STATS = {
     },
     {
       "name": "Night Vision Implant",
-      "stats": {}
+      "stats": {
+        "bioenergydrain": 0.1
+      }
     },
     {
       "name": "Stamina Amplification",
       "stats": {
-        "agility": 4.5
+        "agility": 4.5,
+        "bioenergydrain": 2,
+        "staminaregen": 3
       }
     },
     {
       "name": "Shoulder Lamp",
-      "stats": {}
+      "stats": {
+        "bioenergydrain": 0.1
+      }
     },
     {
       "name": "Resistance Amp",
       "stats": {
-        "healthregen": 2.5
+        "healthregen": 2.5,
+        "bioenergydrain": 2,
+        "auraregen": 2
       }
     },
     {
@@ -407,16 +420,21 @@ window.BALANCE_STATS = {
         "shielding": 25,
         "endurance": 100,
         "reflection": 100,
-        "resistance": 100
+        "resistance": 100,
+        "bioenergydrain": 2
       }
     },
     {
       "name": "Scanner Implant",
-      "stats": {}
+      "stats": {
+        "bioenergydrain": 0.1
+      }
     },
     {
       "name": "Portable Vortex Particle Emitter",
-      "stats": {}
+      "stats": {
+        "bioenergydrain": 8.5
+      }
     },
     {
       "name": "Advanced Civilian Helmet",
@@ -428,7 +446,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -441,7 +461,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -454,7 +476,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -592,7 +616,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -605,7 +631,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -616,7 +644,9 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 50,
         "reflection": 75,
-        "resistance": 50
+        "resistance": 50,
+        "auraregen": 0.3,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -627,7 +657,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -690,7 +722,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -701,7 +734,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -712,7 +746,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -723,7 +758,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -848,7 +884,9 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 50,
         "reflection": 75,
-        "resistance": 50
+        "resistance": 50,
+        "auraregen": 0.3,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -925,7 +963,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -949,7 +989,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -1007,7 +1048,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1020,7 +1063,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1033,7 +1078,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1182,7 +1229,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -1195,7 +1244,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -1206,7 +1257,9 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 50,
         "reflection": 75,
-        "resistance": 50
+        "resistance": 50,
+        "auraregen": 0.3,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -1217,7 +1270,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1280,7 +1335,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -1291,7 +1347,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -1302,7 +1359,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -1313,7 +1371,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -1473,7 +1532,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1532,7 +1593,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1545,7 +1608,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1558,7 +1623,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1707,7 +1774,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -1720,7 +1789,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -1731,7 +1802,9 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 50,
         "reflection": 75,
-        "resistance": 50
+        "resistance": 50,
+        "auraregen": 0.3,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -1742,7 +1815,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -1805,7 +1880,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -1816,7 +1892,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -1827,7 +1904,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -1838,7 +1916,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -1990,7 +2069,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2061,7 +2142,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2074,7 +2157,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2087,7 +2172,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2236,7 +2323,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -2249,7 +2338,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -2260,7 +2351,9 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 50,
         "reflection": 75,
-        "resistance": 50
+        "resistance": 50,
+        "auraregen": 0.3,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -2271,7 +2364,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2334,7 +2429,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -2345,7 +2441,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -2356,7 +2453,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -2367,7 +2465,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -2519,7 +2618,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2590,7 +2691,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2603,7 +2706,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2616,7 +2721,9 @@ window.BALANCE_STATS = {
         "shielding": 45,
         "endurance": 45,
         "reflection": 45,
-        "resistance": 45
+        "resistance": 45,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2765,7 +2872,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -2778,7 +2887,9 @@ window.BALANCE_STATS = {
         "shielding": 15,
         "endurance": 15,
         "reflection": 15,
-        "resistance": 15
+        "resistance": 15,
+        "staminaregen": 0.5,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -2789,7 +2900,9 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 50,
         "reflection": 75,
-        "resistance": 50
+        "resistance": 50,
+        "auraregen": 0.3,
+        "addictiontreatment": 0.04
       }
     },
     {
@@ -2800,7 +2913,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -2863,7 +2978,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -2874,7 +2990,8 @@ window.BALANCE_STATS = {
         "shielding": 65,
         "endurance": 100,
         "reflection": 40,
-        "resistance": 50
+        "resistance": 50,
+        "staminaregen": 0.75
       }
     },
     {
@@ -2885,7 +3002,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -2896,7 +3014,8 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 150,
         "reflection": 60,
-        "resistance": 75
+        "resistance": 75,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3048,7 +3167,9 @@ window.BALANCE_STATS = {
         "shielding": 95,
         "endurance": 75,
         "reflection": 100,
-        "resistance": 75
+        "resistance": 75,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3119,7 +3240,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3132,7 +3255,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3145,7 +3270,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3286,7 +3413,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3299,7 +3428,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3309,7 +3440,9 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 20,
         "reflection": 50,
-        "resistance": 20
+        "resistance": 20,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3319,7 +3452,9 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 20,
         "reflection": 50,
-        "resistance": 20
+        "resistance": 20,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3377,7 +3512,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3387,7 +3523,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3397,7 +3534,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3407,7 +3545,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3504,7 +3643,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3517,7 +3658,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3530,7 +3673,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3671,7 +3816,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3684,7 +3831,9 @@ window.BALANCE_STATS = {
         "shielding": 8,
         "endurance": 8,
         "reflection": 8,
-        "resistance": 8
+        "resistance": 8,
+        "staminaregen": 0.35,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3694,7 +3843,9 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 20,
         "reflection": 50,
-        "resistance": 20
+        "resistance": 20,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3704,7 +3855,9 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 20,
         "reflection": 50,
-        "resistance": 20
+        "resistance": 20,
+        "auraregen": 0.2,
+        "addictiontreatment": 0.03
       }
     },
     {
@@ -3762,7 +3915,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3772,7 +3926,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3782,7 +3937,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3792,7 +3948,8 @@ window.BALANCE_STATS = {
         "shielding": 30,
         "endurance": 60,
         "reflection": 16,
-        "resistance": 20
+        "resistance": 20,
+        "staminaregen": 0.5
       }
     },
     {
@@ -3967,13 +4124,15 @@ window.BALANCE_STATS = {
       "name": "Pulse Mineral Water",
       "stats": {
         "durationseconds": 15,
-        "classification": 1
+        "classification": 1,
+        "addictiontreatment": 5
       }
     },
     {
       "name": "Mystical Cola",
       "stats": {
-        "durationseconds": 360
+        "durationseconds": 360,
+        "staminaregen": 1.2
       }
     },
     {
@@ -4002,7 +4161,9 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "endurance": 150,
-        "resistance": -30
+        "resistance": -30,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
@@ -4010,26 +4171,39 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "agility": -2,
-        "healthregen": 1
+        "healthregen": 1,
+        "addiction": 0.08,
+        "illegal": 1000
       }
     },
     {
       "name": "Butyl Nitrate",
       "stats": {
         "durationseconds": 360,
-        "bioregen": 2
+        "bioregen": 2,
+        "addiction": 0.04,
+        "staminadrain": 0.2,
+        "illegal": 1000
       }
     },
     {
       "name": "Dexedrine",
       "stats": {
-        "durationseconds": 360
+        "durationseconds": 360,
+        "healthdrain": 0.3,
+        "auraregen": 2,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
       "name": "Biphetamin",
       "stats": {
-        "durationseconds": 360
+        "durationseconds": 360,
+        "bioenergydrain": 0.2,
+        "staminaregen": 1.8,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
@@ -4037,7 +4211,9 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "endurance": -30,
-        "resistance": 150
+        "resistance": 150,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
@@ -4045,14 +4221,19 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "ballisticdamage": 0.25,
-        "energydamage": -0.1
+        "energydamage": -0.1,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
       "name": "Methedrine",
       "stats": {
         "durationseconds": 360,
-        "agility": 9
+        "agility": 9,
+        "addiction": 0.08,
+        "staminadrain": 0.3,
+        "illegal": 1000
       }
     },
     {
@@ -4061,7 +4242,9 @@ window.BALANCE_STATS = {
         "durationseconds": 360,
         "endurance": 100,
         "reflection": -40,
-        "resistance": 100
+        "resistance": 100,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
@@ -4070,7 +4253,9 @@ window.BALANCE_STATS = {
         "durationseconds": 360,
         "armor": -20,
         "shielding": -20,
-        "reflection": 100
+        "reflection": 100,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
@@ -4078,14 +4263,19 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "ballisticdamage": -0.1,
-        "energydamage": 0.25
+        "energydamage": 0.25,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
       "name": "Phencyclidine",
       "stats": {
         "durationseconds": 360,
-        "protectionreduction": 10
+        "protectionreduction": 10,
+        "critoffenserating": 12,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
@@ -4093,7 +4283,9 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "armor": -30,
-        "shielding": 60
+        "shielding": 60,
+        "addiction": 0.08,
+        "illegal": 1000
       }
     },
     {
@@ -4101,28 +4293,40 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "agility": -3,
-        "defenserating": 20
+        "defenserating": 20,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
       "name": "Benzedrine",
       "stats": {
         "durationseconds": 360,
-        "staminadamage": 4
+        "staminadamage": 4,
+        "bioenergydrain": 0.3,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
       "name": "Desoxyn",
       "stats": {
         "durationseconds": 360,
-        "bioregen": 1.2
+        "bioregen": 1.2,
+        "staminaregen": 1.2,
+        "healthdrain": 0.3,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
       "name": "Ritalin",
       "stats": {
         "durationseconds": 360,
-        "biodamage": 3
+        "biodamage": 3,
+        "addiction": 0.04,
+        "staminadrain": 0.3,
+        "illegal": 1000
       }
     },
     {
@@ -4130,14 +4334,19 @@ window.BALANCE_STATS = {
       "stats": {
         "durationseconds": 360,
         "armor": 60,
-        "shielding": -30
+        "shielding": -30,
+        "addiction": 0.08,
+        "illegal": 1000
       }
     },
     {
       "name": "Cocaboline",
       "stats": {
         "durationseconds": 360,
-        "agility": -3
+        "agility": -3,
+        "blockrating": 10,
+        "addiction": 0.04,
+        "illegal": 1000
       }
     },
     {
@@ -4146,7 +4355,9 @@ window.BALANCE_STATS = {
         "durationseconds": 360,
         "agility": -2,
         "armor": 35,
-        "shielding": 35
+        "shielding": 35,
+        "addiction": 0.08,
+        "illegal": 1000
       }
     }
   ]

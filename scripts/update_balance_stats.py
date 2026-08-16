@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""update_balance_stats.py — fetch the live ER Balance Sheet, ingest it into
-data/balance_stats.json, and merge the stats into data/game_data.json recipes.
+"""Fetch the published ER Balance Sheet and regenerate all stat consumers.
 
-The Google Sheet is the AUTHORITATIVE live combat-stats source (Chris 2026-08-11).
-On conflicts between an existing recipe output.stats value and the sheet, the
-SHEET wins; recipe-only keys (staminaregen, auraregen, addictiontreatment,
-addiction, illegal, drains, blockrating, critoffenserating) are preserved.
+The user-supplied published Google Sheet is the AUTHORITATIVE source for every
+published item-stat column.  Matching recipe output.stats blocks are replaced
+with the sheet's complete row (including explicit zeroes); stale recipe-only
+keys are not retained when the sheet has a canonical row.
 
 Run:  python3 scripts/update_balance_stats.py
 """
@@ -14,33 +13,45 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-URL = ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/"
-       "pub?gid=29503079&single=true&output=csv")
+PUBLISHED_HTML_URL = ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/"
+                      "pubhtml?gid=29503079&single=true")
+CSV_URL = ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/"
+           "pub?gid=29503079&single=true&output=csv")
 
 # ── 1. Fetch ────────────────────────────────────────────────────────────────
-req = urllib.request.Request(URL, headers={'User-Agent': 'Mozilla/5.0'})
+req = urllib.request.Request(CSV_URL, headers={'User-Agent': 'Mozilla/5.0'})
 csv_text = urllib.request.urlopen(req, timeout=30).read().decode('utf-8-sig')
 rows = list(csv.DictReader(csv_text.splitlines()))
 print(f"[1] fetched {len(rows)} rows from live sheet")
 
-# ── 2. Dedupe identical rows ────────────────────────────────────────────────
-seen, uniq = set(), []
+# ── 2. Dedupe names, rejecting conflicting published rows ──────────────────
+by_name, uniq = {}, []
 for r in rows:
-    sig = (r['Name'], tuple(sorted((k, v) for k, v in r.items() if k not in ('', 'Name') and str(v).strip())))
-    if sig in seen: continue
-    seen.add(sig); uniq.append(r)
-print(f"[2] deduped -> {len(uniq)} unique rows ({len(rows) - len(uniq)} identical dupes dropped)")
+    name = (r.get('Name') or '').strip()
+    if not name:
+        continue
+    comparable = {k: (v or '').strip() for k, v in r.items() if k not in ('', 'Name')}
+    if name in by_name:
+        if by_name[name] != comparable:
+            raise ValueError(f"conflicting published rows for {name!r}")
+        continue
+    by_name[name] = comparable
+    uniq.append(r)
+print(f"[2] deduped -> {len(uniq)} unique names ({len(rows) - len(uniq)} identical dupes dropped)")
 
 # ── 3. Stat key mapping ─────────────────────────────────────────────────────
 SHEET_KEY_TO_STAT = {
-    'Agility': 'agility', 'BallisticDamage': 'ballisticdamage', 'Destruction': 'destruction',
-    'XenoDamage': 'xenodamage', 'EnergyDamage': 'energydamage', 'BioDamage': 'biodamage',
-    'StaminaDamage': 'staminadamage', 'AuraDamage': 'auradamage', 'Health': 'health',
-    'Stamina': 'stamina', 'Aura': 'aura', 'BioRegen': 'bioregen', 'HealthRegen': 'healthregen',
-    'ProtectionReduction': 'protectionreduction', 'Armor': 'armor', 'Shielding': 'shielding',
-    'Endurance': 'endurance', 'Reflection': 'reflection', 'Resistance': 'resistance',
-    'DefenseRating': 'defenserating', 'DurationSeconds': 'durationseconds',
-    'MedkitCooldown': 'medkitcooldown', 'WeaponRecoil': 'weaponrecoil', 'Classification': 'classification',
+    key: re.sub(r'[^a-z0-9]+', '', key.lower())
+    for key in (
+        'DurationSeconds', 'Classification', 'MedkitCooldown', 'WeaponRecoil',
+        'Agility', 'BallisticDamage', 'Destruction', 'XenoDamage',
+        'EnergyDamage', 'BioDamage', 'StaminaDamage', 'AuraDamage', 'Health',
+        'Stamina', 'Aura', 'BioRegen', 'HealthRegen', 'ProtectionReduction',
+        'Armor', 'Shielding', 'Endurance', 'Reflection', 'Resistance',
+        'DefenseRating', 'BlockRating', 'CritOffenseRating', 'BioEnergyDrain',
+        'StaminaRegen', 'HealthDrain', 'AuraRegen', 'Addiction',
+        'AddictionTreatment', 'StaminaDrain', 'Illegal',
+    )
 }
 
 def sheet_stats(r):
@@ -52,7 +63,7 @@ def sheet_stats(r):
         try:
             f = float(v)
             out[sk] = int(f) if f == int(f) else round(f, 2)
-        except ValueError:
+        except (TypeError, ValueError):
             continue
     return out
 
@@ -60,7 +71,11 @@ def sheet_stats(r):
 items = [{'name': r['Name'], 'stats': sheet_stats(r)} for r in uniq]
 payload = {
     '_meta': {
-        'source': 'ER - Balance Sheet (Google Sheets, gid=29503079, pubhtml)',
+        'source': 'ER - Balance Sheet (Google Sheets, published HTML, gid=29503079)',
+        'source_url': PUBLISHED_HTML_URL,
+        'source_csv_url': CSV_URL,
+        'sheet_title': 'ER - Balance Sheet',
+        'sheet_gid': '29503079',
         'fetched': date.today().isoformat(),
         'rows_raw': len(rows), 'rows_unique': len(uniq),
         'note': 'Live combat stats — authoritative for recipe output.stats.',
@@ -81,7 +96,7 @@ def norm(s):
     s = re.sub(r'med\s?ikit', 'medkit', s)
     return s
 
-# Sheet-name -> recipe-name alias table. Since 2026-08-11 the recipes carry the
+# Sheet-name -> recipe-name alias table. The recipe list carries the published
 # sheet's names (rename_items.py), so only the sheet's OWN typos need mapping:
 #   - "Minimist" is the sheet's typo for the client's "Minimalist" (prodschema 441/476)
 #   - "Pythica Sustained Gloves" drops "Battle" (client 420 says Sustained Battle)
@@ -109,23 +124,21 @@ def find_recipe(sheet_name):
 
 stats_added = []   # recipe got a stats block where it had none (or empty)
 stats_updated = [] # recipe stats changed value(s)
+stats_cleared = [] # canonical sheet row is intentionally empty
 matched_names = set()
 for it in items:
-    if not it['stats']: continue
     rec = find_recipe(it['name'])
     if not rec: continue
     matched_names.add(rec['output']['item'])
     old = rec['output'].get('stats') or {}
-    new = dict(old)
-    changed = False
-    for k, v in it['stats'].items():
-        if old.get(k) != v:
-            new[k] = v
-            changed = True
+    new = dict(it['stats'])
+    changed = old != new
     if changed:
         rec['output']['stats'] = new
         if not old:
             stats_added.append(rec['output']['item'])
+        elif not new:
+            stats_cleared.append(rec['output']['item'])
         else:
             stats_updated.append(rec['output']['item'])
 
@@ -144,6 +157,8 @@ print(f"    stats block ADDED (was empty): {len(stats_added)}")
 for n in sorted(stats_added): print(f"      + {n}")
 print(f"    stats UPDATED: {len(stats_updated)}")
 for n in sorted(stats_updated): print(f"      ~ {n}")
+print(f"    stats CLEARED by empty canonical sheet rows: {len(stats_cleared)}")
+for n in sorted(stats_cleared): print(f"      - {n}")
 
 unmatched = [it['name'] for it in items if it['stats'] and not find_recipe(it['name'])]
 print(f"    sheet items with stats but NO recipe (reference-only): {len(unmatched)}")
