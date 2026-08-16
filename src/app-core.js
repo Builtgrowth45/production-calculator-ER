@@ -1864,7 +1864,7 @@ function migrateLocalGearSets() {
       Object.entries(sets).forEach(([name, gear]) => {
         if (!gear || typeof gear !== 'object') return;
         const exists = SHARED_GEAR.some(s => s.name === name && s.owner === owner);
-        if (!exists) ops.push({ op: 'upsert', set: { id: reqId(), name, gear, owner, created_at: Date.now(), votes: {} } });
+        if (!exists) ops.push({ op: 'upsert', set: { id: localId(), name, gear, owner, created_at: Date.now(), votes: {} } });
       });
     }
     localStorage.setItem('cmg_gearsets_migrated_v1', '1');

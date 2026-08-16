@@ -969,7 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Enter') {
         const n = inp.value.trim();
         if (!n) { row.remove(); return; }
-        const set = { id: reqId(), name: n, gear: { ...GEAR }, owner: PLAYERS.active || 'anonymous', created_at: Date.now(), votes: {} };
+        const set = { id: localId(), name: n, gear: { ...GEAR }, owner: PLAYERS.active || 'anonymous', created_at: Date.now(), votes: {} };
         SHARED_GEAR.push(set);
         renderGearSets();
         syncShared('gear', [{ op: 'upsert', set }]);
@@ -1034,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', () => {
             importedSets.forEach(s => {
               if (!s || !s.gear || !s.name) return;
               if (SHARED_GEAR.some(x => x.name === s.name)) return;
-              const set = { id: s.id || reqId(), name: s.name, gear: s.gear, owner: s.owner || owner, created_at: s.created_at || Date.now(), votes: s.votes || {} };
+              const set = { id: s.id || localId(), name: s.name, gear: s.gear, owner: s.owner || owner, created_at: s.created_at || Date.now(), votes: s.votes || {} };
               SHARED_GEAR.push(set);
               ops.push({ op: 'upsert', set });
             });
