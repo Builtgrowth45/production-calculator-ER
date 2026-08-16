@@ -840,6 +840,17 @@ document.addEventListener('DOMContentLoaded', () => {
     toast(`Removed ${esc(item)} at ${esc(loc)}.`);
   });
 
+  // Player-facing production progress. This is a local checklist only: it does
+  // not alter inventory or the calculated plan totals.
+  ['calc-result', 'calc-multi'].forEach(id => {
+    document.getElementById(id).addEventListener('click', e => {
+      const run = e.target.closest('.progress-run');
+      if (run && !run.disabled) { recordProductionProgress(run); return; }
+      const reset = e.target.closest('.progress-reset');
+      if (reset) resetProductionProgress(reset);
+    });
+  });
+
   // Path-choice dropdowns
   document.getElementById('calc-result').addEventListener('change', e => {
     const sel = e.target.closest('select[data-alt]');

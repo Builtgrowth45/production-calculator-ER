@@ -34,6 +34,78 @@ var PRODUCE_DONE = {};
 try { PRODUCE_DONE = JSON.parse(localStorage.getItem('cmg_produce_done_v1')) || {}; } catch (e) { PRODUCE_DONE = {}; }
 function saveProduceDone() { try { localStorage.setItem('cmg_produce_done_v1', JSON.stringify(PRODUCE_DONE)); } catch (e) {} }
 
+// Player-facing production progress is separate from inventory and the plan's
+// calculated totals. It survives re-renders and refreshes, but is cleared when
+// the current plan changes or is applied.
+var PRODUCTION_PROGRESS = {};
+try { PRODUCTION_PROGRESS = JSON.parse(localStorage.getItem('cmg_production_progress_v1')) || {}; } catch (e) { PRODUCTION_PROGRESS = {}; }
+var PRODUCTION_PROGRESS_CHUNK = 100;
+function saveProductionProgress() {
+  try { localStorage.setItem('cmg_production_progress_v1', JSON.stringify(PRODUCTION_PROGRESS)); } catch (e) {}
+}
+function nextProductionProgress(completed, total, chunk) {
+  var done = Math.max(0, Math.min(total, Number(completed) || 0));
+  var size = Math.max(1, Number(chunk) || PRODUCTION_PROGRESS_CHUNK);
+  var advanced = Math.min(size, Math.max(0, total - done));
+  done += advanced;
+  return { completed: done, remaining: Math.max(0, total - done), advanced: advanced };
+}
+function productionProgressFor(item, total) {
+  return Math.max(0, Math.min(total, Math.floor(Number(PRODUCTION_PROGRESS[item]) || 0)));
+}
+function clearProductionProgress() {
+  PRODUCTION_PROGRESS = {};
+  saveProductionProgress();
+}
+
+// Update only the visible tracker after a click; the full production plan stays
+// intact so its original inputs, cost, and total output remain referenceable.
+function updateProductionProgressCard(card, item, total, chunk) {
+  if (!card) return;
+  var tracker = card.querySelector('.production-progress');
+  if (!tracker) return;
+  var done = productionProgressFor(item, total);
+  var remaining = Math.max(0, total - done);
+  var next = Math.min(Math.max(1, Number(chunk) || PRODUCTION_PROGRESS_CHUNK), remaining);
+  var count = tracker.querySelector('[data-progress-count]');
+  var left = tracker.querySelector('[data-progress-remaining]');
+  var fill = tracker.querySelector('[data-progress-fill]');
+  var bar = tracker.querySelector('[role="progressbar"]');
+  var run = tracker.querySelector('.progress-run');
+  var reset = tracker.querySelector('.progress-reset');
+  if (count) count.textContent = done + ' / ' + total + ' batches complete';
+  if (left) left.textContent = remaining + ' remaining';
+  if (fill) fill.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+  if (bar) bar.setAttribute('aria-valuenow', done);
+  if (run) {
+    run.disabled = remaining === 0;
+    run.textContent = remaining === 0
+      ? 'All batches recorded'
+      : 'Record ' + (next === remaining ? 'final ' : 'next ') + next + ' batch' + (next === 1 ? '' : 'es');
+  }
+  if (reset) reset.hidden = done === 0;
+  tracker.classList.toggle('complete', remaining === 0);
+}
+function recordProductionProgress(button) {
+  var item = decodeURIComponent(button.dataset.progressItem || '');
+  var total = Math.max(0, parseInt(button.dataset.progressTotal, 10) || 0);
+  var chunk = Math.max(1, parseInt(button.dataset.progressChunk, 10) || PRODUCTION_PROGRESS_CHUNK);
+  if (!item || !total) return;
+  var state = nextProductionProgress(productionProgressFor(item, total), total, chunk);
+  if (!state.advanced) return;
+  PRODUCTION_PROGRESS[item] = state.completed;
+  saveProductionProgress();
+  updateProductionProgressCard(button.closest('.recipe-card'), item, total, chunk);
+}
+function resetProductionProgress(button) {
+  var item = decodeURIComponent(button.dataset.progressReset || '');
+  var total = Math.max(0, parseInt(button.dataset.progressTotal, 10) || 0);
+  if (!item) return;
+  delete PRODUCTION_PROGRESS[item];
+  saveProductionProgress();
+  updateProductionProgressCard(button.closest('.recipe-card'), item, total, PRODUCTION_PROGRESS_CHUNK);
+}
+
 // ── Plan identity ──────────────────────────────────────────────────────────
 // The tick state is keyed by item/colony, not by plan, and nothing ever cleared
 // it — so ticks leaked across runs: calculate something else that shares a
@@ -74,6 +146,7 @@ function planSignature(itemOrTray, qty) {
 function clearPlanChecks() {
   TRANSFERS_DONE = {}; OBTAINED_DONE = {}; PRODUCE_DONE = {};
   saveTransfersDone(); saveObtainedDone(); saveProduceDone();
+  clearProductionProgress();
 }
 
 // Call before rendering. Returns true only for the single render that directly

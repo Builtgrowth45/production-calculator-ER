@@ -901,6 +901,26 @@ function stepCard(s, isFinal) {
   const costNote = sc != null
     ? `<div class="step-cost"><b>${fmtUC(sc)} UC</b><span class="step-cost-sub">${fmt(s.batches)} × ${fmtUC(batchC.uc)}</span></div>`
     : `<div class="step-cost unknown" title="This recipe path has no price in the cost data yet">cost unknown</div>`;
+  const progressTotal = Math.max(0, Number(s.batches) || 0);
+  const progressDone = typeof productionProgressFor === 'function'
+    ? productionProgressFor(s.item, progressTotal) : 0;
+  const progressRemaining = Math.max(0, progressTotal - progressDone);
+  const progressChunk = typeof PRODUCTION_PROGRESS_CHUNK === 'number'
+    ? PRODUCTION_PROGRESS_CHUNK : 100;
+  const progressNext = Math.min(progressChunk, progressRemaining);
+  const progressLabel = progressRemaining === 0
+    ? 'All batches recorded'
+    : 'Record ' + (progressNext === progressRemaining ? 'final ' : 'next ') +
+      fmt(progressNext) + ' batch' + (progressNext === 1 ? '' : 'es');
+  const progressHtml = `<div class="production-progress${progressRemaining === 0 ? ' complete' : ''}">
+        <div class="production-progress-head"><span class="production-progress-title">Batch progress</span><span class="production-progress-count" data-progress-count>${fmt(progressDone)} / ${fmt(progressTotal)} batches complete</span><span class="production-progress-remaining" data-progress-remaining>${fmt(progressRemaining)} remaining</span></div>
+        <div class="production-progress-track" role="progressbar" aria-label="${esc(displayName(s.item))} batch progress" aria-valuemin="0" aria-valuemax="${progressTotal}" aria-valuenow="${progressDone}"><span class="production-progress-fill" data-progress-fill style="width:${progressTotal ? Math.round(progressDone / progressTotal * 100) : 0}%"></span></div>
+        <div class="production-progress-actions">
+          <button type="button" class="progress-run" data-progress-run data-progress-item="${encodeURIComponent(s.item)}" data-progress-total="${progressTotal}" data-progress-chunk="${progressChunk}"${progressRemaining === 0 ? ' disabled' : ''}>${progressLabel}</button>
+          <button type="button" class="ghost progress-reset" data-progress-reset="${encodeURIComponent(s.item)}" data-progress-total="${progressTotal}"${progressDone === 0 ? ' hidden' : ''}>Reset</button>
+        </div>
+        <span class="production-progress-note">Local tracker only — the plan totals above stay unchanged.</span>
+      </div>`;
 
   return `<div class="recipe-card ${s.process}${PRODUCE_DONE[encodeURIComponent(s.item)] ? ' done' : ''}">
       <div class="rc-cb-row">
@@ -919,6 +939,7 @@ function stepCard(s, isFinal) {
           <div class="flow-batches">${fmt(s.batches)} batch${s.batches > 1 ? 'es' : ''}${surplusNote}</div>
           <div class="step-math">${mathNote}</div>
           ${costNote}
+          ${progressHtml}
         </div>
       </div>
     </div>`;
