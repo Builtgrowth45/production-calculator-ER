@@ -93,21 +93,49 @@ function renderGear() {
       var showToggle = (slotType === 'medikit' || slotType === 'booster');
       if (slotType === 'armor' && recipe && recipe.output.category === 'Implants & Electronics') showToggle = true;
       if (showToggle) {
+        var toggleControl = slot.querySelector('.gear-toggle-control');
         var toggleEl = slot.querySelector('.gear-toggle');
-        if (!toggleEl) { toggleEl = document.createElement('input'); toggleEl.type='checkbox'; toggleEl.className='gear-toggle'; toggleEl.title='Active'; toggleEl.addEventListener('click',function(e){e.stopPropagation();}); slot.appendChild(toggleEl); }
+        var toggleText;
+        if (!toggleControl) {
+          toggleControl = document.createElement('label');
+          toggleControl.className = 'gear-toggle-control';
+          toggleEl = document.createElement('input');
+          toggleEl.type = 'checkbox';
+          toggleEl.className = 'gear-toggle';
+          toggleText = document.createElement('span');
+          toggleText.className = 'gear-toggle-text';
+          toggleControl.appendChild(toggleEl);
+          toggleControl.appendChild(toggleText);
+          slot.appendChild(toggleControl);
+        } else {
+          toggleText = toggleControl.querySelector('.gear-toggle-text');
+        }
+        var toggleDescription = gearToggleDescription(slotType);
+        toggleControl.title = toggleDescription + '. Checked = included; unchecked = excluded.';
+        toggleEl.setAttribute('aria-label', toggleDescription);
+        if (!toggleEl._gearToggleWired) {
+          toggleEl.addEventListener('click',function(e){e.stopPropagation();});
+          toggleEl._gearToggleWired = true;
+        }
         toggleEl.checked = isActive;
+        var updateToggleCopy = function() {
+          toggleText.textContent = toggleEl.checked ? 'Included' : 'Excluded';
+          toggleControl.classList.toggle('is-off', !toggleEl.checked);
+        };
         toggleEl.onchange = function() {
           if (slotType === 'armor') { GEAR_ACTIVE[slotName] = toggleEl.checked; }
           else if (slotType === 'booster') { BOOSTER_ACTIVE[parseInt(slotName.split('-')[1])] = toggleEl.checked; }
           else { MEDIKIT_ACTIVE = toggleEl.checked; }
           saveToggles();
           renderGearStats(); renderGearCost(); slot.classList.toggle('inactive', !toggleEl.checked);
+          updateToggleCopy();
         };
+        updateToggleCopy();
       }
     } else {
       slot.classList.remove('equipped', 'inactive');
       icon.innerHTML = '<span class="gear-slot-placeholder">+</span>';
-      ['gear-slot-name','gear-slot-stats','gear-toggle'].forEach(function(c){var el=slot.querySelector('.'+c);if(el)el.remove();});
+      ['gear-slot-name','gear-slot-stats','gear-toggle-control','gear-toggle'].forEach(function(c){var el=slot.querySelector('.'+c);if(el)el.remove();});
     }
   });
   renderGearStats();
@@ -116,10 +144,56 @@ function renderGear() {
   wireGearDest();
 }
 
+const GEAR_EFFECT_PAIRS = [
+  { label: 'Health', regen: ['healthregen', 'health_regen'], drain: ['healthdrain', 'health_drain'], detail: 'Health gained minus health lost.' },
+  { label: 'Bio Energy', regen: ['bioregen', 'bio_regen'], drain: ['bioenergydrain', 'biodrain', 'bio_drain'], detail: 'Positive net gains bio energy; negative net consumes it.' },
+  { label: 'Stamina', regen: ['staminaregen', 'stamina_regen'], drain: ['staminadrain', 'stamina_drain'], detail: 'Stamina gained minus stamina lost.' },
+  { label: 'Aura', regen: ['auraregen', 'aura_regen'], drain: ['auradrain', 'aura_drain'], detail: 'Aura gained minus aura lost.' },
+];
+const GEAR_DRAIN_KEYS = new Set(GEAR_EFFECT_PAIRS.flatMap(function(pair) { return pair.drain; }));
+
+function gearEffectAmount(stats, keys) {
+  return keys.reduce(function(total, key) {
+    var value = Number(stats[key]);
+    return total + (Number.isFinite(value) && value > 0 ? value : 0);
+  }, 0);
+}
+
+function gearEffectValue(value) {
+  var rounded = Math.round(value * 10) / 10;
+  return (rounded > 0 ? '+' : '') + rounded;
+}
+
+function renderGearEffectSummary(stats) {
+  var rows = GEAR_EFFECT_PAIRS.map(function(pair) {
+    var regen = gearEffectAmount(stats, pair.regen);
+    var drain = gearEffectAmount(stats, pair.drain);
+    return { pair: pair, regen: regen, drain: drain, net: regen - drain };
+  }).filter(function(row) { return row.regen !== 0 || row.drain !== 0; });
+  if (!rows.length) return '';
+
+  var html = '<div class="gear-effect-head"><span>Recovery &amp; upkeep</span><span class="gear-effect-formula">Net = Regen − Drain</span></div>';
+  html += '<p class="gear-effect-note">Regen adds to the character resource. Drain subtracts from it. The net value shows what the loadout is doing overall.</p>';
+  rows.forEach(function(row) {
+    var netClass = row.net > 0 ? 'is-positive' : (row.net < 0 ? 'is-negative' : 'is-balanced');
+    var netMeaning = row.net > 0 ? 'gaining' : (row.net < 0 ? 'losing' : 'balanced');
+    html += '<div class="gear-effect-row">';
+    html += '<div><div class="gear-effect-name">' + row.pair.label + '</div><div class="gear-effect-detail">' + row.pair.detail + ' Currently ' + netMeaning + '.</div></div>';
+    html += '<div class="gear-effect-values">';
+    html += '<span class="gear-effect-regen">Regen ' + gearEffectValue(row.regen) + '</span>';
+    html += '<span class="gear-effect-drain">Drain −' + gearEffectValue(row.drain).replace('+', '') + '</span>';
+    html += '<span class="gear-effect-net ' + netClass + '">Net ' + gearEffectValue(row.net) + '</span>';
+    html += '</div></div>';
+  });
+  return html;
+}
+
 function renderGearStats() {
   const grid = document.getElementById('gear-stat-grid');
   if (!grid) return;
+  const effectSummary = document.getElementById('gear-effect-summary');
   const stats = computeGearStats();
+  if (effectSummary) effectSummary.innerHTML = renderGearEffectSummary(stats);
   var skipStat = {durationseconds:1,medkitcooldown:1,protectionreduction:1};
   
   // Compute protection reduction from active medikit
@@ -147,11 +221,13 @@ function renderGearStats() {
     var label = STAT_LABELS[k] || k;
     var affected = protRed > 0 && protKeys.indexOf(k) !== -1;
     var displayV = affected ? v * protMult : v;
-    var cls = displayV < 0 ? 'stat-val bad' : 'stat-val';
+    // A drain is a cost, so show it as a negative value instead of a misleading positive bonus.
+    var shownV = GEAR_DRAIN_KEYS.has(k) ? -Math.abs(displayV) : displayV;
+    var cls = shownV < 0 ? 'stat-val bad' : 'stat-val';
     if (affected) cls += ' prot-nerfed';
     var badge = affected ? ' <span class="prot-badge">×' + Math.round(protMult*100) + '%</span>' : '';
     var tip = STAT_DEFS[k] ? ' title="' + esc(STAT_DEFS[k]) + '"' : '';
-    html += '<div class="gear-stat-item"' + tip + '><div class="' + cls + '">' + (displayV>0?'+':'') + Math.round(displayV*10)/10 + badge + '</div><div class="stat-label">' + label + '</div></div>';
+    html += '<div class="gear-stat-item"' + tip + '><div class="' + cls + '">' + (shownV>0?'+':'') + Math.round(shownV*10)/10 + badge + '</div><div class="stat-label">' + label + '</div></div>';
   });
   
   grid.innerHTML = html;
@@ -293,6 +369,12 @@ function equippedNameForSlot(slotName, slotType) {
 // category contract in one helper so the picker and its regression tests agree.
 function gearPickerCategories(slotType, slotCat) {
   return slotType === 'booster' ? ['Drugs', 'Food & Drink'] : [slotCat];
+}
+
+function gearToggleDescription(slotType) {
+  if (slotType === 'booster') return 'Include this booster / food in loadout stats';
+  if (slotType === 'medikit') return 'Include this medikit in loadout stats';
+  return 'Include this gear in loadout stats';
 }
 
 // Close the picker and hand focus back to whatever slot opened it.
@@ -607,13 +689,13 @@ function renderGearSets() {
   const list = document.getElementById('gear-sets-list');
   if (!list) return;
   if (!SHARED_GEAR.length) {
-    list.innerHTML = '<div class="gear-sets-head">Guild Gear Library</div><div class="muted" style="font-size:0.6875rem;padding:0.25rem 0">No shared sets yet — equip armor and Save Gear Set to publish one.</div>';
+    list.innerHTML = '<div class="gear-sets-head">All-Faction Gear Library</div><div class="gear-library-sub">Shared gear sets from every game faction.</div><div class="muted" style="font-size:0.6875rem;padding:0.25rem 0">No shared sets yet — equip armor and Save Gear Set to publish one.</div>';
     return;
   }
   const me = PLAYERS.active || 'anonymous';
   const sorted = SHARED_GEAR.slice().sort((a, b) =>
     gearSetScore(b) - gearSetScore(a) || (b.created_at || 0) - (a.created_at || 0));
-  list.innerHTML = '<div class="gear-sets-head">Guild Gear Library</div>' + sorted.map(s => {
+  list.innerHTML = '<div class="gear-sets-head">All-Faction Gear Library</div><div class="gear-library-sub">Shared gear sets from every game faction.</div>' + sorted.map(s => {
     const count = Object.keys(s.gear || {}).length;
     const score = gearSetScore(s);
     const myVote = (s.votes || {})[me] || 0;

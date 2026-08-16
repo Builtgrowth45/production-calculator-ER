@@ -201,6 +201,16 @@ python3 -m http.server 8765
 
 Open <http://localhost:8765/> in a browser. Serving the repository over HTTP is preferable to opening `index.html` directly because service workers, modules, and asset paths follow browser origin rules.
 
+### Long-running LAN development server
+
+For live-edit work across a private home LAN, use the Vite server instead of committing every change to GitHub:
+
+```bash
+npm run local:host
+```
+
+It serves the working tree on port `4173` on all local interfaces. From a Windows machine on the same LAN, open `http://<linux-lan-ip>:4173/`; use `hostname -I` on Linux to find the address. The restartable user-service setup and LAN safety boundary are documented in [Local hosting](docs/local-hosting.md). Do **not** expose this unauthenticated development server to the public internet.
+
 ### Test and build
 
 Run the normal release gate:
@@ -238,6 +248,7 @@ The main scripts are:
 | `npm run build:pages` | Builds 3D assets and stages the GitHub Pages artifact in `dist/`. |
 | `npm run build` | Alias for the Pages build. |
 | `npm run check` | Runs tests and the complete production build. |
+| `npm run local:host` | Serves the editable working tree on LAN port 4173 for live local development. |
 
 ## Project structure
 

@@ -1,5 +1,10 @@
 /* Surviving Battle Nodes and Gear reference surfaces. */
 
+/* More navigation must paint above the Settings sibling while its dropdown is open. */
+.nav-bar:has(.nav-more-menu:not([hidden])) { z-index: 280; }
+.nav-more:has(.nav-more-menu:not([hidden])) { z-index: 290; }
+.nav-more-menu { z-index: 300; }
+
 /* Player utility menu must layer above content without escaping the viewport. */
 .playerbar { position: relative; z-index: 200; overflow: visible; isolation: isolate; }
 .player-actions { position: relative; z-index: 210; }

@@ -892,7 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.gear-slot').forEach(slot => {
     slot.addEventListener('click', (e) => {
       // Don't open picker if clicking the toggle checkbox
-      if (e.target.classList.contains('gear-toggle')) return;
+      if (e.target.classList.contains('gear-toggle') || e.target.closest?.('.gear-toggle-control')) return;
       var st = slot.dataset.slotType || 'armor';
       showGearPicker(slot.dataset.slot, st === 'armor' ? slot.dataset.armorType : st);
     });
@@ -992,8 +992,8 @@ document.addEventListener('DOMContentLoaded', () => {
     toast('Gear loadout cleared.');
   });
   // Load Set → had NO handler at all (dead button). Sets are loaded from the
-  // Guild Gear Library's per-set Load button, which sits lower in the sidebar
-  // and is often below the fold — so point the user at it.
+  // All-Faction Gear Library's per-set Load button, which sits in the
+  // secondary gear row — so point the user at it.
   document.getElementById('gear-load-set').addEventListener('click', () => {
     const list = document.getElementById('gear-sets-list');
     if (!list) return;

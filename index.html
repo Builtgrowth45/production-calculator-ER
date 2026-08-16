@@ -333,7 +333,7 @@
   <!-- GEAR LOADOUT -->
   <section id="view-gear" class="view" role="tabpanel" aria-label="Gear Loadout">
     <div class="gear-layout">
-      <div class="gear-main">
+      <div class="gear-main gear-loadout-panel gear-stat-panel">
         <h4 class="gear-title">Armor Loadout</h4>
         <div class="gear-paperdoll">
           <!-- Armor row 1 -->
@@ -376,13 +376,22 @@
             <div class="gear-slot-label">Medikit</div>
           </div>
         </div>
-
+        <div id="gear-toggle-guide" class="gear-toggle-guide" role="note"><b>Loadout toggles:</b> Checked = included in <b>Loadout Stats</b>. Unchecked = excluded. Applies to implants, boosters / food, and medikits.</div>
+        <div class="gear-actions">
+          <button id="gear-save-set" class="primary">Save Gear Set</button>
+          <button id="gear-craft-set" class="ghost" style="color:var(--cyan)">🛠️ Craft Set</button>
+          <button id="gear-load-set" class="ghost">Load Set</button>
+          <button id="gear-export-set" class="ghost">Export</button>
+          <button id="gear-import-set" class="ghost">Import</button>
+          <button id="gear-clear" class="ghost">Clear All</button>
+        </div>
       </div>
 
       <div class="gear-sidebar">
         <div class="gear-stat-panel" id="gear-stats">
           <h4>Loadout Stats</h4>
           <div id="gear-stat-grid" class="gear-stat-grid"></div>
+          <div id="gear-effect-summary" class="gear-effect-summary" aria-live="polite"></div>
         </div>
         <details class="calc-help gear-stat-guide">
           <summary>📖 Stat guide — what each number means</summary>
@@ -402,14 +411,9 @@
             <p class="muted">Hover any stat below for its full official definition.</p>
           </div>
         </details>
-        <div class="gear-actions">
-          <button id="gear-save-set" class="primary">Save Gear Set</button>
-          <button id="gear-craft-set" class="ghost" style="color:var(--cyan)">🛠️ Craft Set</button>
-          <button id="gear-load-set" class="ghost">Load Set</button>
-          <button id="gear-export-set" class="ghost">Export</button>
-          <button id="gear-import-set" class="ghost">Import</button>
-          <button id="gear-clear" class="ghost">Clear All</button>
-        </div>
+      </div>
+
+      <div class="gear-secondary-row">
         <div class="gear-stat-panel" id="gear-cost">
           <div class="gear-cost-head-row">
             <h4>Set Recipe Cost</h4>
@@ -418,9 +422,12 @@
           <div id="gear-dest-status" class="gear-dest-status"></div>
           <div id="gear-cost-grid" class="gear-stat-grid"></div>
         </div>
-        <div id="gear-sets-list" class="gear-sets-list"></div>
+        <div class="gear-library-panel">
+          <div id="gear-sets-list" class="gear-sets-list"></div>
+        </div>
       </div>
     </div>
+
 
     <!-- COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS) -->
     <div class="gear-balance-browser" id="gear-balance-browser">

@@ -11,6 +11,7 @@
     "test:baseline": "node scripts/check-baseline.mjs",
     "test:sw-update": "npm run build && node --test tests/browser/service-worker-update.spec.mjs",
     "stats:update": "python3 scripts/update_balance_stats.py && node scripts/build-balance.mjs && node scripts/build-data.mjs",
+    "local:host": "vite --host 0.0.0.0 --port 4173 --strictPort",
     "build:3d": "vite build --config vite.config.mjs",
     "test:3d": "npm run build:3d && node --test tests/r3f-build.test.mjs",
     "test:budgets": "npm run build:3d && node --test tests/performance-budgets.test.mjs",

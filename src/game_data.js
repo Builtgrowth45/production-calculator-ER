@@ -10518,7 +10518,16 @@ window.GAME_DATA = {
       "output": {
         "item": "Aramid Altered Shoulder Pads",
         "quantity": 3,
-        "category": "Armor"
+        "category": "Armor",
+        "stats": {
+          "agility": -1.8,
+          "bioregen": 0.5,
+          "armor": 95,
+          "shielding": 95,
+          "endurance": 75,
+          "reflection": 60,
+          "resistance": 150
+        }
       },
       "inputs": [
         {
