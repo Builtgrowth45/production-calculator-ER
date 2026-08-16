@@ -289,6 +289,12 @@ function equippedNameForSlot(slotName, slotType) {
   return GEAR[slotName];
 }
 
+// Drugs and food consume the same two shared booster slots. Keep the
+// category contract in one helper so the picker and its regression tests agree.
+function gearPickerCategories(slotType, slotCat) {
+  return slotType === 'booster' ? ['Drugs', 'Food & Drink'] : [slotCat];
+}
+
 // Close the picker and hand focus back to whatever slot opened it.
 function closeGearPicker() {
   const overlay = document.getElementById('gear-picker-overlay');
@@ -370,8 +376,10 @@ function showGearPicker(slotName, armorType) {
       ...(IMPLANT_SLOTS[slotName] || []).filter(name => ALL_ITEMS.has(name)),
     ])];
   } else {
-    // Filter by category for implants/boosters/medikit
-    items = DATA.recipes.filter(r => r.output.category === slotCat && ALL_ITEMS.has(r.output.item)).map(r => r.output.item);
+    // Filter by category for implants/boosters/medikit. Boosters intentionally
+    // span Drugs and Food & Drink because both consume the same two slots.
+    const categories = gearPickerCategories(slotType, slotCat);
+    items = DATA.recipes.filter(r => categories.includes(r.output.category) && ALL_ITEMS.has(r.output.item)).map(r => r.output.item);
   }
   if (!items.length) { items = []; } // guard
   title.textContent = `Select ${slotName.replace(/-/g,' ').replace(/\w/g,c=>c.toUpperCase())}`;
