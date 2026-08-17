@@ -68,6 +68,21 @@ describe('production batch progress tracker', () => {
     assert.match(initSrc, /mine-progress-reset/);
   });
 
+  it('resets checklist and batch progress on an explicit fresh calculation', () => {
+    assert.match(appSrc, /function resetChecklistForCalculation\(\)/);
+    assert.match(appSrc, /function runCalculator\(\)[\s\S]*resetChecklistForCalculation\(\)/);
+    assert.match(appSrc, /function runMultiPlan\(options\)[\s\S]*resetChecklistForCalculation\(\)/);
+    assert.match(appSrc, /runCalculator\(\{ preserveChecklist: true \}\)/);
+    assert.match(appSrc, /runMultiPlan\(\{ preserveChecklist: true \}\)/);
+  });
+
+  it('adds a record-batch action directly to mineable Obtain-step rows', () => {
+    assert.match(appSrc, /function renderAcquireSection\(plan\)[\s\S]*Record batch/);
+    assert.match(appSrc, /data-mine-total=/);
+    assert.match(appSrc, /mine-log obtain-batch/);
+    assert.match(initSrc, /closest\('\.mine-log'\)/);
+  });
+
   it('renders controls and wires them for both single and combined plans', () => {
     assert.match(coreSrc, /production-progress/);
     assert.match(coreSrc, /data-progress-item=/);

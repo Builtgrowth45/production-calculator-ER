@@ -187,6 +187,15 @@ function clearPlanChecks() {
   clearMiningProgress();
 }
 
+// An explicit Calculate/Build action starts a fresh player checklist, even when
+// the item, quantity, and colony happen to be identical to the prior run.
+// Internal re-renders pass preserveChecklist so mining progress and manual ticks
+// survive their own inventory/cost refresh.
+function resetChecklistForCalculation() {
+  clearPlanChecks();
+  reopenAutoCollapsed();
+}
+
 // Call before rendering. Returns true only for the single render that directly
 // follows an apply — the flag is consumed here, so any later render of the same
 // target (calculating it again, switching a path) offers Apply normally.
@@ -319,7 +328,7 @@ function pickTransportSource(chip) {
   // chip click could re-plan a different item, or blank the pane entirely.
   document.getElementById('calc-item').value = LAST_SINGLE.item;
   document.getElementById('calc-qty').value = LAST_SINGLE.qty;
-  runCalculator();
+  runCalculator({ preserveChecklist: true });
 }
 
 function toggleTransferCheck(cb) {
@@ -652,8 +661,8 @@ function onSlotLevelChange(el) {
   else return;
   saveSlotLevels();
   renderSlotLevels();
-  if (CALC_TRAY.length) runMultiPlan();
-  else if (document.querySelector('#calc-result .plan-summary')) runCalculator();
+  if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true });
+  else if (document.querySelector('#calc-result .plan-summary')) runCalculator({ preserveChecklist: true });
 }
 
 // One handler for both controls — recalculating so the cost card moves with it.
@@ -689,8 +698,8 @@ function onColonyTaxChange(el) {
 // Re-cost whatever is on screen. Used after a rate changes locally and after a
 // change arrives from another member.
 function rerunActivePlan() {
-  if (CALC_TRAY.length) runMultiPlan();
-  else if (document.querySelector('#calc-result .plan-summary')) runCalculator();
+  if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true });
+  else if (document.querySelector('#calc-result .plan-summary')) runCalculator({ preserveChecklist: true });
 }
 
 function toggleObtainCheck(cb) {
@@ -782,6 +791,16 @@ function renderAcquireSection(plan) {
           '</div>'
         : '';
 
+      var mineDone = Math.max(0, Number(MINING_PROGRESS[t.item]) || 0);
+      var mineTotal = info.qty > 0 || mineDone > 0 ? info.qty + mineDone : 0;
+      var mineRemaining = Math.max(0, mineTotal - mineDone);
+      var mineBatchQty = Math.min(MINE_BATCH, mineRemaining);
+      var batchHtml = from.length && mineRemaining > 0
+        ? '<button type="button" class="mine-log obtain-batch" data-mine="' + encodeURIComponent(t.item) +
+            '" data-qty="' + mineBatchQty + '" data-mine-total="' + mineTotal +
+            '" title="Record one mining batch for this material">Record batch (+' + mineBatchQty + ')</button>'
+        : '';
+
       html += '<div class="flow-card get' + (done ? ' done' : '') + '">' +
         '<label class="transport-check">' +
           '<input type="checkbox" class="obtain-cb" data-obtain-key="' + esc(t.item) + '"' + (done ? ' checked' : '') + ' />' +
@@ -806,6 +825,7 @@ function renderAcquireSection(plan) {
             })() +
           '</div>' +
           pickHtml +
+          batchHtml +
         '</div>' +
       '</div>';
     });
@@ -1145,11 +1165,11 @@ function logMined(item, qty, total) {
     .reduce(function (s, e) { return s + e.quantity; }, 0);
   toast('Mined ' + fmt(requested) + ' ' + displayName(item) + ' at ' + DESTINATION + ' (now ' + fmt(now) + ').',
     2500, 'success');
-  if (CALC_TRAY.length) runMultiPlan();
+  if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true });
   else if (LAST_SINGLE && LAST_SINGLE.item) {
     document.getElementById('calc-item').value = LAST_SINGLE.item;
     document.getElementById('calc-qty').value = LAST_SINGLE.qty;
-    runCalculator();
+    runCalculator({ preserveChecklist: true });
   }
 }
 
@@ -1300,6 +1320,7 @@ function renderPlan(item, qty, targetEl) {
 }
 
 function runCalculator() {
+  const options = arguments[0] || {};
   const item = document.getElementById('calc-item').value.trim();
   const qty = Math.max(1, parseInt(document.getElementById('calc-qty').value, 10) || 1);
   const out = document.getElementById('calc-result');
@@ -1311,6 +1332,7 @@ function runCalculator() {
     window.CMG_VALUE_TRANSITION?.announce({ item: 'Production plan', quantity: 1, result: out });
     return;
   }
+  if (!options.preserveChecklist) resetChecklistForCalculation();
   // Plan from scratch = empty ledger, ignore inventory (engine mirror too,
   // so alternative-path auto-picking also sees an empty inventory)
   const scratch = document.getElementById('calc-scratch')?.checked;
@@ -1409,8 +1431,10 @@ function addToTray(item, qty) {
 }
 
 // ---- Combined multi-item plan with shared ledger (FIXED) ----
-function runMultiPlan() {
+function runMultiPlan(options) {
+  options = options || {};
   if (CALC_TRAY.length === 0) { toast('Add at least one item to the plan.'); return; }
+  if (!options.preserveChecklist) resetChecklistForCalculation();
   const out = document.getElementById('calc-multi');
   const single = document.getElementById('calc-result');
   single.innerHTML = ''; single.classList.remove('multi');
