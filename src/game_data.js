@@ -10373,7 +10373,7 @@ window.GAME_DATA = {
         },
         {
           "item": "textiles",
-          "quantity": 1
+          "quantity": 2
         },
         {
           "item": "vanadium",
@@ -10381,7 +10381,8 @@ window.GAME_DATA = {
         }
       ],
       "process": "manufacture",
-      "_source": "er_crafting",
+      "_source": "calculator_override",
+      "_source_note": "Temporary local override: use 2 textiles per 3-pad batch until the game recipe is corrected.",
       "_armor_type": "ShoulderPads",
       "_faction": "FDC"
     },

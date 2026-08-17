@@ -25,6 +25,42 @@ describe('Aramid Altered Arm Pads recipe', () => {
   });
 });
 
+describe('verified armor recipe inputs', () => {
+  const expected = {
+    'Pythica Durable Battle Helmet': {
+      'carbon fiber': 5, textiles: 4, rubber: 2,
+    },
+    'Pythica Durable Battle Shoulder Pads': {
+      'titanium syntactic foam': 2, textiles: 2, vanadium: 2,
+    },
+    'Aramid Altered Arm Pads': {
+      'carbon fiber': 2, textiles: 2, cobalt: 2,
+    },
+    'Aramid Modified Torso Armor': {
+      'carbon fiber': 5, textiles: 3, rubber: 3,
+    },
+    'Aramid Modified Gloves': {
+      textiles: 5, aluminum: 1,
+    },
+  };
+
+  for (const [item, inputs] of Object.entries(expected)) {
+    it(`${item} uses the verified inputs per 3-output batch`, () => {
+      setTestInv({}, {});
+      const result = compute(item, 1, {});
+      const step = result.plan.manufacture.find((entry) => entry.item === item);
+      assert.ok(step, `${item} manufacture step must exist`);
+      assert.equal(step.produced, 3);
+      assert.equal(step.batches, 1);
+      assert.deepEqual(
+        Object.fromEntries(step.resolvedInputs.map((input) => [input.item, input.qty])),
+        inputs,
+      );
+    });
+  }
+});
+
+
 describe('player selection state', () => {
   it('selects a remote player when no active player exists', () => {
     reset();
