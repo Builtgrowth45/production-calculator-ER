@@ -1191,12 +1191,17 @@ tr td:first-child { white-space: nowrap; }
   cursor: default;
 }
 .mine-pick:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.obtain-batch {
+.obtain-batch.progress-run {
   display: block; margin-top: 0.4rem;
-  border-color: var(--cyan); color: var(--cyan);
-  background: color-mix(in srgb, var(--cyan) 10%, transparent);
+  padding: .35rem .6rem; border: 1px solid var(--accent-dim);
+  border-radius: 4px; background: rgba(255,45,149,.12);
+  color: var(--accent-bright); font-size: .6875rem;
+  font-weight: 700; cursor: pointer;
 }
-.obtain-batch:hover { background: color-mix(in srgb, var(--cyan) 18%, transparent); }
+.obtain-batch.progress-run:hover {
+  border-color: var(--accent); background: rgba(255,45,149,.2);
+  box-shadow: 0 0 10px rgba(255,45,149,.18);
+}
 .flow-card.get.done .mine-picks { opacity: 0.6; }
 
 /* source picker on Move cards — same idea as "mine at", cyan to match the
@@ -1410,7 +1415,8 @@ tr td:first-child { white-space: nowrap; }
 .flow-card.move.done .split-note,
 .flow-card.move.done .src-picks,
 .flow-card.get.done .flow-need,
-.flow-card.get.done .mine-picks {
+.flow-card.get.done .mine-picks,
+.flow-card.get.done .mine-progress {
   display: none;
 }
 .flow-card.move.done .flow-card-body,

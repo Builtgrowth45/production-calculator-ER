@@ -58,9 +58,8 @@ function clearProductionProgress() {
   saveProductionProgress();
 }
 
-// Mining progress follows the same player-facing batch model, but mining also
-// keeps its existing inventory effect: each recorded haul is added to stock and
-// the plan is recalculated. The progress value is only the mining checklist.
+// Mining progress is a player-facing checklist separate from inventory and plan
+// totals. Each recorded haul updates only MINING_PROGRESS and the visible tracker.
 var MINING_PROGRESS = {};
 try { MINING_PROGRESS = JSON.parse(localStorage.getItem('cmg_mining_progress_v1')) || {}; } catch (e) { MINING_PROGRESS = {}; }
 function saveMiningProgress() {
@@ -697,9 +696,10 @@ function onColonyTaxChange(el) {
 
 // Re-cost whatever is on screen. Used after a rate changes locally and after a
 // change arrives from another member.
-function rerunActivePlan() {
-  if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true });
-  else if (document.querySelector('#calc-result .plan-summary')) runCalculator({ preserveChecklist: true });
+function rerunActivePlan(options) {
+  options = options || {};
+  if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true, preserveViewport: !!options.preserveViewport });
+  else if (document.querySelector('#calc-result .plan-summary')) runCalculator({ preserveChecklist: true, preserveViewport: !!options.preserveViewport });
 }
 
 function toggleObtainCheck(cb) {
@@ -792,13 +792,19 @@ function renderAcquireSection(plan) {
         : '';
 
       var mineDone = Math.max(0, Number(MINING_PROGRESS[t.item]) || 0);
-      var mineTotal = info.qty > 0 || mineDone > 0 ? info.qty + mineDone : 0;
+      // Mining is a checklist only, so the plan's acquire quantity never changes.
+      var mineTotal = Math.max(0, Number(info.qty) || 0);
       var mineRemaining = Math.max(0, mineTotal - mineDone);
       var mineBatchQty = Math.min(MINE_BATCH, mineRemaining);
-      var batchHtml = from.length && mineRemaining > 0
-        ? '<button type="button" class="mine-log obtain-batch" data-mine="' + encodeURIComponent(t.item) +
+      var batchButtonHtml = from.length && mineRemaining > 0
+        ? '<button type="button" class="mine-log obtain-batch progress-run" data-mine="' + encodeURIComponent(t.item) +
             '" data-qty="' + mineBatchQty + '" data-mine-total="' + mineTotal +
-            '" title="Record one mining batch for this material">Record batch (+' + mineBatchQty + ')</button>'
+            '" title="Record one mining batch for this material">Record ' +
+              (mineBatchQty === mineRemaining ? 'final ' : 'next ') + fmt(mineBatchQty) +
+              ' batch' + (mineBatchQty === 1 ? '' : 'es') + '</button>'
+        : '';
+      var batchHtml = from.length && mineTotal > 0
+        ? renderMiningProgress(t.item, mineTotal, mineDone, mineRemaining) + batchButtonHtml
         : '';
 
       html += '<div class="flow-card get' + (done ? ' done' : '') + '">' +
@@ -1057,7 +1063,7 @@ function resetMiningProgress(button) {
       break;
     }
   }
-  rerunActivePlan();
+  rerunActivePlan({ preserveViewport: true });
 }
 
 function renderMiningProgress(item, total, done, remaining) {
@@ -1065,9 +1071,9 @@ function renderMiningProgress(item, total, done, remaining) {
   var enc = encodeURIComponent(item);
   var complete = remaining === 0;
   return '<div class="mine-progress' + (complete ? ' complete' : '') + '" data-mine-progress="' + enc + '">' +
-    '<div class="mine-progress-head"><span data-mine-progress-count>' + fmt(done) + ' / ' + fmt(total) + ' batches complete</span>' +
+    '<div class="mine-progress-head"><span data-mine-progress-count>' + fmt(done) + ' / ' + fmt(total) + ' mined</span>' +
       '<span class="mine-progress-remaining" data-mine-progress-remaining>' + fmt(remaining) + ' remaining</span></div>' +
-    '<div class="mine-progress-track" role="progressbar" aria-label="Mining batch progress for ' + esc(displayName(item)) + '" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + done + '">' +
+    '<div class="mine-progress-track" role="progressbar" aria-label="Mining progress for ' + esc(displayName(item)) + '" aria-valuemin="0" aria-valuemax="' + total + '" aria-valuenow="' + done + '">' +
       '<span class="mine-progress-fill" style="width:' + Math.round(done / total * 100) + '%"></span></div>' +
     (complete ? '<button type="button" class="mine-progress-reset" data-mining-reset="' + enc + '">Reset mining log</button>' : '') +
   '</div>';
@@ -1098,10 +1104,8 @@ function renderMiningPanel(plan) {
 
   var rows = yields.map(function (item) {
     var need = (acquire[item] && acquire[item].qty) || 0;
-    var progressDone = Math.max(0, Number(MINING_PROGRESS[item]) || 0);
-    // The current acquire quantity is the remaining amount after logged hauls.
-    // Adding the checklist value reconstructs the original target across rerenders.
-    var total = need > 0 || progressDone > 0 ? need + progressDone : 0;
+    // The plan need remains the original target because mining records do not consume inventory.
+    var total = need > 0 ? need : 0;
     var done = total ? miningProgressFor(item, total) : 0;
     var remaining = Math.max(0, total - done);
     var complete = total > 0 && remaining === 0;
@@ -1115,7 +1119,7 @@ function renderMiningPanel(plan) {
     var fullQty = total ? Math.min(MINE_BATCH, remaining) : MINE_BATCH;
     var midQty = total ? Math.min(50, remaining) : 50;
     var smallQty = total ? Math.min(25, remaining) : 25;
-    var actions = complete ? '' :
+    var actions = complete || !total ? '' :
       '<span class="mine-acts">' +
         '<button type="button" class="mine-log full" data-mine="' + enc + '" data-qty="' + fullQty + '"' + totalAttr +
           ' title="Log a full batch — best rate per unit">+' + fullQty + '</button>' +
@@ -1139,11 +1143,11 @@ function renderMiningPanel(plan) {
       '<span class="mine-slots-hint">2 slots free while production runs · a full ' + MINE_BATCH +
       ' costs about 25% less per unit than smaller pulls</span></div>' +
     rows +
-    '<div class="mine-slots-foot muted">Logged straight into your stock here, and the plan above re-calculates.</div>' +
+    '<div class="mine-slots-foot muted">Player-facing mining log only — inventory and plan totals stay unchanged.</div>' +
   '</div>';
 }
 
-// Record a mined haul at the production colony and re-plan so the numbers move.
+// Record mining progress for the current plan without changing inventory or plan totals.
 function logMined(item, qty, total) {
   var requested = Math.max(1, Math.min(MINE_BATCH, parseInt(qty, 10) || 0));
   var target = Math.max(0, parseInt(total, 10) || 0);
@@ -1154,22 +1158,19 @@ function logMined(item, qty, total) {
     if (!requested) return;
   }
   if (!item || !ALL_ITEMS.has(item)) return;
-  applyEntry(item, DESTINATION, requested, 'add');
   if (state) {
     MINING_PROGRESS[item] = state.completed;
     saveMiningProgress();
     if (state.remaining === 0) markObtainCompleteForMining(item);
   }
-  var now = getInv()
-    .filter(function (e) { return e.item === item && e.location === DESTINATION; })
-    .reduce(function (s, e) { return s + e.quantity; }, 0);
-  toast('Mined ' + fmt(requested) + ' ' + displayName(item) + ' at ' + DESTINATION + ' (now ' + fmt(now) + ').',
+  toast('Recorded ' + fmt(requested) + ' mined ' + displayName(item) +
+    (state ? ' (' + fmt(state.remaining) + ' remaining).' : '.'),
     2500, 'success');
-  if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true });
+  if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true, preserveViewport: true });
   else if (LAST_SINGLE && LAST_SINGLE.item) {
     document.getElementById('calc-item').value = LAST_SINGLE.item;
     document.getElementById('calc-qty').value = LAST_SINGLE.qty;
-    runCalculator({ preserveChecklist: true });
+    runCalculator({ preserveChecklist: true, preserveViewport: true });
   }
 }
 
@@ -1367,9 +1368,11 @@ function runCalculator() {
       // focus here: runCalculator() moves it to the result below.
       if (typeof dismissCalcGuide === 'function') dismissCalcGuide({ focus: false });
     }
-    out.tabIndex = -1;
-    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    out.focus({ preventScroll: true });
+    if (!options.preserveViewport) {
+      out.tabIndex = -1;
+      out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      out.focus({ preventScroll: true });
+    }
   }
   markDoneSections(out);
   renderCalcPaths();
@@ -1512,7 +1515,7 @@ function runMultiPlan(options) {
     </div>`;
   }
   markDoneSections(out);
-  out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!options.preserveViewport) out.scrollIntoView({ behavior: 'smooth', block: 'start' });
   renderCalcPaths();
   updateShareLink();
   window.CMG_VALUE_TRANSITION?.markChanged(out);

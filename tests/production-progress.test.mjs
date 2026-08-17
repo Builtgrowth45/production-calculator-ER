@@ -68,6 +68,29 @@ describe('production batch progress tracker', () => {
     assert.match(initSrc, /mine-progress-reset/);
   });
 
+  it('records mining progress without changing inventory or plan totals', () => {
+    const start = appSrc.indexOf('function logMined(');
+    const end = appSrc.indexOf('// Build a numbered, collapsible section.', start);
+    const logMinedSrc = appSrc.slice(start, end);
+    assert.doesNotMatch(logMinedSrc, /applyEntry\(item, DESTINATION/);
+    assert.doesNotMatch(logMinedSrc, /getInv\(\)/);
+    assert.match(logMinedSrc, /MINING_PROGRESS\[item\] = state\.completed/);
+    assert.match(appSrc, /var actions = complete \|\| !total \? ''/);
+  });
+
+  it('keeps mining targets stable when progress rerenders without inventory changes', () => {
+    assert.match(appSrc, /var mineTotal = Math\.max\(0, Number\(info\.qty\) \|\| 0\)/);
+    assert.match(appSrc, /var total = need > 0 \? need : 0/);
+    assert.match(appSrc, /renderMiningProgress\(t\.item, mineTotal, mineDone, mineRemaining\)/);
+  });
+
+  it('preserves the viewport when mining progress rerenders', () => {
+    assert.match(appSrc, /runMultiPlan\(\{ preserveChecklist: true, preserveViewport: true \}\)/);
+    assert.match(appSrc, /runCalculator\(\{ preserveChecklist: true, preserveViewport: true \}\)/);
+    assert.match(appSrc, /function rerunActivePlan\(options\)[\s\S]*preserveViewport/);
+    assert.match(appSrc, /if \(!options\.preserveViewport\) \{[\s\S]*out\.scrollIntoView/);
+  });
+
   it('resets checklist and batch progress on an explicit fresh calculation', () => {
     assert.match(appSrc, /function resetChecklistForCalculation\(\)/);
     assert.match(appSrc, /function runCalculator\(\)[\s\S]*resetChecklistForCalculation\(\)/);
@@ -77,9 +100,11 @@ describe('production batch progress tracker', () => {
   });
 
   it('adds a record-batch action directly to mineable Obtain-step rows', () => {
-    assert.match(appSrc, /function renderAcquireSection\(plan\)[\s\S]*Record batch/);
+    assert.match(appSrc, /function renderAcquireSection\(plan\)[\s\S]*Record ' \+/);
     assert.match(appSrc, /data-mine-total=/);
     assert.match(appSrc, /mine-log obtain-batch/);
+    assert.match(appSrc, /obtain-batch progress-run/);
+    assert.match(appSrc, /mineBatchQty === mineRemaining/);
     assert.match(initSrc, /closest\('\.mine-log'\)/);
   });
 
