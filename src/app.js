@@ -173,10 +173,10 @@ try { localStorage.removeItem('cmg_plan_applied_v1'); } catch (e) {}
 
 function planSignature(itemOrTray, qty) {
   if (Array.isArray(itemOrTray)) {
-    return 'multi|' + DESTINATION + '|' + itemOrTray.slice()
+    return 'multi|' + DESTINATION + '|' + REFINE_DESTINATION + '|' + itemOrTray.slice()
       .map(function (t) { return t.item + ':' + t.qty; }).sort().join(',');
   }
-  return 'single|' + DESTINATION + '|' + itemOrTray + ':' + qty;
+  return 'single|' + DESTINATION + '|' + REFINE_DESTINATION + '|' + itemOrTray + ':' + qty;
 }
 
 function clearPlanChecks() {
@@ -225,14 +225,30 @@ function markPlanApplied(sig) {
 function toggleProduceCheck(cb) {
   var key = cb.dataset.produceKey;
   var card = cb.closest('.recipe-card');
+  var progressRun = card && card.querySelector('.progress-run');
+  var total = progressRun ? Math.max(0, parseInt(progressRun.dataset.progressTotal, 10) || 0) : 0;
+  var item = key ? decodeURIComponent(key) : '';
   if (cb.checked) {
     PRODUCE_DONE[key] = true;
-    if (card) card.classList.add('done');
+    if (card) {
+      card.classList.add('done');
+      card.classList.add('progress-complete');
+    }
+    if (item && total) {
+      PRODUCTION_PROGRESS[item] = total;
+      saveProductionProgress();
+      updateProductionProgressCard(card, item, total, PRODUCTION_PROGRESS_CHUNK);
+    }
   } else {
     delete PRODUCE_DONE[key];
     if (card) {
       card.classList.remove('done');
       card.classList.remove('progress-complete');
+    }
+    if (item && total) {
+      delete PRODUCTION_PROGRESS[item];
+      saveProductionProgress();
+      updateProductionProgressCard(card, item, total, PRODUCTION_PROGRESS_CHUNK);
     }
   }
   saveProduceDone();
@@ -350,12 +366,14 @@ function toggleTransferCheck(cb) {
 function renderTransportSection(plan) {
   var transport = plan.transport;
   var entries = Object.entries(transport);
-  if (!entries.length) return '<div class="muted">Nothing to move — no owned stock needed.</div>';
+  var finalEntries = Object.entries(plan.finalTransport || {});
+  if (!entries.length && !finalEntries.length) return '<div class="muted">Nothing to move — no owned stock needed.</div>';
 
   // Group items by source colony: { Berlin: [{item, qty, totalQty}], Manhattan: [...] }
   var colonyGroups = {};
   entries.forEach(function (entry) {
     var name = entry[0], info = entry[1];
+    var targetDest = info.to || REFINE_DESTINATION || DESTINATION;
     info.from.forEach(function (colony) {
       if (!colonyGroups[colony]) colonyGroups[colony] = [];
       colonyGroups[colony].push({
@@ -366,7 +384,8 @@ function renderTransportSection(plan) {
         // from — otherwise the two halves sit in separate colony groups with
         // only a "/ total" suffix hinting they're related
         from: info.from,
-        fromQty: info.fromQty
+        fromQty: info.fromQty,
+        to: targetDest
       });
     });
   });
@@ -381,11 +400,11 @@ function renderTransportSection(plan) {
   // Call out split stacks up front — otherwise "5 transfers" reads as 5
   // different materials when some are one material collected from two colonies.
   var splitCount = entries.filter(function (e) { return e[1].from.length > 1; }).length;
-  var html = '<div class="transport-summary">' + totalItems + ' transfer' + (totalItems !== 1 ? 's' : '') +
+  var html = entries.length ? ('<div class="transport-summary">' + totalItems + ' transfer' + (totalItems !== 1 ? 's' : '') +
     ' from ' + colonies.length + ' colon' + (colonies.length !== 1 ? 'ies' : 'y') +
     (splitCount ? ' <span class="transport-split-note">· ' + splitCount + ' item' +
       (splitCount !== 1 ? 's' : '') + ' collected from more than one colony</span>' : '') +
-    '</div>';
+    '</div>') : '';
 
   colonies.forEach(function (colony) {
     var items = colonyGroups[colony];
@@ -394,7 +413,7 @@ function renderTransportSection(plan) {
         '<span class="transport-group-icon">📦</span>' +
         '<span class="transport-group-colony">' + esc(colony) + '</span>' +
         '<span class="transport-group-arrow">➜</span>' +
-        '<span class="tag dest">' + esc(DESTINATION) + '</span>' +
+        '<span class="tag dest">' + esc(items[0]?.to || REFINE_DESTINATION || DESTINATION) + '</span>' +
         '<span class="transport-group-count">' + items.length + ' item' + (items.length !== 1 ? 's' : '') + '</span>' +
       '</div>' +
       '<div class="flow-grid">';
@@ -409,7 +428,7 @@ function renderTransportSection(plan) {
       // player's call — the allocator only guesses (nearest-to-plan, biggest
       // pile). Skip the destination: stock there never needs moving.
       var holders = (INV_LOCATIONS[t.item] || [])
-        .filter(function (l) { return l.location !== DESTINATION && l.qty > 0; })
+        .filter(function (l) { return l.location !== t.to && l.qty > 0; })
         .slice().sort(function (a, b) { return b.qty - a.qty; });
       // Chip state is derived from the ALLOCATION, not from which colony group
       // this card happens to sit in — a split stack renders one card per colony
@@ -472,6 +491,20 @@ function renderTransportSection(plan) {
 
     html += '</div></div>';
   });
+
+  if (finalEntries.length) {
+    html += '<div class="transport-group transport-final-group">' +
+      '<div class="transport-group-head"><span class="transport-group-icon">🔧</span>' +
+      '<span class="transport-group-colony">' + esc(plan.refineDestination || REFINE_DESTINATION) + '</span>' +
+      '<span class="transport-group-arrow">➜</span>' +
+      '<span class="tag dest">' + esc(plan.destination || DESTINATION) + '</span>' +
+      '<span class="transport-group-count">refined inputs for final manufacture</span></div>' +
+      '<div class="flow-grid">' + finalEntries.map(function (entry) {
+        return '<div class="flow-card move"><div class="flow-card-body"><div class="flow-chip">' +
+          iconFor(entry[0]) + '<span class="flow-name">' + esc(displayName(entry[0])) + '</span>' +
+          '<span class="flow-qty owned">' + fmt(entry[1]) + '</span></div></div></div>';
+      }).join('') + '</div></div>';
+  }
 
   return html;
 }
@@ -724,17 +757,21 @@ function pickObtainSite(chip) {
   if (!item || !site) return;
   OBTAIN_SITE[item] = site;
   saveObtainSite();
-  var wrap = chip.closest('.acquire-wrap');
+  var wrap = chip.closest('.acquire-wrap, .colony-work-wrap');
   var container = chip.closest('#calc-result, #calc-multi');
   var plan = container && LAST_PLANS[container.id];
   if (wrap && plan) {
-    wrap.innerHTML = renderAcquireSection(plan);
+    wrap.innerHTML = wrap.classList.contains('colony-work-wrap')
+      ? renderColonyWorkSection(plan)
+      : renderAcquireSection(plan);
     // The total-cost panel is computed from OBTAIN_SITE too — materials are
     // billed at the site they're mined at, so switching sites above moves the
     // headline number as well as the per-material line. Re-render it in place
     // (the plan itself is unchanged; only its costing changed).
     var top = container.querySelector('.plan-top');
     if (top) top.outerHTML = renderPlanStats(plan);
+    var routeSummary = container.querySelector('.route-summary');
+    if (routeSummary) routeSummary.outerHTML = renderRouteSummary(plan);
   }
 }
 
@@ -839,6 +876,104 @@ function renderAcquireSection(plan) {
     html += '</div></div>';
   });
 
+  return html;
+}
+
+// One itinerary grouped by colony: mine what is missing, move what is already
+// owned, refine where selected, then move refined inputs to final production.
+// The queue intentionally reuses the existing per-action progress controls so
+// checklist state survives replans and mine-site changes.
+function renderColonyWorkSection(plan) {
+  var builder = window.CMG_COLONY_WORK && window.CMG_COLONY_WORK.buildColonyWorkQueue;
+  if (typeof builder !== 'function') return '<div class="muted">Colony work queue unavailable.</div>';
+  var queue = builder(plan, OBTAIN_SITE);
+  if (!queue.length) return '<div class="muted">No mining, owned-stock movement, or refinement work is required away from the final production step.</div>';
+
+  var totalActions = queue.reduce(function (sum, group) { return sum + group.actions.length; }, 0);
+  var html = '<div class="colony-work-summary">' + totalActions + ' action' + (totalActions !== 1 ? 's' : '') +
+    ' across ' + queue.length + ' visit' + (queue.length !== 1 ? 's' : '') +
+    ' · complete each colony in one trip</div>';
+
+  queue.forEach(function (group) {
+    var mineCount = group.actions.filter(function (a) { return a.kind === 'mine'; }).length;
+    var moveCount = group.actions.filter(function (a) { return a.kind.indexOf('move') === 0; }).length;
+    var refineCount = group.actions.filter(function (a) { return a.kind === 'refine'; }).length;
+    html += '<div class="colony-work-group" data-work-colony="' + esc(group.colony) + '">' +
+      '<div class="colony-work-head"><span class="transport-group-icon">🧭</span>' +
+        '<span class="transport-group-colony">' + esc(group.colony) + '</span>' +
+        '<span class="colony-work-count">' +
+          (mineCount ? '⛏ ' + mineCount + ' mine' + (mineCount !== 1 ? 's' : '') : '') +
+          (moveCount ? (mineCount ? ' · ' : '') + '📦 ' + moveCount + ' move' + (moveCount !== 1 ? 's' : '') : '') +
+          (refineCount ? ((mineCount || moveCount) ? ' · ' : '') + '⚙ ' + refineCount + ' refine' + (refineCount !== 1 ? 's' : '') : '') +
+        '</span></div>' +
+      '<div class="colony-work-list">';
+
+    group.actions.forEach(function (action) {
+      if (action.kind === 'mine') {
+        var mineTotal = Math.max(0, Number(action.qty) || 0);
+        var mineRemaining = Math.max(0, mineTotal - miningProgressFor(action.item, mineTotal));
+        var mineBatchQty = Math.min(MINE_BATCH, mineRemaining);
+        var mineComplete = mineTotal > 0 && mineRemaining === 0;
+        var done = !!OBTAINED_DONE[action.item];
+        var pickHtml = action.sites && action.sites.length
+          ? '<div class="mine-picks"><span class="mine-picks-label">mine at</span>' +
+            action.sites.map(function (site) {
+              return '<button type="button" class="mine-pick' + (site === action.site ? ' active' : '') +
+                '" data-obtain-item="' + esc(action.item) + '" data-site="' + esc(site) +
+                '" aria-pressed="' + (site === action.site ? 'true' : 'false') + '">' + esc(site) + '</button>';
+            }).join('') + '</div>' : '';
+        var batchHtml = mineTotal > 0
+          ? renderMiningProgress(action.item, mineTotal, miningProgressFor(action.item, mineTotal), mineRemaining) +
+            (!mineComplete ? '<button type="button" class="mine-log obtain-batch progress-run" data-mine="' + encodeURIComponent(action.item) +
+              '" data-qty="' + mineBatchQty + '" data-mine-total="' + mineTotal + '">Record ' +
+              (mineBatchQty === mineRemaining ? 'final ' : 'next ') + fmt(mineBatchQty) + ' batch' + (mineBatchQty === 1 ? '' : 'es') + '</button>' : '')
+          : '';
+        html += '<div class="flow-card get colony-work-action' + (done ? ' done' : '') + '">' +
+          '<label class="transport-check"><input type="checkbox" class="obtain-cb" data-obtain-key="' + esc(action.item) + '"' + (done ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
+          '<div class="flow-card-body"><div class="flow-chip">' + iconFor(action.item) + '<span class="flow-name">Mine ' + esc(displayName(action.item)) + '</span><span class="flow-qty need">' + fmt(action.qty) + '</span></div>' +
+          '<div class="flow-need">mine at ' + esc(action.site) + '</div>' + pickHtml + batchHtml + '</div></div>';
+        return;
+      }
+
+      if (action.kind === 'move-batch') {
+        var batchKey = 'move-batch|' + action.colony + '|' + action.items.map(function (item) {
+          return item.kind + '|' + item.item + '|' + item.from + '|' + item.to;
+        }).join(';');
+        var legacyBatchDone = action.items.length > 0 && action.items.every(function (item) {
+          var legacyKey = item.kind === 'move-owned'
+            ? item.item + '|' + item.from
+            : item.kind + '|' + item.item + '|' + item.from + '|' + item.to;
+          return !!TRANSFERS_DONE[legacyKey];
+        });
+        var batchDone = !!TRANSFERS_DONE[batchKey] || legacyBatchDone;
+        var batchDetails = action.items.map(function (item) {
+          return '<span class="colony-work-move-item">' + iconFor(item.item) + ' ' +
+            esc(displayName(item.item)) + ' ×' + fmt(item.qty) + ' → ' + esc(item.to) + '</span>';
+        }).join('');
+        html += '<div class="flow-card move colony-work-action' + (batchDone ? ' done' : '') + '">' +
+          '<label class="transport-check"><input type="checkbox" class="transfer-cb" data-transfer-key="' + esc(batchKey) + '"' + (batchDone ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
+          '<div class="flow-card-body"><div class="flow-chip">📦<span class="flow-name">Move all cargo from ' + esc(action.colony) + '</span><span class="flow-qty owned">' + action.items.length + ' lot' + (action.items.length !== 1 ? 's' : '') + '</span></div>' +
+          '<div class="colony-work-move-items">' + batchDetails + '</div></div></div>';
+        return;
+      }
+
+      if (action.kind === 'refine') {
+        html += '<div class="colony-work-refine-card">' + stepCard(action.step || action) + '</div>';
+        return;
+      }
+
+      var moveKey = action.kind === 'move-owned'
+        ? action.item + '|' + action.from
+        : action.kind + '|' + action.item + '|' + action.from + '|' + action.to;
+      var moveDone = !!TRANSFERS_DONE[moveKey];
+      var moveLabel = action.kind === 'move-mined' ? 'After mining, move ' : action.kind === 'move-refined' ? 'Move refined ' : 'Move owned ';
+      html += '<div class="flow-card move colony-work-action' + (moveDone ? ' done' : '') + '">' +
+        '<label class="transport-check"><input type="checkbox" class="transfer-cb" data-transfer-key="' + esc(moveKey) + '"' + (moveDone ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
+        '<div class="flow-card-body"><div class="flow-chip">' + iconFor(action.item) + '<span class="flow-name">' + moveLabel + esc(displayName(action.item)) + '</span><span class="flow-qty owned">' + fmt(action.qty) + '</span></div>' +
+        '<div class="flow-need">' + esc(action.from) + ' → ' + esc(action.to) + '</div></div></div>';
+    });
+    html += '</div></div>';
+  });
   return html;
 }
 
@@ -966,7 +1101,7 @@ function renderCalcPaths() {
       // Same estimator the engine's pickAlternativeIndex uses (net of the 85%
       // owner return at active-faction colonies), so the
       // ★ cheapest label always matches the path the plan actually picks.
-      var net = (window.ENGINE && window.ENGINE.netPathCost) ? window.ENGINE.netPathCost(p.item, i, DESTINATION, {}, 0) : null;
+      var net = (window.ENGINE && window.ENGINE.netPathCost) ? window.ENGINE.netPathCost(p.item, i, REFINE_DESTINATION || DESTINATION, {}, 0) : null;
       if (net != null) return net;
       return estPathCost(p.item, i, 1, memo);
     });
@@ -1087,20 +1222,27 @@ function renderMiningProgress(item, total, done, remaining) {
 }
 
 function renderMiningPanel(plan) {
+  var mineDest = REFINE_DESTINATION || DESTINATION;
   var yields = [];
   DATA.mining_sites.forEach(function (s) {
-    if (s.location !== DESTINATION) return;
+    if (s.location !== mineDest) return;
     (s.yields || []).forEach(function (y) { if (yields.indexOf(y) === -1) yields.push(y); });
   });
   if (!yields.length) {
     return '<div class="mine-slots"><div class="mine-slots-head">⛏ Mining slots</div>' +
-      '<div class="muted mine-slots-none">' + esc(DESTINATION) + ' has no mine site — nothing to dig here while production runs.</div></div>';
+      '<div class="muted mine-slots-none">' + esc(mineDest) + ' has no mine site — nothing to dig here while refinement runs.</div></div>';
   }
 
   var acquire = (plan && plan.acquire) || {};
+  var planned = new Set(Object.keys(acquire));
+  yields = yields.filter(function (item) { return !planned.has(item); });
+  if (!yields.length) {
+    return '<div class="mine-slots"><div class="mine-slots-head">⛏ Additional mining slots</div>' +
+      '<div class="muted mine-slots-none">Planned mining is already organized in the per-colony visit queue above.</div></div>';
+  }
   var atDest = {};
   getInv().forEach(function (e) {
-    if (e.location === DESTINATION) atDest[e.item] = (atDest[e.item] || 0) + e.quantity;
+    if (e.location === mineDest) atDest[e.item] = (atDest[e.item] || 0) + e.quantity;
   });
 
   // What this plan still needs comes first — that's the mining worth doing now.
@@ -1147,8 +1289,8 @@ function renderMiningPanel(plan) {
   }).join('');
 
   return '<div class="mine-slots">' +
-    '<div class="mine-slots-head">⛏ Mining slots at ' + esc(DESTINATION) +
-      '<span class="mine-slots-hint">2 slots free while production runs · a full ' + MINE_BATCH +
+    '<div class="mine-slots-head">⛏ Additional mining slots at ' + esc(mineDest) +
+      '<span class="mine-slots-hint">2 slots free while refinement runs · a full ' + MINE_BATCH +
       ' costs about 25% less per unit than smaller pulls</span></div>' +
     rows +
     '<div class="mine-slots-foot muted">Player-facing mining log only — inventory and plan totals stay unchanged.</div>' +
@@ -1218,6 +1360,76 @@ function toggleSection(title) {
   }
 }
 
+function renderRouteSummary(plan) {
+  var builder = window.CMG_COLONY_WORK && window.CMG_COLONY_WORK.buildColonyWorkQueue;
+  var queue = typeof builder === 'function' ? builder(plan, OBTAIN_SITE) : [];
+  var sourceColonies = queue
+    .filter(function (group) {
+      return group.actions.some(function (action) {
+        if (action.kind === 'mine') return true;
+        if (action.kind !== 'move-batch') return false;
+        return action.items.some(function (move) {
+          return move.kind === 'move-owned' || move.kind === 'move-mined';
+        });
+      });
+    })
+    .map(function (group) { return group.colony; });
+  var moves = queue.flatMap(function (group) {
+    return group.actions.filter(function (action) { return action.kind === 'move-batch'; });
+  }).flatMap(function (action) { return action.items || []; });
+  var directRoutes = moves.filter(function (move) {
+    return move.to === DESTINATION && move.from !== REFINE_DESTINATION;
+  });
+  var hasRefinement = (plan.refine || []).length > 0;
+  var sourceLabel = sourceColonies.length
+    ? sourceColonies.join(', ')
+    : 'your current inventory';
+  var flow = [];
+  flow.push('<span><b>Obtain</b> materials at ' + esc(sourceLabel) + '.</span>');
+  if (hasRefinement && REFINE_DESTINATION !== DESTINATION) {
+    flow.push('<span><b>Refine</b> intermediates at ' + esc(REFINE_DESTINATION) + '.</span>');
+    flow.push('<span><b>Move</b> completed intermediates to ' + esc(DESTINATION) + '.</span>');
+  }
+  flow.push('<span><b>Manufacture</b> the final item at ' + esc(DESTINATION) + '.</span>');
+  var directHtml = directRoutes.length
+    ? '<div class="route-summary-direct"><b>Direct to production:</b> ' + directRoutes.map(function (move) {
+        return esc(displayName(move.item)) + ' · ' + esc(move.from) + ' → ' + esc(move.to);
+      }).join(' · ') + '</div>'
+    : '';
+  return '<section class="route-summary" aria-label="How this run flows">' +
+    '<div class="route-summary-title">How this run flows</div>' +
+    '<div class="route-summary-flow">' + flow.join('') + '</div>' +
+    directHtml +
+    '<p class="route-summary-note">The route cards below show each material\'s exact colony movement and quantity.</p>' +
+  '</section>';
+}
+
+function clearQuantityValidation() {
+  var input = document.getElementById('calc-qty');
+  var error = document.getElementById('calc-qty-error');
+  if (input) {
+    input.removeAttribute('aria-invalid');
+    if (typeof input.setCustomValidity === 'function') input.setCustomValidity('');
+  }
+  if (error) {
+    error.hidden = true;
+    error.textContent = '';
+  }
+}
+
+function showQuantityValidation(message) {
+  var input = document.getElementById('calc-qty');
+  var error = document.getElementById('calc-qty-error');
+  if (input) {
+    input.setAttribute('aria-invalid', 'true');
+    if (typeof input.setCustomValidity === 'function') input.setCustomValidity(message);
+  }
+  if (error) {
+    error.hidden = false;
+    error.textContent = message;
+  }
+}
+
 function renderPlan(item, qty, targetEl) {
   if (!FINAL_ITEMS.includes(item)) {
     targetEl.innerHTML = '<div class="card"><span class="shortfall">That is not a final item. The calculator is for end products (medkits, ammo, foams, etc.). It is produced as an intermediate of another recipe — compute that final item instead.</span></div>';
@@ -1237,7 +1449,7 @@ function renderPlan(item, qty, targetEl) {
   const planLedger = Object.assign({}, INV_TOTAL);
   let result, plan;
   try {
-    result = compute(item, qty, altChoices, Object.assign({}, planLedger), INV_LOCATIONS, DESTINATION, discounts);
+    result = compute(item, qty, altChoices, Object.assign({}, planLedger), INV_LOCATIONS, DESTINATION, discounts, REFINE_DESTINATION);
     plan = result.plan;
     if (targetEl && targetEl.id) LAST_PLANS[targetEl.id] = plan;
   } catch (e) {
@@ -1246,34 +1458,17 @@ function renderPlan(item, qty, targetEl) {
     return false;
   }
 
-  // ---- 1) TRANSPORT ----
-  const transportHtml = renderTransportSection(plan);
-
-  // ---- 2) ACQUIRE ----
-  const acquireHtml = '<div class="acquire-wrap">' + renderAcquireSection(plan) + '</div>';
+  // ---- 1) COLONY WORK QUEUE ----
+  const colonyWorkHtml = '<div class="colony-work-wrap">' + renderColonyWorkSection(plan) + '</div>';
 
   // ---- 3) PRODUCE ----
-  const refineHtml = plan.refine.length
-    ? plan.refine.map(s => stepCard(s)).join('')
-    : '';
   const manufactureHtml = plan.manufacture.map(s => stepCard(s, true)).join('');
-  const hasRefine = plan.refine.length > 0;
-  const manuStep = hasRefine ? 4 : 3;
 
   // Stock of the requested item no longer cancels the request — the plan always
   // makes the amount asked for — so this is now purely informational.
   const alreadyHave = INV_TOTAL[item] || 0;
   const dashboardHtml = renderMaterialDashboard(plan);
-  const statsHtml = `<details class="expert-details"><summary>Detailed costs, batches, and per-unit pricing</summary>${renderPlanStats(plan)}</details>`;
-  const beginnerCost = planCost(plan);
-  const beginnerAcquire = Object.values(plan.acquire).reduce((sum, row) => sum + row.qty, 0);
-  const beginnerSteps = plan.refine.length + plan.manufacture.length;
-  const beginnerHtml = `<section class="beginner-summary" aria-label="Plan at a glance">
-    <div><span class="eyebrow">Plan at a glance</span><h3>${fmt(qty)} × ${esc(displayName(item))} at ${esc(DESTINATION)}</h3></div>
-    <div class="beginner-kpis"><span><b>${fmt(beginnerAcquire)}</b> material units to obtain</span><span><b>${fmt(beginnerSteps)}</b> production steps</span><span><b>${fmtUC(beginnerCost.grand)}</b> Estimated investment</span></div>
-    <div class="beginner-next"><b>What to do next</b><span>1. Obtain missing materials</span><span>2. Refine intermediates</span><span>3. Manufacture the final item</span></div>
-    <details><summary>What do these numbers mean?</summary><p>Investment is the estimated up-front spend. Cost per unit divides the plan's actual costs by output. When your selected faction owns a mining or production colony, 85% of the pre-tax spend returns to that faction. The remaining 15% goes to the Global Dominion; the displayed 50/50 FDC/LED allocation is an assumption.</p></details>
-  </section>`;
+  const statsHtml = renderPlanStats(plan);
 
   const drugRef = (DATA.drugs || []).find(d => d.name === item);
   const drugPlanHtml = drugRef ? `
@@ -1285,35 +1480,37 @@ function renderPlan(item, qty, targetEl) {
     </div>` : '';
 
   targetEl.innerHTML = `
-    <div class="plan-summary">
-      <div class="plan-summary-main">
+    <div class="plan-summary single-head">
+      <div class="single-head-kicker">Production plan</div>
+      <div class="single-head-main">
         <span class="plan-summary-icon">${iconFor(item)}</span>
         <span class="plan-summary-title">${esc(displayName(item))}</span>
         <span class="plan-summary-qty">× ${fmt(qty)}</span>
-        <span class="plan-summary-arrow">→</span>
-        <span class="plan-summary-dest">${esc(DESTINATION)}</span>
       </div>
+      <div class="single-head-route">
+        <span class="single-head-badge">Manufacture at ${esc(DESTINATION)}</span>
+        ${REFINE_DESTINATION !== DESTINATION ? `<span class="single-head-badge refine">Refine at ${esc(REFINE_DESTINATION)}</span>` : ''}
+      </div>
+      <div class="single-head-note">${fmt(plan.refine.length)} refinement · ${fmt(plan.manufacture.length)} manufacture action${plan.manufacture.length === 1 ? '' : 's'} · follow the colony itinerary below</div>
     </div>
     <div class="card plan">
       <div class="plan-hero-note${alreadyHave > 0 ? ' has-stock' : ''}">${alreadyHave > 0
         ? 'Holding <b>' + fmt(alreadyHave) + '</b> · plan makes <b>' + fmt(qty) + '</b> more → <b>' + fmt(alreadyHave + qty) + '</b> total. Existing stock is left alone.'
-        : 'This plan produces <b>' + fmt(qty) + '</b>.'}</div>
-      ${beginnerHtml}
+        : 'This production run makes <b>' + fmt(qty) + ' × ' + esc(displayName(item)) + '</b>.'}</div>
+      ${statsHtml}
+      ${renderRouteSummary(plan)}
       ${decisionSummary(plan)}
       ${drugPlanHtml}
       ${showTheMathPanel(plan)}
-      ${statsHtml}
       ${renderColonyCompare({
         items: [{ item, qty }], chosen: altChoices, ledger: planLedger,
-        invLoc: INV_LOCATIONS, discounts, dest: DESTINATION,
+        invLoc: INV_LOCATIONS, discounts, dest: DESTINATION, refineDest: REFINE_DESTINATION,
       })}
       <div id="calc-paths" class="calc-paths" hidden></div>
       ${dashboardHtml}
 
-      ${planSection('move', 1, 'Move owned stock to ' + esc(DESTINATION), transportHtml)}
-      ${planSection('obtain', 2, 'Obtain missing materials', acquireHtml)}
-      ${hasRefine ? planSection('refine', 3, 'Refinement at ' + esc(DESTINATION), refineHtml) : ''}
-      ${planSection('manufacture', manuStep, 'Manufacture at ' + esc(DESTINATION),
+      ${planSection('colony-work', 1, 'Visit, mine, move & refine by colony', colonyWorkHtml)}
+      ${planSection('manufacture', 2, 'Manufacture at ' + esc(DESTINATION),
         (drugRef ? `<div class="prod-code"><span class="prod-code-label">Production Code</span><span class="prod-code-val">${esc(String(drugRef.code))}</span><span class="prod-code-power"><span class="prod-code-label">Power</span><span class="tag tier-${esc(String(drugRef.tier || '').toLowerCase())}">${esc(drugRef.tier)}</span></span></div>` : '') + manufactureHtml)}
       ${renderMiningPanel(plan)}
       ${planApplied
@@ -1336,16 +1533,28 @@ function renderPlan(item, qty, targetEl) {
 function runCalculator() {
   const options = arguments[0] || {};
   const item = document.getElementById('calc-item').value.trim();
-  const qty = Math.max(1, parseInt(document.getElementById('calc-qty').value, 10) || 1);
+  const qtyInput = document.getElementById('calc-qty');
+  const rawQty = String(qtyInput?.value ?? '').trim();
+  const parsedQty = Number(rawQty);
   const out = document.getElementById('calc-result');
   document.getElementById('calc-result').classList.remove('multi');
   document.getElementById('calc-multi').innerHTML = '';
   getDestination(); // sync from input
+  getRefineDestination(); // sync from input
   if (!item || !ALL_ITEMS.has(item)) {
+    clearQuantityValidation();
     out.innerHTML = '<div class="card"><span class="shortfall">Select a valid item from the list.</span></div>';
     window.CMG_VALUE_TRANSITION?.announce({ item: 'Production plan', quantity: 1, result: out });
     return;
   }
+  if (!Number.isInteger(parsedQty) || parsedQty < 1) {
+    showQuantityValidation('Quantity must be a whole number of at least 1. Your previous plan was not updated.');
+    out.innerHTML = '<div class="card calculation-error" role="alert"><span class="shortfall">Enter a whole-number quantity of 1 or more, then calculate again.</span></div>';
+    LAST_PLANS['calc-result'] = null;
+    return;
+  }
+  clearQuantityValidation();
+  const qty = parsedQty;
   if (!options.preserveChecklist) resetChecklistForCalculation();
   // Plan from scratch = empty ledger, ignore inventory (engine mirror too,
   // so alternative-path auto-picking also sees an empty inventory)
@@ -1471,7 +1680,7 @@ function runMultiPlan(options) {
   const discounts = getDiscounts();
   let result, plan;
   try {
-    result = compute(CALC_TRAY, ALTERNATIVE_CHOICES, ledger, invLoc, DESTINATION, discounts);
+    result = compute(CALC_TRAY, ALTERNATIVE_CHOICES, ledger, invLoc, DESTINATION, discounts, REFINE_DESTINATION);
     plan = result.plan;
     LAST_PLANS['calc-multi'] = plan;
   } catch (e) {
@@ -1483,7 +1692,7 @@ function runMultiPlan(options) {
     return;
   }
 
-  let html = `<div class="multi-head">Combined production plan · ${CALC_TRAY.length} item(s) → ${esc(DESTINATION)}</div>`;
+  let html = `<div class="multi-head">Combined production plan · ${CALC_TRAY.length} item(s) → ${esc(DESTINATION)}${REFINE_DESTINATION !== DESTINATION ? ' · refine at ' + esc(REFINE_DESTINATION) : ''}</div>`;
 
   // Dashboard + stats for combined plan
   const statsHtml = renderPlanStats(plan);
@@ -1493,22 +1702,18 @@ function runMultiPlan(options) {
   html += decisionSummary(plan);
   html += renderColonyCompare({
     items: CALC_TRAY, chosen: ALTERNATIVE_CHOICES, ledger: specLedger, invLoc,
-    discounts, dest: DESTINATION,
+    discounts, dest: DESTINATION, refineDest: REFINE_DESTINATION,
   });
   // The shared picker renderer needs a mount point in combined plans too.
   // Without it, renderCalcPaths() exits after the single-plan result is cleared.
   html += '<div id="calc-paths" class="calc-paths" hidden></div>';
   if (dashboardHtml) html += dashboardHtml;
 
-  // ---- Sections (combined) — same 4 collapsible steps as the single plan ----
-  const mTransport = renderTransportSection(plan);
-  const mAcquire = '<div class="acquire-wrap">' + renderAcquireSection(plan) + '</div>';
-  const mRefine = plan.refine.length ? plan.refine.map(s => stepCard(s)).join('') : '<div class="muted">No intermediates to refine.</div>';
+  // ---- Sections (combined) — one itinerary, then refinement and manufacture ----
+  const mColonyWork = '<div class="colony-work-wrap">' + renderColonyWorkSection(plan) + '</div>';
   const mManufacture = plan.manufacture.length ? plan.manufacture.map(s => stepCard(s, true)).join('') : '<div class="muted">No manufacturing step.</div>';
-  html += planSection('move', 1, 'Move owned stock to ' + esc(DESTINATION), mTransport);
-  html += planSection('obtain', 2, 'Obtain missing materials', mAcquire);
-  html += planSection('refine', 3, 'Refinement at ' + esc(DESTINATION), mRefine);
-  html += planSection('manufacture', 4, 'Manufacture at ' + esc(DESTINATION), mManufacture);
+  html += planSection('colony-work', 1, 'Visit, mine, move & refine by colony', mColonyWork);
+  html += planSection('manufacture', 2, 'Manufacture at ' + esc(DESTINATION), mManufacture);
   html += renderMiningPanel(plan);
 
   out.innerHTML = html;
@@ -1553,6 +1758,7 @@ function saveCurrentPlan() {
   plan.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   plan.name = name;
   plan.dest = DESTINATION;
+  plan.refineDest = REFINE_DESTINATION;
   plan.created_at = Date.now();
   SAVED_PLANS.unshift(plan);
   saveSavedPlans();
@@ -1565,6 +1771,12 @@ function loadSavedPlan(id) {
   if (!p) return;
   const destSel = document.getElementById('calc-dest');
   if (destSel && p.dest) { destSel.value = p.dest; DESTINATION = p.dest; window.ENGINE.DESTINATION = p.dest; }
+  const refineSel = document.getElementById('calc-refine-dest');
+  const savedRefineDest = p.refineDest || p.dest || DESTINATION;
+  if (refineSel) refineSel.value = savedRefineDest;
+  REFINE_DESTINATION = savedRefineDest;
+  REFINE_DESTINATION_EXPLICIT = !!p.refineDest;
+  saveDestination();
   if (p.kind === 'tray') {
     CALC_TRAY = p.tray.map(t => ({ item: t.item, qty: t.qty }));
     saveTray(); renderTray(); runMultiPlan();

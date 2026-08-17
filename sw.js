@@ -1,4 +1,4 @@
-const CACHE = 'er-v0.2.12';
+const CACHE = 'er-v0.2.24';
 // SHELL is the install-time precache: only assets the app needs immediately
 // to render and calculate. Optional 3D/chart payloads (three.js, the R3F
 // workbench bundle, Chart.js, and the model manifest) are intentionally NOT
@@ -27,6 +27,7 @@ const SHELL = [
   './data/icon_hashes.json',
   './icons/icon_catalog.json',
   './src/app-core.js',
+  './src/colony-work.js',
   './src/ui/motion.js',
   './src/ui/value-transition.js',
   './src/ui/r3f-loader.js',

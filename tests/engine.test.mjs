@@ -60,6 +60,114 @@ describe('verified armor recipe inputs', () => {
   }
 });
 
+describe('separate refinement and production destinations', () => {
+  it('refines intermediates at DMC and manufactures the final at Paris', () => {
+    setTestInv({}, {});
+    const result = compute(
+      'Pythica Durable Battle Shoulder Pads',
+      1,
+      {}, {}, {},
+      'Paris',
+      { prod: 0, mine: 0, trans: 0 },
+      "DeMorgan's Castle",
+    );
+    assert.equal(result.plan.destination, 'Paris');
+    assert.equal(result.plan.refineDestination, "DeMorgan's Castle");
+    assert.equal(result.plan.finalTransport['titanium syntactic foam'], 2);
+    assert.equal(result.plan.finalTransport.textiles, 2);
+    assert.equal(result.plan.finalTransport.vanadium, undefined);
+    assert.equal(result.plan.acquire.vanadium.to, 'Paris');
+    assert.ok(result.plan.refine.length > 0, 'the recipe must have refinement steps');
+    assert.ok(result.plan.refine.every(step => step.location === "DeMorgan's Castle"));
+    assert.ok(result.plan.manufacture.every(step => step.location === 'Paris'));
+  });
+
+  it('applies refined intermediates at DMC before moving final inputs to Paris', () => {
+    reset();
+    setPlayerInv([
+      { item: 'bauxite', location: "DeMorgan's Castle", quantity: 10 },
+      { item: 'titanium', location: "DeMorgan's Castle", quantity: 10 },
+      { item: 'chrome', location: "DeMorgan's Castle", quantity: 10 },
+      { item: 'Chemical Substances', location: "DeMorgan's Castle", quantity: 10 },
+      { item: 'organic material', location: "DeMorgan's Castle", quantity: 10 },
+      { item: 'water', location: "DeMorgan's Castle", quantity: 10 },
+      { item: 'vanadium', location: "DeMorgan's Castle", quantity: 10 },
+    ]);
+    const result = compute(
+      'Pythica Durable Battle Shoulder Pads',
+      1,
+      {}, {}, {},
+      'Paris',
+      { prod: 0, mine: 0, trans: 0 },
+      "DeMorgan's Castle",
+    );
+    applyPlan(result, 'Paris');
+    const inv = getPlayerInv();
+    const at = (item, location) => inv
+      .filter(entry => entry.item === item && entry.location === location)
+      .reduce((sum, entry) => sum + entry.quantity, 0);
+    assert.equal(at('Pythica Durable Battle Shoulder Pads', 'Paris'), 3);
+    assert.equal(at('Pythica Durable Battle Shoulder Pads', "DeMorgan's Castle"), 0);
+    assert.equal(at('titanium syntactic foam', "DeMorgan's Castle"), 1, 'refinement surplus stays at DMC');
+  });
+
+  it('moves inputs for every final item in a combined DMC-to-Paris plan', () => {
+    reset();
+    setPlayerInv([
+      { item: 'iron', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'chrome', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'chemicals', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'bauxite', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'titanium', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'Chemical Substances', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'organic material', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'water', location: "DeMorgan's Castle", quantity: 20 },
+      { item: 'vanadium', location: "DeMorgan's Castle", quantity: 20 },
+    ]);
+    const result = compute(
+      [
+        { item: 'Aurelian Technologies Bio Rounds', qty: 4 },
+        { item: 'Pythica Durable Battle Shoulder Pads', qty: 1 },
+      ],
+      {}, null, null,
+      'Paris',
+      { prod: 0, mine: 0, trans: 0 },
+      "DeMorgan's Castle",
+    );
+    const log = applyPlan(result, 'Paris');
+    const inv = getPlayerInv();
+    const at = (item, location) => inv
+      .filter(entry => entry.item === item && entry.location === location)
+      .reduce((sum, entry) => sum + entry.quantity, 0);
+    assert.equal(at('Aurelian Technologies Bio Rounds', 'Paris'), 4);
+    assert.equal(at('Pythica Durable Battle Shoulder Pads', 'Paris'), 3);
+    assert.ok(!log.some(line => line.includes('assumed mined')), 'all stocked final inputs should transfer cleanly');
+  });
+
+  it('routes a stocked final-only intermediate directly from Manhattan to Paris', () => {
+    reset();
+    setPlayerInv([
+      { item: 'titanium syntactic foam', location: 'Manhattan', quantity: 2 },
+    ]);
+    const result = compute(
+      'Pythica Durable Battle Shoulder Pads',
+      1,
+      {},
+      { 'titanium syntactic foam': 2 },
+      { 'titanium syntactic foam': [{ location: 'Manhattan', qty: 2 }] },
+      'Paris',
+      { prod: 0, mine: 0, trans: 0 },
+      "DeMorgan's Castle",
+    );
+    const moved = result.plan.transport['titanium syntactic foam'];
+    assert.equal(moved.to, 'Paris');
+    assert.deepEqual(moved.from, ['Manhattan']);
+    assert.equal(result.plan.finalTransport['titanium syntactic foam'], undefined);
+    const log = applyPlan(result, 'Paris');
+    assert.ok(!log.some(line => line.includes('assumed mined') && line.includes('titanium syntactic foam')));
+  });
+});
+
 
 describe('player selection state', () => {
   it('selects a remote player when no active player exists', () => {

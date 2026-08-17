@@ -24,7 +24,7 @@ const WORKSPACE_SUPPORTED_SCHEMA_VERSIONS = [1, WORKSPACE_SCHEMA_VERSION];
 const WORKSPACE_TYPE = 'empire-rising-workspace';
 const WORKSPACE_KEYS = [
   'cmg_players_v1', 'cmg_paths_v1', 'er_colony_world_v2', 'cmg_colony_tax_v1',
-  'cmg_destination', 'cmg_obtain_site_v1', 'cmg_transport_source_v1',
+  'cmg_destination', 'cmg_refine_destination', 'cmg_obtain_site_v1', 'cmg_transport_source_v1',
   'cmg_slot_levels_v1', 'cmg_toggles_', 'cmg_boosters_', 'cmg_medikit_',
   'cmg_medikit_toggle', 'cmg_gearsets_migrated_v1', 'cmg_inv_migrated_v1',
   'cmg_auto_collapsed_v1', 'cmg_collapsed_sections_v1', 'cmg_produce_done_v1',
@@ -32,7 +32,7 @@ const WORKSPACE_KEYS = [
   'cmg_muted_v1',
 ];
 const WORKSPACE_RAW_KEYS = [
-  'cmg_destination', 'cmg_medikit_', 'cmg_medikit_toggle',
+  'cmg_destination', 'cmg_refine_destination', 'cmg_medikit_', 'cmg_medikit_toggle',
   'cmg_gearsets_migrated_v1', 'cmg_inv_migrated_v1',
 ];
 
@@ -368,7 +368,12 @@ function importWorkspace(snapshot) {
     }
     throw new Error(`Workspace import failed; changes rolled back: ${cause.message}`);
   }
-  PLAYERS = migrated.storage[LS_KEY] ? normalizePlayerState(JSON.parse(migrated.storage[LS_KEY])) : loadPlayers();
+  const nextPlayers = migrated.storage[LS_KEY] ? normalizePlayerState(JSON.parse(migrated.storage[LS_KEY])) : loadPlayers();
+  // Keep the object identity stable: app-core and view modules retain a reference
+  // to S.PLAYERS, so replacing the object would leave them rendering stale state
+  // after a valid workspace import.
+  Object.keys(PLAYERS).forEach(key => { if (!(key in nextPlayers)) delete PLAYERS[key]; });
+  Object.assign(PLAYERS, nextPlayers);
   ensureActivePlayer();
   recomputeInv();
   return exportWorkspace();

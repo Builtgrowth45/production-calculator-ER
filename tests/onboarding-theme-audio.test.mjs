@@ -27,11 +27,11 @@ describe('first-run calculator experience', () => {
     assert.match(player, /playerbar\) playerbar\.hidden\s*=\s*names\.length\s*===\s*0/);
   });
 
-  it('shows a beginner summary and focuses successful single-plan results', () => {
-    assert.match(app, /class="beginner-summary"/);
-    assert.match(app, /Estimated investment/);
-    assert.match(app, /What to do next/);
-    assert.match(app, /class="expert-details"/);
+  it('shows the rich single-plan stats and focuses successful results', () => {
+    assert.match(app, /const statsHtml = renderPlanStats\(plan\)/);
+    assert.match(core, /class="plan-top"/);
+    assert.match(core, /renderPerUnitPricing\(plan\)/);
+    assert.match(app, /How this run flows/);
     assert.match(app, /out\.scrollIntoView\(\{ behavior: 'smooth', block: 'start' \}\)/);
     assert.match(app, /out\.focus\(\{ preventScroll: true \}\)/);
   });
@@ -54,6 +54,17 @@ describe('theme and settings system', () => {
     assert.match(css, /\[data-theme="pride"\] \.pick-card\s*\{[^}]*background(?:-color)?:\s*var\(--panel2\)/s);
     assert.match(css, /\[data-theme="pride"\] button\s*\{[^}]*background(?:-color)?:\s*var\(--panel\)/s);
     assert.match(css, /\[data-theme="pride"\] \*\s*\{[^}]*animation:\s*none/s);
+  });
+  it('makes text-size adjustment easy to drag, tap, and operate by keyboard', () => {
+    assert.match(html, /id="size-decrease"/);
+    assert.match(html, /id="size-increase"/);
+    assert.match(html, /<output[^>]*id="size-label"/);
+    assert.match(init, /size-decrease/);
+    assert.match(init, /size-increase/);
+    assert.match(core, /function adjustFontScale\(delta\)/);
+    assert.match(css, /\.size-slider input\[type="range"\][\s\S]*width:\s*clamp\(/s);
+    assert.match(css, /\.size-slider input\[type="range"\][\s\S]*height:\s*2rem/s);
+    assert.match(css, /::-webkit-slider-thumb[\s\S]*width:\s*22px/s);
   });
 });
 

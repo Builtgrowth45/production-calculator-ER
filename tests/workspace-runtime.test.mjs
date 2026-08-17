@@ -40,18 +40,30 @@ describe('workspace snapshot runtime', () => {
     S.setPlayerFaction('Chris', 'CMG');
     localStorage.setItem('er_colony_world_v2', JSON.stringify({ schema_version: 2, owner: { Paris: 'CMG' }, tax: { Paris: 15 } }));
     localStorage.setItem('cmg_destination', 'Paris');
+    localStorage.setItem('cmg_refine_destination', "DeMorgan's Castle");
 
     const snapshot = S.exportWorkspace();
     assert.equal(snapshot.type, 'empire-rising-workspace');
     assert.equal(snapshot.schema_version, 2);
     assert.equal(snapshot.storage.cmg_destination, 'Paris');
+    assert.equal(snapshot.storage.cmg_refine_destination, "DeMorgan's Castle");
 
     localStorage._data = { cmg_destination: 'Berlin' };
     S.importWorkspace(snapshot);
     assert.equal(localStorage.getItem('cmg_destination'), 'Paris');
+    assert.equal(localStorage.getItem('cmg_refine_destination'), "DeMorgan's Castle");
     assert.equal(S.PLAYERS.active, 'Chris');
     assert.equal(S.getActiveFaction(), 'CMG');
     assert.deepEqual(S.getInv(), [{ item: 'coal', location: 'Andromeda', quantity: 84 }]);
+  });
+
+  it('keeps the public player object identity stable across workspace imports', () => {
+    S.importPlayer('Imported', []);
+    const playersRef = S.PLAYERS;
+    const snapshot = S.exportWorkspace();
+    S.importWorkspace(snapshot);
+    assert.equal(S.PLAYERS, playersRef);
+    assert.equal(S.PLAYERS.active, 'Imported');
   });
 
   it('imports the older supported schema through migration', () => {

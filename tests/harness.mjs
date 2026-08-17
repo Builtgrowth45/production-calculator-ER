@@ -58,7 +58,8 @@ const engine = require(join(siteDir, 'src', 'engine.js'));  // window.ENGINE
 const { esc, fmt } = engine;
 
 function applyPlan(res, dest) {
-  dest = dest || engine.DESTINATION || 'Berlin';
+  const finalDest = dest || res.plan.destination || engine.DESTINATION || 'Berlin';
+  const refineDest = res.plan.refineDestination || finalDest;
   const inv = window.STORE.getInv().slice();
   const log = [];
 
@@ -76,29 +77,47 @@ function applyPlan(res, dest) {
     else inv.push({ item, location, quantity: qty });
   }
 
+  function availableAt(item, location) {
+    return inv.filter(e => e.item === item && e.location === location)
+      .reduce((sum, e) => sum + e.quantity, 0);
+  }
+
   // 1) Transport owned stock to destination
   Object.entries(res.plan.transport).forEach(([item, info]) => {
     let need = info.qty;
+    const target = info.to || refineDest;
     info.from.forEach(loc => {
       if (need <= 0) return;
       const take = deductAt(item, loc, need);
       need -= take;
     });
-    addAt(item, dest, info.qty);
-    log.push(`Moved ${fmt(info.qty)} ${esc(item)} → ${esc(dest)}`);
+    addAt(item, target, info.qty);
+    log.push(`Moved ${fmt(info.qty)} ${esc(item)} → ${esc(target)}`);
   });
 
   // 2) Process steps in build order (raws first — engine guarantees this)
+  let previousLocation = refineDest;
   res.plan.steps.forEach(step => {
-    addAt(step.item, dest, step.produced);
-    log.push(`${step.type === 'manufacture' ? 'Manufactured' : 'Refined'} ${fmt(step.produced)} ${esc(step.item)} at ${esc(dest)}`);
-    (step.resolvedInputs || []).forEach(inp => {
-      const taken = deductAt(inp.item, dest, inp.qty);
+    const location = step.location || finalDest;
+    const inputs = step.resolvedInputs || [];
+    const transferSource = location === refineDest ? previousLocation : refineDest;
+    if (transferSource !== location) {
+      inputs.forEach(inp => {
+        const needAtSource = Math.max(0, inp.qty - availableAt(inp.item, location));
+        const moved = deductAt(inp.item, transferSource, needAtSource);
+        if (moved > 0) addAt(inp.item, location, moved);
+      });
+    }
+    addAt(step.item, location, step.produced);
+    log.push(`${step.type === 'manufacture' ? 'Manufactured' : 'Refined'} ${fmt(step.produced)} ${esc(step.item)} at ${esc(location)}`);
+    inputs.forEach(inp => {
+      const taken = deductAt(inp.item, location, inp.qty);
       const shortfall = inp.qty - taken;
       if (shortfall > 0) {
-        log.push(`⚠ assumed mined: ${fmt(shortfall)}× ${esc(inp.item)} (not at ${esc(dest)})`);
+        log.push(`⚠ assumed mined: ${fmt(shortfall)}× ${esc(inp.item)} (not at ${esc(location)})`);
       }
     });
+    previousLocation = location;
   });
 
   window.STORE.setInv(inv);

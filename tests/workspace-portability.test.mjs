@@ -29,6 +29,18 @@ describe('portable public workspace', () => {
     assert.match(init, /S\.exportWorkspace|S\.importWorkspace/);
   });
 
+  it('exports a workspace with a player/entry summary and timestamp in the filename', () => {
+    assert.match(player, /function workspaceExportFilename\(\)/);
+    assert.match(init, /downloadJSON\(S\.exportWorkspace\(\), workspaceExportFilename\(\)\)/);
+    assert.match(player, /empire-rising-workspace-/);
+    assert.match(player, /toISOString/);
+  });
+
+  it('skips the first-run tutorial after a complete workspace import', () => {
+    assert.match(init, /S\.importWorkspace\(JSON\.parse\(reader\.result\)\)/);
+    assert.match(init, /S\.importWorkspace\(JSON\.parse\(reader\.result\)\)[\s\S]*dismissCalcGuide\(\{ focus: false \}\)[\s\S]*refreshAll\(\)/);
+  });
+
   it('preserves legacy inventory-only imports', () => {
     assert.match(player, /Array\.isArray\(obj\).*obj\.inventory|obj\.inventory/);
   });

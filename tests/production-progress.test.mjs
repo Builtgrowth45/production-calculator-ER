@@ -50,6 +50,24 @@ describe('production batch progress tracker', () => {
     assert.match(coreSrc, /progress-complete/);
   });
 
+  it('collapses a recipe card when its checklist checkbox is checked and restores it when unchecked', () => {
+    const start = appSrc.indexOf('function toggleProduceCheck(');
+    const end = appSrc.indexOf('window.toggleProduceCheck', start);
+    const toggleSrc = appSrc.slice(start, end);
+    assert.match(toggleSrc, /card\.classList\.add\('progress-complete'\)/);
+    assert.match(toggleSrc, /card\.classList\.remove\('progress-complete'\)/);
+    assert.match(stylesSrc, /\.recipe-card\.progress-complete \.recipe-flow\s*\{\s*display:\s*none/);
+  });
+
+  it('synchronizes checkbox completion with the recipe batch progress total', () => {
+    const start = appSrc.indexOf('function toggleProduceCheck(');
+    const end = appSrc.indexOf('window.toggleProduceCheck', start);
+    const toggleSrc = appSrc.slice(start, end);
+    assert.match(toggleSrc, /PRODUCTION_PROGRESS\[.*\]\s*=\s*total/);
+    assert.match(toggleSrc, /delete PRODUCTION_PROGRESS\[/);
+    assert.match(toggleSrc, /updateProductionProgressCard\(card/);
+  });
+
   it('compacts completed mining and moving rows without removing their item chip', () => {
     assert.match(appSrc, /flow-card move' \+ \(done \? ' done' : ''\)/);
     assert.match(appSrc, /flow-card get' \+ \(done \? ' done' : ''\)/);

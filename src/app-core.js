@@ -5,7 +5,7 @@
  * Loaded BEFORE app.js and all view files. All declarations are top-level.
  *
  * Provides: DATA, tooltipEl, engine aliases (esc, fmt, displayName, iconFor, …),
- *           PLAYERS, DESTINATION, INV_TOTAL, INV_LOCATIONS, getDiscounts,
+ *           PLAYERS, DESTINATION, REFINE_DESTINATION, INV_TOTAL, INV_LOCATIONS, getDiscounts,
  *           applyPlan, renderItemOptions, refreshAll, populateDestinations
  */
 'use strict';
@@ -55,6 +55,8 @@ const {
 // Global declarations — engine.js and store.js use IIFEs, so these MUST be declared here
 const DATA = window.GAME_DATA;
 let DESTINATION = window.ENGINE.DESTINATION;
+let REFINE_DESTINATION = DESTINATION;
+let REFINE_DESTINATION_EXPLICIT = false;
 
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -144,40 +146,82 @@ function storageList() {
 
 function populateDestinations() {
   const sel = document.getElementById('calc-dest');
-  if (!sel) return;
-  const prev = sel.value;
-  sel.innerHTML = '';
   let colonies = colonyList();
-  colonies.forEach(c => {
-    const o = document.createElement('option');
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
-  });
+  if (sel) {
+    sel.innerHTML = '';
+    colonies.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+  }
   // Select saved destination or default to Berlin
   const target = DESTINATION && colonies.includes(DESTINATION) ? DESTINATION : 'Berlin';
-  if (colonies.includes(target)) sel.value = target;
+  if (sel && colonies.includes(target)) sel.value = target;
   DESTINATION = target;
+
+  const refineSel = document.getElementById('calc-refine-dest');
+  if (refineSel) {
+    refineSel.innerHTML = '';
+    colonies.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      refineSel.appendChild(o);
+    });
+    const refineTarget = REFINE_DESTINATION && colonies.includes(REFINE_DESTINATION)
+      ? REFINE_DESTINATION : target;
+    refineSel.value = refineTarget;
+    REFINE_DESTINATION = refineTarget;
+  } else {
+    REFINE_DESTINATION = REFINE_DESTINATION && colonies.includes(REFINE_DESTINATION)
+      ? REFINE_DESTINATION : target;
+  }
 }
 function getDestination() {
   const el = document.getElementById('calc-dest');
   if (el && el.value) DESTINATION = el.value;
+  if (!REFINE_DESTINATION_EXPLICIT) {
+    REFINE_DESTINATION = DESTINATION;
+    const refineEl = document.getElementById('calc-refine-dest');
+    if (refineEl) refineEl.value = REFINE_DESTINATION;
+  }
   saveDestination();
   // The tax summary quotes the destination's rate, so it has to follow it.
   if (typeof updateColonyTaxNote === 'function') updateColonyTaxNote();
   return DESTINATION;
 }
+function getRefineDestination() {
+  const el = document.getElementById('calc-refine-dest');
+  if (el && el.value) REFINE_DESTINATION = el.value;
+  REFINE_DESTINATION_EXPLICIT = true;
+  saveDestination();
+  return REFINE_DESTINATION;
+}
 function loadDestination() {
   const skip = new Set(['apartment', 'xenomorph hunt (capped on kills)']);
-  try { const v = localStorage.getItem('cmg_destination'); if (v && !skip.has(v.toLowerCase())) DESTINATION = v; } catch(e) {}
+  try {
+    const v = localStorage.getItem('cmg_destination');
+    const r = localStorage.getItem('cmg_refine_destination');
+    if (v && !skip.has(v.toLowerCase())) DESTINATION = v;
+    if (r && !skip.has(r.toLowerCase())) {
+      REFINE_DESTINATION = r;
+      REFINE_DESTINATION_EXPLICIT = true;
+    } else {
+      REFINE_DESTINATION = DESTINATION;
+      REFINE_DESTINATION_EXPLICIT = false;
+    }
+  } catch(e) {}
   populateDestinations();
 }
 function saveDestination() {
   try { localStorage.setItem('cmg_destination', DESTINATION); } catch(e) {}
+  try { localStorage.setItem('cmg_refine_destination', REFINE_DESTINATION); } catch(e) {}
 }
 loadDestination();
 
 function applyPlan(res, dest) {
-  dest = dest || DESTINATION;
+  const finalDest = dest || res.plan.destination || DESTINATION;
+  const refineDest = res.plan.refineDestination || finalDest;
   const inv = getInv().slice();
   const log = [];
 
@@ -198,33 +242,55 @@ function applyPlan(res, dest) {
     else inv.push({ item, location, quantity: qty });
   }
 
+  function availableAt(item, location) {
+    return inv.filter(e => e.item === item && e.location === location)
+      .reduce((sum, e) => sum + e.quantity, 0);
+  }
+
   // 1) Transport: deduct from source colonies, add to destination
   Object.entries(res.plan.transport).forEach(([item, info]) => {
     let need = info.qty;
+    const target = info.to || refineDest;
     info.from.forEach(loc => {
       if (need <= 0) return;
       const take = deductAt(item, loc, need);
       need -= take;
     });
-    addAt(item, dest, info.qty);
-    log.push(`Moved ${fmt(info.qty)} ${esc(item)} → ${esc(dest)}`);
+    addAt(item, target, info.qty);
+    log.push(`Moved ${fmt(info.qty)} ${esc(item)} → ${esc(target)}`);
   });
 
   // 2) Process steps in build order (raws first, finals last).
   // The engine now returns steps in correct build order.
+  let previousLocation = refineDest;
   res.plan.steps.forEach(step => {
+    const location = step.location || finalDest;
+    const inputs = step.resolvedInputs || [];
+
+    // Refinements happen at refineDest, then the intermediate outputs and any
+    // direct inputs travel to the final production colony before manufacture.
+    const transferSource = location === refineDest ? previousLocation : refineDest;
+    if (transferSource !== location) {
+      inputs.forEach(inp => {
+        const needAtSource = Math.max(0, inp.qty - availableAt(inp.item, location));
+        const moved = deductAt(inp.item, transferSource, needAtSource);
+        if (moved > 0) addAt(inp.item, location, moved);
+      });
+    }
+
     // Add the produced output
-    addAt(step.item, dest, step.produced);
-    log.push(`${step.type === 'manufacture' ? 'Manufactured' : 'Refined'} ${fmt(step.produced)} ${esc(step.item)} at ${esc(dest)}`);
+    addAt(step.item, location, step.produced);
+    log.push(`${step.type === 'manufacture' ? 'Manufactured' : 'Refined'} ${fmt(step.produced)} ${esc(step.item)} at ${esc(location)}`);
 
     // Deduct inputs using resolvedInputs (respects the chosen refinement path)
-    (step.resolvedInputs || []).forEach(inp => {
-      const taken = deductAt(inp.item, dest, inp.qty);
+    inputs.forEach(inp => {
+      const taken = deductAt(inp.item, location, inp.qty);
       const shortfall = inp.qty - taken;
       if (shortfall > 0) {
-        log.push(`⚠ assumed mined: ${fmt(shortfall)}× ${esc(inp.item)} (not at ${esc(dest)})`);
+        log.push(`⚠ assumed mined: ${fmt(shortfall)}× ${esc(inp.item)} (not at ${esc(location)})`);
       }
     });
+    previousLocation = location;
   });
 
   setInv(inv);
@@ -676,7 +742,7 @@ function obtainSiteFor(item, info) {
 function stepCost(s) {
   const c = costFor(s.item, s.altIndex);
   if (!c || !s.batches) return null;
-  return runCost(c.uc, DESTINATION, s.batches);
+  return runCost(c.uc, s.location || DESTINATION, s.batches);
 }
 
 // Per-UNIT cost of a raw material you have to go and obtain. Separate from the
@@ -733,20 +799,23 @@ function acquireCost(plan) {
 // candidate colony so the SAME plan can be priced somewhere else.
 function planCost(plan, dest) {
   const loc = dest || DESTINATION;
-  let feeBase = 0, feeCold = 0, total = 0, unknown = 0, feeTax = 0, feePreTax = 0;
+  let feeBase = 0, feeCold = 0, total = 0, unknown = 0, feeTax = 0, feePreTax = 0, feeOwnSpend = 0;
   (plan.steps || []).forEach(s => {
     const c = costFor(s.item, s.altIndex);
     if (!c || !s.batches) { unknown++; return; }
+    const stepLoc = s.location || loc;
     feeBase += c.uc * s.batches;
-    feeCold += colonyUnitCost(c.uc, loc).total * s.batches;
-    total += runCost(c.uc, loc, s.batches);
-    feePreTax += preTaxRunCost(c.uc, loc, s.batches);
-    feeTax += driftParams(c.uc, loc).tax * s.batches;
+    feeCold += colonyUnitCost(c.uc, stepLoc).total * s.batches;
+    total += runCost(c.uc, stepLoc, s.batches);
+    const preTax = preTaxRunCost(c.uc, stepLoc, s.batches);
+    feePreTax += preTax;
+    if (isOwnColony(stepLoc)) feeOwnSpend += preTax;
+    feeTax += driftParams(c.uc, stepLoc).tax * s.batches;
   });
   const mat = acquireCost(plan);
-  // Spend that earns the faction cut: fees always land at the destination,
-  // materials at whichever site each one is mined on.
-  const ownerEligibleSpend = (isOwnColony(loc) ? feePreTax : 0) + mat.ownSpend;
+  // Spend that earns the faction cut: each processing fee follows its step's
+  // colony, while materials are charged at whichever site each one is mined on.
+  const ownerEligibleSpend = feeOwnSpend + mat.ownSpend;
   const preTaxSpend = feePreTax + mat.preTaxSpend;
   const globalDominion = preTaxSpend * GLOBAL_DOMINION_RATE;
   const grand = total + mat.total;
@@ -838,7 +907,7 @@ function armorClassNA(item) {
 // because the cheapest piece to buy is often not the cheapest piece to own.
 const UNIT_COST_CACHE = {};
 function unitCostSignature() {
-  return DESTINATION + '|' + ENERGY_LEVEL + '|' + COOLING_LEVEL + '|' +
+  return DESTINATION + '|' + REFINE_DESTINATION + '|' + ENERGY_LEVEL + '|' + COOLING_LEVEL + '|' +
          JSON.stringify(COLONY_TAX) + '|' + JSON.stringify(COLONY_OWNER) + '|' +
          JSON.stringify(ALTERNATIVE_CHOICES);
 }
@@ -850,7 +919,7 @@ function unitCost(item) {
   try {
     // {} for the ledger = plan from scratch. Comparing pieces has to ignore what
     // happens to be in the locker, or whichever one you already hold "wins".
-    const res = compute(item, 1, ALTERNATIVE_CHOICES, {}, null, DESTINATION, null);
+    const res = compute(item, 1, ALTERNATIVE_CHOICES, {}, null, DESTINATION, null, REFINE_DESTINATION);
     const c = planCost(res.plan);
     // A run cannot be split. Asking for one helmet still runs a batch of three
     // and bills for all three, so the raw plan cost is per RUN. Divide by what
@@ -923,7 +992,7 @@ function stepCard(s, isFinal) {
         <span class="production-progress-note">Local tracker only — the plan totals above stay unchanged.</span>
       </div>`;
 
-  return `<div class="recipe-card ${s.process}${PRODUCE_DONE[encodeURIComponent(s.item)] ? ' done' : ''}${progressComplete ? ' progress-complete' : ''}">
+  return `<div class="recipe-card ${s.process}${isFinal ? ' compact-manufacture' : ''}${PRODUCE_DONE[encodeURIComponent(s.item)] ? ' done' : ''}${progressComplete ? ' progress-complete' : ''}">
       <div class="rc-cb-row">
         <label class="transport-check">
           <input type="checkbox" data-produce-key="${encodeURIComponent(s.item)}" onclick="toggleProduceCheck(this)"${PRODUCE_DONE[encodeURIComponent(s.item)] ? ' checked' : ''} />
@@ -1098,10 +1167,11 @@ function perItemPlanCosts(plan) {
   (plan.steps || []).forEach(s => {
     const c = costFor(s.item, s.altIndex);
     if (!c || !s.batches) return;
-    const t = runCost(c.uc, DESTINATION, s.batches);
+    const stepLoc = s.location || DESTINATION;
+    const t = runCost(c.uc, stepLoc, s.batches);
     stepFee[s.item] = {
       total: t,
-      owned: isOwnColony(DESTINATION) ? t : 0,
+      owned: isOwnColony(stepLoc) ? t : 0,
       inputs: s.resolvedInputs || s.inputs || [],
     };
   });
@@ -1375,13 +1445,13 @@ function showTheMathPanel(plan) {
     if (!c || !s.batches) return;
     const billed = stepCost(s);
     feeRows += line(esc(displayName(s.item)), fmt(s.batches) + ' × ' + fmtUC(c.uc) + ' → ' + fmtUC(billed) + ' UC',
-      'per-run fee billed at ' + esc(DESTINATION) + ' — tax, slot upkeep and drift applied');
+      'per-run fee billed at ' + esc(s.location || DESTINATION) + ' — tax, slot upkeep and drift applied');
   });
   if (cost.upkeep > 0.005) {
     feeRows += line('slot upkeep', '+ ' + fmtUC(cost.upkeep) + ' UC', '⚡' + ENERGY_LEVEL + ' energy · ❄' + COOLING_LEVEL + ' cooling, per run');
   }
   if (cost.tax > 0.005) {
-    feeRows += line('colony tax', '+ ' + fmtUC(cost.tax) + ' UC', 'charged at ' + esc(DESTINATION));
+    feeRows += line('colony tax', '+ ' + fmtUC(cost.tax) + ' UC', 'charged at each processing colony');
   }
   if (cost.drift > 0.005) {
     feeRows += line('session drift', '− ' + fmtUC(cost.drift) + ' UC', 'long-run discount across ' + fmt(cost.batches) + ' slot-batch' + (cost.batches === 1 ? '' : 'es'));
@@ -1393,8 +1463,12 @@ function showTheMathPanel(plan) {
     (info.from || []).forEach(col => {
       const qty = (info.fromQty && info.fromQty[col]) || 0;
       if (!qty) return;
-      adjRows += line(esc(displayName(item)), 'move ' + fmt(qty) + ' → ' + esc(DESTINATION), 'from ' + esc(col));
+      adjRows += line(esc(displayName(item)), 'move ' + fmt(qty) + ' → ' + esc(info.to || REFINE_DESTINATION || DESTINATION), 'from ' + esc(col));
     });
+  });
+  Object.entries((plan && plan.finalTransport) || {}).forEach(([item, qty]) => {
+    adjRows += line(esc(displayName(item)), 'move ' + fmt(qty) + ' → ' + esc(plan.destination || DESTINATION),
+      'from ' + esc(plan.refineDestination || REFINE_DESTINATION || DESTINATION) + ' after refinement');
   });
   if (cost.rebate > 0.005) {
     adjRows += line('faction return', fmtUC(cost.rebate) + ' UC back to ' + esc(factionName),
@@ -1439,7 +1513,7 @@ function showTheMathPanel(plan) {
       </section>
       <section class="show-math-section">
         <h4 class="show-math-title">Fees and tax</h4>
-        <p class="show-math-summary">Processing fees are billed per run at ${esc(DESTINATION)}, with colony tax, slot upkeep and the long-run drift discount applied per batch.</p>
+        <p class="show-math-summary">Refinement fees are billed per run at ${esc(plan.refineDestination || REFINE_DESTINATION || DESTINATION)} and final manufacturing at ${esc(plan.destination || DESTINATION)}, with colony tax, slot upkeep and the long-run drift discount applied per batch.</p>
         ${feeRows || '<p class="muted">No priced processing fees in this plan.</p>'}
       </section>
       <section class="show-math-section">
@@ -1518,7 +1592,7 @@ function decisionSummary(plan) {
       const usedDesc = (r.inputs_alternatives[used] || r.inputs_alternatives[0] || [])
         .map(x => fmt(x.quantity) + ' ' + esc(x.item)).join(' + ');
       const costs = r.inputs_alternatives.map((a, i) =>
-        window.ENGINE.netPathCost ? window.ENGINE.netPathCost(s.item, i, DESTINATION, {}, 0) : null);
+        window.ENGINE.netPathCost ? window.ENGINE.netPathCost(s.item, i, s.location || REFINE_DESTINATION || DESTINATION, {}, 0) : null);
       const priced = costs.some(c => c != null);
       let note;
       if (priced) {
@@ -1567,9 +1641,10 @@ function decisionSummary(plan) {
 // follow the candidate exactly as the calculator would price it. Nothing is
 // ranked that the data cannot back: rows with unpriced items show n/a, and
 // ★ cheapest is awarded only to a UNIQUE cheapest fully-priced colony.
-// spec = { items: [{item, qty}], chosen, ledger, invLoc, discounts, dest }
+// spec = { items: [{item, qty}], chosen, ledger, invLoc, discounts, dest, refineDest }
 function colonyCompareRows(spec) {
   const dest = (spec && spec.dest) || DESTINATION;
+  const refineDest = (spec && spec.refineDest) || REFINE_DESTINATION || dest;
   const items = (spec && spec.items) || [];
   if (!items.length) return [];
   const chosen = (spec && spec.chosen) || {};
@@ -1580,7 +1655,7 @@ function colonyCompareRows(spec) {
   const computed = colonyList().map(colony => {
     let res, cost;
     try {
-      res = compute(items, chosen, Object.assign({}, ledger), invLoc, colony, discounts);
+      res = compute(items, chosen, Object.assign({}, ledger), invLoc, colony, discounts, refineDest);
       cost = planCost(res.plan, colony);
     } catch (e) {
       return {
@@ -1820,13 +1895,29 @@ function applyTheme(pref) {
 // Continuous font-size slider (replaces old A/A+/A++ buttons)
 function applyFontScale(pct) {
   const BASE_PX = 18; // root font-size when the slider reads 100% (was browser default ~16px)
-  const n = parseFloat(pct) || 100;
-  document.documentElement.style.fontSize = (BASE_PX * n / 100) + 'px';
-  try { localStorage.setItem(SIZE_KEY, pct); } catch (e) {}
-  const label = document.getElementById('size-label');
-  if (label) label.textContent = pct + '%';
   const slider = document.getElementById('size-range');
-  if (slider && parseInt(slider.value) !== parseInt(pct)) slider.value = pct;
+  const min = slider ? parseFloat(slider.min) : 75;
+  const max = slider ? parseFloat(slider.max) : 150;
+  const n = Math.max(min, Math.min(max, parseFloat(pct) || 100));
+  document.documentElement.style.fontSize = (BASE_PX * n / 100) + 'px';
+  try { localStorage.setItem(SIZE_KEY, n); } catch (e) {}
+  const label = document.getElementById('size-label');
+  if (label) label.textContent = n + '%';
+  if (slider) {
+    if (parseInt(slider.value, 10) !== n) slider.value = n;
+    slider.setAttribute('aria-valuetext', n + '%');
+  }
+  const decrease = document.getElementById('size-decrease');
+  const increase = document.getElementById('size-increase');
+  if (decrease) decrease.disabled = n <= min;
+  if (increase) increase.disabled = n >= max;
+}
+
+function adjustFontScale(delta) {
+  const slider = document.getElementById('size-range');
+  const step = slider ? parseFloat(slider.step) || 5 : 5;
+  const current = slider ? parseFloat(slider.value) || 100 : 100;
+  applyFontScale(current + (Number(delta) || 0) * step);
 }
 
 function initTheme() {

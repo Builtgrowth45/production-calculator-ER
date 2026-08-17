@@ -505,10 +505,11 @@ let DESTINATION = 'Berlin';
 // because compute()'s signature already juggles two call shapes.
 let TRANSPORT_SOURCE = {};
 
-function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest, discounts) {
+function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest, discounts, refineDest) {
   // normalize args — two call shapes:
   //   compute(item, qty, chosen, extLedger, extInvLoc, dest, discounts)
-  //   compute(items[], chosen, extLedger, extInvLoc, dest, discounts)
+  //   compute(item, qty, chosen, extLedger, extInvLoc, dest, discounts, refineDest)
+  //   compute(items[], chosen, extLedger, extInvLoc, dest, discounts, refineDest)
   let items;
   let chosen;
   if (typeof itemOrItems === 'string') {
@@ -517,12 +518,14 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
   } else {
     items = itemOrItems;
     chosen = qtyOrChosen || {};
+    refineDest = arguments.length >= 7 ? discounts : undefined;
     discounts = dest;
     dest = extInvLoc;
     extInvLoc = extLedger;
     extLedger = chosenOpt;
   }
   dest = dest || DESTINATION;
+  refineDest = refineDest || dest;
   discounts = discounts || { prod: 0, mine: 0, trans: 0 };
 
   // use external ledger or build one from current inventory
@@ -542,10 +545,16 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
   // Colonies this plan already draws from. Pulling another material from one of
   // them costs no additional trip, so they rank above untouched colonies.
   const visitedColonies = new Set();
+  const consumerKinds = {}; // item → Set<'refine'|'manufacture'>
+
+  function transportTargetFor(item) {
+    const kinds = consumerKinds[item];
+    return kinds && kinds.has('refine') ? refineDest : dest;
+  }
 
   // ---- allocOwned: deduct from ledger, record transport ----
   // Source choice is ranked, not just "biggest pile first":
-  //   0. the destination itself — already there, so it needs no trip at all and
+  //   0. the refinement destination itself — already there, so it needs no trip at all and
   //      produces NO transport row (previously `dest` was accepted by compute()
   //      and then never used, so plans told you to move Berlin -> Berlin)
   //   1. a colony the player explicitly picked for this item
@@ -558,8 +567,9 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
     ledger[it] = avail - fromOwn;
 
     const pref = TRANSPORT_SOURCE[it];
+    const target = transportTargetFor(it);
     const rank = l => {
-      if (l.location === dest) return 0;
+      if (l.location === target) return 0;
       if (pref && l.location === pref) return 1;
       if (visitedColonies.has(l.location)) return 2;
       return 3;
@@ -574,8 +584,9 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
       if (take <= 0) return;
       remaining -= take;
       // Stock sitting at the destination is consumed in place — never a move.
-      if (l.location === dest) return;
+      if (l.location === target) return;
       transport[it] = transport[it] || { qty: 0, from: [], fromQty: {} };
+      transport[it].to = target;
       transport[it].qty += take;
       if (!transport[it].from.includes(l.location)) transport[it].from.push(l.location);
       transport[it].fromQty[l.location] = (transport[it].fromQty[l.location] || 0) + take;
@@ -650,6 +661,7 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
         need = Math.ceil(need * (1 - discounts.mine));
         const sites = MINE_SITES[it] || [];
         acquire[it] = acquire[it] || { qty: 0, from: [] };
+        acquire[it].to = transportTargetFor(it);
         acquire[it].qty += need;
         sites.forEach(s => { if (!acquire[it].from.includes(s)) acquire[it].from.push(s); });
         acquire[it].preferred = defaultObtainSite(it, sites);
@@ -673,20 +685,26 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
         surplus[it] = extra;
       }
 
-      // Resolve inputs and propagate demand to children
-      const altIndex = recipe.inputs ? null : pickAlternativeIndex(recipe, chosen[it], demand, dest);
+      // Resolve inputs and propagate demand to children. Alternative-path
+      // economics follow the colony where this step will actually run.
+      const isFinal = items.some(x => x.item === it);
+      const stepLocation = isFinal ? dest : refineDest;
+      const altIndex = recipe.inputs ? null : pickAlternativeIndex(recipe, chosen[it], demand, stepLocation);
       const inputs = recipe.inputs || recipe.inputs_alternatives[altIndex];
       const resolvedInputs = [];
+      const consumerKind = isFinal ? 'manufacture' : 'refine';
       inputs.forEach(inp => {
+        if (!consumerKinds[inp.item]) consumerKinds[inp.item] = new Set();
+        consumerKinds[inp.item].add(consumerKind);
         const need = inp.quantity * batches;
         pendingDemand[inp.item] = (pendingDemand[inp.item] || 0) + need;
         resolvedInputs.push({ item: inp.item, qty: need });
       });
 
-      const isFinal = items.some(x => x.item === it);
       steps.push({
         item: it, batches, produced, outQty,
         process: recipe.process,
+        location: stepLocation,
         inputs: resolvedInputs.map(i => ({
           item: i.item,
           need: i.qty,
@@ -708,9 +726,24 @@ function compute(itemOrItems, qtyOrChosen, chosenOpt, extLedger, extInvLoc, dest
   // Separate refine from manufacture for backward compat rendering
   const refine = steps.filter(s => s.type === 'refine');
   const manufacture = steps.filter(s => s.type === 'manufacture');
+  const finalTransport = {};
+  if (refineDest !== dest) {
+    const refinedOutputs = new Set(refine.map(step => step.item));
+    manufacture.forEach(step => (step.resolvedInputs || []).forEach(inp => {
+      const kinds = consumerKinds[inp.item];
+      const alsoRefined = kinds && kinds.has('refine') && kinds.has('manufacture');
+      if (!refinedOutputs.has(inp.item) && !alsoRefined) return;
+      finalTransport[inp.item] = (finalTransport[inp.item] || 0) + inp.qty;
+    }));
+  }
 
   return {
-    plan: { transport, acquire, refine, manufacture, steps, surplus },
+    plan: {
+      transport, acquire, refine, manufacture, steps, surplus,
+      destination: dest,
+      refineDestination: refineDest,
+      finalTransport,
+    },
     ledger
   };
 }

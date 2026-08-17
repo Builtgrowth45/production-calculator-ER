@@ -87,6 +87,15 @@ function downloadJSON(obj, filename) {
   URL.revokeObjectURL(url);
 }
 
+function workspaceExportFilename() {
+  const player = String(PLAYERS.active || 'no-player')
+    .trim().replace(/[^a-zA-Z0-9_-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48) || 'no-player';
+  const entries = getInv().length;
+  const timestamp = new Date().toISOString()
+    .replace(/\.\d{3}Z$/, 'Z').replace(/:/g, '-');
+  return `empire-rising-workspace-${player}-${entries}-entries-${timestamp}.json`;
+}
+
 // ---- Toast notifications (replaces alert()) ----
 // type: '' (default pink) | 'success' (cyan) | 'error' (red)
 function toast(msg, duration, type) {

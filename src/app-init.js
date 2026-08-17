@@ -184,7 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Calculator
   document.getElementById('calc-run').addEventListener('click', runCalculator);
   document.getElementById('calc-qty').addEventListener('keydown', e => { if (e.key === 'Enter') runCalculator(); });
+  document.getElementById('calc-qty').addEventListener('input', clearQuantityValidation);
   document.getElementById('calc-dest').addEventListener('change', () => { getDestination(); if (CALC_TRAY.length) runMultiPlan(); });
+  document.getElementById('calc-refine-dest').addEventListener('change', () => { getRefineDestination(); if (CALC_TRAY.length) runMultiPlan(); });
   // Re-plan immediately when "Plan from scratch" is toggled, if a plan is up.
   document.getElementById('calc-scratch')?.addEventListener('change', () => {
     const item = document.getElementById('calc-item').value.trim();
@@ -292,6 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sizeSlider) {
     sizeSlider.addEventListener('input', () => applyFontScale(sizeSlider.value));
   }
+  document.getElementById('size-decrease')?.addEventListener('click', () => adjustFontScale(-1));
+  document.getElementById('size-increase')?.addEventListener('click', () => adjustFontScale(1));
 
   // collapsible section titles (delegated)
   document.getElementById('calc-result').addEventListener('click', e => {
@@ -432,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const item = decodeURIComponent(btn.dataset.apply);
     const qty = parseInt(btn.dataset.qty, 10);
     snapshotInv();
-    const result = compute(item, qty, ALTERNATIVE_CHOICES, null, null, DESTINATION, getDiscounts());
+    const result = compute(item, qty, ALTERNATIVE_CHOICES, null, null, DESTINATION, getDiscounts(), REFINE_DESTINATION);
     const log = applyPlan(result);
 
     // Record it BEFORE re-rendering: runCalculator() replaces this button, so
@@ -445,20 +449,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Copy shopping list (single + multi)
   function copyShoppingList() {
     const result = CALC_TRAY.length
-      ? compute(CALC_TRAY, ALTERNATIVE_CHOICES, Object.assign({}, INV_TOTAL), null, DESTINATION, getDiscounts()).plan
+      ? compute(CALC_TRAY, ALTERNATIVE_CHOICES, Object.assign({}, INV_TOTAL), null, DESTINATION, getDiscounts(), REFINE_DESTINATION).plan
       : (() => { const item = document.getElementById('calc-item').value.trim();
           const qty = Math.max(1, parseInt(document.getElementById('calc-qty').value,10)||1);
-          return compute(item, qty, ALTERNATIVE_CHOICES, null, null, DESTINATION, getDiscounts()).plan; })();
+          return compute(item, qty, ALTERNATIVE_CHOICES, null, null, DESTINATION, getDiscounts(), REFINE_DESTINATION).plan; })();
     const lines = [];
     Object.entries(result.transport).forEach(([n,info]) => {
-      lines.push(`Move ${fmt(info.qty)} ${displayName(n)} → ${DESTINATION}`);
+      lines.push(`Move ${fmt(info.qty)} ${displayName(n)} → ${info.to || REFINE_DESTINATION || DESTINATION}`);
     });
     Object.entries(result.acquire).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([n,info]) => {
       const sites = (info.from||[]).join(', ');
       lines.push(`${fmt(info.qty)}× ${displayName(n)}${sites ? ' — ' + sites : ''}`);
     });
     result.steps.forEach(s => {
-      lines.push(`Craft ${fmt(s.produced)} ${displayName(s.item)} (${s.batches} batch${s.batches>1?'es':''})`);
+      lines.push(`Craft ${fmt(s.produced)} ${displayName(s.item)} at ${s.location || DESTINATION} (${s.batches} batch${s.batches>1?'es':''})`);
     });
     navigator.clipboard.writeText(lines.join('\n')).then(() => toast('Shopping list copied!', 3000, 'success'));
   }
@@ -497,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const invLoc = {};
     for (const k in INV_LOCATIONS) invLoc[k] = INV_LOCATIONS[k].map(l => ({ ...l }));
     const discounts = getDiscounts();
-  const result = compute(CALC_TRAY, ALTERNATIVE_CHOICES, ledger, invLoc, DESTINATION, discounts);
+  const result = compute(CALC_TRAY, ALTERNATIVE_CHOICES, ledger, invLoc, DESTINATION, discounts, REFINE_DESTINATION);
     applyPlan(result);
 
     // Must be recorded before the re-render, which replaces this button.
@@ -630,7 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
   workspaceFile.type = 'file'; workspaceFile.accept = 'application/json,.json'; workspaceFile.hidden = true;
   workspaceFile.id = 'workspace-import-file'; document.body.appendChild(workspaceFile);
   document.getElementById('workspace-export')?.addEventListener('click', () => {
-    downloadJSON(S.exportWorkspace(), 'empire-rising-workspace.json');
+    downloadJSON(S.exportWorkspace(), workspaceExportFilename());
     toast('Exported the complete local workspace.', 3000, 'success');
   });
   document.getElementById('workspace-import')?.addEventListener('click', () => workspaceFile.click());
@@ -638,7 +642,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = e.target.files?.[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      try { S.importWorkspace(JSON.parse(reader.result)); refreshAll(); toast('Imported the complete local workspace.', 3000, 'success'); }
+      try {
+        S.importWorkspace(JSON.parse(reader.result));
+        dismissCalcGuide({ focus: false });
+        refreshAll();
+        toast('Imported the complete local workspace.', 3000, 'success');
+      }
       catch (err) { toast(err.message, 5000, 'error'); }
       finally { e.target.value = ''; }
     };
@@ -849,9 +858,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ['calc-result', 'calc-multi'].forEach(id => {
     document.getElementById(id).addEventListener('click', e => {
       const run = e.target.closest('.progress-run');
-      if (run && !run.disabled) { recordProductionProgress(run); return; }
+      if (run && !run.disabled) { e.preventDefault(); e.stopPropagation(); recordProductionProgress(run); return; }
       const reset = e.target.closest('.progress-reset');
-      if (reset) resetProductionProgress(reset);
+      if (reset) { e.preventDefault(); e.stopPropagation(); resetProductionProgress(reset); }
     });
   });
 

@@ -21,7 +21,7 @@ describe('calculator workbench layout', () => {
   });
 
   it('preserves calculator handler IDs exactly once', () => {
-    for (const id of ['picker-cat', 'picker-search', 'picker-grid', 'calc-item', 'calc-qty', 'calc-dest', 'calc-run', 'calc-add', 'calc-save', 'calc-tax', 'calc-tray', 'calc-result', 'calc-multi']) {
+    for (const id of ['picker-cat', 'picker-search', 'picker-grid', 'calc-item', 'calc-qty', 'calc-dest', 'calc-refine-dest', 'calc-run', 'calc-add', 'calc-save', 'calc-tax', 'calc-tray', 'calc-result', 'calc-multi']) {
       assert.equal(count(id), 1, `${id} should remain unique`);
     }
   });
