@@ -1067,8 +1067,15 @@ function resetMiningProgress(button) {
 }
 
 function renderMiningProgress(item, total, done, remaining) {
-  if (!total) return '';
   var enc = encodeURIComponent(item);
+  if (!total) {
+    if (!done) return '';
+    return '<div class="mine-progress unplanned" data-mine-progress="' + enc + '">' +
+      '<div class="mine-progress-head"><span data-mine-progress-count>' + fmt(done) + ' mined for later</span>' +
+        '<span class="mine-progress-remaining" data-mine-progress-remaining>no plan target</span></div>' +
+      '<button type="button" class="mine-progress-reset" data-mining-reset="' + enc + '">Reset mining log</button>' +
+    '</div>';
+  }
   var complete = remaining === 0;
   return '<div class="mine-progress' + (complete ? ' complete' : '') + '" data-mine-progress="' + enc + '">' +
     '<div class="mine-progress-head"><span data-mine-progress-count>' + fmt(done) + ' / ' + fmt(total) + ' mined</span>' +
@@ -1106,7 +1113,8 @@ function renderMiningPanel(plan) {
     var need = (acquire[item] && acquire[item].qty) || 0;
     // The plan need remains the original target because mining records do not consume inventory.
     var total = need > 0 ? need : 0;
-    var done = total ? miningProgressFor(item, total) : 0;
+    var recorded = Math.max(0, Number(MINING_PROGRESS[item]) || 0);
+    var done = total ? miningProgressFor(item, total) : recorded;
     var remaining = Math.max(0, total - done);
     var complete = total > 0 && remaining === 0;
     var have = atDest[item] || 0;
@@ -1115,11 +1123,11 @@ function renderMiningPanel(plan) {
     var needLabel = complete
       ? '<span class="mine-need complete">all ' + fmt(total) + ' mined</span>'
       : (total ? '<span class="mine-need">plan needs ' + fmt(remaining) + '</span>'
-               : '<span class="mine-need muted">for later</span>');
-    var fullQty = total ? Math.min(MINE_BATCH, remaining) : MINE_BATCH;
-    var midQty = total ? Math.min(50, remaining) : 50;
-    var smallQty = total ? Math.min(25, remaining) : 25;
-    var actions = complete || !total ? '' :
+               : '<span class="mine-need muted">' + (recorded ? fmt(recorded) + ' mined · ' : '') + 'for later</span>');
+    var fullQty = MINE_BATCH;
+    var midQty = 50;
+    var smallQty = 25;
+    var actions = complete ? '' :
       '<span class="mine-acts">' +
         '<button type="button" class="mine-log full" data-mine="' + enc + '" data-qty="' + fullQty + '"' + totalAttr +
           ' title="Log a full batch — best rate per unit">+' + fullQty + '</button>' +
@@ -1151,6 +1159,7 @@ function renderMiningPanel(plan) {
 function logMined(item, qty, total) {
   var requested = Math.max(1, Math.min(MINE_BATCH, parseInt(qty, 10) || 0));
   var target = Math.max(0, parseInt(total, 10) || 0);
+  var recorded = Math.max(0, Number(MINING_PROGRESS[item]) || 0);
   var state = null;
   if (target) {
     state = nextProductionProgress(miningProgressFor(item, target), target, requested);
@@ -1162,9 +1171,13 @@ function logMined(item, qty, total) {
     MINING_PROGRESS[item] = state.completed;
     saveMiningProgress();
     if (state.remaining === 0) markObtainCompleteForMining(item);
+  } else {
+    MINING_PROGRESS[item] = recorded + requested;
+    saveMiningProgress();
   }
   toast('Recorded ' + fmt(requested) + ' mined ' + displayName(item) +
-    (state ? ' (' + fmt(state.remaining) + ' remaining).' : '.'),
+    (state ? ' (' + fmt(state.remaining) + ' remaining).' :
+      ' (' + fmt(MINING_PROGRESS[item]) + ' mined for later).'),
     2500, 'success');
   if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true, preserveViewport: true });
   else if (LAST_SINGLE && LAST_SINGLE.item) {

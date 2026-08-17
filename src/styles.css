@@ -2029,44 +2029,58 @@ tr td:first-child { white-space: nowrap; }
   margin-top: 1rem; padding: 0.75rem 0.875rem;
   background: var(--panel2); border: 1px solid var(--line);
   border-left: 3px solid var(--cyan); border-radius: 6px;
+  overflow: hidden;
 }
 .mine-slots-head {
   font-family: "Orbitron", "JetBrains Mono", monospace;
   font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
   text-transform: uppercase; color: var(--cyan); margin-bottom: 0.6rem;
+  line-height: 1.35;
 }
 .mine-slots-hint {
   display: block; margin-top: 0.25rem;
+  max-width: 62rem;
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: 0.625rem; font-weight: 400; letter-spacing: 0;
-  text-transform: none; color: var(--muted);
+  text-transform: none; color: var(--muted); line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 .mine-slots-none, .mine-slots-foot { font-size: 0.6875rem; }
-.mine-slots-foot { margin-top: 0.5rem; }
+.mine-slots-foot { margin-top: 0.6rem; line-height: 1.4; }
 .mine-row {
-  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
-  padding: 0.35rem 0.4rem; border-radius: 4px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr) minmax(4.5rem, auto) minmax(0, 1.6fr);
+  align-items: center; column-gap: 0.65rem; row-gap: 0.45rem;
+  padding: 0.5rem 0.55rem; border-radius: 5px;
   border-top: 1px solid rgba(255,255,255,.04);
 }
 /* something the current plan is still short of — mine this first */
 .mine-row.wanted { background: color-mix(in srgb, var(--cyan) 7%, transparent); }
-.mine-row-item { display: flex; align-items: center; gap: 0.4rem; min-width: 11rem; }
+.mine-row-item { display: flex; align-items: center; gap: 0.4rem; min-width: 0; }
+.mine-row-item .icon { flex: 0 0 auto; }
 .mine-row-item .icon, .mine-row-item .icon img { width: 1.75rem; height: 1.75rem; }
 .mine-row-item .icon img { background: transparent; }
-.mine-row-name { font-size: 0.75rem; font-weight: 600; }
-.mine-need { font-size: 0.6875rem; color: var(--cyan); min-width: 8rem; }
+.mine-row-name {
+  min-width: 0; font-size: 0.75rem; font-weight: 600; line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.mine-need {
+  min-width: 0; font-size: 0.6875rem; color: var(--cyan); line-height: 1.3;
+  overflow-wrap: anywhere;
+}
 .mine-need.muted { color: var(--muted); }
-.mine-have { font-size: 0.6875rem; color: var(--muted); min-width: 5rem; }
+.mine-have { min-width: 0; font-size: 0.6875rem; color: var(--muted); white-space: nowrap; }
 .mine-row.mining-complete .mine-acts { display: none; }
 .mine-row.mining-complete .mine-row-name { text-decoration: line-through; color: var(--muted); }
 .mine-need.complete { color: var(--good, var(--cyan)); }
 .mine-progress {
-  flex: 1 0 100%; min-width: 0; margin: 0.15rem 0 0 2.15rem;
-  padding-top: 0.25rem;
+  grid-column: 1 / -1; width: 100%; min-width: 0; margin: 0;
+  padding-top: 0.15rem;
 }
 .mine-progress-head {
-  display: flex; justify-content: space-between; gap: 0.5rem;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 0.5rem;
   font-size: 0.625rem; color: var(--cyan); font-variant-numeric: tabular-nums;
+  line-height: 1.35;
 }
 .mine-progress-remaining { color: var(--muted); }
 .mine-progress-track {
@@ -2089,7 +2103,10 @@ tr td:first-child { white-space: nowrap; }
 }
 .mine-progress-reset:hover { border-color: var(--cyan); color: var(--cyan); }
 
-.mine-acts { display: flex; align-items: center; gap: 0.25rem; margin-left: auto; flex-wrap: wrap; }
+.mine-acts {
+  grid-column: 4; display: flex; align-items: center; justify-content: flex-end;
+  gap: 0.25rem; min-width: 0; margin-left: 0; flex-wrap: wrap;
+}
 .mine-log {
   background: var(--panel); color: var(--fg-dim);
   border: 1px solid var(--line); border-radius: 4px;
@@ -2099,15 +2116,50 @@ tr td:first-child { white-space: nowrap; }
 .mine-log:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: none; transform: none; }
 /* the efficient pull gets the emphasis */
 .mine-log.full {
+  min-width: 4.5rem; min-height: 2.75rem;
+  padding: 0.45rem 0.8rem; font-size: 0.8rem;
   border-color: var(--cyan); color: var(--cyan);
   background: color-mix(in srgb, var(--cyan) 14%, transparent);
 }
 .mine-qty {
-  width: 5.5rem; background-color: var(--panel); color: var(--text);
+  width: 5.5rem; min-width: 0; background-color: var(--panel); color: var(--text);
   border: 1px solid var(--line); border-radius: 4px;
   padding: 0.2rem 0.35rem; font-size: 0.6875rem; font-family: inherit;
 }
 .mine-qty:focus { outline: none; border-color: var(--cyan); }
+
+/* Keep status text readable, then move controls to their own row before they can collide. */
+@media (max-width: 900px) {
+  .mine-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  }
+  .mine-acts {
+    grid-column: 1 / -1; justify-content: flex-start;
+  }
+}
+
+/* On phones, every mining action gets a predictable full-width grid cell. */
+@media (max-width: 560px) {
+  .mine-slots { padding: 0.7rem; }
+  .mine-slots-head { letter-spacing: 0.5px; }
+  .mine-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 0.5rem; row-gap: 0.4rem; padding: 0.55rem 0.35rem;
+  }
+  .mine-row-item { grid-column: 1 / -1; }
+  .mine-need { grid-column: 1; }
+  .mine-have { grid-column: 2; text-align: right; }
+  .mine-progress { grid-column: 1 / -1; }
+  .mine-acts {
+    grid-column: 1 / -1; display: grid;
+    grid-template-columns: minmax(4.5rem, 1.2fr) repeat(2, minmax(3rem, 1fr)) minmax(6rem, 1.5fr);
+    gap: 0.35rem; width: 100%;
+  }
+  .mine-log, .mine-qty { width: 100%; min-height: 2.5rem; }
+  .mine-log { padding: 0.4rem 0.35rem; }
+  .mine-log.full { min-height: 2.75rem; }
+  .mine-qty { padding: 0.35rem; }
+}
 
 /* plan legend */
 .plan-legend {

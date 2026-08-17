@@ -75,7 +75,7 @@ describe('production batch progress tracker', () => {
     assert.doesNotMatch(logMinedSrc, /applyEntry\(item, DESTINATION/);
     assert.doesNotMatch(logMinedSrc, /getInv\(\)/);
     assert.match(logMinedSrc, /MINING_PROGRESS\[item\] = state\.completed/);
-    assert.match(appSrc, /var actions = complete \|\| !total \? ''/);
+    assert.match(appSrc, /var actions = complete \? '' :/);
   });
 
   it('keeps mining targets stable when progress rerenders without inventory changes', () => {
@@ -89,6 +89,35 @@ describe('production batch progress tracker', () => {
     assert.match(appSrc, /runCalculator\(\{ preserveChecklist: true, preserveViewport: true \}\)/);
     assert.match(appSrc, /function rerunActivePlan\(options\)[\s\S]*preserveViewport/);
     assert.match(appSrc, /if \(!options\.preserveViewport\) \{[\s\S]*out\.scrollIntoView/);
+  });
+
+  it('restores bottom mining controls for materials marked for later', () => {
+    assert.match(appSrc, /var actions = complete \? '' :/);
+    assert.match(appSrc, /var fullQty = MINE_BATCH;/);
+    assert.match(appSrc, /var midQty = 50;/);
+    assert.match(appSrc, /var smallQty = 25;/);
+    assert.match(appSrc, /var recorded = Math\.max\(0, Number\(MINING_PROGRESS\[item\]\) \|\| 0\)/);
+    assert.match(appSrc, /MINING_PROGRESS\[item\] = recorded \+ requested/);
+    assert.match(appSrc, /data-mining-reset/);
+    assert.doesNotMatch(appSrc, /var actions = complete \|\| !total \? ''/);
+  });
+
+  it('makes the bottom full mining pull easy to hit', () => {
+    assert.match(stylesSrc, /\.mine-log\.full \{[\s\S]*min-width: 4\.5rem/);
+    assert.match(stylesSrc, /\.mine-log\.full \{[\s\S]*min-height: 2\.75rem/);
+  });
+
+  it('uses deliberate mining-row columns and narrow-screen wrapping', () => {
+    assert.match(stylesSrc, /\.mine-row \{\n  display: grid;[\s\S]*grid-template-columns:/);
+    assert.match(stylesSrc, /\.mine-row-item \{[\s\S]*min-width: 0/);
+    assert.match(stylesSrc, /\.mine-row-name \{[\s\S]*overflow-wrap: anywhere/);
+    assert.match(stylesSrc, /@media \(max-width: 900px\) \{[\s\S]*\.mine-acts \{[\s\S]*grid-column: 1 \/ -1/);
+    assert.match(stylesSrc, /@media \(max-width: 560px\) \{[\s\S]*\.mine-acts \{[\s\S]*display: grid/);
+  });
+
+  it('keeps the primary mining controls inside narrow calculator panels', () => {
+    assert.match(stylesSrc, /grid-template-columns: minmax\(0, 1\.25fr\) minmax\(0, 0\.9fr\) minmax\(4\.5rem, auto\) minmax\(0, 1\.6fr\)/);
+    assert.match(stylesSrc, /@media \(max-width: 900px\) \{[\s\S]*grid-template-columns: minmax\(0, 1fr\) minmax\(0, 1fr\) auto/);
   });
 
   it('resets checklist and batch progress on an explicit fresh calculation', () => {
