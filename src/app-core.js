@@ -190,10 +190,10 @@ function getDestination() {
   if (typeof updateColonyTaxNote === 'function') updateColonyTaxNote();
   return DESTINATION;
 }
-function getRefineDestination() {
+function getRefineDestination(explicit) {
   const el = document.getElementById('calc-refine-dest');
   if (el && el.value) REFINE_DESTINATION = el.value;
-  REFINE_DESTINATION_EXPLICIT = true;
+  if (explicit) REFINE_DESTINATION_EXPLICIT = true;
   saveDestination();
   return REFINE_DESTINATION;
 }

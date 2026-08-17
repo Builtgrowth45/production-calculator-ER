@@ -5,8 +5,10 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const html = readFileSync(join(root, 'index.html'), 'utf8');
 const app = readFileSync(join(root, 'src/app.js'), 'utf8');
 const init = readFileSync(join(root, 'src/app-init.js'), 'utf8');
+const core = readFileSync(join(root, 'src/app-core.js'), 'utf8');
 const css = readFileSync(join(root, 'src/styles.css'), 'utf8');
 const singleRender = app.slice(app.indexOf('function renderPlan('), app.indexOf('function runCalculator('));
 
@@ -38,5 +40,16 @@ describe('single production plan experience', () => {
     assert.match(app, /action\.kind\s*===\s*'mine'/);
     assert.match(app, /action\.items\.some\(function \(move\)/);
     assert.doesNotMatch(app, /group\.colony !== REFINE_DESTINATION && group\.actions\.some\(function \(action\)/);
+  });
+
+  it('keeps default refinement tied to production while explicit choices persist', () => {
+    assert.match(core, /function getRefineDestination\(explicit\)/);
+    assert.match(core, /if \(explicit\) REFINE_DESTINATION_EXPLICIT = true/);
+    assert.match(init, /getRefineDestination\(true\)/);
+    assert.match(app, /getRefineDestination\(\); \/\/ sync from input/);
+  });
+
+  it('cache-busts the changed player renderer', () => {
+    assert.match(html, /src\/views\/player\.js\?v=5/);
   });
 });

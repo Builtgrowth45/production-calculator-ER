@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('calc-qty').addEventListener('keydown', e => { if (e.key === 'Enter') runCalculator(); });
   document.getElementById('calc-qty').addEventListener('input', clearQuantityValidation);
   document.getElementById('calc-dest').addEventListener('change', () => { getDestination(); if (CALC_TRAY.length) runMultiPlan(); });
-  document.getElementById('calc-refine-dest').addEventListener('change', () => { getRefineDestination(); if (CALC_TRAY.length) runMultiPlan(); });
+  document.getElementById('calc-refine-dest').addEventListener('change', () => { getRefineDestination(true); if (CALC_TRAY.length) runMultiPlan(); });
   // Re-plan immediately when "Plan from scratch" is toggled, if a plan is up.
   document.getElementById('calc-scratch')?.addEventListener('change', () => {
     const item = document.getElementById('calc-item').value.trim();
