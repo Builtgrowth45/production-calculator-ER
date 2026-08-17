@@ -11,6 +11,20 @@ const {
 before(() => reset());
 after(() => reset());
 
+describe('Aramid Altered Arm Pads recipe', () => {
+  it('uses 2 carbon fiber, 2 textiles, and 2 cobalt per 3-pad batch', () => {
+    setTestInv({}, {});
+    const result = compute('Aramid Altered Arm Pads', 1, {});
+    const step = result.plan.manufacture.find(s => s.item === 'Aramid Altered Arm Pads');
+    assert.ok(step, 'arm-pad manufacture step must exist');
+    assert.equal(step.produced, 3);
+    assert.deepEqual(
+      Object.fromEntries(step.resolvedInputs.map(input => [input.item, input.qty])),
+      { 'carbon fiber': 2, textiles: 2, cobalt: 2 }
+    );
+  });
+});
+
 describe('player selection state', () => {
   it('selects a remote player when no active player exists', () => {
     reset();

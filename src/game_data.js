@@ -10802,7 +10802,7 @@ window.GAME_DATA = {
         },
         {
           "item": "cobalt",
-          "quantity": 1
+          "quantity": 2
         }
       ],
       "process": "manufacture",
