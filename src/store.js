@@ -28,7 +28,7 @@ const WORKSPACE_KEYS = [
   'cmg_slot_levels_v1', 'cmg_toggles_', 'cmg_boosters_', 'cmg_medikit_',
   'cmg_medikit_toggle', 'cmg_gearsets_migrated_v1', 'cmg_inv_migrated_v1',
   'cmg_auto_collapsed_v1', 'cmg_collapsed_sections_v1', 'cmg_produce_done_v1',
-  'cmg_production_progress_v1', 'cmg_transfers_done_v1', 'cmg_obtained_done_v1', 'cmg_plan_applied_v1',
+  'cmg_production_progress_v1', 'cmg_mining_progress_v1', 'cmg_transfers_done_v1', 'cmg_obtained_done_v1', 'cmg_plan_applied_v1',
   'cmg_muted_v1',
 ];
 const WORKSPACE_RAW_KEYS = [

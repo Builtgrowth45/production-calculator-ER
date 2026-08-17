@@ -1387,15 +1387,32 @@ tr td:first-child { white-space: nowrap; }
   line-height: 1;
 }
 
-/* ── Done (checked) transfer card ── */
+/* ── Done (checked) transfer and mine card ── */
 
 .flow-card.move.done,
 .flow-card.get.done {
-  opacity: 0.55;
+  opacity: 0.62;
   border-left-color: var(--fg-dim);
   box-shadow: none;
   text-decoration: none;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  align-items: center;
 }
+
+/* Keep the item chip, but fold the completed row's secondary details. */
+.flow-card.move.done .split-note,
+.flow-card.move.done .src-picks,
+.flow-card.get.done .flow-need,
+.flow-card.get.done .mine-picks {
+  display: none;
+}
+.flow-card.move.done .flow-card-body,
+.flow-card.get.done .flow-card-body {
+  display: flex;
+  align-items: center;
+}
+.flow-card.done .flow-chip { margin: 0; }
 
 .flow-card.move.done .flow-name,
 .flow-card.get.done .flow-name {
@@ -1458,6 +1475,15 @@ tr td:first-child { white-space: nowrap; }
 .rc-cb-label { color: var(--text); font-weight: 600; }
 .recipe-card.done { opacity: 0.55; }
 .recipe-card.done .rc-cb-label { text-decoration: line-through; color: var(--muted); }
+/* A fully recorded step keeps its checkbox and reset control, but folds the
+   recipe flow away so the remaining work stays easy to scan. */
+.recipe-card.progress-complete { padding: 0.55rem 0.75rem; }
+.recipe-card.progress-complete .rc-cb-row { margin-bottom: 0; }
+.recipe-card.progress-complete .recipe-flow { display: none; }
+.recipe-card.progress-complete .production-progress { margin-top: 0.25rem; padding: 0.35rem 0.5rem; }
+.recipe-card.progress-complete .production-progress-track,
+.recipe-card.progress-complete .production-progress-note { display: none; }
+.recipe-card.progress-complete .production-progress-actions { margin-top: 0.25rem; }
 /* Produce checkmarks use pink accent (matching obtain section) */
 .recipe-card .transport-check input:checked + .checkmark { background: var(--accent); border-color: var(--accent); }
 .recipe-card .transport-check input:checked + .checkmark::after { color: #fff; }
@@ -2019,6 +2045,38 @@ tr td:first-child { white-space: nowrap; }
 .mine-need { font-size: 0.6875rem; color: var(--cyan); min-width: 8rem; }
 .mine-need.muted { color: var(--muted); }
 .mine-have { font-size: 0.6875rem; color: var(--muted); min-width: 5rem; }
+.mine-row.mining-complete .mine-acts { display: none; }
+.mine-row.mining-complete .mine-row-name { text-decoration: line-through; color: var(--muted); }
+.mine-need.complete { color: var(--good, var(--cyan)); }
+.mine-progress {
+  flex: 1 0 100%; min-width: 0; margin: 0.15rem 0 0 2.15rem;
+  padding-top: 0.25rem;
+}
+.mine-progress-head {
+  display: flex; justify-content: space-between; gap: 0.5rem;
+  font-size: 0.625rem; color: var(--cyan); font-variant-numeric: tabular-nums;
+}
+.mine-progress-remaining { color: var(--muted); }
+.mine-progress-track {
+  height: 0.3rem; margin-top: 0.25rem; overflow: hidden;
+  background: var(--line); border-radius: 99px;
+}
+.mine-progress-fill {
+  display: block; height: 100%; min-width: 0;
+  background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
+  border-radius: inherit; transition: width .2s ease;
+}
+.mine-progress.complete .mine-progress-fill {
+  background: linear-gradient(90deg, var(--cyan), var(--good, var(--cyan)));
+}
+.mine-progress-reset {
+  margin-top: 0.3rem; padding: 0.15rem 0.45rem;
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 4px;
+  font: inherit; font-size: 0.625rem; cursor: pointer;
+}
+.mine-progress-reset:hover { border-color: var(--cyan); color: var(--cyan); }
+
 .mine-acts { display: flex; align-items: center; gap: 0.25rem; margin-left: auto; flex-wrap: wrap; }
 .mine-log {
   background: var(--panel); color: var(--fg-dim);

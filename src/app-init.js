@@ -303,8 +303,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pick) { pickObtainSite(pick); return; }
     const src = e.target.closest('.src-pick');
     if (src) { pickTransportSource(src); return; }
+    const mineReset = e.target.closest('.mine-progress-reset');
+    if (mineReset) { resetMiningProgress(mineReset); return; }
     const mine = e.target.closest('.mine-log');
-    if (mine) { logMined(decodeURIComponent(mine.dataset.mine), mine.dataset.qty); return; }
+    if (mine) { logMined(decodeURIComponent(mine.dataset.mine), mine.dataset.qty, mine.dataset.mineTotal); return; }
     const title = e.target.closest('.section-title');
     if (title) { toggleSection(title); return; }
   });
@@ -317,8 +319,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pick) { pickObtainSite(pick); return; }
     const src = e.target.closest('.src-pick');
     if (src) { pickTransportSource(src); return; }
+    const mineReset = e.target.closest('.mine-progress-reset');
+    if (mineReset) { resetMiningProgress(mineReset); return; }
     const mine = e.target.closest('.mine-log');
-    if (mine) { logMined(decodeURIComponent(mine.dataset.mine), mine.dataset.qty); return; }
+    if (mine) { logMined(decodeURIComponent(mine.dataset.mine), mine.dataset.qty, mine.dataset.mineTotal); return; }
     const title = e.target.closest('.section-title');
     if (title) { toggleSection(title); return; }
   });
@@ -328,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const q = e.target.closest('.mine-qty');
       if (!q || e.key !== 'Enter') return;
       e.preventDefault();
-      logMined(decodeURIComponent(q.dataset.mineQty), q.value);
+      logMined(decodeURIComponent(q.dataset.mineQty), q.value, q.dataset.mineTotal);
     });
   });
   // Keyboard support for the collapsible section headers (role=button).

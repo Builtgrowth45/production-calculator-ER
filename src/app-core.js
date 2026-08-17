@@ -905,6 +905,7 @@ function stepCard(s, isFinal) {
   const progressDone = typeof productionProgressFor === 'function'
     ? productionProgressFor(s.item, progressTotal) : 0;
   const progressRemaining = Math.max(0, progressTotal - progressDone);
+  const progressComplete = progressTotal > 0 && progressRemaining === 0 && !!PRODUCE_DONE[encodeURIComponent(s.item)];
   const progressChunk = typeof PRODUCTION_PROGRESS_CHUNK === 'number'
     ? PRODUCTION_PROGRESS_CHUNK : 100;
   const progressNext = Math.min(progressChunk, progressRemaining);
@@ -912,7 +913,7 @@ function stepCard(s, isFinal) {
     ? 'All batches recorded'
     : 'Record ' + (progressNext === progressRemaining ? 'final ' : 'next ') +
       fmt(progressNext) + ' batch' + (progressNext === 1 ? '' : 'es');
-  const progressHtml = `<div class="production-progress${progressRemaining === 0 ? ' complete' : ''}">
+  const progressHtml = `<div class="production-progress${progressComplete ? ' complete' : ''}">
         <div class="production-progress-head"><span class="production-progress-title">Batch progress</span><span class="production-progress-count" data-progress-count>${fmt(progressDone)} / ${fmt(progressTotal)} batches complete</span><span class="production-progress-remaining" data-progress-remaining>${fmt(progressRemaining)} remaining</span></div>
         <div class="production-progress-track" role="progressbar" aria-label="${esc(displayName(s.item))} batch progress" aria-valuemin="0" aria-valuemax="${progressTotal}" aria-valuenow="${progressDone}"><span class="production-progress-fill" data-progress-fill style="width:${progressTotal ? Math.round(progressDone / progressTotal * 100) : 0}%"></span></div>
         <div class="production-progress-actions">
@@ -922,7 +923,7 @@ function stepCard(s, isFinal) {
         <span class="production-progress-note">Local tracker only — the plan totals above stay unchanged.</span>
       </div>`;
 
-  return `<div class="recipe-card ${s.process}${PRODUCE_DONE[encodeURIComponent(s.item)] ? ' done' : ''}">
+  return `<div class="recipe-card ${s.process}${PRODUCE_DONE[encodeURIComponent(s.item)] ? ' done' : ''}${progressComplete ? ' progress-complete' : ''}">
       <div class="rc-cb-row">
         <label class="transport-check">
           <input type="checkbox" data-produce-key="${encodeURIComponent(s.item)}" onclick="toggleProduceCheck(this)"${PRODUCE_DONE[encodeURIComponent(s.item)] ? ' checked' : ''} />
@@ -939,9 +940,9 @@ function stepCard(s, isFinal) {
           <div class="flow-batches">${fmt(s.batches)} batch${s.batches > 1 ? 'es' : ''}${surplusNote}</div>
           <div class="step-math">${mathNote}</div>
           ${costNote}
-          ${progressHtml}
         </div>
       </div>
+      ${progressHtml}
     </div>`;
 }
 
