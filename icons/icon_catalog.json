@@ -1,6 +1,6 @@
 {
- "generated": "2026-08-05",
- "count": 354,
+ "generated": "2026-08-17",
+ "count": 355,
  "source": "game_data",
  "icons": [
   {
@@ -4043,6 +4043,20 @@
    "group": "Armor",
    "category": "Armor",
    "icon": "premet tremor arm pads.png",
+   "has_icon": true,
+   "recipe_count": 1,
+   "processes": [
+    "manufacture"
+   ],
+   "quantity": 3,
+   "source": "game"
+  },
+  {
+   "id": "premet tremor leg pads",
+   "name": "PreMet Tremor Leg Pads",
+   "group": "Armor",
+   "category": "Armor",
+   "icon": "premet tremor leg pads.png",
    "has_icon": true,
    "recipe_count": 1,
    "processes": [
