@@ -299,6 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // collapsible section titles (delegated)
   document.getElementById('calc-result').addEventListener('click', e => {
+    const colonyHead = e.target.closest('.colony-work-toggle');
+    if (colonyHead) { toggleColonyWorkGroup(colonyHead); return; }
     const cb = e.target.closest('.transfer-cb');
     if (cb) { toggleTransferCheck(cb); return; }
     const ob = e.target.closest('.obtain-cb');
@@ -315,6 +317,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (title) { toggleSection(title); return; }
   });
   document.getElementById('calc-multi').addEventListener('click', e => {
+    const colonyHead = e.target.closest('.colony-work-toggle');
+    if (colonyHead) { toggleColonyWorkGroup(colonyHead); return; }
     const cb = e.target.closest('.transfer-cb');
     if (cb) { toggleTransferCheck(cb); return; }
     const ob = e.target.closest('.obtain-cb');
@@ -343,6 +347,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ['calc-result', 'calc-multi'].forEach(id => {
     document.getElementById(id).addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
+      const colonyHead = e.target.closest('.colony-work-toggle');
+      if (colonyHead) { e.preventDefault(); toggleColonyWorkGroup(colonyHead); return; }
       const title = e.target.closest('.section-title');
       if (title) { e.preventDefault(); toggleSection(title); }
     });
@@ -439,10 +445,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = compute(item, qty, ALTERNATIVE_CHOICES, null, null, DESTINATION, getDiscounts(), REFINE_DESTINATION);
     const log = applyPlan(result);
 
-    // Record it BEFORE re-rendering: runCalculator() replaces this button, so
-    // setting its text here was pointless — the state has to survive the render.
-    markPlanApplied(planSignature(item, qty));
-    runCalculator();
+    // Inventory is updated before the calculator returns to a clean new-plan state.
+    resetCalculatorForNewPlan();
     toast(`Plan applied. ${log.length} step(s) executed. Ctrl+Z to undo.`, 3000, 'success');
   });
 
@@ -504,9 +508,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const result = compute(CALC_TRAY, ALTERNATIVE_CHOICES, ledger, invLoc, DESTINATION, discounts, REFINE_DESTINATION);
     applyPlan(result);
 
-    // Must be recorded before the re-render, which replaces this button.
-    markPlanApplied(planSignature(CALC_TRAY));
-    runMultiPlan();
+    // Inventory is updated before the combined calculator is cleared for a new tray.
+    resetCalculatorForNewPlan();
     toast(`Combined plan applied. Ctrl+Z to undo.`, 3000, 'success');
   });
 

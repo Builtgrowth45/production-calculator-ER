@@ -124,6 +124,7 @@ function recordProductionProgress(button) {
     }
   }
   updateProductionProgressCard(card, item, total, chunk);
+  syncApplyPlanReadiness();
 }
 function resetProductionProgress(button) {
   var item = decodeURIComponent(button.dataset.progressReset || '');
@@ -140,6 +141,7 @@ function resetProductionProgress(button) {
     }
   }
   updateProductionProgressCard(card, item, total, PRODUCTION_PROGRESS_CHUNK);
+  syncApplyPlanReadiness();
 }
 
 // ── Plan identity ──────────────────────────────────────────────────────────
@@ -222,6 +224,92 @@ function markPlanApplied(sig) {
   reopenAutoCollapsed();
 }
 
+// The Apply control is the next actionable step only after every manufacture
+// card has recorded all of its planned batches. Keep this derived from the
+// rendered cards so single and combined plans share the same behavior.
+function syncApplyPlanReadiness() {
+  ['calc-result', 'calc-multi'].forEach(function (id) {
+    var container = document.getElementById(id);
+    if (!container) return;
+    var cards = container.querySelectorAll('.section[data-section="manufacture"] .recipe-card.manufacture');
+    var ready = cards.length > 0;
+    for (var i = 0; i < cards.length; i++) {
+      var run = cards[i].querySelector('.progress-run');
+      if (!run || !run.disabled) { ready = false; break; }
+    }
+    container.querySelectorAll('.apply-plan:not(.applied)').forEach(function (button) {
+      button.classList.toggle('ready-to-apply', ready);
+      if (ready) {
+        button.setAttribute('data-ready-to-apply', 'true');
+        button.title = 'All manufacture batches recorded — apply this plan to inventory.';
+      } else {
+        button.removeAttribute('data-ready-to-apply');
+        button.removeAttribute('title');
+      }
+    });
+  });
+}
+
+// Applying a plan changes inventory, so the completed plan should not remain
+// presented as the next task. Return to a clean calculator ready for another
+// item or tray while preserving player, colony, and settings state.
+function resetCalculatorForNewPlan() {
+  clearPlanChecks();
+  reopenAutoCollapsed();
+  APPLIED_ONCE = null;
+  CALC_TRAY = [];
+  saveTray();
+  LAST_SINGLE = null;
+  LAST_PLANS['calc-result'] = null;
+  LAST_PLANS['calc-multi'] = null;
+
+  var item = document.getElementById('calc-item');
+  var qty = document.getElementById('calc-qty');
+  var scratch = document.getElementById('calc-scratch');
+  if (item) item.value = '';
+  if (qty) qty.value = '1';
+  if (scratch) scratch.checked = false;
+  clearQuantityValidation();
+
+  var result = document.getElementById('calc-result');
+  var multi = document.getElementById('calc-multi');
+  if (result) { result.innerHTML = ''; result.classList.remove('multi'); }
+  if (multi) multi.innerHTML = '';
+  renderTray();
+  renderCalcPaths();
+  updateShareLink();
+
+  var workbench = document.getElementById('calc-workbench');
+  if (workbench) workbench.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  var picker = document.getElementById('picker-search');
+  if (picker) picker.focus({ preventScroll: true });
+}
+
+function syncColonyWorkGroupStates(root) {
+  var groups = [];
+  if (root && root.matches && root.matches('.colony-work-group')) groups = [root];
+  else if (root && root.closest && root.closest('.colony-work-group')) groups = [root.closest('.colony-work-group')];
+  else if (root && root.querySelectorAll) groups = Array.from(root.querySelectorAll('.colony-work-group'));
+  groups.forEach(function (group) {
+    var checks = group.querySelectorAll('.colony-work-action input[type="checkbox"], .colony-work-refine-card input[type="checkbox"]');
+    var complete = checks.length > 0;
+    for (var i = 0; i < checks.length; i++) {
+      if (!checks[i].checked) { complete = false; break; }
+    }
+    group.classList.toggle('complete', complete);
+    if (!complete) group.classList.remove('expanded');
+    var head = group.querySelector('.colony-work-toggle');
+    if (head) head.setAttribute('aria-expanded', complete ? String(group.classList.contains('expanded')) : 'true');
+  });
+}
+
+function toggleColonyWorkGroup(head) {
+  var group = head && head.closest('.colony-work-group');
+  if (!group || !group.classList.contains('complete')) return;
+  group.classList.toggle('expanded');
+  head.setAttribute('aria-expanded', String(group.classList.contains('expanded')));
+}
+
 function toggleProduceCheck(cb) {
   var key = cb.dataset.produceKey;
   var card = cb.closest('.recipe-card');
@@ -255,6 +343,7 @@ function toggleProduceCheck(cb) {
   // Auto-collapse section if all items in it are checked
   var section = card.closest('.section');
   if (section) autoCollapseIfDone(section);
+  syncApplyPlanReadiness();
 }
 window.toggleProduceCheck = toggleProduceCheck; // exported for inline onclick
 
@@ -361,6 +450,8 @@ function toggleTransferCheck(cb) {
   // this; Move and Obtain were simply never wired up.
   var section = card && card.closest('.section');
   if (section) autoCollapseIfDone(section);
+  syncColonyWorkGroupStates(card);
+  syncApplyPlanReadiness();
 }
 
 function renderTransportSection(plan) {
@@ -748,6 +839,8 @@ function toggleObtainCheck(cb) {
   saveObtainedDone();
   var section = card && card.closest('.section');
   if (section) autoCollapseIfDone(section);
+  syncColonyWorkGroupStates(card);
+  syncApplyPlanReadiness();
 }
 
 // Handle a mine-site chip click: remember the choice and re-file the material
@@ -772,6 +865,8 @@ function pickObtainSite(chip) {
     if (top) top.outerHTML = renderPlanStats(plan);
     var routeSummary = container.querySelector('.route-summary');
     if (routeSummary) routeSummary.outerHTML = renderRouteSummary(plan);
+    syncColonyWorkGroupStates(container);
+    syncApplyPlanReadiness();
   }
 }
 
@@ -899,7 +994,7 @@ function renderColonyWorkSection(plan) {
     var moveCount = group.actions.filter(function (a) { return a.kind.indexOf('move') === 0; }).length;
     var refineCount = group.actions.filter(function (a) { return a.kind === 'refine'; }).length;
     html += '<div class="colony-work-group" data-work-colony="' + esc(group.colony) + '">' +
-      '<div class="colony-work-head"><span class="transport-group-icon">🧭</span>' +
+      '<div class="colony-work-head colony-work-toggle" data-colony-work-toggle role="button" tabindex="0" aria-expanded="true"><span class="transport-group-icon">🧭</span>' +
         '<span class="transport-group-colony">' + esc(group.colony) + '</span>' +
         '<span class="colony-work-count">' +
           (mineCount ? '⛏ ' + mineCount + ' mine' + (mineCount !== 1 ? 's' : '') : '') +
@@ -1597,6 +1692,8 @@ function runCalculator() {
     }
   }
   markDoneSections(out);
+  syncColonyWorkGroupStates(out);
+  syncApplyPlanReadiness();
   renderCalcPaths();
   updateShareLink();
   window.CMG_VALUE_TRANSITION?.markChanged(out);
@@ -1733,6 +1830,8 @@ function runMultiPlan(options) {
     </div>`;
   }
   markDoneSections(out);
+  syncColonyWorkGroupStates(out);
+  syncApplyPlanReadiness();
   if (!options.preserveViewport) out.scrollIntoView({ behavior: 'smooth', block: 'start' });
   renderCalcPaths();
   updateShareLink();

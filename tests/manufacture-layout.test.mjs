@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const core = readFileSync(join(root, 'src/app-core.js'), 'utf8');
 const css = readFileSync(join(root, 'src/styles.css'), 'utf8');
+const compactCss = css.slice(css.indexOf('.recipe-card.compact-manufacture .recipe-flow'), css.indexOf('.recipe-card:hover', css.indexOf('.recipe-card.compact-manufacture .recipe-flow')));
 
 describe('compact manufacture section layout', () => {
   it('marks final manufacture cards as compact without removing their shared renderer', () => {
@@ -19,13 +20,9 @@ describe('compact manufacture section layout', () => {
     assert.match(css, /\.section\[data-section="manufacture"\] \.section-content\s*\{[^}]*repeat\(auto-fit/s);
   });
 
-  it('keeps manufacture cards compact horizontally on wide screens', () => {
-    assert.match(css, /\.recipe-card\.compact-manufacture \.recipe-flow\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto minmax\(240px, 0\.8fr\)/s);
-    assert.match(css, /\.recipe-card\.compact-manufacture \.flow-arrow\.big\s*\{[^}]*transform:\s*none/s);
-  });
-
-  it('returns manufacture cards to the vertical flow on narrow screens', () => {
-    assert.match(css, /@media \(max-width:\s*760px\)[\s\S]*\.recipe-card\.compact-manufacture \.recipe-flow\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\)/s);
-    assert.match(css, /@media \(max-width:\s*760px\)[\s\S]*\.recipe-card\.compact-manufacture \.flow-arrow\.big\s*\{[^}]*transform:\s*rotate\(90deg\)/s);
+  it('keeps manufacture cards vertical with a downward connector at every width', () => {
+    assert.match(compactCss, /grid-template-columns:\s*minmax\(0, 1fr\)\s*;/s);
+    assert.match(compactCss, /\.flow-arrow\.big\s*\{[^}]*transform:\s*rotate\(90deg\)/s);
+    assert.match(compactCss, /\.flow-output\s*\{[^}]*width:\s*100%/s);
   });
 });
