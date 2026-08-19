@@ -32,6 +32,7 @@ describe('combined per-colony work queue', () => {
   it('provides a direct action button for the grouped cargo move', () => {
     assert.match(appSource, /class="move-all-cargo-btn/);
     assert.match(appSource, /data-move-all-cargo/);
+    assert.match(appSource, /data-move-label="' \+ esc\('Move all cargo from/);
     assert.match(initSource, /move-all-cargo-btn/);
     assert.match(initSource, /markMoveBatchComplete/);
     assert.match(appSource, /var batchOrigin = action\.from \|\| action\.colony \|\| group\.colony/);

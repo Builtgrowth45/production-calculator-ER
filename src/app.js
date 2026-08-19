@@ -449,7 +449,7 @@ function toggleTransferCheck(cb) {
   if (quickMove) {
     quickMove.disabled = cb.checked;
     quickMove.classList.toggle('done', cb.checked);
-    quickMove.textContent = cb.checked ? '✓ Cargo moved' : 'Move all cargo →';
+    quickMove.textContent = cb.checked ? '✓ Cargo moved' : quickMove.dataset.moveLabel;
     quickMove.setAttribute('aria-label', cb.checked ? 'Cargo moved' : quickMove.dataset.moveLabel);
   }
   saveTransfersDone();
@@ -1061,7 +1061,7 @@ function renderColonyWorkSection(plan) {
           return '<span class="colony-work-move-item">' + iconFor(item.item) + ' ' +
             esc(displayName(item.item)) + ' ×' + fmt(item.qty) + ' → ' + esc(item.to) + '</span>';
         }).join('');
-        var moveButton = '<button type="button" class="move-all-cargo-btn' + (batchDone ? ' done' : '') + '" data-move-all-cargo data-move-label="Move all cargo →" aria-label="' + (batchDone ? 'Cargo moved' : 'Move all cargo from ' + esc(batchOrigin)) + '"' + (batchDone ? ' disabled' : '') + '>' + (batchDone ? '✓ Cargo moved' : 'Move all cargo →') + '</button>';
+        var moveButton = '<button type="button" class="move-all-cargo-btn' + (batchDone ? ' done' : '') + '" data-move-all-cargo data-move-label="' + esc('Move all cargo from ' + batchOrigin + ' →') + '" aria-label="' + (batchDone ? 'Cargo moved' : 'Move all cargo from ' + esc(batchOrigin)) + '"' + (batchDone ? ' disabled' : '') + '>' + (batchDone ? '✓ Cargo moved' : 'Move all cargo →') + '</button>';
         html += '<div class="flow-card move move-batch-action colony-work-action' + (batchDone ? ' done' : '') + '">' +
           '<label class="transport-check"><input type="checkbox" class="transfer-cb" aria-label="Move all cargo from ' + esc(batchOrigin) + '" data-transfer-key="' + esc(batchKey) + '"' + (batchDone ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
           '<div class="flow-card-body"><div class="flow-chip">📦<span class="flow-name">Move all cargo from ' + esc(batchOrigin) + '</span><span class="flow-qty owned">' + action.items.length + ' lot' + (action.items.length !== 1 ? 's' : '') + '</span></div>' +

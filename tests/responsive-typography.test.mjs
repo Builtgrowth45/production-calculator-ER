@@ -5,6 +5,7 @@ import { join } from 'node:path';
 
 const root = join(import.meta.dirname, '..');
 const core = readFileSync(join(root, 'src', 'app-core.js'), 'utf8');
+const init = readFileSync(join(root, 'src', 'app-init.js'), 'utf8');
 const css = readFileSync(join(root, 'src', 'styles.css'), 'utf8');
 const ux = readFileSync(join(root, 'src', 'styles', 'ux-release.css'), 'utf8');
 const html = readFileSync(join(root, 'index.html'), 'utf8');
@@ -14,6 +15,7 @@ describe('responsive typography and content density', () => {
     assert.match(core, /function baseFontPixels\(width\)/);
     assert.match(core, /if \(w >= 3200\) return 22[\s\S]*if \(w >= 2200\) return 20[\s\S]*return 19/);
     assert.match(core, /const BASE_PX = baseFontPixels\(window\.innerWidth\)/);
+    assert.match(init, /addEventListener\(['"]resize['"][\s\S]*applyFontScale/);
   });
 
   it('uses the available width on large desktop displays', () => {

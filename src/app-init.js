@@ -297,6 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   document.getElementById('size-decrease')?.addEventListener('click', () => adjustFontScale(-1));
   document.getElementById('size-increase')?.addEventListener('click', () => adjustFontScale(1));
+  // Keep the resolution-aware 100% baseline correct when the browser window
+  // moves between display sizes or the user changes its effective viewport.
+  window.addEventListener('resize', () => {
+    const slider = document.getElementById('size-range');
+    applyFontScale(slider?.value || 100);
+  });
 
   // collapsible section titles (delegated)
   document.getElementById('calc-result').addEventListener('click', e => {
