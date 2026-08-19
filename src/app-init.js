@@ -878,24 +878,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Path-choice dropdowns
-  document.getElementById('calc-result').addEventListener('change', e => {
-    const sel = e.target.closest('select[data-alt]');
-    if (!sel) return;
-    const item = decodeURIComponent(sel.dataset.alt);
-    ALTERNATIVE_CHOICES[item] = parseInt(sel.value, 10);
-    savePaths();
-    if (CALC_TRAY.length) runMultiPlan(); else runCalculator();
-  });
-  document.getElementById('calc-multi').addEventListener('change', e => {
-    const sel = e.target.closest('select[data-alt]');
-    if (!sel) return;
-    const item = decodeURIComponent(sel.dataset.alt);
-    ALTERNATIVE_CHOICES[item] = parseInt(sel.value, 10);
-    savePaths();
-    runMultiPlan();
-  });
-
   // Keyboard shortcuts: Ctrl+Z undo (outside form fields), / to focus search
   const VIEW_SEARCH = { calc: 'picker-search', inventory: 'inv-search', colonies: 'col-search', drugs: 'drug-search', battle: 'bn-search' };
   document.addEventListener('keydown', e => {

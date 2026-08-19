@@ -134,5 +134,6 @@ describe('refinement-path cost estimates (shipped app.js code)', () => {
     const handler = initSrc.slice(initSrc.indexOf('select[data-alt]'), initSrc.indexOf('renderCalcPaths();', initSrc.indexOf('select[data-alt]')));
     assert.match(handler, /runMultiPlan\(\{ preserveChecklist: true, preserveViewport: true \}\)/);
     assert.match(handler, /runCalculator\(\{ preserveChecklist: true, preserveViewport: true \}\)/);
+    assert.equal((initSrc.match(/select\[data-alt\]/g) || []).length, 1, 'refinement paths must have one delegated change listener');
   });
 });
