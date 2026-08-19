@@ -445,6 +445,13 @@ function toggleTransferCheck(cb) {
     delete TRANSFERS_DONE[key];
     if (card) card.classList.remove('done');
   }
+  var quickMove = card && card.querySelector('.move-all-cargo-btn');
+  if (quickMove) {
+    quickMove.disabled = cb.checked;
+    quickMove.classList.toggle('done', cb.checked);
+    quickMove.textContent = cb.checked ? '✓ Cargo moved' : 'Move all cargo →';
+    quickMove.setAttribute('aria-label', cb.checked ? 'Cargo moved' : quickMove.dataset.moveLabel);
+  }
   saveTransfersDone();
   // Fold the section once everything in it is ticked — Produce already did
   // this; Move and Obtain were simply never wired up.
@@ -452,6 +459,14 @@ function toggleTransferCheck(cb) {
   if (section) autoCollapseIfDone(section);
   syncColonyWorkGroupStates(card);
   syncApplyPlanReadiness();
+}
+
+function markMoveBatchComplete(button) {
+  var card = button.closest('.flow-card');
+  var cb = card && card.querySelector('.transfer-cb');
+  if (!cb || cb.checked) return;
+  cb.checked = true;
+  toggleTransferCheck(cb);
 }
 
 function renderTransportSection(plan) {
@@ -1031,7 +1046,8 @@ function renderColonyWorkSection(plan) {
       }
 
       if (action.kind === 'move-batch') {
-        var batchKey = 'move-batch|' + action.colony + '|' + action.items.map(function (item) {
+        var batchOrigin = action.from || action.colony || group.colony;
+        var batchKey = 'move-batch|' + batchOrigin + '|' + action.items.map(function (item) {
           return item.kind + '|' + item.item + '|' + item.from + '|' + item.to;
         }).join(';');
         var legacyBatchDone = action.items.length > 0 && action.items.every(function (item) {
@@ -1045,10 +1061,11 @@ function renderColonyWorkSection(plan) {
           return '<span class="colony-work-move-item">' + iconFor(item.item) + ' ' +
             esc(displayName(item.item)) + ' ×' + fmt(item.qty) + ' → ' + esc(item.to) + '</span>';
         }).join('');
-        html += '<div class="flow-card move colony-work-action' + (batchDone ? ' done' : '') + '">' +
-          '<label class="transport-check"><input type="checkbox" class="transfer-cb" data-transfer-key="' + esc(batchKey) + '"' + (batchDone ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
-          '<div class="flow-card-body"><div class="flow-chip">📦<span class="flow-name">Move all cargo from ' + esc(action.colony) + '</span><span class="flow-qty owned">' + action.items.length + ' lot' + (action.items.length !== 1 ? 's' : '') + '</span></div>' +
-          '<div class="colony-work-move-items">' + batchDetails + '</div></div></div>';
+        var moveButton = '<button type="button" class="move-all-cargo-btn' + (batchDone ? ' done' : '') + '" data-move-all-cargo data-move-label="Move all cargo →" aria-label="' + (batchDone ? 'Cargo moved' : 'Move all cargo from ' + esc(batchOrigin)) + '"' + (batchDone ? ' disabled' : '') + '>' + (batchDone ? '✓ Cargo moved' : 'Move all cargo →') + '</button>';
+        html += '<div class="flow-card move move-batch-action colony-work-action' + (batchDone ? ' done' : '') + '">' +
+          '<label class="transport-check"><input type="checkbox" class="transfer-cb" aria-label="Move all cargo from ' + esc(batchOrigin) + '" data-transfer-key="' + esc(batchKey) + '"' + (batchDone ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
+          '<div class="flow-card-body"><div class="flow-chip">📦<span class="flow-name">Move all cargo from ' + esc(batchOrigin) + '</span><span class="flow-qty owned">' + action.items.length + ' lot' + (action.items.length !== 1 ? 's' : '') + '</span></div>' +
+          '<div class="colony-work-move-items">' + batchDetails + '</div>' + moveButton + '</div></div>';
         return;
       }
 
@@ -1204,7 +1221,7 @@ function renderCalcPaths() {
   var anyPriced = itemCosts.some(function (costs) { return costs.some(function (c) { return c != null; }); });
   // Label reflects where this panel actually lives now: inside the plan card,
   // above the materials dashboard it drives (switching a path re-plans).
-  box.innerHTML = '<div class="calc-paths-title"><span class="calc-paths-badge">⚙</span><span>Refinement paths</span><span class="calc-paths-hint">switch to change the materials below</span></div>' +
+  box.innerHTML = '<div class="calc-paths-title"><span class="calc-paths-badge">⚙</span><span>Choose refinement paths</span><span class="calc-paths-hint">changes materials, cost, and colony work</span></div>' +
     '<div class="calc-path-flow" aria-hidden="true"><span></span><span></span><span></span></div>' +
     '<div class="calc-paths-list">' + paths.map(function (p, pi) {
       // Show the path the plan below is ACTUALLY built on. Defaulting to 0 made
@@ -1216,21 +1233,36 @@ function renderCalcPaths() {
       costs.forEach(function (c, i) { if (c != null && (best < 0 || c < costs[best])) best = i; });
       var opts = p.recipe.inputs_alternatives.map(function (a, i) {
         var label = a.map(function (x) { return fmt(x.quantity) + ' ' + esc(x.item); }).join(' + ');
-        var c = costs[i];
-        if (c != null) {
-          label += ' · ≈ ' + fmtUC(c) + ' UC/unit';
-          if (i === best) label += ' ★ cheapest';
-        } else if (anyPriced) {
-          label += ' · cost n/a';
-        }
+        if (costs[i] == null && anyPriced) label += ' · cost n/a';
         return '<option value="' + i + '"' + (i === chosen ? ' selected' : '') + '>' + label + '</option>';
       }).join('');
+      var selectedPath = p.recipe.inputs_alternatives[chosen] || p.recipe.inputs_alternatives[0] || [];
+      var selectedDesc = selectedPath.map(function (x) { return fmt(x.quantity) + ' ' + esc(x.item); }).join(' + ');
+      var selectedCost = costs[chosen];
+      var selectedCostHtml = selectedCost != null
+        ? '<span class="calc-path-cost"><b>Estimated path cost</b> ≈ ' + fmtUC(selectedCost) + ' UC/unit</span>'
+        : '<span class="calc-path-cost unavailable"><b>Estimated path cost</b> unavailable</span>';
+      var recommendedHtml = best >= 0 && chosen === best
+        ? '<span class="calc-path-recommended">★ Recommended</span>' : '';
+      var compareHtml = anyPriced
+        ? '<span class="calc-path-compare" aria-label="Estimated costs for all refinement paths"><b>Options:</b> ' +
+          costs.map(function (c, i) {
+            return 'Path ' + (i + 1) + ' ' + (c != null ? '≈ ' + fmtUC(c) + ' UC' + (i === best ? ' ★' : '') : 'n/a');
+          }).join(' · ') + '</span>'
+        : '';
       return '<label class="calc-path-row">' +
         '<span class="calc-path-item">' + iconFor(p.item) + '<span>' + esc(displayName(p.item)) + '</span></span>' +
-        '<select data-alt="' + encodeURIComponent(p.item) + '" aria-label="Refinement path for ' + esc(p.item) + '">' + opts + '</select>' +
+        '<span class="calc-path-control">' +
+          '<span class="calc-path-control-label">Choose input materials</span>' +
+          '<select data-alt="' + encodeURIComponent(p.item) + '" aria-label="Refinement path for ' + esc(p.item) + '">' + opts + '</select>' +
+          '<span class="calc-path-meta">' +
+            '<span class="calc-path-selected"><b>Selected:</b> ' + selectedDesc + '</span>' +
+            selectedCostHtml + recommendedHtml + compareHtml +
+          '</span>' +
+        '</span>' +
       '</label>';
     }).join('') + '</div>' +
-    (anyPriced ? '<div class="calc-paths-note">≈ estimated UC per unit — processing fee + materials, net of the 85% owner return where your selected faction owns the colony; tax is separate · ★ = cheapest priced path · prices are a snapshot, verify live in-game</div>' : '');
+    (anyPriced ? '<details class="calc-paths-help"><summary>How are estimates calculated?</summary><span>Estimated UC per unit combines processing fees and materials. It includes the configured 85% owner return where your selected faction owns the colony; tax is separate. Prices are a snapshot—verify live in-game.</span></details>' : '');
 }
 
 // ── Collapsible plan sections (persisted) ──
@@ -1491,11 +1523,35 @@ function renderRouteSummary(plan) {
         return esc(displayName(move.item)) + ' · ' + esc(move.from) + ' → ' + esc(move.to);
       }).join(' · ') + '</div>'
     : '';
+  var factionId = activeFactionId();
+  var faction = window.factionById?.(factionId);
+  var factionName = faction?.name || factionId;
+  var plannedColonies = [REFINE_DESTINATION, DESTINATION].filter(function (colony, index, all) {
+    return colony && all.indexOf(colony) === index;
+  });
+  var ownedColonies = plannedColonies.filter(function (colony) { return isOwnColony(colony); });
+  var factionHtml;
+  if (activeFactionReturnRate() > 0) {
+    var ownedText = ownedColonies.length
+      ? ownedColonies.map(esc).join(', ')
+      : 'none of the selected colonies';
+    factionHtml = '<div class="route-summary-faction ' +
+      (ownedColonies.length === plannedColonies.length ? 'faction-owned' : 'faction-owned-tip') + '">' +
+      '<b>Refine and produce at colonies owned by ' + esc(factionName) + '</b> when possible — your configured ' +
+      Math.round(activeFactionReturnRate() * 100) + '% faction return applies there. ' +
+      (ownedColonies.length === plannedColonies.length
+        ? 'This route already uses ' + ownedText + '.'
+        : 'This plan currently uses ' + ownedText + '; consider changing the colony selectors before you calculate.') +
+      '</div>';
+  } else {
+    factionHtml = '<div class="route-summary-faction faction-owned-tip"><b>Faction-owned colony tip:</b> choose a faction in Player setup to see faction returns. You can refine and produce at any available colony.</div>';
+  }
   return '<section class="route-summary" aria-label="How this run flows">' +
     '<div class="route-summary-title">How this run flows</div>' +
     '<div class="route-summary-flow">' + flow.join('') + '</div>' +
     directHtml +
-    '<p class="route-summary-note">The route cards below show each material\'s exact colony movement and quantity.</p>' +
+    factionHtml +
+    '<p class="route-summary-note">Route cards show exact moves and quantities.</p>' +
   '</section>';
 }
 
@@ -1608,6 +1664,7 @@ function renderPlan(item, qty, targetEl) {
       ${planSection('manufacture', 2, 'Manufacture at ' + esc(DESTINATION),
         (drugRef ? `<div class="prod-code"><span class="prod-code-label">Production Code</span><span class="prod-code-val">${esc(String(drugRef.code))}</span><span class="prod-code-power"><span class="prod-code-label">Power</span><span class="tag tier-${esc(String(drugRef.tier || '').toLowerCase())}">${esc(drugRef.tier)}</span></span></div>` : '') + manufactureHtml)}
       ${renderMiningPanel(plan)}
+      <div class="apply-plan-note">Applying the plan records completed products in inventory. Any unused batch surplus stays at the colony where it was produced; refinement leftovers stay at the refinement colony until you move them.</div>
       ${planApplied
         ? `<button class="apply-plan applied" disabled title="Applied. Press Calculate again to plan another run of this.">✓ Applied to inventory</button>`
         : `<button class="apply-plan" data-apply="${encodeURIComponent(item)}" data-qty="${qty}">Apply plan → inventory</button>`}
@@ -1795,6 +1852,7 @@ function runMultiPlan(options) {
   const statsHtml = renderPlanStats(plan);
   const dashboardHtml = renderMaterialDashboard(plan);
   if (statsHtml) html += statsHtml;
+  html += renderRouteSummary(plan);
   html += showTheMathPanel(plan);
   html += decisionSummary(plan);
   html += renderColonyCompare({
@@ -1815,7 +1873,7 @@ function runMultiPlan(options) {
 
   out.innerHTML = html;
   if (CALC_TRAY.length) {
-    out.innerHTML += `${planApplied
+    out.innerHTML += `<div class="apply-plan-note">Applying the plan records completed products in inventory. Any unused batch surplus stays at the colony where it was produced; refinement leftovers stay at the refinement colony until you move them.</div>${planApplied
       ? `<button class="apply-plan applied" disabled title="Applied. Press Build combined plan again to plan another run.">✓ Applied to inventory</button>`
       : `<button class="apply-plan primary" id="apply-multi">Apply combined plan → inventory</button>`}
     <div class="plan-actions">

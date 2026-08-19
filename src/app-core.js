@@ -1006,7 +1006,7 @@ function stepCard(s, isFinal) {
         <span class="flow-arrow big">➜</span>
         <div class="flow-output">
           <div class="flow-chip output"><span class="proc ${s.process}">${esc(s.process)}</span>${iconFor(s.item)}<span class="flow-name">${esc(displayName(s.item))}</span><span class="flow-qty made">${fmt(s.produced)}</span></div>
-          <div class="flow-batches">${fmt(s.batches)} batch${s.batches > 1 ? 'es' : ''}${surplusNote}</div>
+          <div class="flow-batches batch-emphasis">${fmt(s.batches)} batch${s.batches > 1 ? 'es' : ''}${surplusNote}</div>
           <div class="step-math">${mathNote}</div>
           ${costNote}
         </div>
@@ -1102,7 +1102,7 @@ function costBreakdown(cost, plan) {
     const returnPct = Math.round(cost.returnRate * 100);
     rows.push(line(`↩ back to ${esc(factionName)} funds`, fmtUC(cost.rebate), pctOf(cost.rebate, cost.grand), 'cb-back',
       `${returnPct}% of the ${fmtUC(cost.ownSpend)} UC pre-tax mining/production spend on colonies owned by ${esc(factionName)}. Tax is excluded. You still pay the full total — this returns to faction funds, not to you.`));
-    rows.push(line('cost to faction / guild', fmtUC(cost.grand - cost.rebate), pctOf(cost.grand - cost.rebate, cost.grand), 'cb-net',
+    rows.push(line('Net faction cost', fmtUC(cost.grand - cost.rebate), pctOf(cost.grand - cost.rebate, cost.grand), 'cb-net',
       'Total minus the configured return to faction funds.'));
   }
 
@@ -1122,11 +1122,11 @@ function costBreakdown(cost, plan) {
 // material is distributed down the recipe chain to the finals that consume
 // it, in proportion to their input demand. Because that distribution is
 // exhaustive, the rows add up EXACTLY to the hero strip's Investment and
-// Cost-to-guild totals — the table and the headline can never disagree
+// net faction cost totals — the table and the headline can never disagree
 // (they used to: the table quoted listed fees while the hero quoted the
 // drift-discounted actuals, and long runs like 300 medkits diverged).
 //   Cost/unit         — this item's share of the plan's real spend, ÷ units
-//   Cost to guild/unit — same, minus the faction rebate share on colonies
+//   Net faction cost/unit — same, minus the faction rebate share on colonies
 //                        we own (Cost/unit − 85% of the owned-colony share)
 function planRequestedQty(item) {
   try {
@@ -1151,7 +1151,7 @@ function planRequestedQty(item) {
 // colonies owned by the active faction (the return base). Invariants, by construction:
 //   Σ finals.total        == planCost(plan).grand
 //   Σ finals.owned        == planCost(plan).ownSpend
-//   Σ (total − rebate×owned) == grand − rebate  (the net-to-guild total)
+//   Σ (total − rebate×owned) == grand − rebate  (the net faction cost total)
 function perItemPlanCosts(plan) {
   // Total input demand per item across all steps (each step's resolvedInputs
   // qty is already per-batch × batches — the full amount that step consumed).
@@ -1234,7 +1234,7 @@ function renderPerUnitPricing(plan) {
     if (total > 0) anyPriced = true;
 
     const unit = total / s.produced;
-    const guildUnit = (total - activeFactionReturnRate() * owned) / s.produced;
+    const netFactionUnit = (total - activeFactionReturnRate() * owned) / s.produced;
     const req = planRequestedQty(s.item);
     const tip = 'One unit of ' + esc(displayName(s.item)) + '\'s share of the plan\'s actual costs — its processing fees (colony tax, slot upkeep and session drift included) plus its materials, allocated down the recipe chain. Rows add up to the Investment and faction cost totals above. Faction figure nets out the ' + rebatePct + '% configured return on colonies owned by ' + factionName + '.';
 
@@ -1244,7 +1244,7 @@ function renderPerUnitPricing(plan) {
       <td class="up-num">${fmt(s.produced)}${s.surplus > 0 ? ` <span class="surplus-badge" title="${fmt(s.surplus)} extra from batch rounding">+${fmt(s.surplus)}</span>` : ''}</td>
       <td class="up-num">${fmt(s.batches)}</td>
       <td class="up-num">${total > 0 ? fmtUC(unit) : '<span class="up-na">n/a</span>'}</td>
-      <td class="up-num up-net">${total > 0 ? fmtUC(guildUnit) : '<span class="up-na">n/a</span>'}</td>
+      <td class="up-num up-net">${total > 0 ? fmtUC(netFactionUnit) : '<span class="up-na">n/a</span>'}</td>
     </tr>`;
   });
   if (!anyPriced) return '';
@@ -1273,19 +1273,19 @@ function renderPerUnitPricing(plan) {
           <th scope="col" class="up-num">Made</th>
           <th scope="col" class="up-num">Batches</th>
           <th scope="col" class="up-num">Cost/unit</th>
-          <th scope="col" class="up-num">Cost to guild/unit</th>
+          <th scope="col" class="up-num">Net faction cost/unit</th>
         </tr></thead>
         <tbody>${rows.join('')}</tbody>
       </table>
     </div>
-    <div class="unit-note">Per-unit = this item's share of the plan's actual costs — processing fees with colony tax, slot upkeep and session drift included, plus materials — allocated by recipe demand, so rows add up to the Investment and Cost to guild totals above.${covered.length
+    <div class="unit-note">Per-unit = this item's share of the plan's actual costs — processing fees with colony tax, slot upkeep and session drift included, plus materials — allocated by recipe demand, so rows add up to the Investment and Net faction cost totals above.${covered.length
       ? ` ${covered.length} queued item${covered.length > 1 ? 's' : ''} fully covered by owned stock — nothing to produce.` : ''} Prices are a snapshot — verify live in-game.</div>
   </div>`;
 }
 
 // ---- Headline figures: what matters most when planning a run ----
 // Three numbers, biggest first: the upfront investment, the cost per unit
-// produced, and what each unit really costs the guild after the faction
+// produced, and what each unit really costs the active faction after the faction
 // rebate comes back. The rest of the cost panel is the arithmetic behind
 // them. "Units produced" counts the plan's manufacture output (surplus from
 // batch rounding included).
@@ -1308,7 +1308,7 @@ function costHero(cost, totalProduced, gaps, finalCount) {
       <span class="cost-hero-sub">${avgNote}${totalProduced > 0 ? fmt(totalProduced) + ' units made' : 'nothing produced'}</span>
     </div>
     <div class="cost-hero-block cost-hero-net" title="${Math.round(activeFactionReturnRate() * 100)}% of eligible spend at colonies owned by ${esc(factionName)} returns to faction funds — this is the cost to that faction. With more than one item in the plan this is the average across them, weighted by units made.">
-      <span class="cost-hero-label">Cost to guild / unit</span>
+      <span class="cost-hero-label">Net faction cost / unit</span>
       <span class="cost-hero-value">${totalProduced > 0 ? fmtUC(net / totalProduced) : '—'}</span>
       <span class="cost-hero-sub">${avgNote}${activeFactionReturnRate() > 0 ? `after ${Math.round(activeFactionReturnRate() * 100)}% return` : 'no configured faction return'}</span>
     </div>
@@ -1488,10 +1488,10 @@ function showTheMathPanel(plan) {
       'Investment ÷ ' + fmt(totalProduced) + ' unit' + (totalProduced === 1 ? '' : 's') +
       (finalCount > 1 ? ' (' + finalCount + ' items, weighted by units made)' : ''));
   }
-  let guildRow = '';
+  let factionRow = '';
   if (totalProduced > 0) {
     const net = cost.grand - cost.rebate;
-    guildRow = line('Cost to guild per unit', fmtUC(net / totalProduced) + ' UC',
+    factionRow = line('Net faction cost per unit', fmtUC(net / totalProduced) + ' UC',
       returnPct > 0
         ? '(' + fmtUC(cost.grand) + ' − ' + fmtUC(cost.rebate) + ' rebate) ÷ ' + fmt(totalProduced) + ' unit' + (totalProduced === 1 ? '' : 's')
         : 'same as cost per unit — no faction return configured');
@@ -1524,9 +1524,9 @@ function showTheMathPanel(plan) {
         <h4 class="show-math-title">Headline figures</h4>
         ${invRow}
         ${unitRow}
-        ${guildRow}
+        ${factionRow}
       </section>
-      <p class="show-math-foot muted">Every figure here is the same calculation the cost panel above uses — nothing new is invented and nothing changes if you open this. Prices are a snapshot of the bundled cost data; verify live in-game.</p>
+      <p class="show-math-foot muted">Figures match the cost panel. Prices are bundled snapshots; verify live in-game.</p>
     </div>
   </details>`;
 }
@@ -1537,7 +1537,7 @@ function showTheMathPanel(plan) {
 // The cost panel states figures; this disclosure turns them into the choices
 // they imply, using ONLY values planCost/netPathCost already compute — no new
 // fields, no changed semantics, no invented rankings:
-//   * up-front investment, cost/unit and cost-to-guild/unit are exactly the
+//   * up-front investment, cost/unit and net faction cost per unit are exactly the
 //     hero strip's numbers (they must never diverge),
 //   * the cheapest refinement path is the same netPathCost estimate the ⚙ path
 //     picker shows, so the ★ here can never contradict the ★ there,
@@ -1568,7 +1568,7 @@ function decisionSummary(plan) {
       'Investment ÷ ' + fmt(produced) + ' unit' + (produced === 1 ? '' : 's') +
       (finalCount > 1 ? ' (' + finalCount + ' items, weighted by units made)' : ''));
     const net = cost.grand - cost.rebate;
-    rows += line('Cost to guild per unit', fmtUC(net / produced) + ' UC',
+    rows += line('Net faction cost per unit', fmtUC(net / produced) + ' UC',
       returnPct > 0
         ? 'after the ' + returnPct + '% return to ' + esc(factionName) + ' funds — what the faction is really out of pocket'
         : 'no configured faction return — same as cost per unit');
@@ -1619,14 +1619,14 @@ function decisionSummary(plan) {
 
   rows += line('Speed', fmt(cost.runs) + ' slot run' + (cost.runs === 1 ? '' : 's') + ' · ' +
     fmt(cost.batches) + ' slot-batch' + (cost.batches === 1 ? '' : 'es'),
-    'the game publishes no craft durations — slot runs are the honest speed measure (fewer runs = done sooner)');
+    'No wall-clock craft time is published; fewer slot runs means a shorter run.');
 
   return `<details class="decision-summary" data-decision-summary>
     <summary>Decision summary</summary>
     <div class="decision-summary-body">
       ${unknownNote}
       ${rows}
-      <p class="decision-foot muted">Every figure is the same calculation the cost panel uses — nothing new is invented here. Prices are a snapshot of the bundled cost data; verify live in-game.</p>
+      <p class="decision-foot muted">Same calculation as the cost panel. Prices are bundled snapshots; verify live in-game.</p>
     </div>
   </details>`;
 }
@@ -1661,7 +1661,7 @@ function colonyCompareRows(spec) {
       return {
         colony, tax: typeof COLONY_TAX[colony] === 'number' ? COLONY_TAX[colony] : 0,
         owners: colonyOwnerIds(colony), owned: isOwnColony(colony),
-        investment: null, perUnit: null, guildUnit: null,
+        investment: null, perUnit: null, netFactionUnit: null,
         unknown: true, produced: 0, runs: 0, batches: 0, here: colony === dest,
       };
     }
@@ -1673,7 +1673,7 @@ function colonyCompareRows(spec) {
       owners: colonyOwnerIds(colony), owned: isOwnColony(colony),
       investment: priced ? cost.grand : null,
       perUnit: priced ? cost.grand / made : null,
-      guildUnit: priced ? (cost.grand - cost.rebate) / made : null,
+      netFactionUnit: priced ? (cost.grand - cost.rebate) / made : null,
       unknown: cost.anyUnknown, produced: made,
       runs: cost.runs, batches: cost.batches, here: colony === dest,
     };
@@ -1683,36 +1683,36 @@ function colonyCompareRows(spec) {
   // fully priced rows. A flat world (all equal) or a tied minimum gets NO ★ —
   // claiming a cheapest that isn't one would be an invented ranking.
   const hereRow = computed.find(r => r.here);
-  const hereGuild = hereRow && hereRow.guildUnit != null ? hereRow.guildUnit : null;
+  const hereFaction = hereRow && hereRow.netFactionUnit != null ? hereRow.netFactionUnit : null;
   computed.forEach(r => {
     // A delta against itself is meaningless — the here row's cell shows —.
-    r.delta = r.here ? null : (r.guildUnit != null && hereGuild != null ? r.guildUnit - hereGuild : null);
+    r.delta = r.here ? null : (r.netFactionUnit != null && hereFaction != null ? r.netFactionUnit - hereFaction : null);
     r.cheapest = false;
   });
-  const pricedRows = computed.filter(r => r.guildUnit != null);
+  const pricedRows = computed.filter(r => r.netFactionUnit != null);
   if (pricedRows.length >= 2) {
-    const distinct = [...new Set(pricedRows.map(r => r.guildUnit))].sort((a, b) => a - b);
+    const distinct = [...new Set(pricedRows.map(r => r.netFactionUnit))].sort((a, b) => a - b);
     if (distinct.length >= 2) {
       const minVal = distinct[0];
-      const minRows = pricedRows.filter(r => r.guildUnit === minVal);
+      const minRows = pricedRows.filter(r => r.netFactionUnit === minVal);
       if (minRows.length === 1) minRows[0].cheapest = true;
     }
   }
 
   // Current destination first, then priced rows cheapest-first, then unpriced
   // rows alphabetically — a sort of derived numbers, never a made-up ranking.
-  const order = r => r.here ? 0 : (r.guildUnit != null ? 1 : 2);
+  const order = r => r.here ? 0 : (r.netFactionUnit != null ? 1 : 2);
   computed.sort((a, b) =>
     order(a) - order(b) ||
-    (a.guildUnit != null && b.guildUnit != null ? a.guildUnit - b.guildUnit : a.colony.localeCompare(b.colony)));
+    (a.netFactionUnit != null && b.netFactionUnit != null ? a.netFactionUnit - b.netFactionUnit : a.colony.localeCompare(b.colony)));
   return computed;
 }
 
 function renderColonyCompare(spec) {
   const rows = colonyCompareRows(spec);
   if (!rows.length) return '';
-  const anyPriced = rows.some(r => r.guildUnit != null);
-  const pricedCount = rows.filter(r => r.guildUnit != null).length;
+  const anyPriced = rows.some(r => r.netFactionUnit != null);
+  const pricedCount = rows.filter(r => r.netFactionUnit != null).length;
 
   const ownerLabel = ids => ids.length
     ? ids.map(id => esc(window.factionById?.(id)?.name || id)).join(' + ')
@@ -1722,12 +1722,12 @@ function renderColonyCompare(spec) {
       ? `<span class="cc-delta ${r.delta < 0 ? 'better' : 'worse'}">${r.delta < 0 ? '−' : '+'}${fmtUC(Math.abs(r.delta))}</span>`
       : (r.here ? '<span class="cc-na">—</span>' : '<span class="cc-na">same</span>');
     return `<tr${r.here ? ' class="cc-here"' : ''}>
-      <td class="cc-colony">${r.here ? '<span class="cc-here-tag">here</span> ' : ''}${esc(r.colony)}${r.cheapest ? ' <span class="cc-star" title="Cheapest cost to guild per unit">★</span>' : ''}</td>
+      <td class="cc-colony">${r.here ? '<span class="cc-here-tag">here</span> ' : ''}${esc(r.colony)}${r.cheapest ? ' <span class="cc-star" title="Cheapest net faction cost per unit">★</span>' : ''}</td>
       <td class="cc-num">${r.tax}%</td>
       <td class="cc-owner">${ownerLabel(r.owners)}</td>
       <td class="cc-num">${r.investment != null ? fmtUC(r.investment) : '<span class="cc-na">n/a</span>'}</td>
       <td class="cc-num">${r.perUnit != null ? fmtUC(r.perUnit) : '<span class="cc-na">n/a</span>'}</td>
-      <td class="cc-num cc-guild">${r.guildUnit != null ? fmtUC(r.guildUnit) : '<span class="cc-na">n/a</span>'}</td>
+      <td class="cc-num cc-faction">${r.netFactionUnit != null ? fmtUC(r.netFactionUnit) : '<span class="cc-na">n/a</span>'}</td>
       <td class="cc-num">${deltaCell}</td>
       <td class="cc-action">${r.here ? '' : `<button type="button" class="ghost cc-plan" data-whatif-plan="${encodeURIComponent(r.colony)}">Plan here</button>`}</td>
     </tr>`;
@@ -1743,25 +1743,25 @@ function renderColonyCompare(spec) {
   return `<details class="colony-compare" data-colony-compare>
     <summary>Compare colonies — what if this ran elsewhere?</summary>
     <div class="colony-compare-body">
-      <p class="colony-compare-intro muted">Same stock, same refinement paths — only the production colony changes. Figures come from the same engine the calculator uses; tax, ownership returns, mine sites and transport all follow the destination.</p>
+      <p class="colony-compare-intro muted">Same stock and paths; only the production colony changes. Tax, ownership, mines, and transport are recalculated.</p>
       ${noPriceNote}
       <div class="unit-scroll">
         <table class="unit-table colony-compare-table">
-          <caption class="sr-only">Colony comparison — investment, cost per unit and cost to guild per unit at each production colony</caption>
+          <caption class="sr-only">Colony comparison — investment, cost per unit and net faction cost per unit at each production colony</caption>
           <thead><tr>
             <th scope="col">Colony</th>
             <th scope="col" class="cc-num">Tax</th>
             <th scope="col">Owner</th>
             <th scope="col" class="cc-num">Investment</th>
             <th scope="col" class="cc-num">Cost/unit</th>
-            <th scope="col" class="cc-num">Cost to guild/unit</th>
+            <th scope="col" class="cc-num">Net faction cost/unit</th>
             <th scope="col" class="cc-num">vs here</th>
             <th scope="col"><span class="sr-only">Action</span></th>
           </tr></thead>
           <tbody>${rowHtml}</tbody>
         </table>
       </div>
-      <p class="unit-note">★ = cheapest cost to guild per unit among fully priced colonies · “here” is your current production colony · vs here is guild/unit minus this colony's · Plan here re-runs the whole plan at that colony (transport, mine sites, tax and the owner return all follow). Prices are a snapshot — verify live in-game.${gapNote}</p>
+      <p class="unit-note">★ = cheapest net faction cost per unit among fully priced colonies · “here” is your current production colony · vs here is net faction cost/unit minus this colony's · Plan here re-runs the whole plan at that colony (transport, mine sites, tax and the owner return all follow). Prices are a snapshot — verify live in-game.${gapNote}</p>
     </div>
   </details>`;
 }
@@ -1893,8 +1893,14 @@ function applyTheme(pref) {
 }
 
 // Continuous font-size slider (replaces old A/A+/A++ buttons)
+function baseFontPixels(width) {
+  const w = Number(width) || 0;
+  if (w >= 3200) return 22; // 4K CSS viewport
+  if (w >= 2200) return 20; // 2K CSS viewport
+  return 19; // 1080p and smaller desktop viewports
+}
 function applyFontScale(pct) {
-  const BASE_PX = 18; // root font-size when the slider reads 100% (was browser default ~16px)
+  const BASE_PX = baseFontPixels(window.innerWidth); // 100% adapts to effective display size
   const slider = document.getElementById('size-range');
   const min = slider ? parseFloat(slider.min) : 75;
   const max = slider ? parseFloat(slider.max) : 150;

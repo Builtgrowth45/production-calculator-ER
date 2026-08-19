@@ -4,7 +4,7 @@
 //
 //   decisionSummary(plan)  — a player-readable tradeoff summary of the plan's
 //     existing calculation outputs: up-front investment, cost/unit,
-//     cost-to-guild/unit, cheapest refinement path and speed. It must reuse
+//     net faction cost per unit, cheapest refinement path and speed. It must reuse
 //     ONLY numbers planCost/netPathCost already compute — the headline figures
 //     must match the hero strip exactly, never a second cheaper estimate.
 //     Unavailable metrics (craft durations, unpriced paths) are labelled
@@ -97,7 +97,7 @@ describe('decision summary (shipped app-core renderer)', () => {
     assert.ok(lines.length >= 5, `expected investment/cost/guild/path/speed lines, got ${lines.length}`);
     assert.match(html, /Up-front investment/);
     assert.match(html, /Cost per unit/);
-    assert.match(html, /Cost to guild per unit/);
+    assert.match(html, /Net faction cost per unit/);
     assert.match(html, /Speed/);
   });
 
@@ -107,7 +107,7 @@ describe('decision summary (shipped app-core renderer)', () => {
       `renderPlan and runMultiPlan should both include the panel (found ${hits.length})`);
   });
 
-  it('Investment / Cost per unit / Cost to guild per unit match planCost exactly', () => {
+  it('Investment / Cost per unit / Net faction cost per unit match planCost exactly', () => {
     const res = compute([{ item: 'Linner PP7', qty: 2 }], {}, {}, null, 'Berlin', null);
     const cost = planCost(res.plan);
     const made = produced(res.plan);
@@ -117,8 +117,8 @@ describe('decision summary (shipped app-core renderer)', () => {
       'Investment must be exactly planCost.grand');
     assert.ok(Math.abs(num(decisionVal(html, 'Cost per unit')) - cost.grand / made) < 0.01,
       'Cost/unit should equal Investment ÷ units');
-    assert.ok(Math.abs(num(decisionVal(html, 'Cost to guild per unit')) - (cost.grand - cost.rebate) / made) < 0.01,
-      'Cost to guild/unit should equal (Investment − rebate) ÷ units');
+    assert.ok(Math.abs(num(decisionVal(html, 'Net faction cost per unit')) - (cost.grand - cost.rebate) / made) < 0.01,
+      'Net faction cost/unit should equal (Investment − rebate) ÷ units');
     // The hero strip prints the same figures — the summary must never diverge.
     const stats = renderPlanStats(res.plan);
     assert.ok(flat(stats).includes(flat(fmtUC(cost.grand))), 'hero Investment should equal planCost.grand');
@@ -200,12 +200,12 @@ describe('colony what-if comparison (shipped app-core renderer)', () => {
       if (cost.anyUnknown) {
         assert.equal(r.investment, null, 'unknown plan must not invent investment');
         assert.equal(r.perUnit, null, 'unknown plan must not invent per-unit cost');
-        assert.equal(r.guildUnit, null, 'unknown plan must not invent guild cost');
+        assert.equal(r.netFactionUnit, null, 'unknown plan must not invent net faction cost');
       } else {
         const made = produced(res.plan);
         assert.ok(Math.abs(r.investment - cost.grand) < 0.01, `${r.colony} investment must equal planCost.grand`);
         assert.ok(Math.abs(r.perUnit - cost.grand / made) < 0.01, `${r.colony} per-unit must equal grand ÷ produced`);
-        assert.ok(Math.abs(r.guildUnit - (cost.grand - cost.rebate) / made) < 0.01, `${r.colony} guild/unit must equal (grand − rebate) ÷ produced`);
+        assert.ok(Math.abs(r.netFactionUnit - (cost.grand - cost.rebate) / made) < 0.01, `${r.colony} guild/unit must equal (grand − rebate) ÷ produced`);
       }
       assert.equal(typeof r.tax, 'number');
       assert.equal(r.here, r.colony === 'Berlin');
@@ -223,7 +223,7 @@ describe('colony what-if comparison (shipped app-core renderer)', () => {
     assert.ok(!rows.some(r => r.cheapest),
       'no unique cheapest in a flat world — ★ must not be invented');
     // Priced rows must all be fully priced in this plan.
-    assert.ok(rows.every(r => r.guildUnit != null), 'medkit plan should be priced everywhere');
+    assert.ok(rows.every(r => r.netFactionUnit != null), 'medkit plan should be priced everywhere');
   });
 
   it('here row matches the on-screen plan even when the shared ledger was consumed', () => {
@@ -253,14 +253,14 @@ describe('colony what-if comparison (shipped app-core renderer)', () => {
     assert.ok(Math.abs(here.investment - cost.grand) < 0.01,
       `here row (${here.investment}) must equal the on-screen plan (${cost.grand}) — full stock, not the consumed ledger`);
     const made = produced(res.plan);
-    assert.ok(Math.abs(here.guildUnit - (cost.grand - cost.rebate) / made) < 0.01,
+    assert.ok(Math.abs(here.netFactionUnit - (cost.grand - cost.rebate) / made) < 0.01,
       'here guild/unit must match the on-screen plan too');
   });
 
   it('under a seeded taxed-owned world, Berlin is cheapest to the guild and deltas are shown', () => {
     // Berlin taxed 25% and owned by CMG; the active faction is CMG, so the 85%
     // owner return lands in guild funds. The 25% tax raises Berlin's per-unit
-    // cost ABOVE untaxed colonies, but the return drops its guild cost BELOW
+    // cost ABOVE untaxed colonies, but the return drops its net faction cost BELOW
     // them — the exact tradeoff the what-if exists to surface.
     window.STORE.PLAYERS.players = { T: [] };
     window.STORE.PLAYERS.profiles = { T: { faction: 'CMG' } };
@@ -280,15 +280,15 @@ describe('colony what-if comparison (shipped app-core renderer)', () => {
       // Berlin's per-unit (taxed) is above an untaxed colony…
       assert.ok(here.perUnit > others[0].perUnit,
         `taxed Berlin per-unit (${here.perUnit}) should exceed an untaxed colony (${others[0].perUnit})`);
-      // …but its guild cost is below them, so it is the unique cheapest.
-      assert.ok(here.guildUnit < others[0].guildUnit,
-        `owned Berlin guild/unit (${here.guildUnit}) should beat an unowned colony (${others[0].guildUnit})`);
+      // …but its net faction cost is below them, so it is the unique cheapest.
+      assert.ok(here.netFactionUnit < others[0].netFactionUnit,
+        `owned Berlin guild/unit (${here.netFactionUnit}) should beat an unowned colony (${others[0].netFactionUnit})`);
       assert.equal(here.cheapest, true, 'Berlin must carry the ★ as unique cheapest');
       assert.ok(!others.some(r => r.cheapest), 'no other colony may carry the ★');
       // Delta is against the here row, signed by direction.
       others.forEach(r => {
         assert.equal(typeof r.delta, 'number');
-        assert.ok(Math.abs(r.delta - (r.guildUnit - here.guildUnit)) < 0.001,
+        assert.ok(Math.abs(r.delta - (r.netFactionUnit - here.netFactionUnit)) < 0.001,
           `delta for ${r.colony} should be guild/unit minus here`);
         assert.ok(r.delta > 0, `every other colony is more expensive to the guild (+${r.delta})`);
       });
@@ -310,7 +310,7 @@ describe('colony what-if comparison (shipped app-core renderer)', () => {
     assert.match(html, /scope="col"/);
     assert.match(html, /unit-scroll/, 'table must sit in the shared responsive scroll wrapper');
     assert.match(html, /data-whatif-plan="/, 'every non-here colony gets a Plan here action');
-    assert.match(html, /Cost to guild\/unit/);
+    assert.match(html, /Net faction cost\/unit/);
   });
 
   it('ships in BOTH the single-plan and combined-plan result renders', () => {
@@ -330,7 +330,7 @@ describe('colony what-if comparison (shipped app-core renderer)', () => {
     rows.forEach(r => {
       assert.equal(r.investment, null);
       assert.equal(r.perUnit, null);
-      assert.equal(r.guildUnit, null);
+      assert.equal(r.netFactionUnit, null);
     });
     const html = renderColonyCompare(spec);
     assert.match(html, /n\/a/);

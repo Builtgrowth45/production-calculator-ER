@@ -71,7 +71,7 @@ globalThis.RECIPES_BY_OUTPUT = globalThis.RECIPES_BY_OUTPUT || engine.RECIPES_BY
 const { compute } = engine;
 // app-core installs explicit faction/ownership hooks at load. A fresh public
 // profile is unaffiliated and does not invent colony holdings, so the default
-// regression below expects gross cost and cost-to-guild to match.
+// regression below expects gross cost and net faction cost to match.
 
 // Strip thousands separators so number assertions are locale-independent.
 const flat = s => String(s).replace(/,/g, '');
@@ -96,7 +96,7 @@ describe('per-unit pricing table (shipped app-core renderer)', () => {
     assert.ok(produced > 0, 'plan should produce finals');
     const html = renderPerUnitPricing(res.plan);
     assert.ok(html.includes('unit-panel'), 'panel should render for a produced final');
-    assert.ok(html.includes('Cost/unit') && html.includes('Cost to guild/unit'),
+    assert.ok(html.includes('Cost/unit') && html.includes('Net faction cost/unit'),
       'table headers should match the hero vocabulary');
     assert.ok(html.toLowerCase().includes('linner pp7'), 'row should name the final item');
 
@@ -106,13 +106,13 @@ describe('per-unit pricing table (shipped app-core renderer)', () => {
     assert.ok(Math.abs(unit - cost.grand / produced) < 0.01,
       `Cost/unit (${unit}) should equal hero Cost/unit (${cost.grand / produced})`);
     assert.ok(Math.abs(guild - (cost.grand - cost.rebate) / produced) < 0.01,
-      `Cost to guild/unit (${guild}) should equal hero figure (${(cost.grand - cost.rebate) / produced})`);
+      `Net faction cost/unit (${guild}) should equal hero figure (${(cost.grand - cost.rebate) / produced})`);
     // Single-final plan: no average note (nothing to average over).
     const stats = renderPlanStats(res.plan);
     assert.ok(!stats.includes('avg of'), 'single-final hero should not claim an average');
   });
 
-  it('combined plan: rows sum exactly to the Investment and net-to-guild totals', () => {
+  it('combined plan: rows sum exactly to the Investment and net faction cost totals', () => {
     const res = compute([{ item: 'Linner PP7', qty: 2 }, { item: 'Emergency MediKit', qty: 5 }],
       {}, {}, null, 'Paris', null);
     const cost = planCost(res.plan);
@@ -129,7 +129,7 @@ describe('per-unit pricing table (shipped app-core renderer)', () => {
     assert.ok(Math.abs(sumTotal - cost.grand) < 0.5,
       `Cost/unit rows should sum to Investment (${sumTotal} vs ${cost.grand})`);
     assert.ok(Math.abs(sumGuild - (cost.grand - cost.rebate)) < 0.5,
-      `Guild rows should sum to net-to-guild (${sumGuild} vs ${cost.grand - cost.rebate})`);
+      `Guild rows should sum to net faction cost (${sumGuild} vs ${cost.grand - cost.rebate})`);
     // Full plan stats should embed the panel and the hero together.
     const stats = renderPlanStats(res.plan);
     assert.ok(stats.includes('unit-panel'), 'renderPlanStats should include the panel');
@@ -180,7 +180,7 @@ describe('per-unit pricing table (shipped app-core renderer)', () => {
     assert.ok(produced > 0, 'plan should produce finals');
     const html = renderPlanStats(res.plan);
     assert.ok(html.includes('cost-hero'), 'hero strip should render');
-    assert.ok(html.includes('>Investment<') && html.includes('>Cost / unit<') && html.includes('>Cost to guild / unit<'),
+    assert.ok(html.includes('>Investment<') && html.includes('>Cost / unit<') && html.includes('>Net faction cost / unit<'),
       'all three headline labels present');
     const f = flat(html);
     assert.ok(f.includes(flat(fmtUC(cost.grand))), `investment ${cost.grand} should appear big`);
@@ -188,7 +188,7 @@ describe('per-unit pricing table (shipped app-core renderer)', () => {
     assert.ok(f.includes(flat(fmtUC((cost.grand - cost.rebate) / produced))), 'net/unit should appear');
     assert.equal(cost.rebate, 0, 'fresh unaffiliated profile must not invent a faction rebate');
     const netUnit = (cost.grand - cost.rebate) / produced;
-    assert.equal(netUnit, cost.grand / produced, 'unaffiliated cost-to-guild equals player spend');
+    assert.equal(netUnit, cost.grand / produced, 'unaffiliated net faction cost equals player spend');
   });
 
   it('flags queued finals fully covered by owned stock', () => {

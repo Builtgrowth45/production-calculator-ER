@@ -204,9 +204,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!sel) return;
     ALTERNATIVE_CHOICES[decodeURIComponent(sel.dataset.alt)] = parseInt(sel.value, 10);
     savePaths();
-    // runCalculator() / runMultiPlan() will call renderCalcPaths() on the new DOM
-    if (CALC_TRAY.length) runMultiPlan();
-    else if (document.querySelector('#calc-result .plan-summary')) runCalculator();
+    // Re-plan in place: changing a path should keep the player at the selector
+    // instead of jumping back to the top of the workbench.
+    if (CALC_TRAY.length) runMultiPlan({ preserveChecklist: true, preserveViewport: true });
+    else if (document.querySelector('#calc-result .plan-summary')) runCalculator({ preserveChecklist: true, preserveViewport: true });
   });
   renderCalcPaths();
   // Colonies tab: tax/owner edits, plus its filters.
@@ -301,6 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('calc-result').addEventListener('click', e => {
     const colonyHead = e.target.closest('.colony-work-toggle');
     if (colonyHead) { toggleColonyWorkGroup(colonyHead); return; }
+    const moveBatch = e.target.closest('.move-all-cargo-btn');
+    if (moveBatch) { markMoveBatchComplete(moveBatch); return; }
     const cb = e.target.closest('.transfer-cb');
     if (cb) { toggleTransferCheck(cb); return; }
     const ob = e.target.closest('.obtain-cb');
@@ -319,6 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('calc-multi').addEventListener('click', e => {
     const colonyHead = e.target.closest('.colony-work-toggle');
     if (colonyHead) { toggleColonyWorkGroup(colonyHead); return; }
+    const moveBatch = e.target.closest('.move-all-cargo-btn');
+    if (moveBatch) { markMoveBatchComplete(moveBatch); return; }
     const cb = e.target.closest('.transfer-cb');
     if (cb) { toggleTransferCheck(cb); return; }
     const ob = e.target.closest('.obtain-cb');

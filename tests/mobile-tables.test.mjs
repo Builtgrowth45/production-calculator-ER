@@ -99,7 +99,7 @@ describe('accessible table semantics', () => {
     assert.match(core, /<th scope="col" class="up-num">Made<\/th>/);
     assert.match(core, /<th scope="col" class="up-num">Batches<\/th>/);
     assert.match(core, /<th scope="col" class="up-num">Cost\/unit<\/th>/);
-    assert.match(core, /<th scope="col" class="up-num">Cost to guild\/unit<\/th>/);
+    assert.match(core, /<th scope="col" class="up-num">Net faction cost\/unit<\/th>/);
     // Gear stat guide.
     assert.match(html, /<th scope="col">Stat<\/th>/);
     assert.match(html, /<th scope="col">Counters<\/th>/);

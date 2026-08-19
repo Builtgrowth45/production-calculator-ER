@@ -8,6 +8,8 @@ const { buildColonyWorkQueue } = colonyWork;
 const root = join(import.meta.dirname, '..');
 const appSource = readFileSync(join(root, 'src', 'app.js'), 'utf8');
 const htmlSource = readFileSync(join(root, 'index.html'), 'utf8');
+const cssSource = readFileSync(join(root, 'src', 'styles.css'), 'utf8');
+const initSource = readFileSync(join(root, 'src', 'app-init.js'), 'utf8');
 
 describe('combined per-colony work queue', () => {
   it('is the single calculator logistics section for both plan shapes', () => {
@@ -18,6 +20,21 @@ describe('combined per-colony work queue', () => {
     assert.doesNotMatch(appSource, /planSection\('move', 1/);
     assert.doesNotMatch(appSource, /planSection\('obtain', 2/);
     assert.doesNotMatch(appSource, /planSection\('refine'/);
+  });
+
+  it('makes the remaining all-cargo move the dominant next action', () => {
+    assert.match(appSource, /flow-card move move-batch-action colony-work-action/);
+    assert.match(appSource, /Move all cargo from/);
+    assert.match(cssSource, /\.flow-card\.move-batch-action:not\(\.done\)[\s\S]*?font-size:\s*1rem/);
+    assert.match(cssSource, /\.flow-card\.move-batch-action:not\(\.done\)[\s\S]*?border:\s*2px/);
+  });
+
+  it('provides a direct action button for the grouped cargo move', () => {
+    assert.match(appSource, /class="move-all-cargo-btn/);
+    assert.match(appSource, /data-move-all-cargo/);
+    assert.match(initSource, /move-all-cargo-btn/);
+    assert.match(initSource, /markMoveBatchComplete/);
+    assert.match(appSource, /var batchOrigin = action\.from \|\| action\.colony \|\| group\.colony/);
   });
 
   it('groups mining, owned-stock moves, refinement, and final moves by visit colony', () => {

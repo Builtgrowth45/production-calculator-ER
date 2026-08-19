@@ -23,6 +23,12 @@ function extractFunction(name) {
 const nextProductionProgress = vm.runInNewContext(`(${extractFunction('nextProductionProgress')})`);
 
 describe('production batch progress tracker', () => {
+  it('makes the planned batch count a primary visual number', () => {
+    assert.match(coreSrc, /class="flow-batches batch-emphasis"/);
+    assert.match(stylesSrc, /\.flow-batches\.batch-emphasis\s*\{[\s\S]*?font-size:\s*1rem/);
+    assert.match(stylesSrc, /\.flow-batches\.batch-emphasis\s*\{[\s\S]*?font-weight:\s*800/);
+  });
+
   it('records 100, 100, 100, then the final 60 for a 360-batch step', () => {
     let completed = 0;
     const remaining = [];

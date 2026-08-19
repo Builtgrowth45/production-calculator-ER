@@ -15,6 +15,8 @@ const engine = readFileSync(join(root, 'src', 'engine.js'), 'utf8');
 const gear = readFileSync(join(root, 'src', 'views', 'gear.js'), 'utf8');
 const init = readFileSync(join(root, 'src', 'app-init.js'), 'utf8');
 const html = readFileSync(join(root, 'index.html'), 'utf8');
+const css = readFileSync(join(root, 'src', 'styles.css'), 'utf8');
+const shellCss = readFileSync(join(root, 'src', 'styles/surviving-reference.css'), 'utf8');
 
 describe('modal dialog semantics', () => {
   it('item detail popup is a labelled modal dialog', () => {
@@ -23,6 +25,14 @@ describe('modal dialog semantics', () => {
 
   it('gear picker is a labelled modal dialog', () => {
     assert.match(html, /class="gear-picker-modal" role="dialog" aria-modal="true" aria-labelledby="gear-picker-title"/);
+  });
+
+  it('keeps the gear picker above the fixed player bar', () => {
+    const overlay = css.match(/\.gear-picker-overlay\s*\{[^}]*z-index:\s*(\d+)/s);
+    const playerbar = shellCss.match(/\.playerbar\s*\{[^}]*z-index:\s*(\d+)/s);
+    assert.ok(overlay && playerbar, 'expected stacking rules for both modal and player bar');
+    assert.ok(Number(overlay[1]) > Number(playerbar[1]),
+      `gear picker z-index ${overlay[1]} must exceed player bar z-index ${playerbar[1]}`);
   });
 
   it('dialog close controls carry accessible names', () => {

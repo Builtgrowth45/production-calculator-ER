@@ -81,8 +81,27 @@ header:has(.settings-menu[open]) { position: relative; z-index: 300; }
 .route-summary-flow { display: flex; flex-wrap: wrap; gap: .4rem .7rem; margin-top: .5rem; color: var(--text); font-size: .68rem; line-height: 1.5; }
 .route-summary-flow span { padding: .35rem .5rem; border-radius: 4px; background: var(--panel2); }
 .route-summary-flow b, .route-summary-direct b { color: var(--accent-bright); }
-.route-summary-direct { margin-top: .55rem; color: var(--muted); font-size: .64rem; line-height: 1.5; }
-.route-summary-note { margin: .55rem 0 0; color: var(--muted); font-size: .62rem; line-height: 1.45; }
+.route-summary-direct { margin-top: .55rem; color: var(--muted); font-size: .7rem; line-height: 1.5; }
+.route-summary-faction {
+  margin-top: .65rem;
+  padding: .55rem .65rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel2));
+  color: var(--text);
+  font-size: .68rem;
+  line-height: 1.5;
+}
+.route-summary-faction b { color: var(--accent-bright); }
+.route-summary-faction.faction-owned { border-left-color: var(--good); background: color-mix(in srgb, var(--good) 9%, var(--panel2)); }
+.route-summary-faction.faction-owned b { color: var(--good); }
+.route-summary-note { margin: .55rem 0 0; color: var(--muted); font-size: .7rem; line-height: 1.45; }
+@media (min-width: 1800px) {
+  .first-run, .calc-guide { max-width: 1200px; }
+}
+@media (min-width: 3000px) {
+  .first-run, .calc-guide { max-width: 1480px; }
+}
 .calculation-error { border-left: 4px solid var(--bad); }
 .field-error { display: block; color: var(--bad); font-size: .62rem; line-height: 1.35; }
 .controls label:has(#calc-qty) { align-content: start; }
@@ -153,7 +172,7 @@ header:has(.settings-menu[open]) { position: relative; z-index: 300; }
 .colony-compare-table .cc-colony { font-weight: 600; white-space: nowrap; }
 .colony-compare-table .cc-here-tag { color: var(--accent-bright); font-size: .6rem; letter-spacing: .05em; text-transform: uppercase; }
 .colony-compare-table .cc-star { color: var(--warn); }
-.colony-compare-table .cc-guild { color: var(--ok); }
+.colony-compare-table .cc-faction { color: var(--ok); }
 .colony-compare-table .cc-na { color: var(--muted); font-weight: 400; }
 .colony-compare-table .cc-delta { color: var(--muted); font-weight: 600; }
 .colony-compare-table .cc-delta.better { color: var(--ok); }

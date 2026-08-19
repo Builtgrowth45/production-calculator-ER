@@ -31,6 +31,12 @@ describe('apply-plan workflow', () => {
     assert.doesNotMatch(init, /markPlanApplied\(planSignature\(CALC_TRAY\)\)[\s\S]*runMultiPlan\(\)/);
   });
 
+  it('explains where completed products and refinement leftovers are recorded', () => {
+    assert.match(app, /Any unused batch surplus stays at the colony where it was produced/);
+    assert.match(app, /refinement leftovers stay at the refinement colony/);
+    assert.match(css, /\.apply-plan-note\s*\{/);
+  });
+
   it('provides a visible reduced-motion-safe Apply readiness effect', () => {
     assert.match(css, /\.apply-plan\.ready-to-apply\s*\{/);
     assert.match(css, /@keyframes\s+apply-plan-ready/);

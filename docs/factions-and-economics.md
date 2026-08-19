@@ -5,7 +5,7 @@ The calculator separates four concepts:
 1. **Player spend** — everything paid for mining, production, tax, and the modeled plan.
 2. **Colony-owner return** — 85% of mining or production spend at a colony, calculated before tax, returned to that colony's owner.
 3. **Global Dominion share** — the remaining 15% of that same pre-tax mining or production spend.
-4. **Net faction cost / cost to guild** — player spend minus the 85% that returns to the selected faction at colonies it owns.
+4. **Net faction cost** — player spend minus the 85% that returns to the selected faction at colonies it owns.
 
 The owner return is faction-neutral. BOS, CMG, EC, FDC, GOM, LED, MOTB/MOB, and VI all use the same 85% rule when the colony's configured owner matches the active player's faction. `Unaffiliated` receives no owner return.
 

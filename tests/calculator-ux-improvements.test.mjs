@@ -13,7 +13,7 @@ const css = readFileSync(join(root, 'src/styles.css'), 'utf8') + readFileSync(jo
 describe('calculator UX improvements', () => {
   it('explains local profile setup and faction impact before the calculator starts', () => {
     assert.match(html, /Set up a local player profile/);
-    assert.match(html, /saved only in this browser/i);
+    assert.match(html, /Your profile stays in this browser/i);
     assert.match(html, /does not lock recipes/i);
     assert.match(html, /Continue to calculator/);
   });
@@ -39,7 +39,7 @@ describe('calculator UX improvements', () => {
     assert.match(core, /class="plan-top"/);
     assert.match(core, /class="cost-panel/);
     assert.match(core, /renderPerUnitPricing\(plan\)/);
-    assert.match(app, /The route cards below show each material[\\'s]* exact colony movement/i);
+    assert.match(app, /Route cards show exact moves and quantities/i);
     assert.doesNotMatch(app, /<h3>\$\{fmt\(qty\)\} × \$\{esc\(displayName\(item\)\)\} at \$\{esc\(DESTINATION\)\}<\/h3>/);
   });
 

@@ -5,7 +5,7 @@
 //   * be an accessible native disclosure (details/summary),
 //   * ship in BOTH the single-item and combined-plan result renders,
 //   * reuse ONLY the numbers planCost/stepCost/runCost already compute — its
-//     headline figures (Investment, Cost/unit, Cost to guild/unit) must match
+//     headline figures (Investment, Cost/unit, Net faction cost per unit) must match
 //     the hero strip exactly, never a second cheaper estimate,
 //   * cover recipe time (slot runs/batches), material totals, fees & tax,
 //     colony/transport adjustments, and the three headline figures,
@@ -112,11 +112,11 @@ describe('show-the-math panel (shipped app-core renderer)', () => {
     assert.ok(made > 0, 'plan should produce finals');
     const html = showTheMathPanel(res.plan);
     const unit = num(lineVal(html, 'Cost per unit'));
-    const guild = num(lineVal(html, 'Cost to guild per unit'));
+    const guild = num(lineVal(html, 'Net faction cost per unit'));
     assert.ok(Math.abs(unit - cost.grand / made) < 0.01,
       `Cost/unit (${unit}) should equal Investment ÷ units (${cost.grand / made})`);
     assert.ok(Math.abs(guild - (cost.grand - cost.rebate) / made) < 0.01,
-      `Cost to guild/unit (${guild}) should equal (Investment − rebate) ÷ units (${(cost.grand - cost.rebate) / made})`);
+      `Net faction cost per unit (${guild}) should equal (Investment − rebate) ÷ units (${(cost.grand - cost.rebate) / made})`);
     // The hero strip prints the same figures — the panel must never diverge.
     const stats = renderPlanStats(res.plan);
     assert.ok(flat(stats).includes(flat(fmtUC(cost.grand))), 'hero Investment should equal planCost.grand');

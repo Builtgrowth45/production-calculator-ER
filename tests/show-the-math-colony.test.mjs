@@ -96,9 +96,9 @@ describe('show-the-math under colony tax and faction rebate', () => {
       'faction return must be exactly planCost.rebate');
     // The guild headline is (Investment − rebate) ÷ units, matching the hero.
     const made = produced(res.plan);
-    const guild = num(lineVal(html, 'Cost to guild per unit'));
+    const guild = num(lineVal(html, 'Net faction cost per unit'));
     assert.ok(Math.abs(guild - (cost.grand - cost.rebate) / made) < 0.01,
-      `Cost to guild/unit (${guild}) should equal (${cost.grand} − ${cost.rebate}) ÷ ${made}`);
+      `Net faction cost/unit (${guild}) should equal (${cost.grand} − ${cost.rebate}) ÷ ${made}`);
     assert.match(html, /back to Colonization and Mining Guild/);
     // Cost/unit is unaffected by the rebate and still equals grand ÷ units.
     const unit = num(lineVal(html, 'Cost per unit'));
@@ -116,6 +116,6 @@ describe('show-the-math under colony tax and faction rebate', () => {
     assert.ok(flat(stats).includes(flat(fmtUC((cost.grand - cost.rebate) / made))), 'hero guild figure should match');
     assert.equal(num(lineVal(panel, 'Investment')), Math.round(cost.grand * 100) / 100);
     assert.equal(num(lineVal(panel, 'Cost per unit')), Math.round(cost.grand / made * 100) / 100);
-    assert.equal(num(lineVal(panel, 'Cost to guild per unit')), Math.round((cost.grand - cost.rebate) / made * 100) / 100);
+    assert.equal(num(lineVal(panel, 'Net faction cost per unit')), Math.round((cost.grand - cost.rebate) / made * 100) / 100);
   });
 });

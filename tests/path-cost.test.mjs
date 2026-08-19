@@ -47,6 +47,8 @@ function fmtUC(n) { return (Math.round(n * 100) / 100).toLocaleString(undefined,
 
 // ---- extract estUnitCost + estPathCost from the REAL src/app.js ----
 const appSrc = readFileSync(join(siteDir, 'src', 'app.js'), 'utf8');
+const stylesSrc = readFileSync(join(siteDir, 'src', 'styles.css'), 'utf8');
+const initSrc = readFileSync(join(siteDir, 'src', 'app-init.js'), 'utf8');
 function extractFn(name) {
   const re = new RegExp('function ' + name + '\\s*\\([^)]*\\)\\s*\\{[\\s\\S]*?\\n\\}', 'm');
   const m = appSrc.match(re);
@@ -117,5 +119,20 @@ describe('refinement-path cost estimates (shipped app.js code)', () => {
     const label = a.map(x => `${x.quantity} ${x.item}`).join(' + ') + ' · ≈ ' + fmtUC(estFor('Linner PP7', 0)) + ' UC/unit ★ cheapest';
     assert.match(label, /UC\/unit/);
     assert.match(label, /★ cheapest/);
+  });
+
+  it('gives the refinement picker a clearer selected-path summary', () => {
+    assert.match(appSrc, /Choose refinement paths/);
+    assert.match(appSrc, /calc-path-control/);
+    assert.match(appSrc, /calc-path-meta/);
+    assert.match(appSrc, /Estimated path cost/);
+    assert.match(stylesSrc, /\.calc-path-row\s*\{[\s\S]*?display:\s*grid/);
+    assert.match(stylesSrc, /\.calc-path-meta\s*\{/);
+  });
+
+  it('preserves the viewport when a refinement path changes', () => {
+    const handler = initSrc.slice(initSrc.indexOf('select[data-alt]'), initSrc.indexOf('renderCalcPaths();', initSrc.indexOf('select[data-alt]')));
+    assert.match(handler, /runMultiPlan\(\{ preserveChecklist: true, preserveViewport: true \}\)/);
+    assert.match(handler, /runCalculator\(\{ preserveChecklist: true, preserveViewport: true \}\)/);
   });
 });
