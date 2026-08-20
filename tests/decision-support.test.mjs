@@ -101,10 +101,9 @@ describe('decision summary (shipped app-core renderer)', () => {
     assert.match(html, /Speed/);
   });
 
-  it('ships in BOTH the single-plan and combined-plan result renders', () => {
-    const hits = (appSrc.match(/decisionSummary\(\s*plan\s*\)/g) || []);
-    assert.ok(hits.length >= 2,
-      `renderPlan and runMultiPlan should both include the panel (found ${hits.length})`);
+  it('does not inject the removed decision panel into production results', () => {
+    assert.doesNotMatch(appSrc.slice(appSrc.indexOf('function renderPlan('), appSrc.indexOf('function runCalculator(')), /decisionSummary\(/);
+    assert.doesNotMatch(appSrc.slice(appSrc.indexOf('function runMultiPlan('), appSrc.indexOf('// ── Saved production plans')), /decisionSummary\(/);
   });
 
   it('Investment / Cost per unit / Net faction cost per unit match planCost exactly', () => {
@@ -313,10 +312,9 @@ describe('colony what-if comparison (shipped app-core renderer)', () => {
     assert.match(html, /Net faction cost\/unit/);
   });
 
-  it('ships in BOTH the single-plan and combined-plan result renders', () => {
-    const hits = (appSrc.match(/renderColonyCompare\(/g) || []);
-    assert.ok(hits.length >= 2,
-      `renderPlan and runMultiPlan should both include the comparison (found ${hits.length})`);
+  it('does not inject the removed colony comparison into production results', () => {
+    assert.doesNotMatch(appSrc.slice(appSrc.indexOf('function renderPlan('), appSrc.indexOf('function runCalculator(')), /renderColonyCompare\(/);
+    assert.doesNotMatch(appSrc.slice(appSrc.indexOf('function runMultiPlan('), appSrc.indexOf('// ── Saved production plans')), /renderColonyCompare\(/);
   });
 
   it('unpriced items: n/a cells, no invented numbers', () => {

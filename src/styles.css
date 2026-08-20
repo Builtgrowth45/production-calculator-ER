@@ -1533,6 +1533,9 @@ tr td:first-child { white-space: nowrap; }
   display: flex;
   align-items: center;
 }
+.flow-card.move-batch-action.done .flow-card-body {
+  display: block;
+}
 .flow-card.done .flow-chip { margin: 0; }
 
 .flow-card.move.done .flow-name,

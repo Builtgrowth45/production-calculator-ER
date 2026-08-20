@@ -30,13 +30,13 @@ describe('single production plan experience', () => {
     assert.match(app, /Production plan/);
     assert.match(singleRender, /const statsHtml = renderPlanStats\(plan\);/);
     assert.match(singleRender, /\$\{statsHtml\}/);
-    assert.ok(singleRender.indexOf('${statsHtml}') < singleRender.indexOf('${renderRouteSummary(plan)}'));
+    assert.ok(singleRender.indexOf('${statsHtml}') < singleRender.indexOf('<div id="calc-paths"'));
     assert.match(css, /\.single-head\s*\{/);
     assert.match(css, /\.single-head-route/);
   });
 
-  it('keeps the route summary synchronized with mine-site choices', () => {
-    assert.match(app, /routeSummary\.outerHTML\s*=\s*renderRouteSummary\(plan\)/);
+  it('keeps colony-work output synchronized with mine-site choices', () => {
+    assert.doesNotMatch(app, /routeSummary\.outerHTML\s*=\s*renderRouteSummary\(plan\)/);
     assert.match(app, /action\.kind\s*===\s*'mine'/);
     assert.match(app, /action\.items\.some\(function \(move\)/);
     assert.doesNotMatch(app, /group\.colony !== REFINE_DESTINATION && group\.actions\.some\(function \(action\)/);

@@ -21,7 +21,7 @@ describe('all-faction calculator language and guidance', () => {
     assert.match(app, /Refine and produce at colonies owned by/);
     assert.match(app, /isOwnColony/);
     assert.match(ux, /\.route-summary-faction/);
-    assert.match(multi, /html \+= renderRouteSummary\(plan\)/);
+    assert.doesNotMatch(multi, /html \+= renderRouteSummary\(plan\)/);
   });
 
   it('gives grouped cargo-transfer checkboxes an explicit accessible name', () => {

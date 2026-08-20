@@ -86,10 +86,9 @@ describe('show-the-math panel (shipped app-core renderer)', () => {
     assert.match(html, /Headline figures/);
   });
 
-  it('ships in BOTH the single-plan and combined-plan result renders', () => {
-    const hits = (appSrc.match(/showTheMathPanel\(\s*plan\s*\)/g) || []);
-    assert.ok(hits.length >= 2,
-      `renderPlan and runMultiPlan should both include the panel (found ${hits.length})`);
+  it('does not inject the removed math panel into production results', () => {
+    assert.doesNotMatch(appSrc.slice(appSrc.indexOf('function renderPlan('), appSrc.indexOf('function runCalculator(')), /showTheMathPanel\(/);
+    assert.doesNotMatch(appSrc.slice(appSrc.indexOf('function runMultiPlan('), appSrc.indexOf('// ── Saved production plans')), /showTheMathPanel\(/);
   });
 
   it('Investment line equals planCost.grand and spells out fees + materials', () => {

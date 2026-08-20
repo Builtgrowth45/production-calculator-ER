@@ -878,8 +878,6 @@ function pickObtainSite(chip) {
     // (the plan itself is unchanged; only its costing changed).
     var top = container.querySelector('.plan-top');
     if (top) top.outerHTML = renderPlanStats(plan);
-    var routeSummary = container.querySelector('.route-summary');
-    if (routeSummary) routeSummary.outerHTML = renderRouteSummary(plan);
     syncColonyWorkGroupStates(container);
     syncApplyPlanReadiness();
   }
@@ -1649,14 +1647,7 @@ function renderPlan(item, qty, targetEl) {
         ? 'Holding <b>' + fmt(alreadyHave) + '</b> · plan makes <b>' + fmt(qty) + '</b> more → <b>' + fmt(alreadyHave + qty) + '</b> total. Existing stock is left alone.'
         : 'This production run makes <b>' + fmt(qty) + ' × ' + esc(displayName(item)) + '</b>.'}</div>
       ${statsHtml}
-      ${renderRouteSummary(plan)}
-      ${decisionSummary(plan)}
       ${drugPlanHtml}
-      ${showTheMathPanel(plan)}
-      ${renderColonyCompare({
-        items: [{ item, qty }], chosen: altChoices, ledger: planLedger,
-        invLoc: INV_LOCATIONS, discounts, dest: DESTINATION, refineDest: REFINE_DESTINATION,
-      })}
       <div id="calc-paths" class="calc-paths" hidden></div>
       ${dashboardHtml}
 
@@ -1823,13 +1814,10 @@ function runMultiPlan(options) {
 
   // Build a shared ledger from current inventory
   const ledger = Object.assign({}, INV_TOTAL);
-  // Untouched copy for the what-if comparison — compute() mutates `ledger` as
-  // it deducts owned stock, so the comparison must start from the same full
-  // inventory the plan on screen started from.
-  const specLedger = Object.assign({}, INV_TOTAL);
+  // compute() mutates the location ledger while allocating owned stock. Keep
+  // that working copy separate from the live inventory-location state.
   const invLoc = {};
   for (const k in INV_LOCATIONS) invLoc[k] = INV_LOCATIONS[k].map(l => ({ ...l }));
-
   // Compute all items against the shared ledger
   const discounts = getDiscounts();
   let result, plan;
@@ -1852,13 +1840,6 @@ function runMultiPlan(options) {
   const statsHtml = renderPlanStats(plan);
   const dashboardHtml = renderMaterialDashboard(plan);
   if (statsHtml) html += statsHtml;
-  html += renderRouteSummary(plan);
-  html += showTheMathPanel(plan);
-  html += decisionSummary(plan);
-  html += renderColonyCompare({
-    items: CALC_TRAY, chosen: ALTERNATIVE_CHOICES, ledger: specLedger, invLoc,
-    discounts, dest: DESTINATION, refineDest: REFINE_DESTINATION,
-  });
   // The shared picker renderer needs a mount point in combined plans too.
   // Without it, renderCalcPaths() exits after the single-plan result is cleared.
   html += '<div id="calc-paths" class="calc-paths" hidden></div>';

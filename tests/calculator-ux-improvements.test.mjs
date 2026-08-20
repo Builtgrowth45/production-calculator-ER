@@ -48,4 +48,21 @@ describe('calculator UX improvements', () => {
     assert.match(css, /\.cost-panel/);
     assert.match(css, /\.calculation-error/);
   });
+
+  it('keeps stale summary panels out of the rendered production result', () => {
+    const singleRender = app.slice(app.indexOf('function renderPlan('), app.indexOf('function runCalculator('));
+    const combinedRender = app.slice(app.indexOf('function runMultiPlan('), app.indexOf('// ── Saved production plans'));
+    for (const render of [singleRender, combinedRender]) {
+      assert.doesNotMatch(render, /renderRouteSummary\(/);
+      assert.doesNotMatch(render, /showTheMathPanel\(/);
+      assert.doesNotMatch(render, /decisionSummary\(/);
+      assert.doesNotMatch(render, /renderColonyCompare\(/);
+    }
+  });
+
+  it('keeps the combined planner inventory-location ledger intact', () => {
+    const combinedRender = app.slice(app.indexOf('function runMultiPlan('), app.indexOf('// ── Saved production plans'));
+    assert.match(combinedRender, /const invLoc = \{\};/);
+    assert.match(combinedRender, /compute\(CALC_TRAY, ALTERNATIVE_CHOICES, ledger, invLoc/);
+  });
 });

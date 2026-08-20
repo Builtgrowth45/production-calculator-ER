@@ -38,6 +38,10 @@ describe('combined per-colony work queue', () => {
     assert.match(appSource, /var batchOrigin = action\.from \|\| action\.colony \|\| group\.colony/);
   });
 
+  it('keeps completed grouped cargo cards in a readable vertical layout', () => {
+    assert.match(cssSource, /\.flow-card\.move-batch-action\.done \.flow-card-body\s*\{[\s\S]*?display:\s*block/);
+  });
+
   it('groups mining, owned-stock moves, refinement, and final moves by visit colony', () => {
     const plan = {
       refineDestination: 'DMC',
