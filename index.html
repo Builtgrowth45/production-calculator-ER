@@ -13,8 +13,8 @@
   @font-face { font-family: 'Orbitron'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('fonts/orbitron-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
   @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 </style>
-<link rel="stylesheet" href="src/styles.css?v=57" />
-<link rel="stylesheet" href="src/styles/ux-release.css?v=8" />
+<link rel="stylesheet" href="src/styles.css?v=59" />
+<link rel="stylesheet" href="src/styles/ux-release.css?v=9" />
 <link rel="stylesheet" href="src/styles/surviving-reference.css?v=2" />
 </head>
 <body>
@@ -156,8 +156,8 @@
   <section id="view-calc" class="view active" role="tabpanel" aria-label="Calculator">
     <div class="public-notice" role="note">Independent Empire Rising community project · local-first and offline-capable</div>
     <section id="first-run" class="first-run ui-panel" aria-labelledby="first-run-title">
-      <div class="first-run-copy"><span class="eyebrow">Start here</span><h2 id="first-run-title">Set up a local player profile</h2><p>Your profile stays in this browser. Faction changes economic estimates, not recipe access. After setup, choose an item and the calculator will show what to obtain, move, refine, manufacture, and spend.</p></div>
-      <div class="first-run-form"><label>Player name<input id="onboarding-name" autocomplete="nickname" placeholder="Your character name" /></label><label>Faction <select id="onboarding-faction" aria-label="Onboarding faction"></select><small>You can leave this as Unaffiliated. Faction changes economic estimates only; it does not lock recipes.</small></label><button id="onboarding-create" class="primary">Continue to calculator</button><button id="onboarding-import" class="ghost">Import existing workspace</button></div>
+      <div class="first-run-copy"><span class="eyebrow">Start here</span><h2 id="first-run-title">Set up a local player profile</h2><p id="profile-gate-notice" role="alert">Enter a player name and choose a faction before opening any tab or using the calculator. Settings stays available so you can change theme, text size, and other accessibility preferences first.</p><p>Your profile stays in this browser. Faction changes economic estimates, not recipe access. After setup, choose an item and the calculator will show what to obtain, move, refine, manufacture, and spend.</p></div>
+      <div class="first-run-form"><label>Player name<input id="onboarding-name" autocomplete="nickname" placeholder="Your character name" required /></label><label>Faction <select id="onboarding-faction" aria-label="Onboarding faction" required></select><small>Choose the faction this player belongs to. Faction changes economic estimates only; it does not lock recipes.</small></label><button id="onboarding-create" class="primary">Continue to calculator</button><button id="onboarding-import" class="ghost">Import existing workspace</button></div>
     </section>
     <section id="calc-guide" class="calc-guide ui-panel" aria-labelledby="calc-guide-title" hidden>
       <div class="calc-guide-copy">
@@ -202,11 +202,14 @@
         <input id="calc-qty" type="number" min="1" step="1" value="1" aria-label="Quantity" aria-describedby="calc-qty-error" />
         <span id="calc-qty-error" class="field-error" role="alert" hidden></span>
       </label>
-      <label>Production colony
-        <select id="calc-dest" aria-label="Production colony"></select>
-      </label>
       <label>Refinement colony
-        <select id="calc-refine-dest" aria-label="Refinement colony"></select>
+        <select id="calc-refine-dest" aria-label="Refinement colony" title="Colony where raw materials are refined"></select>
+      </label>
+      <label>Production colony
+        <select id="calc-dest" aria-label="Production colony" title="Colony where the final item is manufactured"></select>
+      </label>
+      <label>Same location
+        <select id="calc-combined-dest" aria-label="Refine and produce at the same location" title="Convenience: sets refinement and production to one colony. Choosing a colony here sets both; changing either colony above returns to separate selection."></select>
       </label>
       <label class="checkbox-label" title="Do not use inventory already recorded for this player"><input type="checkbox" id="calc-scratch" /> Ignore current inventory</label>
       <button id="calc-run">Calculate</button>
@@ -221,22 +224,22 @@
 
       <div class="ct-slots">
         <label class="ct-slot">⚡ Energy
-          <input id="slot-energy" type="range" min="1" max="21" step="1" value="5" aria-label="Energy level" />
-          <output id="slot-energy-out">5</output>
+          <input id="slot-energy" type="range" min="1" max="20" step="1" value="15" aria-label="Energy level" />
+          <output id="slot-energy-out">15</output>
         </label>
         <label class="ct-slot">❄️ Cooling
-          <input id="slot-cooling" type="range" min="0" max="21" step="1" value="0" aria-label="Cooling level" />
-          <output id="slot-cooling-out">0</output>
+          <input id="slot-cooling" type="range" min="1" max="20" step="1" value="15" aria-label="Cooling level" />
+          <output id="slot-cooling-out">15</output>
         </label>
         <span id="slot-note" class="ct-note"></span>
       </div>
-      <div class="ct-hint muted">Set in <strong>levels</strong>, the way they actually get talked about — most production runs at <strong>5 energy, 0 cooling</strong>. Energy can't go below 1; cooling can be left off entirely. Each energy level adds about <strong>1.43 UC per run</strong> and each cooling level <strong>0.95</strong>, flat regardless of what you're making — so at the top it adds 50 UC whether the run costs 69 or 4997, dominating a cheap material and barely registering on a gun. Cooling isn't dead weight though: it keeps heat down, and heat is what drags effectiveness and speed with it. These totals are the price of a <strong>cold start</strong>; a long run drifts cheaper per unit. See <em>How a slot actually works</em> on the Colonies tab.</div>
+      <div class="ct-hint muted">Set energy and cooling in <strong>levels 1–20</strong>. The recommended default is <strong>15 and 15</strong>, five clicks below max. These shared settings apply to mining, refinement, and production slot-batch costs. Each energy level adds <strong>1.5 UC</strong> and each cooling level <strong>1 UC</strong> per run. Cooling keeps heat down, and heat drags effectiveness and speed with it. These totals are the price of a <strong>cold start</strong>; a long run drifts cheaper per unit. See <em>How a slot actually works</em> on the Colonies tab.</div>
       <div class="ct-hint muted">Colony tax rates and ownership are stored locally per device. Use the export/import controls when you want to share a snapshot.</div>
     </details>
 
     <details class="calc-help">
       <summary>How planning works</summary>
-      <div class="hint muted">Browse or search final items by category above. Add several items to the plan tray for a combined production run — owned stock carries between items. Refinement and production paths can be switched inside each step. <strong>/</strong> jumps to search · <strong>Ctrl+Z</strong> undoes an applied plan.</div>
+      <div class="hint muted">Browse or search final items by category above. Add several items to the plan tray for a combined production run — owned stock carries between items. Pick a refinement colony first, then a production colony, or use “Same location” to set both at once. <strong>/</strong> jumps to search · <strong>Ctrl+Z</strong> undoes an applied plan.</div>
     </details>
       </div>
 
@@ -694,16 +697,16 @@
         <div><span class="eyebrow">World operations</span><h3 class="view-title">🌍 Colonies</h3><p>See who controls each production world, what it mines, and how ownership changes your calculator costs.</p></div>
         <span class="colonies-local-badge">● Local world state</span>
       </div>
-      <div id="colonies-overview" class="colonies-overview" aria-label="Colony overview"><div class="col-metric"><b id="col-metric-production">—</b><span>production colonies</span></div><div class="col-metric"><b id="col-metric-owned">—</b><span>your faction</span></div><div class="col-metric"><b id="col-metric-joint">—</b><span>joint holdings</span></div><div class="col-metric"><b id="col-metric-taxed">—</b><span>taxed worlds</span></div></div>
+      <div id="colonies-overview" class="colonies-overview" aria-label="Colony overview"><div class="col-metric"><b id="col-metric-production">—</b><span>production colonies</span></div><div class="col-metric"><b id="col-metric-owned">—</b><span>your faction</span></div><div class="col-metric"><b id="col-metric-dominion">—</b><span>Global Dominion worlds</span></div><div class="col-metric"><b id="col-metric-taxed">—</b><span>taxed worlds</span></div></div>
       <div id="colonies-toolbar" class="col-toolbar colonies-toolbar">
         <label class="colonies-search"><span>Find a colony or resource</span><input id="col-search" placeholder="Search ore, world, or faction…" aria-label="Filter colonies and resources" /></label>
-        <label class="colonies-filter"><span>Show</span><select id="col-filter" aria-label="Filter colony cards"><option value="all">All production worlds</option><option value="mine">My faction's worlds</option><option value="joint">Joint ownership</option><option value="reference">Other known worlds</option></select></label>
+        <label class="colonies-filter"><span>Show</span><select id="col-filter" aria-label="Filter colony cards"><option value="all">Production and owned worlds</option><option value="mine">My faction's worlds</option><option value="global-dominion">Global Dominion worlds</option><option value="reference">Other known worlds</option></select></label>
         <label class="checkbox-label colonies-legacy-filter"><input type="checkbox" id="col-priced-only" /> production only</label>
         <details id="colonies-world-data" class="colonies-world-data"><summary>World data</summary><div><span id="colony-world-status" class="muted" aria-live="polite">Saved on this device</span><button id="colony-world-export" class="ghost" type="button">Export</button><button id="colony-world-import" class="ghost" type="button">Import</button><button id="colony-world-reset" class="ghost danger" type="button">Reset</button><input id="colony-world-import-file" type="file" accept="application/json,.json" hidden /></div></details>
       </div>
       <section id="colonies-production" aria-labelledby="colonies-production-title"><div class="colonies-section-head"><div><span class="eyebrow">Actionable worlds</span><h4 id="colonies-production-title">Production colonies</h4></div><span id="col-count" class="muted"></span></div><div class="colonies-grid col-grid" id="col-grid"></div></section>
       <section id="colonies-reference" class="colonies-reference" aria-labelledby="colonies-reference-title"><div class="colonies-section-head"><div><span class="eyebrow">Reference</span><h4 id="colonies-reference-title">Other known worlds</h4></div></div><div id="col-reference-grid" class="colonies-reference-grid"></div></section>
-      <details id="colonies-slot-guide" class="slot-guide"><summary>⛏️ How a slot works — energy, cooling, heat and cost</summary><div class="colonies-guide-copy"><h4>Cost of one batch</h4><p>Start from the item's listed price, add the slot upkeep, then the colony's tax. Mining triples the base before any of that, which is already baked into the material prices shown elsewhere in the app.</p><ul><li><b>Energy</b> runs 1–21 and <b>cooling</b> 0–21. Energy can't be switched off; cooling can. Most production sits at <b>5 energy, 0 cooling</b>.</li><li>Both <em>raise</em> the price, by a flat amount per level: <b>1.43 UC</b> per energy level and <b>0.95</b> per cooling level.</li><li>Tax is not a plain markup. A rate above 10% discounts the base first.</li></ul><h4>Heat and speed</h4><p>Energy generates heat continuously and cooling removes it. As heat rises, effectiveness falls and production slows. A long hot run is slower but cheaper per unit.</p><p class="muted"><b>Still not modelled:</b> exact speed loss. This page estimates cost, not run duration.</p></div></details>
+      <details id="colonies-slot-guide" class="slot-guide"><summary>⛏️ How a slot works — energy, cooling, heat and cost</summary><div class="colonies-guide-copy"><h4>Cost of one batch</h4><p>Start from the item's listed price, add the slot upkeep, then the colony's tax. Mining triples the base before any of that, which is already baked into the material prices shown elsewhere in the app.</p><ul><li><b>Energy</b> and <b>cooling</b> both run 1–20. The recommended default is <b>15 energy, 15 cooling</b>, five clicks below max; these shared settings apply to mining, refinement, and production.</li><li>Both <em>raise</em> the price, by a flat amount per level: <b>1.5 UC</b> per energy level and <b>1 UC</b> per cooling level.</li><li>Tax is not a plain markup. A rate above 10% discounts the base first.</li></ul><h4>Heat and speed</h4><p>Energy generates heat continuously and cooling removes it. As heat rises, effectiveness falls and production slows. A long hot run is slower but cheaper per unit.</p><p class="muted"><b>Still not modelled:</b> exact speed loss. This page estimates cost, not run duration.</p></div></details>
     </div>
   </section>
 
@@ -765,7 +768,7 @@
   </div>
 </footer>
 
-<script src="src/game_data.js?v=28"></script>
+<script src="src/game_data.js?v=29"></script>
 <script src="src/balance_stats.js?v=1"></script>
 <script src="src/costs.js?v=13"></script>
 <script src="src/armor_classes.js?v=3"></script>
@@ -773,12 +776,12 @@
 <script src="src/store.js?v=5"></script>
 <script src="src/engine.js?v=21"></script>
 <script src="src/ui/motion.js?v=1"></script>
-<script src="src/app-core.js?v=52"></script>
+<script src="src/app-core.js?v=54"></script>
 <script src="src/ui/value-transition.js?v=1"></script>
 <script src="src/ui/r3f-loader.js?v=1"></script>
 <script src="src/ui/spatial-emphasis.js?v=1"></script>
 <script src="src/colony-work.js?v=1"></script>
-<script src="src/app.js?v=91"></script>
+<script src="src/app.js?v=93"></script>
 <script src="src/ui/legacy-3d-loader.js?v=1"></script>
 <script src="src/ui/chart-loader.js?v=1"></script>
 <script src="src/views/models.js?v=22"></script>
@@ -786,8 +789,8 @@
 <script src="src/views/reference.js?v=10"></script>
 <script src="src/views/gear.js?v=21"></script>
 <script src="src/views/inventory.js?v=38"></script>
-<script src="src/views/player.js?v=5"></script>
-<script src="src/app-init.js?v=51"></script>
+<script src="src/views/player.js?v=6"></script>
+<script src="src/app-init.js?v=52"></script>
 <script src="src/ui/trust-indicators.js?v=1"></script>
 
 </body>

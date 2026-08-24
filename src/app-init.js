@@ -23,6 +23,12 @@ function applyPublicHashRoute() {
   return true;
 }
 
+function requiredFactionOptions() {
+  const factions = (window.ER_FACTIONS?.selectable || []).filter(f => f.id !== 'UNAFFILIATED');
+  return '<option value="" disabled selected>Choose a faction…</option>' + factions.map(f =>
+    `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderItemOptions();
   const edl = document.getElementById('inv-item-list');
@@ -185,8 +191,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('calc-run').addEventListener('click', runCalculator);
   document.getElementById('calc-qty').addEventListener('keydown', e => { if (e.key === 'Enter') runCalculator(); });
   document.getElementById('calc-qty').addEventListener('input', clearQuantityValidation);
-  document.getElementById('calc-dest').addEventListener('change', () => { getDestination(); if (CALC_TRAY.length) runMultiPlan(); });
-  document.getElementById('calc-refine-dest').addEventListener('change', () => { getRefineDestination(true); if (CALC_TRAY.length) runMultiPlan(); });
+  document.getElementById('calc-dest').addEventListener('change', () => { exitCombinedMode(); getDestination(); if (CALC_TRAY.length) runMultiPlan(); });
+  document.getElementById('calc-refine-dest').addEventListener('change', () => { exitCombinedMode(); getRefineDestination(true); if (CALC_TRAY.length) runMultiPlan(); });
+  const combinedSel = document.getElementById('calc-combined-dest');
+  if (combinedSel) combinedSel.addEventListener('change', () => { setCombinedDestination(); if (CALC_TRAY.length) runMultiPlan(); });
   // Re-plan immediately when "Plan from scratch" is toggled, if a plan is up.
   document.getElementById('calc-scratch')?.addEventListener('change', () => {
     const item = document.getElementById('calc-item').value.trim();
@@ -200,9 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Delegated on #calc-result (calc-paths is recreated on every renderPlan).
   document.getElementById('calc-result').addEventListener('change', e => {
     if (!e.target.closest('#calc-paths')) return;
-    const sel = e.target.closest('select[data-alt]');
-    if (!sel) return;
-    ALTERNATIVE_CHOICES[decodeURIComponent(sel.dataset.alt)] = parseInt(sel.value, 10);
+    const radio = e.target.closest('input[data-alt]');
+    if (!radio) return;
+    ALTERNATIVE_CHOICES[decodeURIComponent(radio.dataset.alt)] = parseInt(radio.value, 10);
     savePaths();
     // Re-plan in place: changing a path should keep the player at the selector
     // instead of jumping back to the top of the workbench.
@@ -532,10 +540,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id).addEventListener('click', e => {
       const btn = e.target.closest('[data-whatif-plan]');
       if (!btn) return;
-      const colony = decodeURIComponent(btn.dataset.whatifPlan);
+      let colony;
+      try { colony = decodeURIComponent(btn.dataset.whatifPlan); } catch (e) {
+        toast('That production colony is no longer available.');
+        return;
+      }
+      if (!validFinalProduction(colony)) {
+        toast('That production colony is no longer available.');
+        return;
+      }
       const destSel = document.getElementById('calc-dest');
       if (destSel) destSel.value = colony;
       DESTINATION = colony;
+      // Keep the engine mirror and the combined "Same location" selector in
+      // step with the direct assignment above.
+      window.ENGINE.DESTINATION = colony;
+      if (typeof syncCombinedSelector === 'function') syncCombinedSelector();
       saveDestination();
       updateColonyTaxNote();
       if (CALC_TRAY.length) runMultiPlan();
@@ -572,6 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Enter') {
         const n = inp.value.trim();
         if (!n) { row.remove(); return; }
+        if (!faction.value) { faction.focus(); toast('Choose a faction for the new player.'); return; }
         if (PLAYERS.players[n]) { toast('That player already exists.'); row.remove(); return; }
         PLAYERS.players[n] = [];
         PLAYERS.profiles = PLAYERS.profiles || {};
@@ -583,8 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const faction = document.createElement('select');
     faction.setAttribute('aria-label', 'New player faction');
-    faction.innerHTML = (window.ER_FACTIONS?.selectable || []).map(f =>
-      `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('');
+    faction.required = true;
+    faction.innerHTML = requiredFactionOptions();
     const btn = document.createElement('button');
     btn.textContent = 'Create';
     btn.style.cssText = 'background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer';
@@ -594,14 +615,16 @@ document.addEventListener('DOMContentLoaded', () => {
     inp.focus();
   });
   const onboardingFaction = document.getElementById('onboarding-faction');
-  if (onboardingFaction) onboardingFaction.innerHTML = (window.ER_FACTIONS?.selectable || []).map(f =>
-    `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join('');
+  if (onboardingFaction) onboardingFaction.innerHTML = requiredFactionOptions();
   document.getElementById('onboarding-create')?.addEventListener('click', () => {
     const input = document.getElementById('onboarding-name');
     const name = input.value.trim();
     if (!name) { input.focus(); toast('Enter your player name to start.'); return; }
-    if (PLAYERS.players[name]) { toast('That player already exists.'); return; }
-    PLAYERS.players[name] = [];
+    if (!onboardingFaction?.value) { onboardingFaction?.focus(); toast('Choose your faction to continue.'); return; }
+    if (PLAYERS.players[name] && S.isProfileComplete?.(name, PLAYERS.profiles?.[name]?.faction)) {
+      toast('That player already exists.'); return;
+    }
+    if (!PLAYERS.players[name]) PLAYERS.players[name] = [];
     PLAYERS.profiles = PLAYERS.profiles || {};
     PLAYERS.profiles[name] = { faction: onboardingFaction?.value || 'UNAFFILIATED' };
     PLAYERS.active = name; savePlayers(PLAYERS); recomputeInv(); refreshAll();

@@ -310,6 +310,13 @@ function toggleColonyWorkGroup(head) {
   head.setAttribute('aria-expanded', String(group.classList.contains('expanded')));
 }
 
+// Checklist completion changes which action is current. Re-render the active
+// plan immediately so the completed card recedes and the next action advances
+// without waiting for an unrelated plan refresh.
+function advanceColonyObjective() {
+  rerunActivePlan({ preserveChecklist: true, preserveViewport: true });
+}
+
 function toggleProduceCheck(cb) {
   var key = cb.dataset.produceKey;
   var card = cb.closest('.recipe-card');
@@ -343,6 +350,7 @@ function toggleProduceCheck(cb) {
   // Auto-collapse section if all items in it are checked
   var section = card.closest('.section');
   if (section) autoCollapseIfDone(section);
+  advanceColonyObjective();
   syncApplyPlanReadiness();
 }
 window.toggleProduceCheck = toggleProduceCheck; // exported for inline onclick
@@ -458,6 +466,7 @@ function toggleTransferCheck(cb) {
   var section = card && card.closest('.section');
   if (section) autoCollapseIfDone(section);
   syncColonyWorkGroupStates(card);
+  advanceColonyObjective();
   syncApplyPlanReadiness();
 }
 
@@ -641,8 +650,9 @@ var LAST_PLANS = {};
 // The two name sets do NOT line up, which is why this is a union rather than a
 // join. The worlds list is CamelCase and 22 long ('AndromedaCity'), the
 // calculator's colonies come from mining sites and are spaced ('Andromeda').
-// Eight overlap, six colonies have no world entry (Paris and Tokyo among them)
-// and fourteen worlds are not places you can produce at.
+// Screenshot-derived lore adds a third name set with explicit app_location and
+// aliases, so the card can display the in-game title without changing the
+// calculator's internal location keys.
 var WORLD_NAMES = [
   'AndromedaCity','Aquatica','Arcturus','Aurelia','Berlin','BookersValley',
   'CeresDelta','Constantinople','DeMorgansCastle','DominionExodus','EpsilonEridani',
@@ -653,10 +663,29 @@ var WORLD_NAMES = [
 
 function colNorm(s) { return String(s).replace(/[^a-zA-Z0-9]/g, '').toLowerCase(); }
 
+function colonyLoreRecords() {
+  return Array.isArray(DATA.colony_lore) ? DATA.colony_lore : [];
+}
+
+function loreMatchesRow(lore, row) {
+  if (!lore || !row) return false;
+  const rowNames = [row.name, row.colony, row.world].filter(Boolean).map(colNorm);
+  const loreNames = [lore.name, lore.app_location, ...(lore.aliases || [])].filter(Boolean).map(colNorm);
+  return loreNames.some(name => rowNames.includes(name));
+}
+
+function loreForRow(row) {
+  return colonyLoreRecords().find(lore => loreMatchesRow(lore, row)) || null;
+}
+
 // Build the union: every colony the calculator knows, plus every world.
 function colonyRows() {
-  var colonies = colonyList();
+  var colonies = [...new Set([
+    ...FINAL_PRODUCTION_LOCATIONS.filter(c => c !== 'NYC Manhattan'),
+    ...Object.keys(DEFAULT_COLONY_OWNER).filter(c => c !== 'NYC Manhattan'),
+  ])];
   var used = {};
+  var usedLore = {};
   var rows = [];
 
   colonies.forEach(function (c) {
@@ -667,12 +696,39 @@ function colonyRows() {
       if (wn === n || wn.indexOf(n) === 0 || n.indexOf(wn) === 0) { world = WORLD_NAMES[i]; break; }
     }
     if (world) used[world] = true;
-    rows.push({ name: c, colony: c, world: world, priced: true });
+    const row = { name: c, colony: c, world: world, priced: FINAL_PRODUCTION_LOCATIONS.includes(c) };
+    row.lore = loreForRow(row);
+    if (row.lore) {
+      usedLore[row.lore.id] = true;
+      row.name = row.lore.name;
+    }
+    rows.push(row);
   });
 
   WORLD_NAMES.forEach(function (w) {
     if (used[w]) return;
-    rows.push({ name: w.replace(/([A-Z])/g, ' $1').trim(), colony: null, world: w, priced: false });
+    const row = { name: w.replace(/([A-Z])/g, ' $1').trim(), colony: null, world: w, priced: false };
+    const matchedLore = loreForRow(row);
+    if (matchedLore && !usedLore[matchedLore.id]) {
+      row.lore = matchedLore;
+      usedLore[row.lore.id] = true;
+      row.name = row.lore.name;
+      row.colony = row.lore.app_location || null;
+    }
+    rows.push(row);
+  });
+
+  // Keep a lore record visible even when the older world reference list and
+  // current calculator allowlists do not know its spelling yet.
+  colonyLoreRecords().forEach(function (lore) {
+    if (usedLore[lore.id]) return;
+    rows.push({
+      name: lore.name,
+      colony: lore.app_location || null,
+      world: null,
+      priced: false,
+      lore,
+    });
   });
 
   return rows.sort(function (a, b) {
@@ -684,20 +740,53 @@ function colonyRows() {
 function colonyOwnerLabel(ids) {
   if (!ids.length) return '<span class="owner-chip owner-chip-empty">Owner not set</span>';
   const names = ids.map(id => window.factionById?.(id)?.name || id);
-  const joint = ids.length > 1;
-  return ids.map((id, i) => `<span class="owner-chip owner-chip-${esc(id.toLowerCase())}">${esc(names[i])}</span>`).join('') +
-    (joint ? '<span class="owner-joint-label">Global Dominion · joint holding</span>' : '');
+  const alliance = ['LED', 'FDC'].includes(ids[0]);
+  return `<span class="owner-chip owner-chip-${esc(ids[0].toLowerCase())}">${esc(names[0])}</span>` +
+    (alliance ? '<span class="owner-alliance-label">Global Dominion alliance · actual owner shown</span>' : '');
 }
 
 function renderColonyOverview(productionRows) {
   const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
   const owned = productionRows.filter(r => r.colony && isOwnColony(r.colony)).length;
-  const joint = productionRows.filter(r => r.colony && colonyOwnerIds(r.colony).length > 1).length;
+  const dominion = productionRows.filter(r => r.colony && ['LED', 'FDC'].includes(colonyOwnerIds(r.colony)[0])).length;
   const taxed = productionRows.filter(r => r.colony && (COLONY_TAX[r.colony] || 0) > 0).length;
-  set('col-metric-production', productionRows.length);
+  set('col-metric-production', productionRows.filter(r => r.priced).length);
   set('col-metric-owned', owned);
-  set('col-metric-joint', joint);
+  set('col-metric-dominion', dominion);
   set('col-metric-taxed', taxed);
+}
+
+function colonyYieldsFor(colony, mines) {
+  if (!colony) return [];
+  const aliases = {
+    'Andromeda City': 'Andromeda',
+    'NYC Manhattan': 'Manhattan',
+    'NYC - Manhattan': 'Manhattan',
+    'NYC - Brooklyn': 'Brooklyn',
+    'NYC - Ground Zero': 'Ground Zero',
+  };
+  return mines[colony] || mines[aliases[colony]] || [];
+}
+
+function renderColonyLore(lore, yields) {
+  if (!lore) return '';
+  const securityVisual = lore.security && lore.security.visual || 'Not recorded';
+  const knownResources = yields.length
+    ? `Canonical mining data: ${yields.map(y => esc(displayName(y))).join(', ')}.`
+    : 'No canonical mining yield is currently linked to this panel.';
+  const affiliation = lore.faction_context || 'No explicit faction or owner is stated in the panel.';
+  const landmarks = (lore.points_of_interest || []).map(point => `<li>${esc(point)}</li>`).join('');
+  return `<details class="colony-lore"><summary>In-game description &amp; intel</summary><div class="colony-lore-body">
+    <p class="colony-lore-description">${esc(lore.description)}</p>
+    <dl class="colony-lore-facts">
+      <div><dt>Location context</dt><dd>${esc(lore.location_context || 'Not stated')}</dd></div>
+      <div><dt>Faction context</dt><dd>${esc(affiliation)}</dd></div>
+      <div><dt>Security visual</dt><dd>${esc(securityVisual)}</dd></div>
+      <div><dt>Resource panel</dt><dd>${fmt(lore.resource_icon_count)} unlabeled icon${lore.resource_icon_count === 1 ? '' : 's'} shown. ${knownResources}</dd></div>
+    </dl>
+    ${landmarks ? `<div class="colony-lore-points"><b>Named places and notes</b><ul>${landmarks}</ul></div>` : ''}
+    <p class="muted colony-lore-source">Transcribed from the player-provided in-game colony panel; unlabeled icons and security meters are recorded as visual observations, not numeric game values.</p>
+  </div></details>`;
 }
 
 function renderColonyCard(r, mines, q) {
@@ -705,9 +794,12 @@ function renderColonyCard(r, mines, q) {
   const own = isOwnColony(r.colony);
   const rate = typeof COLONY_TAX[r.colony] === 'number' ? COLONY_TAX[r.colony] : 0;
   const enc = encodeURIComponent(r.colony);
-  const yields = mines[r.colony] || [];
+  const lore = r.lore || loreForRow(r);
+  // Keep the direct mine lookup visible for the existing colony contract; the
+  // helper supplies aliases such as Andromeda City → Andromeda afterward.
+  const yields = mines[r.colony] || colonyYieldsFor(r.colony, mines);
   const ownerOptions = (window.ER_FACTIONS?.selectable || []).map(f =>
-    `<label class="owner-check"><input type="checkbox" value="${esc(f.id)}" data-colony-owner="${enc}"${owners.includes(f.id) ? ' checked' : ''} /> <span>${esc(f.name)}</span></label>`
+    `<label class="owner-check"><input type="radio" name="colony-owner-${enc}" value="${esc(f.id)}" data-colony-owner="${enc}"${owners.includes(f.id) ? ' checked' : ''} /> <span>${esc(f.name)}</span></label>`
   ).join('');
   const resources = yields.length ? yields.map(m => {
     const have = (window.INV_TOTAL && INV_TOTAL[m]) || 0;
@@ -715,15 +807,17 @@ function renderColonyCard(r, mines, q) {
     return `<span class="resource-chip${hit ? ' resource-chip-hit' : ''}">${iconFor(m)}<span>${esc(displayName(m))}</span>${have ? `<b>${fmt(have)}</b>` : ''}</span>`;
   }).join('') : '<span class="muted">No mine data</span>';
   return `<article class="colonies-card${own ? ' colonies-card-owned' : ''}" data-colony-card="${enc}">
-    <div class="colonies-card-head"><div><span class="eyebrow">Production world</span><h5>${esc(r.name)}</h5></div><button class="icon-action faction-audio" type="button" aria-label="Play welcome audio for ${esc(r.name)}" onclick="playAudio('voice_extracted/${r.world}.ogg',0.5)">🔊</button></div>
-    <div class="colonies-card-status"><div class="owner-list" aria-label="Owners of ${esc(r.name)}">${colonyOwnerLabel(owners)}</div><span class="colony-tax-value">Tax <b>${rate}%</b></span></div>
+    <div class="colonies-card-head"><div><span class="eyebrow">${r.priced ? 'Production world' : 'Owned world'}</span><h5>${esc(r.name)}</h5></div>${r.world ? `<button class="icon-action faction-audio" type="button" aria-label="Play welcome audio for ${esc(r.name)}" onclick="playAudio('voice_extracted/${r.world}.ogg',0.5)">🔊</button>` : ''}</div>
+    <div class="colonies-card-status"><div class="owner-list" aria-label="Actual owner of ${esc(r.name)}">${colonyOwnerLabel(owners)}</div><span class="colony-tax-value">Tax <b>${rate}%</b></span></div>
+    ${lore ? `<div class="colony-lore-teaser">${esc(lore.location_context || 'Known world record')} · ${esc(lore.security?.visual || 'Security visual not recorded')}</div>` : ''}
     <div class="colonies-resources"><span class="colonies-label">Mines here</span><div class="resource-list">${resources}</div></div>
-    <details class="colony-editor"><summary data-colony-edit="${enc}">Edit world state</summary><div class="colony-editor-body"><fieldset><legend>Owners</legend><label class="owner-check owner-check-clear"><input type="checkbox" data-colony-clear="${enc}"${owners.length ? '' : ' checked'} /> Owner not set</label>${ownerOptions}</fieldset><label class="tax-editor">Colony tax <span><input type="number" min="0" max="500" step="5" value="${rate}" data-ct-tax="${enc}" aria-label="Tax percent at ${esc(r.name)}" /> %</span></label><p class="muted editor-hint">Ownership controls faction return calculations; tax changes production cost.</p></div></details>
+    ${renderColonyLore(lore, yields)}
+    <details class="colony-editor"><summary data-colony-edit="${enc}">Edit world state</summary><div class="colony-editor-body"><fieldset><legend>Actual owner</legend><label class="owner-check owner-check-clear"><input type="radio" name="colony-owner-${enc}" data-colony-clear="${enc}"${owners.length ? '' : ' checked'} /> Owner not set</label>${ownerOptions}</fieldset><p class="muted editor-hint">Global Dominion is the LED/FDC alliance; it is not a second owner. Only the actual owner receives the 85% return. Tax changes production cost.</p><label class="tax-editor">Colony tax <span><input type="number" min="0" max="500" step="5" value="${rate}" data-ct-tax="${enc}" aria-label="Tax percent at ${esc(r.name)}" /> %</span></label></div></details>
   </article>`;
 }
 
 function renderReferenceCard(r) {
-  return `<div class="reference-world-card"><span class="reference-world-name">${esc(r.name)}</span><span class="reference-world-label">Reference world</span>${r.world ? `<button class="icon-action faction-audio" type="button" aria-label="Play welcome audio for ${esc(r.name)}" onclick="playAudio('voice_extracted/${r.world}.ogg',0.5)">🔊</button>` : ''}</div>`;
+  return `<article class="reference-world-card"><div><span class="reference-world-name">${esc(r.name)}</span><span class="reference-world-label">Reference world</span></div>${r.world ? `<button class="icon-action faction-audio" type="button" aria-label="Play welcome audio for ${esc(r.name)}" onclick="playAudio('voice_extracted/${r.world}.ogg',0.5)">🔊</button>` : ''}${renderColonyLore(r.lore || loreForRow(r), [])}</article>`;
 }
 
 function renderColonies() {
@@ -735,9 +829,9 @@ function renderColonies() {
   const mode = (document.getElementById('col-filter') || {}).value || 'all';
   const pricedOnly = !!(document.getElementById('col-priced-only') || {}).checked;
   const allRows = colonyRows();
-  const productionRows = allRows.filter(r => r.priced);
-  const matches = r => !q || r.name.toLowerCase().includes(q) || ((r.colony && mines[r.colony]) || []).some(m => m.toLowerCase().includes(q)) || colonyOwnerIds(r.colony || '').some(id => id.toLowerCase().includes(q));
-  const filteredProduction = productionRows.filter(r => matches(r) && (!pricedOnly || r.priced) && (mode === 'all' || mode === 'mine' && isOwnColony(r.colony) || mode === 'joint' && colonyOwnerIds(r.colony).length > 1));
+  var productionRows = allRows.filter(r => r.priced || colonyOwnerIds(r.colony).length);
+  const matches = r => !q || r.name.toLowerCase().includes(q) || ((r.colony && colonyYieldsFor(r.colony, mines)) || []).some(m => m.toLowerCase().includes(q)) || colonyOwnerIds(r.colony || '').some(id => id.toLowerCase().includes(q)) || (r.lore && [r.lore.description, r.lore.location_context, r.lore.faction_context, ...(r.lore.points_of_interest || [])].filter(Boolean).some(text => text.toLowerCase().includes(q)));
+  const filteredProduction = productionRows.filter(r => matches(r) && (!pricedOnly || r.priced) && (mode === 'all' || mode === 'mine' && isOwnColony(r.colony) || mode === 'global-dominion' && ['LED', 'FDC'].includes(colonyOwnerIds(r.colony)[0])));
   const referenceRows = allRows.filter(r => !r.priced && matches(r) && mode === 'reference');
   renderColonyOverview(productionRows);
   grid.innerHTML = filteredProduction.map(r => renderColonyCard(r, mines, q)).join('') || '<div class="colonies-empty">No production colonies match. Try another search or filter.</div>';
@@ -746,7 +840,7 @@ function renderColonies() {
   if (refGrid) refGrid.innerHTML = referenceRows.map(renderReferenceCard).join('') || '<div class="colonies-empty">Choose “Other known worlds” to browse reference worlds.</div>';
   if (refSection) refSection.hidden = mode !== 'reference';
   const count = document.getElementById('col-count');
-  if (count) count.textContent = `${filteredProduction.length} shown · ${productionRows.length} production worlds`;
+  if (count) count.textContent = `${filteredProduction.length} shown · ${productionRows.filter(r => r.priced).length} final-production worlds`;
   updateColonyTaxNote();
 }
 // adoptRemoteColonies() calls this by name when another member's change lands.
@@ -784,9 +878,8 @@ function renderSlotLevels() {
   var e = document.getElementById('slot-energy'), c = document.getElementById('slot-cooling');
   if (e) { e.value = ENERGY_LEVEL; }
   if (c) { c.value = COOLING_LEVEL; }
-  // Shown as the LEVEL, not a percentage. The panel is marked 0–100%, but
-  // players talk in levels — "5 energy, 0 cooling" — so the number here should
-  // be the one that gets said out loud.
+  // Show the one-based level directly; that is the number players use when
+  // describing the shared mining, refinement, and production setting.
   var eo = document.getElementById('slot-energy-out'), co = document.getElementById('slot-cooling-out');
   if (eo) eo.textContent = ENERGY_LEVEL;
   if (co) co.textContent = COOLING_LEVEL;
@@ -814,14 +907,14 @@ function onColonyTaxChange(el) {
   } else if (ownerFor) {
     const c = decodeURIComponent(ownerFor);
     const card = el.closest('[data-colony-card]');
-    const owner = Array.from(card?.querySelectorAll(`[data-colony-owner="${ownerFor}"]:checked`) || []).map(input => input.value).filter(Boolean);
+    const owner = card?.querySelector(`[data-colony-owner="${ownerFor}"]:checked`)?.value || '';
     const clear = card?.querySelector(`[data-colony-clear="${ownerFor}"]`);
     if (clear?.checked) {
       card.querySelectorAll(`[data-colony-owner="${ownerFor}"]`).forEach(input => { input.checked = false; });
       delete COLONY_OWNER[c];
     } else if (owner.length) {
       if (clear) clear.checked = false;
-      COLONY_OWNER[c] = owner;
+      COLONY_OWNER[c] = [owner];
     } else delete COLONY_OWNER[c];
     refreshEngineFactionContext();
   }
@@ -855,6 +948,7 @@ function toggleObtainCheck(cb) {
   var section = card && card.closest('.section');
   if (section) autoCollapseIfDone(section);
   syncColonyWorkGroupStates(card);
+  advanceColonyObjective();
   syncApplyPlanReadiness();
 }
 
@@ -991,10 +1085,37 @@ function renderAcquireSection(plan) {
 // owned, refine where selected, then move refined inputs to final production.
 // The queue intentionally reuses the existing per-action progress controls so
 // checklist state survives replans and mine-site changes.
+function colonyWorkObjective(queue, plan) {
+  var work = window.CMG_COLONY_WORK;
+  if (!work || typeof work.currentColonyObjective !== 'function') return null;
+  var complete = {};
+  (queue || []).forEach(function (group) {
+    (group.actions || []).forEach(function (action) {
+      var done = false;
+      if (action.kind === 'mine') done = !!OBTAINED_DONE[action.item] || miningProgressFor(action.item, Math.max(0, Number(action.qty) || 0)) >= Math.max(0, Number(action.qty) || 0);
+      else if (action.kind === 'refine') done = !!PRODUCE_DONE[encodeURIComponent(action.item)];
+      else done = !!TRANSFERS_DONE[work.workActionId(action)];
+      if (done) complete[work.workActionId(action)] = true;
+    });
+  });
+  return work.currentColonyObjective(queue, (plan && plan.manufacture || []).map(function (action) {
+    var done = !!PRODUCE_DONE[encodeURIComponent(action.item)];
+    if (done) complete[work.workActionId({ ...action, kind: 'manufacture' })] = true;
+    return action;
+  }), complete);
+}
+
+function objectiveAttrs(isCurrent) {
+  return isCurrent
+    ? ' current-objective" data-current-objective="true" aria-current="step"'
+    : '" data-current-objective="false"';
+}
+
 function renderColonyWorkSection(plan) {
   var builder = window.CMG_COLONY_WORK && window.CMG_COLONY_WORK.buildColonyWorkQueue;
   if (typeof builder !== 'function') return '<div class="muted">Colony work queue unavailable.</div>';
   var queue = builder(plan, OBTAIN_SITE);
+  var objective = colonyWorkObjective(queue, plan);
   if (!queue.length) return '<div class="muted">No mining, owned-stock movement, or refinement work is required away from the final production step.</div>';
 
   var totalActions = queue.reduce(function (sum, group) { return sum + group.actions.length; }, 0);
@@ -1036,7 +1157,7 @@ function renderColonyWorkSection(plan) {
               '" data-qty="' + mineBatchQty + '" data-mine-total="' + mineTotal + '">Record ' +
               (mineBatchQty === mineRemaining ? 'final ' : 'next ') + fmt(mineBatchQty) + ' batch' + (mineBatchQty === 1 ? '' : 'es') + '</button>' : '')
           : '';
-        html += '<div class="flow-card get colony-work-action' + (done ? ' done' : '') + '">' +
+        html += '<div class="flow-card get colony-work-action' + (done ? ' done' : '') + objectiveAttrs(objective && objective.id === window.CMG_COLONY_WORK.workActionId(action)) + '>' +
           '<label class="transport-check"><input type="checkbox" class="obtain-cb" data-obtain-key="' + esc(action.item) + '"' + (done ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
           '<div class="flow-card-body"><div class="flow-chip">' + iconFor(action.item) + '<span class="flow-name">Mine ' + esc(displayName(action.item)) + '</span><span class="flow-qty need">' + fmt(action.qty) + '</span></div>' +
           '<div class="flow-need">mine at ' + esc(action.site) + '</div>' + pickHtml + batchHtml + '</div></div>';
@@ -1060,7 +1181,7 @@ function renderColonyWorkSection(plan) {
             esc(displayName(item.item)) + ' ×' + fmt(item.qty) + ' → ' + esc(item.to) + '</span>';
         }).join('');
         var moveButton = '<button type="button" class="move-all-cargo-btn' + (batchDone ? ' done' : '') + '" data-move-all-cargo data-move-label="' + esc('Move all cargo from ' + batchOrigin + ' →') + '" aria-label="' + (batchDone ? 'Cargo moved' : 'Move all cargo from ' + esc(batchOrigin)) + '"' + (batchDone ? ' disabled' : '') + '>' + (batchDone ? '✓ Cargo moved' : 'Move all cargo →') + '</button>';
-        html += '<div class="flow-card move move-batch-action colony-work-action' + (batchDone ? ' done' : '') + '">' +
+        html += '<div class="flow-card move move-batch-action colony-work-action' + (batchDone ? ' done' : '') + objectiveAttrs(objective && objective.id === window.CMG_COLONY_WORK.workActionId(action)) + '>' +
           '<label class="transport-check"><input type="checkbox" class="transfer-cb" aria-label="Move all cargo from ' + esc(batchOrigin) + '" data-transfer-key="' + esc(batchKey) + '"' + (batchDone ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
           '<div class="flow-card-body"><div class="flow-chip">📦<span class="flow-name">Move all cargo from ' + esc(batchOrigin) + '</span><span class="flow-qty owned">' + action.items.length + ' lot' + (action.items.length !== 1 ? 's' : '') + '</span></div>' +
           '<div class="colony-work-move-items">' + batchDetails + '</div>' + moveButton + '</div></div>';
@@ -1068,7 +1189,7 @@ function renderColonyWorkSection(plan) {
       }
 
       if (action.kind === 'refine') {
-        html += '<div class="colony-work-refine-card">' + stepCard(action.step || action) + '</div>';
+        html += '<div class="colony-work-refine-card' + objectiveAttrs(objective && objective.id === window.CMG_COLONY_WORK.workActionId(action)) + '>' + stepCard(action.step || action) + '</div>';
         return;
       }
 
@@ -1077,7 +1198,7 @@ function renderColonyWorkSection(plan) {
         : action.kind + '|' + action.item + '|' + action.from + '|' + action.to;
       var moveDone = !!TRANSFERS_DONE[moveKey];
       var moveLabel = action.kind === 'move-mined' ? 'After mining, move ' : action.kind === 'move-refined' ? 'Move refined ' : 'Move owned ';
-      html += '<div class="flow-card move colony-work-action' + (moveDone ? ' done' : '') + '">' +
+      html += '<div class="flow-card move colony-work-action' + (moveDone ? ' done' : '') + objectiveAttrs(objective && objective.id === window.CMG_COLONY_WORK.workActionId(action)) + '>' +
         '<label class="transport-check"><input type="checkbox" class="transfer-cb" data-transfer-key="' + esc(moveKey) + '"' + (moveDone ? ' checked' : '') + ' /><span class="checkmark"></span></label>' +
         '<div class="flow-card-body"><div class="flow-chip">' + iconFor(action.item) + '<span class="flow-name">' + moveLabel + esc(displayName(action.item)) + '</span><span class="flow-qty owned">' + fmt(action.qty) + '</span></div>' +
         '<div class="flow-need">' + esc(action.from) + ' → ' + esc(action.to) + '</div></div></div>';
@@ -1229,36 +1350,32 @@ function renderCalcPaths() {
       var costs = itemCosts[pi];
       var best = -1;
       costs.forEach(function (c, i) { if (c != null && (best < 0 || c < costs[best])) best = i; });
-      var opts = p.recipe.inputs_alternatives.map(function (a, i) {
-        var label = a.map(function (x) { return fmt(x.quantity) + ' ' + esc(x.item); }).join(' + ');
-        if (costs[i] == null && anyPriced) label += ' · cost n/a';
-        return '<option value="' + i + '"' + (i === chosen ? ' selected' : '') + '>' + label + '</option>';
-      }).join('');
-      var selectedPath = p.recipe.inputs_alternatives[chosen] || p.recipe.inputs_alternatives[0] || [];
-      var selectedDesc = selectedPath.map(function (x) { return fmt(x.quantity) + ' ' + esc(x.item); }).join(' + ');
-      var selectedCost = costs[chosen];
-      var selectedCostHtml = selectedCost != null
-        ? '<span class="calc-path-cost"><b>Estimated path cost</b> ≈ ' + fmtUC(selectedCost) + ' UC/unit</span>'
-        : '<span class="calc-path-cost unavailable"><b>Estimated path cost</b> unavailable</span>';
-      var recommendedHtml = best >= 0 && chosen === best
-        ? '<span class="calc-path-recommended">★ Recommended</span>' : '';
-      var compareHtml = anyPriced
-        ? '<span class="calc-path-compare" aria-label="Estimated costs for all refinement paths"><b>Options:</b> ' +
-          costs.map(function (c, i) {
-            return 'Path ' + (i + 1) + ' ' + (c != null ? '≈ ' + fmtUC(c) + ' UC' + (i === best ? ' ★' : '') : 'n/a');
-          }).join(' · ') + '</span>'
-        : '';
-      return '<label class="calc-path-row">' +
+      return '<div class="calc-path-row">' +
         '<span class="calc-path-item">' + iconFor(p.item) + '<span>' + esc(displayName(p.item)) + '</span></span>' +
-        '<span class="calc-path-control">' +
-          '<span class="calc-path-control-label">Choose input materials</span>' +
-          '<select data-alt="' + encodeURIComponent(p.item) + '" aria-label="Refinement path for ' + esc(p.item) + '">' + opts + '</select>' +
-          '<span class="calc-path-meta">' +
-            '<span class="calc-path-selected"><b>Selected:</b> ' + selectedDesc + '</span>' +
-            selectedCostHtml + recommendedHtml + compareHtml +
-          '</span>' +
+        '<span class="calc-path-options" role="radiogroup" aria-label="Refinement path for ' + esc(p.item) + '">' +
+          p.recipe.inputs_alternatives.map(function (a, i) {
+            var desc = a.map(function (x) { return fmt(x.quantity) + ' ' + esc(x.item); }).join(' + ');
+            var cost = costs[i];
+            var isSelected = i === chosen;
+            var isRecommended = i === best;
+            var costHtml = cost != null
+              ? '<span class="calc-path-cost">Estimated path cost ≈ ' + fmtUC(cost) + ' UC/unit</span>'
+              : '<span class="calc-path-cost unavailable">Cost unavailable: this path is not priced yet</span>';
+            var reasonHtml = isRecommended
+              ? '<span class="calc-path-reason">Recommended because this is the lowest estimated cost</span>'
+              : '<span class="calc-path-reason">Alternative material path</span>';
+            return '<label class="calc-path-option' + (isSelected ? ' selected' : '') + (isRecommended ? ' recommended' : '') + '">' +
+              '<input type="radio" name="refinement-' + encodeURIComponent(p.item) + '" data-alt="' + encodeURIComponent(p.item) + '" value="' + i + '"' +
+                (isSelected ? ' checked aria-checked="true"' : ' aria-checked="false"') +
+                ' aria-label="Path ' + (i + 1) + ' for ' + esc(p.item) + ': ' + desc + '">' +
+              '<span class="calc-path-option-body"><span class="calc-path-option-head"><b>Path ' + (i + 1) + '</b>' +
+                (isSelected ? '<span class="calc-path-selected">Selected</span>' : '<span class="calc-path-not-selected">Not selected</span>') +
+                (isRecommended ? '<span class="calc-path-recommended">★ Recommended</span>' : '') +
+              '</span><span class="calc-path-materials">' + desc + '</span>' + costHtml + reasonHtml + '</span>' +
+            '</label>';
+          }).join('') +
         '</span>' +
-      '</label>';
+      '</div>';
     }).join('') + '</div>' +
     (anyPriced ? '<details class="calc-paths-help"><summary>How are estimates calculated?</summary><span>Estimated UC per unit combines processing fees and materials. It includes the configured 85% owner return where your selected faction owns the colony; tax is separate. Prices are a snapshot—verify live in-game.</span></details>' : '');
 }
@@ -1579,6 +1696,11 @@ function showQuantityValidation(message) {
   }
 }
 
+function drugProductionInstruction(drug) {
+  const tier = String(drug.tier || '—');
+  return `<div class="prod-code" aria-label="Drug production instruction"><span class="prod-code-entry"><span class="prod-code-label">Production code:</span> <strong class="prod-code-val">${esc(String(drug.code ?? '—'))}</strong></span><span class="prod-code-entry"><span class="prod-code-label">Power:</span> <span class="tag tier-${esc(tier.toLowerCase())}">${esc(tier)}</span></span></div>`;
+}
+
 function renderPlan(item, qty, targetEl) {
   if (!FINAL_ITEMS.includes(item)) {
     targetEl.innerHTML = '<div class="card"><span class="shortfall">That is not a final item. The calculator is for end products (medkits, ammo, foams, etc.). It is produced as an intermediate of another recipe — compute that final item instead.</span></div>';
@@ -1611,7 +1733,10 @@ function renderPlan(item, qty, targetEl) {
   const colonyWorkHtml = '<div class="colony-work-wrap">' + renderColonyWorkSection(plan) + '</div>';
 
   // ---- 3) PRODUCE ----
-  const manufactureHtml = plan.manufacture.map(s => stepCard(s, true)).join('');
+  const colonyObjective = colonyWorkObjective(
+    (window.CMG_COLONY_WORK && window.CMG_COLONY_WORK.buildColonyWorkQueue(plan, OBTAIN_SITE)) || [], plan);
+  const manufactureHtml = plan.manufacture.map(s => stepCard(s, true,
+    colonyObjective && colonyObjective.id === window.CMG_COLONY_WORK.workActionId({ ...s, kind: 'manufacture' }))).join('');
 
   // Stock of the requested item no longer cancels the request — the plan always
   // makes the amount asked for — so this is now purely informational.
@@ -1653,7 +1778,7 @@ function renderPlan(item, qty, targetEl) {
 
       ${planSection('colony-work', 1, 'Visit, mine, move & refine by colony', colonyWorkHtml)}
       ${planSection('manufacture', 2, 'Manufacture at ' + esc(DESTINATION),
-        (drugRef ? `<div class="prod-code"><span class="prod-code-label">Production Code</span><span class="prod-code-val">${esc(String(drugRef.code))}</span><span class="prod-code-power"><span class="prod-code-label">Power</span><span class="tag tier-${esc(String(drugRef.tier || '').toLowerCase())}">${esc(drugRef.tier)}</span></span></div>` : '') + manufactureHtml)}
+        (drugRef ? drugProductionInstruction(drugRef) : '') + manufactureHtml)}
       ${renderMiningPanel(plan)}
       <div class="apply-plan-note">Applying the plan records completed products in inventory. Any unused batch surplus stays at the colony where it was produced; refinement leftovers stay at the refinement colony until you move them.</div>
       ${planApplied
@@ -1847,7 +1972,10 @@ function runMultiPlan(options) {
 
   // ---- Sections (combined) — one itinerary, then refinement and manufacture ----
   const mColonyWork = '<div class="colony-work-wrap">' + renderColonyWorkSection(plan) + '</div>';
-  const mManufacture = plan.manufacture.length ? plan.manufacture.map(s => stepCard(s, true)).join('') : '<div class="muted">No manufacturing step.</div>';
+  const mColonyObjective = colonyWorkObjective(
+    (window.CMG_COLONY_WORK && window.CMG_COLONY_WORK.buildColonyWorkQueue(plan, OBTAIN_SITE)) || [], plan);
+  const mManufacture = plan.manufacture.length ? plan.manufacture.map(s => stepCard(s, true,
+    mColonyObjective && mColonyObjective.id === window.CMG_COLONY_WORK.workActionId({ ...s, kind: 'manufacture' }))).join('') : '<div class="muted">No manufacturing step.</div>';
   html += planSection('colony-work', 1, 'Visit, mine, move & refine by colony', mColonyWork);
   html += planSection('manufacture', 2, 'Manufacture at ' + esc(DESTINATION), mManufacture);
   html += renderMiningPanel(plan);
@@ -1907,13 +2035,22 @@ function saveCurrentPlan() {
 function loadSavedPlan(id) {
   const p = SAVED_PLANS.find(x => x.id === id);
   if (!p) return;
+  // A saved plan may predate the final-production / refinement allowlists,
+  // so validate before assigning — an invalid value (e.g. a legacy
+  // "apartment" save) falls back to the current valid destination instead of
+  // being reintroduced. The repaired state is persisted below.
+  const validDest = validFinalProduction(p.dest) ? p.dest : DESTINATION;
+  const savedRefineDest = validRefinement(p.refineDest) ? p.refineDest
+    : validRefinement(p.dest) ? p.dest : validDest;
   const destSel = document.getElementById('calc-dest');
-  if (destSel && p.dest) { destSel.value = p.dest; DESTINATION = p.dest; window.ENGINE.DESTINATION = p.dest; }
+  if (destSel && validDest) destSel.value = validDest;
+  DESTINATION = validDest;
+  window.ENGINE.DESTINATION = validDest;
   const refineSel = document.getElementById('calc-refine-dest');
-  const savedRefineDest = p.refineDest || p.dest || DESTINATION;
   if (refineSel) refineSel.value = savedRefineDest;
   REFINE_DESTINATION = savedRefineDest;
-  REFINE_DESTINATION_EXPLICIT = !!p.refineDest;
+  REFINE_DESTINATION_EXPLICIT = validRefinement(p.refineDest);
+  if (typeof syncCombinedSelector === 'function') syncCombinedSelector();
   saveDestination();
   if (p.kind === 'tray') {
     CALC_TRAY = p.tray.map(t => ({ item: t.item, qty: t.qty }));
@@ -1926,15 +2063,33 @@ function loadSavedPlan(id) {
   toast(`Loaded plan "${p.name}".`);
 }
 
+function normalizeSavedPlans() {
+  let repaired = false;
+  const fallbackDest = validFinalProduction(DESTINATION) ? DESTINATION : 'Berlin';
+  SAVED_PLANS = (Array.isArray(SAVED_PLANS) ? SAVED_PLANS : []).filter(p => p && typeof p === 'object').map(p => {
+    const dest = validFinalProduction(p.dest) ? p.dest : fallbackDest;
+    const refineDest = validRefinement(p.refineDest)
+      ? p.refineDest
+      : validRefinement(dest) ? dest : fallbackDest;
+    if (p.dest !== dest || p.refineDest !== refineDest) {
+      repaired = true;
+      return { ...p, dest, refineDest };
+    }
+    return p;
+  });
+  if (repaired) saveSavedPlans();
+}
+
 function renderSavedPlans() {
+  normalizeSavedPlans();
   const panel = document.getElementById('calc-saved');
   const list = document.getElementById('calc-saved-list');
   if (!panel || !list) return;
   panel.hidden = SAVED_PLANS.length === 0;
   list.innerHTML = SAVED_PLANS.map(p => {
     const meta = p.kind === 'tray'
-      ? `${p.tray.length} items → ${esc(p.dest || '')}`
-      : `${fmt(p.qty)} × ${esc(displayName(p.item))} → ${esc(p.dest || '')}`;
+      ? `${p.tray.length} items → ${esc(p.dest)}`
+      : `${fmt(p.qty)} × ${esc(displayName(p.item))} → ${esc(p.dest)}`;
     return `<div class="saved-plan">
       <div class="sp-info"><span class="sp-name">${esc(p.name)}</span>
         <span class="sp-meta">${meta}</span></div>
