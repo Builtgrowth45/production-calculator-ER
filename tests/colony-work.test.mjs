@@ -15,7 +15,7 @@ describe('combined per-colony work queue', () => {
   it('is the single calculator logistics section for both plan shapes', () => {
     assert.match(appSource, /renderColonyWorkSection\(plan\)/);
     assert.match(appSource, /planSection\('colony-work', 1, 'Visit, mine, move & refine by colony'/);
-    assert.match(appSource, /stepCard\(action\.step \|\| action\)/);
+    assert.match(appSource, /stepCard\(action\.step \|\| action/);
     assert.match(htmlSource, /src="src\/colony-work\.js\?v=1"/);
     assert.doesNotMatch(appSource, /planSection\('move', 1/);
     assert.doesNotMatch(appSource, /planSection\('obtain', 2/);
@@ -25,8 +25,9 @@ describe('combined per-colony work queue', () => {
   it('makes the remaining all-cargo move the dominant next action', () => {
     assert.match(appSource, /flow-card move move-batch-action colony-work-action/);
     assert.match(appSource, /Move all cargo from/);
-    assert.match(cssSource, /\.flow-card\.move-batch-action:not\(\.done\)[\s\S]*?font-size:\s*1rem/);
-    assert.match(cssSource, /\.flow-card\.move-batch-action:not\(\.done\)[\s\S]*?border:\s*2px/);
+    assert.match(cssSource, /\.flow-card\.move-batch-action\.current-objective:not\(\.done\)[\s\S]*?font-size:\s*1rem/);
+    assert.match(cssSource, /\.flow-card\.move-batch-action\.current-objective:not\(\.done\)[\s\S]*?border:\s*2px/);
+    assert.doesNotMatch(cssSource, /\.flow-card\.move-batch-action:not\(\.done\)\s*\{/);
   });
 
   it('provides a direct action button for the grouped cargo move', () => {

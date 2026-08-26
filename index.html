@@ -4,17 +4,27 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#36d1dc" />
-<meta name="description" content="Offline-first Empire Rising production, inventory, gear, and economy planner for every player" />
+<meta name="description" content="Plan materials, refining steps, colonies, and local cost assumptions for Empire Rising production in a browser-local workspace." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Empire Rising Production Calculator" />
+<meta property="og:description" content="Plan materials, refining steps, colonies, and local cost assumptions for Empire Rising production in a browser-local workspace." />
+<meta property="og:url" content="https://chrisfromnepa.github.io/production-calculator-ER/" />
+<meta property="og:image" content="https://chrisfromnepa.github.io/production-calculator-ER/docs/assets/calculator-sample.png" />
+<meta property="og:image:alt" content="Fictional sample production plan for an Emergency Medikit" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Empire Rising Production Calculator" />
+<meta name="twitter:description" content="Plan materials, refining steps, colonies, and local cost assumptions for Empire Rising production in a browser-local workspace." />
+<meta name="twitter:image" content="https://chrisfromnepa.github.io/production-calculator-ER/docs/assets/calculator-sample.png" />
 <title>Empire Rising Production Calculator</title>
 <link rel="manifest" href="manifest.webmanifest" />
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg" />
 <!-- self-hosted fonts -->
 <style>
   @font-face { font-family: 'Orbitron'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('fonts/orbitron-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
   @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 </style>
 <link rel="stylesheet" href="src/styles.css?v=59" />
-<link rel="stylesheet" href="src/styles/ux-release.css?v=9" />
+<link rel="stylesheet" href="src/styles/ux-release.css?v=10" />
 <link rel="stylesheet" href="src/styles/surviving-reference.css?v=2" />
 </head>
 <body>
@@ -154,7 +164,10 @@
 <main>
   <!-- CALCULATOR -->
   <section id="view-calc" class="view active" role="tabpanel" aria-label="Calculator">
-    <div class="public-notice" role="note">Independent Empire Rising community project · local-first and offline-capable</div>
+    <section id="project-intro" class="public-notice project-intro" aria-labelledby="project-intro-title">
+      <div class="project-intro-copy"><span class="eyebrow">Open-source application · browser-local data</span><h2 id="project-intro-title">Turn a target item into a practical production plan.</h2><p>Trace materials, refining steps, colonies, and local cost assumptions in one workspace.</p></div>
+      <a class="project-intro-link" href="https://github.com/ChrisFromNEPA/production-calculator-ER" target="_blank" rel="noopener noreferrer">View source on GitHub <span aria-hidden="true">↗</span></a>
+    </section>
     <section id="first-run" class="first-run ui-panel" aria-labelledby="first-run-title">
       <div class="first-run-copy"><span class="eyebrow">Start here</span><h2 id="first-run-title">Set up a local player profile</h2><p id="profile-gate-notice" role="alert">Enter a player name and choose a faction before opening any tab or using the calculator. Settings stays available so you can change theme, text size, and other accessibility preferences first.</p><p>Your profile stays in this browser. Faction changes economic estimates, not recipe access. After setup, choose an item and the calculator will show what to obtain, move, refine, manufacture, and spend.</p></div>
       <div class="first-run-form"><label>Player name<input id="onboarding-name" autocomplete="nickname" placeholder="Your character name" required /></label><label>Faction <select id="onboarding-faction" aria-label="Onboarding faction" required></select><small>Choose the faction this player belongs to. Faction changes economic estimates only; it does not lock recipes.</small></label><button id="onboarding-create" class="primary">Continue to calculator</button><button id="onboarding-import" class="ghost">Import existing workspace</button></div>
@@ -208,10 +221,8 @@
       <label>Production colony
         <select id="calc-dest" aria-label="Production colony" title="Colony where the final item is manufactured"></select>
       </label>
-      <label>Same location
-        <select id="calc-combined-dest" aria-label="Refine and produce at the same location" title="Convenience: sets refinement and production to one colony. Choosing a colony here sets both; changing either colony above returns to separate selection."></select>
-      </label>
-      <label class="checkbox-label" title="Do not use inventory already recorded for this player"><input type="checkbox" id="calc-scratch" /> Ignore current inventory</label>
+      <button type="button" id="calc-combined-dest" class="toggle-button" aria-label="Refine and produce at the same location" aria-pressed="false" title="Link refinement and production to the same colony.">Same location: Off</button>
+      <label class="checkbox-label" title="Do not use inventory already recorded for this player in either single-item or combined plans"><input type="checkbox" id="calc-scratch" /> Ignore current inventory</label>
       <button id="calc-run">Calculate</button>
       <button id="calc-add" class="ghost" title="Add this item and quantity to the combined production plan">+ Add another item</button>
       <button id="calc-save" class="ghost" title="Save the current plan (item or tray) under a name">💾 Save plan</button>
@@ -228,12 +239,12 @@
           <output id="slot-energy-out">15</output>
         </label>
         <label class="ct-slot">❄️ Cooling
-          <input id="slot-cooling" type="range" min="1" max="20" step="1" value="15" aria-label="Cooling level" />
+          <input id="slot-cooling" type="range" min="0" max="20" step="1" value="15" aria-label="Cooling level" />
           <output id="slot-cooling-out">15</output>
         </label>
         <span id="slot-note" class="ct-note"></span>
       </div>
-      <div class="ct-hint muted">Set energy and cooling in <strong>levels 1–20</strong>. The recommended default is <strong>15 and 15</strong>, five clicks below max. These shared settings apply to mining, refinement, and production slot-batch costs. Each energy level adds <strong>1.5 UC</strong> and each cooling level <strong>1 UC</strong> per run. Cooling keeps heat down, and heat drags effectiveness and speed with it. These totals are the price of a <strong>cold start</strong>; a long run drifts cheaper per unit. See <em>How a slot actually works</em> on the Colonies tab.</div>
+      <div class="ct-hint muted">Set energy in <strong>levels 1–20</strong> and cooling to <strong>off or levels 1–20</strong>. The recommended default is <strong>15 energy, 15 cooling</strong>, five clicks below max. These shared settings apply to mining, refinement, and production slot-batch costs. Each energy level adds <strong>1.5 UC</strong> and each cooling level <strong>1 UC</strong> per run. Cooling keeps heat down, and heat drags effectiveness and speed with it. These totals are the price of a <strong>cold start</strong>; a long run drifts cheaper per unit. See <em>How a slot actually works</em> on the Colonies tab.</div>
       <div class="ct-hint muted">Colony tax rates and ownership are stored locally per device. Use the export/import controls when you want to share a snapshot.</div>
     </details>
 
@@ -331,13 +342,26 @@
         <div class="muted">Pick a zone above to view and edit its stock. Use <b>Add item</b> to log new material gathered at that zone.</div>
       </div>
       <div class="zone-addrow inventory-add-flow">
-        <div class="inventory-add-head">
-          <div>
-            <span class="inventory-step">2</span>
-            <strong>Add stock to <span id="inv-addzone-name">this zone</span></strong>
+        <section class="inventory-rapid-entry" aria-label="Rapid stock entry">
+          <div class="inventory-add-head">
+            <div>
+              <span class="inventory-step">2</span>
+              <strong>Add stock to <span id="inv-addzone-name">this zone</span></strong>
+            </div>
+            <span class="inventory-add-hint">Enter a quantity and press Add to keep stocking this zone.</span>
           </div>
-          <span class="inventory-add-hint">Pick an item, enter the amount, and add it to the existing stack.</span>
-        </div>
+          <div class="inventory-add-fields">
+            <div class="inventory-item-field">
+              <span class="inventory-field-label">Selected item</span>
+              <div id="inv-selected-item" class="inventory-selected-item" aria-live="polite">Choose an item icon below</div>
+              <input id="inv-item" type="hidden" value="" aria-label="Selected item to add" />
+            </div>
+            <label class="inventory-qty-field" for="inv-qty">Quantity
+              <input id="inv-qty" type="number" min="0" value="1" aria-label="Quantity to add" />
+            </label>
+            <button id="inv-addzone" type="button">+ Add to <span id="inv-addzone-button-zone">zone</span></button>
+          </div>
+        </section>
         <div class="inventory-picker">
           <div class="inventory-picker-head">
             <div>
@@ -349,17 +373,6 @@
           <input id="qp-search" class="qp-search" type="text" placeholder="🔍 Search mined + refined materials…" autocomplete="off" aria-label="Search mined and refined items" />
           <div class="qp-cats" id="qp-cats" role="tablist" aria-label="Item categories to add to stock"></div>
           <div class="qp-grid" id="qp-grid"></div>
-        </div>
-        <div class="inventory-add-fields">
-          <div class="inventory-item-field">
-            <span class="inventory-field-label">Selected item</span>
-            <div id="inv-selected-item" class="inventory-selected-item" aria-live="polite">Choose an item icon above</div>
-            <input id="inv-item" type="hidden" value="" aria-label="Selected item to add" />
-          </div>
-          <label class="inventory-qty-field" for="inv-qty">Quantity
-            <input id="inv-qty" type="number" min="0" value="1" aria-label="Quantity to add" />
-          </label>
-          <button id="inv-addzone" type="button">+ Add to <span id="inv-addzone-button-zone">zone</span></button>
         </div>
       </div>
       </div>
@@ -389,6 +402,7 @@
     <div class="gear-layout">
       <div class="gear-main gear-loadout-panel gear-stat-panel">
         <h4 class="gear-title">Armor Loadout</h4>
+        <p class="gear-loadout-hint">Click a loadout slot to choose compatible gear from the compatible gear picker.</p>
         <div class="gear-paperdoll">
           <!-- Armor row 1 -->
           <div class="gear-slot" tabindex="0" role="button" data-slot="Helmet" data-category="Armor" data-armor-type="Helmet">
@@ -483,10 +497,10 @@
     </div>
 
 
-    <!-- COMBAT STATS BROWSER — ER Balance Sheet (window.BALANCE_STATS) -->
+    <!-- COMBAT STATS REFERENCE — ER Balance Sheet (window.BALANCE_STATS) -->
     <div class="gear-balance-browser" id="gear-balance-browser">
       <div class="gear-balance-head">
-        <div><h4>⚔️ Combat Stats — ER Balance Sheet</h4><p>Search and compare the authoritative combat-stat snapshot. Craftable items link back to calculator data; reference items come from the sheet only. <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/pubhtml?gid=29503079&amp;single=true" target="_blank" rel="noopener noreferrer">Open the published source sheet</a>.</p></div>
+        <div><h4>⚔️ Combat Stats Reference</h4><p>The reference list below is for comparison. To equip an item, click a compatible loadout slot above; craftable items link back to calculator data. <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vT_DqXbgxfJmrzLJvFov-iqiRwPeSDpaqk_r3fVqfn7-8bfjAgT2ZWfQLiM_D41thtJE-LO5CtHWt50/pubhtml?gid=29503079&amp;single=true" target="_blank" rel="noopener noreferrer">Open the published source sheet</a>.</p></div>
         <div class="gear-balance-status"><strong id="gear-balance-count" aria-live="polite">Loading…</strong><span class="gear-balance-meta muted" id="gear-balance-meta"></span></div>
       </div>
       <div class="gear-balance-controls">
@@ -706,7 +720,7 @@
       </div>
       <section id="colonies-production" aria-labelledby="colonies-production-title"><div class="colonies-section-head"><div><span class="eyebrow">Actionable worlds</span><h4 id="colonies-production-title">Production colonies</h4></div><span id="col-count" class="muted"></span></div><div class="colonies-grid col-grid" id="col-grid"></div></section>
       <section id="colonies-reference" class="colonies-reference" aria-labelledby="colonies-reference-title"><div class="colonies-section-head"><div><span class="eyebrow">Reference</span><h4 id="colonies-reference-title">Other known worlds</h4></div></div><div id="col-reference-grid" class="colonies-reference-grid"></div></section>
-      <details id="colonies-slot-guide" class="slot-guide"><summary>⛏️ How a slot works — energy, cooling, heat and cost</summary><div class="colonies-guide-copy"><h4>Cost of one batch</h4><p>Start from the item's listed price, add the slot upkeep, then the colony's tax. Mining triples the base before any of that, which is already baked into the material prices shown elsewhere in the app.</p><ul><li><b>Energy</b> and <b>cooling</b> both run 1–20. The recommended default is <b>15 energy, 15 cooling</b>, five clicks below max; these shared settings apply to mining, refinement, and production.</li><li>Both <em>raise</em> the price, by a flat amount per level: <b>1.5 UC</b> per energy level and <b>1 UC</b> per cooling level.</li><li>Tax is not a plain markup. A rate above 10% discounts the base first.</li></ul><h4>Heat and speed</h4><p>Energy generates heat continuously and cooling removes it. As heat rises, effectiveness falls and production slows. A long hot run is slower but cheaper per unit.</p><p class="muted"><b>Still not modelled:</b> exact speed loss. This page estimates cost, not run duration.</p></div></details>
+      <details id="colonies-slot-guide" class="slot-guide"><summary>⛏️ How a slot works — energy, cooling, heat and cost</summary><div class="colonies-guide-copy"><h4>Cost of one batch</h4><p>Start from the item's listed price, add the slot upkeep, then the colony's tax. Mining triples the base before any of that, which is already baked into the material prices shown elsewhere in the app.</p><ul><li><b>Energy</b> runs 1–20 and <b>cooling</b> is <b>off</b> or runs 1–20. The recommended default is <b>15 energy, 15 cooling</b>, five clicks below max; these shared settings apply to mining, refinement, and production.</li><li>Both <em>raise</em> the price, by a flat amount per level: <b>1.5 UC</b> per energy level and <b>1 UC</b> per cooling level.</li><li>Tax is not a plain markup. A rate above 10% discounts the base first.</li></ul><h4>Heat and speed</h4><p>Energy generates heat continuously and cooling removes it. As heat rises, effectiveness falls and production slows. A long hot run is slower but cheaper per unit.</p><p class="muted"><b>Still not modelled:</b> exact speed loss. This page estimates cost, not run duration.</p></div></details>
     </div>
   </section>
 
@@ -776,7 +790,8 @@
 <script src="src/store.js?v=5"></script>
 <script src="src/engine.js?v=21"></script>
 <script src="src/ui/motion.js?v=1"></script>
-<script src="src/app-core.js?v=55"></script>
+
+<script src="src/app-core.js?v=56"></script>
 <script src="src/ui/value-transition.js?v=1"></script>
 <script src="src/ui/r3f-loader.js?v=1"></script>
 <script src="src/ui/spatial-emphasis.js?v=1"></script>

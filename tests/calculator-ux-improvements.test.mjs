@@ -49,6 +49,15 @@ describe('calculator UX improvements', () => {
     assert.match(css, /\.calculation-error/);
   });
 
+  it('keeps plan statistics in the result without a separate execution summary', () => {
+    assert.doesNotMatch(html, /calc-execution-summary|Current execution summary|calc-execution-next/);
+    assert.doesNotMatch(app, /syncCalcExecutionSummary|calc-execution/);
+    assert.doesNotMatch(core, /syncCalcExecutionSummary|calc-execution/);
+    assert.doesNotMatch(css, /calc-execution-summary/);
+    assert.match(core, /production actions/);
+    assert.match(core, /refine.*manufacture/s);
+  });
+
   it('keeps stale summary panels out of the rendered production result', () => {
     const singleRender = app.slice(app.indexOf('function renderPlan('), app.indexOf('function runCalculator('));
     const combinedRender = app.slice(app.indexOf('function runMultiPlan('), app.indexOf('// ── Saved production plans'));
