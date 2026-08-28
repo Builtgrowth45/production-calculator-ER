@@ -23,9 +23,9 @@
   @font-face { font-family: 'Orbitron'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('fonts/orbitron-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
   @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('fonts/jetbrains-mono-latin.woff2') format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 </style>
-<link rel="stylesheet" href="src/styles.css?v=59" />
+<link rel="stylesheet" href="src/styles.css?v=60" />
 <link rel="stylesheet" href="src/styles/ux-release.css?v=10" />
-<link rel="stylesheet" href="src/styles/surviving-reference.css?v=2" />
+<link rel="stylesheet" href="src/styles/surviving-reference.css?v=5" />
 </head>
 <body>
 
@@ -284,8 +284,11 @@
     </div>
 
     <div class="calc-plan">
-      <div id="calc-result" aria-live="polite" aria-label="Calculation result"></div>
-      <div id="calc-multi" aria-live="polite"></div>
+      <!-- announce() in value-transition.js speaks a compact summary through
+           #calc-live-summary; these containers are NOT live regions or screen
+           readers read the entire rebuilt plan twice per calculation. -->
+      <div id="calc-result" aria-label="Calculation result"></div>
+      <div id="calc-multi"></div>
     </div>
       </aside>
     </div>
@@ -549,9 +552,9 @@
   </section>
 
   <!-- PATCH CHANGES -->
-  <section id="view-patch-changes" class="view" role="tabpanel" aria-label="Patch changes">
+  <section id="view-patch-changes" class="view" role="tabpanel" aria-label="Gear 1.10">
     <h3 class="view-title">🛡️ Gear 1.10 — Proposed Armor Patch</h3>
-    <p class="muted patch-intro">Preview of the supplied next-patch notes. Current Gear and Calculator values remain unchanged. Stat deltas are shown exactly as proposed; undocumented combat conversions are not inferred.</p>
+    <p class="muted patch-intro">Preview of the supplied Gear 1.10 notes. Gear 1.9 and Calculator values remain unchanged. Stat deltas are shown exactly as proposed; undocumented combat conversions are not inferred.</p>
 
     <section class="patch-panel patch-panel-goals" aria-labelledby="patch-goals-title">
       <div class="patch-panel-head"><div><h4 id="patch-goals-title">What do you want your build to do?</h4><p class="muted">Pick a goal to rank every armor piece and implant by how well it delivers that stat — current vs. after the patch.</p></div></div>
@@ -563,11 +566,11 @@
       <article class="patch-summary-card"><strong>🛡️ Defense tradeoff</strong><span>Many heavy families lose Armor and Shielding while gaining Agility.</span></article>
       <article class="patch-summary-card"><strong>❤️ Sustain tradeoff</strong><span>Hypobaric and Metabolic lose defenses but gain Health Regen.</span></article>
       <article class="patch-summary-card"><strong>🧠 Implant change</strong><span>Resistance Amp loses 0.5 Health Regen and gains 25 Armor + 25 Shielding.</span></article>
-      <article class="patch-summary-card"><strong>🧩 Common build</strong><span>2 EC Aramid + 3 Pythica armor pieces, including gloves, with Stamina Amplification in the leg/implant slot.</span></article>
+      <article class="patch-summary-card"><strong>🧩 Common build</strong><span>2 EC Aramid + 3 Pythica armor pieces, including gloves, with Stamina Amplification in the chest slot.</span></article>
     </div>
 
     <section class="patch-panel" aria-labelledby="patch-build-title">
-      <div class="patch-panel-head"><div><h4 id="patch-build-title">Build planner</h4><p class="muted">Default: two EC Aramid pieces plus three Pythica pieces, including gloves, with Stamina Amplification in the mutually exclusive leg/implant slot. Add any two food/drug boosters and one healing medikit to see the complete stat picture; medical guns remain separate gun-slot items.</p></div></div>
+      <div class="patch-panel-head"><div><h4 id="patch-build-title">Build planner</h4><p class="muted">Default: two EC Aramid pieces plus three Pythica pieces, including gloves, with Stamina Amplification in the chest slot. Chest choices (torso armor, Stamina Amplification, or Shield Implant) are mutually exclusive; the leg slot can hold leg armor or Resistance Amp. Add any two food/drug boosters and one healing medikit to see the complete stat picture; medical guns remain separate gun-slot items.</p></div></div>
       <div id="patch-build"></div>
     </section>
 
@@ -845,21 +848,21 @@
 <script src="src/ui/motion.js?v=1"></script>
 
 <script src="src/app-core.js?v=56"></script>
-<script src="src/ui/value-transition.js?v=1"></script>
+<script src="src/ui/value-transition.js?v=2"></script>
 <script src="src/ui/r3f-loader.js?v=1"></script>
 <script src="src/ui/spatial-emphasis.js?v=1"></script>
 <script src="src/colony-work.js?v=1"></script>
-<script src="src/app.js?v=93"></script>
+<script src="src/app.js?v=94"></script>
 <script src="src/ui/legacy-3d-loader.js?v=1"></script>
 <script src="src/ui/chart-loader.js?v=1"></script>
 <script src="src/views/models.js?v=22"></script>
 <script src="src/views/character.js?v=2"></script>
 <script src="src/views/reference.js?v=10"></script>
-<script src="src/views/patch-changes.js?v=7"></script>
-<script src="src/views/gear.js?v=21"></script>
+<script src="src/views/patch-changes.js?v=11"></script>
+<script src="src/views/gear.js?v=22"></script>
 <script src="src/views/inventory.js?v=38"></script>
 <script src="src/views/player.js?v=6"></script>
-<script src="src/app-init.js?v=54"></script>
+<script src="src/app-init.js?v=55"></script>
 <script src="src/ui/trust-indicators.js?v=1"></script>
 
 </body>
