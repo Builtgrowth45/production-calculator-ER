@@ -22,6 +22,9 @@
     block_rating: 'Block', weaponrecoil: 'Weapon Recoil', health: 'Health', stamina: 'Stamina', aura: 'Aura',
     armor: 'Armor', shielding: 'Shielding', endurance: 'Endurance',
     reflection: 'Reflection', resistance: 'Resistance',
+    /* Damage stats appear on a few craftable armor pieces (e.g. Leech set).
+     * Without these entries the raw balance-sheet key leaks into the UI. */
+    biodamage: 'Bio Dmg', staminadamage: 'Stam Dmg',
   };
   const STAT_ORDER = ['armor', 'shielding', 'endurance', 'resistance', 'reflection', 'agility', 'bioregen', 'healthregen', 'staminaregen', 'addictiontreatment'];
   const ARMOR_SUFFIXES = ['Helmet', 'Shoulder Pads', 'Arm Pads', 'Torso Armor', 'Leg Pads'];
@@ -187,6 +190,11 @@
     });
     return [...groups.values()];
   }
+  function profileTitle(group) {
+    const allImplants = group.records.length > 0 && group.records.every(record => record.category === 'Implants & Electronics');
+    if (allImplants) return [...new Set(group.records.map(record => record.item.name))].sort().join(' / ');
+    return [...new Set(group.metas.map(meta => meta.family))].sort().join(' / ');
+  }
   function profileTradeoffs(stats) {
     const s = stats || {};
     const pros = [];
@@ -219,7 +227,10 @@
     return profileKeys().filter(key => stats[key] !== undefined && Number(stats[key]) !== 0).map(key => {
       const value = Number(stats[key]);
       const was = compare ? Number(compare[key] || 0) : null;
-      const changed = was !== null && was !== value;
+      // Suppress the delta chip when it would merely restate the base value
+      // (e.g. "Agility +0.3 +0.3" for pieces that had no recorded stat before,
+      // or Resistance Amp's "Armor +25 +25") — the pair reads as a typo.
+      const changed = was !== null && was !== value && value - was !== value;
       const delta = changed ? `<em class="patch-delta-chip ${value > was ? 'is-up' : 'is-down'}">${signed(value - was)}</em>` : '';
       return `<span class="patch-chip"><b>${escText(statLabel(key))}</b> ${signed(value)}${delta}</span>`;
     }).join('') || '<span class="patch-chip patch-chip-empty">no recorded stats</span>';
@@ -283,7 +294,7 @@
       const goalBar = goal ? `<div class="patch-goalbar" title="${escText(goal.label)} score (after patch)"><span class="patch-goalbar-track"><i style="width:${Math.max(4, Math.round((group.score / topScore) * 100))}%"></i></span><span class="patch-goalbar-num">${escText(comparisonText(group.scoreNow, group.score))}</span></div>` : '';
       return `<article class="patch-profile-card${goal ? ' has-goal' : ''}">
         <div class="patch-profile-head">
-          <div><h4>${escText([...new Set(group.metas.map(meta => meta.family))].sort().join(' / '))}</h4>
+          <div><h4>${escText(profileTitle(group))}</h4>
           <div class="patch-chiprow">${renderMetaChips(group)}</div></div>
           <strong>${group.records.length} item${group.records.length === 1 ? '' : 's'}</strong>
         </div>
@@ -492,7 +503,7 @@
     root.innerHTML = `<div class="patch-build-slots">${Object.entries(build).map(([slot, selected]) => {
       const options = `<option value="">None</option>${buildCandidates(slot).map(name => `<option value="${escText(name)}" ${name === selected ? 'selected' : ''}>${escText(name)}</option>`).join('')}`;
       const label = slot === 'Medikit' ? 'Medikit (healing item)' : slot;
-      return `<label><span>${renderGearIcon(selected)}${escText(label)}</span><select data-patch-slot="${escText(slot)}" aria-label="${escText(label)} build item">${options}</select></label>`;
+      return `<label><span>${escText(label)}<small class="patch-slot-selected">${selected ? `${renderGearIcon(selected)}${escText(selected)}` : 'None'}</small></span><select data-patch-slot="${escText(slot)}" aria-label="${escText(label)} build item">${options}</select></label>`;
     }).join('')}</div>
     <div class="patch-build-goals" aria-label="Build goal summary">${goalChips}</div>
     <p class="patch-callout"><strong>Recorded Bio Regen total:</strong> ${formatNumber(bio)} from this build’s selected equipment. Chest is one choice — torso armor, Stamina Amplification, or Shield Implant — and the leg slot is one choice — leg armor or Resistance Amp. These choices are mutually exclusive and this total is not a claim about the game’s undocumented conversion formula.</p>
@@ -542,6 +553,6 @@
     scheduleExplorerRender();
   }
 
-  window.PATCH_CHANGES = { PATCH_GROUPS, GOALS, applyPatch, changedRecords, recordMeta, comparisonText, dataIndex, initPatchChanges, protectionMapping: PROTECTION_MAPPING, allGearRecords, groupByExactStats, renderGearIcon, buildCandidates: (slot, items, recipes) => buildCandidatesFromData(slot, items || allGearRecords(), recipes || window.GAME_DATA?.recipes || []) };
+  window.PATCH_CHANGES = { PATCH_GROUPS, GOALS, applyPatch, changedRecords, recordMeta, comparisonText, dataIndex, initPatchChanges, protectionMapping: PROTECTION_MAPPING, allGearRecords, groupByExactStats, profileTitle, renderGearIcon, buildCandidates: (slot, items, recipes) => buildCandidatesFromData(slot, items || allGearRecords(), recipes || window.GAME_DATA?.recipes || []) };
   window.initPatchChanges = initPatchChanges;
 })(window, document);
