@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "description": "Canonical public player and colony faction registry. Recipe codes are reconciled with the extracted game data; aliases preserve observed game/client labels without silently merging distinct factions.",
+  "factions": [
+    {
+      "id": "UNAFFILIATED",
+      "name": "Unaffiliated / Prefer not to say",
+      "aliases": [
+        "CIVILIAN"
+      ],
+      "player_selectable": true,
+      "recipe_code": "CIVILIAN",
+      "asset_code": "Civilian",
+      "return_rate": null,
+      "return_rate_status": "unknown",
+      "notes": "Gross-cost mode; no faction return is assumed. CIVILIAN is retained as the recipe/client label until the game mechanic is confirmed."
+    },
+    {
+      "id": "BOS",
+      "name": "Brotherhood of Shadows",
+      "aliases": [
+        "BoS"
+      ],
+      "player_selectable": true,
+      "recipe_code": "BOS",
+      "asset_code": "BOS",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax."
+    },
+    {
+      "id": "CMG",
+      "name": "Colonization and Mining Guild",
+      "aliases": [],
+      "player_selectable": true,
+      "recipe_code": "CMG",
+      "asset_code": "CMG",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax."
+    },
+    {
+      "id": "EC",
+      "name": "EuroCore",
+      "aliases": [],
+      "player_selectable": true,
+      "recipe_code": "EC",
+      "asset_code": "EC",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax. Recipe/client data uses EC."
+    },
+    {
+      "id": "FDC",
+      "name": "Freedom Defense Corps.",
+      "aliases": [],
+      "player_selectable": true,
+      "recipe_code": "FDC",
+      "asset_code": "FDC",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax."
+    },
+    {
+      "id": "GOM",
+      "name": "Guardians of Mankind",
+      "aliases": [
+        "GoM"
+      ],
+      "player_selectable": true,
+      "recipe_code": "GOM",
+      "asset_code": "GOM",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax."
+    },
+    {
+      "id": "LED",
+      "name": "Law Enforcement Department",
+      "aliases": [],
+      "player_selectable": true,
+      "recipe_code": "LED",
+      "asset_code": "LED",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax."
+    },
+    {
+      "id": "MOTB",
+      "name": "Mercenaries of the Blood",
+      "aliases": [
+        "MotB",
+        "MOB"
+      ],
+      "player_selectable": true,
+      "recipe_code": "MOTB",
+      "asset_code": "MOB",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax. MOB is the observed client/gallery asset code."
+    },
+    {
+      "id": "VI",
+      "name": "Vortex, Inc.",
+      "aliases": [
+        "VC",
+        "VTX",
+        "Vortex"
+      ],
+      "player_selectable": true,
+      "recipe_code": "VI",
+      "asset_code": "VTX",
+      "return_rate": 0.85,
+      "return_rate_status": "confirmed-universal",
+      "notes": "A colony owner receives 85% of mining and production spend before tax. VI is the recipe code; VTX is the observed client/gallery asset code."
+    }
+  ]
+}
