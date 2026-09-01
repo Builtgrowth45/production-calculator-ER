@@ -18,9 +18,11 @@
     "test:budgets": "npm run build:3d && node --test tests/performance-budgets.test.mjs",
     "assets:check": "node scripts/check-assets.mjs",
     "assets:report": "node scripts/check-assets.mjs --report-only",
+    "models:manifest": "node scripts/build-model-manifest.mjs",
+    "models:check": "node scripts/build-model-manifest.mjs --check",
     "build:pages": "npm run build:3d && node scripts/build-pages.mjs",
     "build": "npm run build:pages",
-    "check": "npm test && npm run build && npm run test:baseline"
+    "check": "npm test && npm run models:check && npm run build && npm run test:baseline"
   },
   "repository": {
     "type": "git",

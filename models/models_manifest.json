@@ -6,7 +6,7 @@
    "file": "Characters/alinea.glb",
    "name": "alinea",
    "category": "Characters",
-   "bytes": 202372,
+   "bytes": 202512,
    "dims": [
     76.3,
     83.3,
@@ -24,7 +24,7 @@
    "file": "Characters/cigarette.glb",
    "name": "cigarette",
    "category": "Characters",
-   "bytes": 8328,
+   "bytes": 8468,
    "dims": [
     0.7,
     5.4,
@@ -42,7 +42,7 @@
    "file": "Characters/civ_female01.glb",
    "name": "civ_female01",
    "category": "Characters",
-   "bytes": 1100680,
+   "bytes": 1100824,
    "dims": [
     61.9,
     83.9,
@@ -62,7 +62,7 @@
    "file": "Characters/civ_female02.glb",
    "name": "civ_female02",
    "category": "Characters",
-   "bytes": 928928,
+   "bytes": 929072,
    "dims": [
     67.1,
     86.4,
@@ -82,7 +82,7 @@
    "file": "Characters/civ_female04.glb",
    "name": "civ_female04",
    "category": "Characters",
-   "bytes": 877928,
+   "bytes": 878072,
    "dims": [
     80.1,
     88.8,
@@ -102,10 +102,10 @@
    "file": "Characters/civ_male01.glb",
    "name": "civ_male01",
    "category": "Characters",
-   "bytes": 975164,
+   "bytes": 975308,
    "dims": [
     92.1,
-    98.0,
+    98,
     18.8
    ],
    "nodes": 1,
@@ -122,7 +122,7 @@
    "file": "Characters/civ_male02.glb",
    "name": "civ_male02",
    "category": "Characters",
-   "bytes": 1013720,
+   "bytes": 1013860,
    "dims": [
     89.7,
     94.3,
@@ -142,7 +142,7 @@
    "file": "Characters/civ_male03.glb",
    "name": "civ_male03",
    "category": "Characters",
-   "bytes": 1080896,
+   "bytes": 1081036,
    "dims": [
     90.6,
     94.1,
@@ -162,7 +162,7 @@
    "file": "Characters/civ_male04.glb",
    "name": "civ_male04",
    "category": "Characters",
-   "bytes": 1083580,
+   "bytes": 1083724,
    "dims": [
     87.4,
     100.6,
@@ -182,7 +182,7 @@
    "file": "Characters/civ_male05.glb",
    "name": "civ_male05",
    "category": "Characters",
-   "bytes": 943076,
+   "bytes": 943216,
    "dims": [
     91.1,
     94.6,
@@ -202,7 +202,7 @@
    "file": "Characters/f_Average.glb",
    "name": "f_Average",
    "category": "Characters",
-   "bytes": 1295836,
+   "bytes": 1295980,
    "dims": [
     30.4,
     103.5,
@@ -269,7 +269,7 @@
    "file": "Characters/hamburger.glb",
    "name": "hamburger",
    "category": "Characters",
-   "bytes": 37908,
+   "bytes": 38052,
    "dims": [
     6.5,
     3.8,
@@ -287,7 +287,7 @@
    "file": "Characters/m_Average.glb",
    "name": "m_Average",
    "category": "Characters",
-   "bytes": 1950228,
+   "bytes": 1950372,
    "dims": [
     33.9,
     103.5,
@@ -354,7 +354,7 @@
    "file": "Characters/mobile.glb",
    "name": "mobile",
    "category": "Characters",
-   "bytes": 25624,
+   "bytes": 25764,
    "dims": [
     3.2,
     8.1,
@@ -372,7 +372,7 @@
    "file": "Characters/squirrel.glb",
    "name": "squirrel",
    "category": "Characters",
-   "bytes": 329692,
+   "bytes": 329836,
    "dims": [
     30.8,
     12.8,
@@ -390,7 +390,7 @@
    "file": "Clothing/Ryubusa_Jacket_Male.glb",
    "name": "Ryubusa Jacket (Male)",
    "category": "Clothing",
-   "bytes": 334024,
+   "bytes": 334168,
    "item_id": "635",
    "game_category": "Clothing",
    "dims": [
@@ -409,7 +409,7 @@
    "file": "Einrichtung/1.glb",
    "name": "1",
    "category": "Einrichtung",
-   "bytes": 122312,
+   "bytes": 122456,
    "dims": [
     30.2,
     61.3,
@@ -427,11 +427,11 @@
    "file": "Einrichtung/2.glb",
    "name": "2",
    "category": "Einrichtung",
-   "bytes": 126872,
+   "bytes": 127016,
    "dims": [
     30.2,
     64.9,
-    41.0
+    41
    ],
    "nodes": 1,
    "lods": 1,
@@ -445,10 +445,10 @@
    "file": "Einrichtung/3.glb",
    "name": "3",
    "category": "Einrichtung",
-   "bytes": 260076,
+   "bytes": 260220,
    "dims": [
     56.7,
-    63.0,
+    63,
     58.8
    ],
    "nodes": 1,
@@ -463,7 +463,7 @@
    "file": "Einrichtung/4_1.glb",
    "name": "4_1",
    "category": "Einrichtung",
-   "bytes": 353016,
+   "bytes": 353160,
    "dims": [
     47.1,
     58.5,
@@ -481,7 +481,7 @@
    "file": "Einrichtung/5.glb",
    "name": "5",
    "category": "Einrichtung",
-   "bytes": 233764,
+   "bytes": 233908,
    "dims": [
     30.3,
     66.4,
@@ -499,9 +499,9 @@
    "file": "Einrichtung/6.glb",
    "name": "6",
    "category": "Einrichtung",
-   "bytes": 130124,
+   "bytes": 130264,
    "dims": [
-    117.0,
+    117,
     23.5,
     45.9
    ],
@@ -517,7 +517,7 @@
    "file": "Einrichtung/7.glb",
    "name": "7",
    "category": "Einrichtung",
-   "bytes": 369060,
+   "bytes": 369204,
    "dims": [
     117.6,
     39.6,
@@ -535,7 +535,7 @@
    "file": "Einrichtung/8.glb",
    "name": "8",
    "category": "Einrichtung",
-   "bytes": 309408,
+   "bytes": 309552,
    "dims": [
     46.9,
     46.9,
@@ -553,7 +553,7 @@
    "file": "Einrichtung/9.glb",
    "name": "9",
    "category": "Einrichtung",
-   "bytes": 257556,
+   "bytes": 257700,
    "dims": [
     81.4,
     46.9,
@@ -571,7 +571,7 @@
    "file": "Einrichtung/ALK1.glb",
    "name": "ALK1",
    "category": "Einrichtung",
-   "bytes": 23316,
+   "bytes": 23460,
    "dims": [
     8.5,
     34.7,
@@ -589,7 +589,7 @@
    "file": "Einrichtung/ALK2.glb",
    "name": "ALK2",
    "category": "Einrichtung",
-   "bytes": 23288,
+   "bytes": 23428,
    "dims": [
     8.5,
     41.5,
@@ -607,10 +607,10 @@
    "file": "Einrichtung/Ashtray.glb",
    "name": "Ashtray",
    "category": "Einrichtung",
-   "bytes": 11828,
+   "bytes": 11972,
    "dims": [
     12.3,
-    2.0,
+    2,
     12.3
    ],
    "nodes": 1,
@@ -625,9 +625,9 @@
    "file": "Einrichtung/BED01.glb",
    "name": "BED01",
    "category": "Einrichtung",
-   "bytes": 148748,
+   "bytes": 148892,
    "dims": [
-    143.0,
+    143,
     26.4,
     78.6
    ],
@@ -643,7 +643,7 @@
    "file": "Einrichtung/CHAIR01.glb",
    "name": "CHAIR01",
    "category": "Einrichtung",
-   "bytes": 176160,
+   "bytes": 176304,
    "dims": [
     38.7,
     74.3,
@@ -661,7 +661,7 @@
    "file": "Einrichtung/CHAIR02.glb",
    "name": "CHAIR02",
    "category": "Einrichtung",
-   "bytes": 224920,
+   "bytes": 225064,
    "dims": [
     31.7,
     63.6,
@@ -679,11 +679,11 @@
    "file": "Einrichtung/CHAIR1.glb",
    "name": "CHAIR1",
    "category": "Einrichtung",
-   "bytes": 44160,
+   "bytes": 44304,
    "dims": [
-    29.0,
+    29,
     50.3,
-    20.0
+    20
    ],
    "nodes": 1,
    "lods": 1,
@@ -697,7 +697,7 @@
    "file": "Einrichtung/DESK01.glb",
    "name": "DESK01",
    "category": "Einrichtung",
-   "bytes": 290812,
+   "bytes": 290956,
    "dims": [
     110.1,
     50.2,
@@ -715,7 +715,7 @@
    "file": "Einrichtung/LAMP.glb",
    "name": "LAMP",
    "category": "Einrichtung",
-   "bytes": 62372,
+   "bytes": 62512,
    "dims": [
     3.3,
     9.7,
@@ -733,7 +733,7 @@
    "file": "Einrichtung/TABLE01.glb",
    "name": "TABLE01",
    "category": "Einrichtung",
-   "bytes": 161384,
+   "bytes": 161528,
    "dims": [
     124.1,
     51.5,
@@ -751,7 +751,7 @@
    "file": "Einrichtung/TOILET1.glb",
    "name": "TOILET1",
    "category": "Einrichtung",
-   "bytes": 70832,
+   "bytes": 70976,
    "dims": [
     23.5,
     26.8,
@@ -769,7 +769,7 @@
    "file": "Einrichtung/bed1.glb",
    "name": "bed1",
    "category": "Einrichtung",
-   "bytes": 1153680,
+   "bytes": 1153824,
    "dims": [
     100.9,
     40.6,
@@ -787,9 +787,9 @@
    "file": "Einrichtung/JAPAN/bed1.glb",
    "name": "bed1",
    "category": "Einrichtung",
-   "bytes": 1148080,
+   "bytes": 1148224,
    "dims": [
-    119.0,
+    119,
     14.4,
     151.2
    ],
@@ -805,7 +805,7 @@
    "file": "Einrichtung/bed2.glb",
    "name": "bed2",
    "category": "Einrichtung",
-   "bytes": 622356,
+   "bytes": 622500,
    "dims": [
     73.4,
     20.9,
@@ -823,10 +823,10 @@
    "file": "Einrichtung/JAPAN/bed2.glb",
    "name": "bed2",
    "category": "Einrichtung",
-   "bytes": 618624,
+   "bytes": 618764,
    "dims": [
     113.3,
-    19.0,
+    19,
     145.1
    ],
    "nodes": 1,
@@ -841,7 +841,7 @@
    "file": "Einrichtung/bed3.glb",
    "name": "bed3",
    "category": "Einrichtung",
-   "bytes": 490420,
+   "bytes": 490564,
    "dims": [
     138.8,
     24.9,
@@ -859,7 +859,7 @@
    "file": "Einrichtung/JAPAN/bed3.glb",
    "name": "bed3",
    "category": "Einrichtung",
-   "bytes": 488012,
+   "bytes": 488156,
    "dims": [
     104.9,
     16.3,
@@ -877,7 +877,7 @@
    "file": "Einrichtung/bed3&cushion1.glb",
    "name": "bed3&cushion1",
    "category": "Einrichtung",
-   "bytes": 9964,
+   "bytes": 10108,
    "dims": [
     138.8,
     30.3,
@@ -885,13 +885,15 @@
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Einrichtung"
+   "game_category": "Einrichtung",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Einrichtung/bedside1.glb",
    "name": "bedside1",
    "category": "Einrichtung",
-   "bytes": 56588,
+   "bytes": 56732,
    "dims": [
     32.5,
     26.2,
@@ -909,7 +911,7 @@
    "file": "Einrichtung/bedside2.glb",
    "name": "bedside2",
    "category": "Einrichtung",
-   "bytes": 67920,
+   "bytes": 68064,
    "dims": [
     28.5,
     20.8,
@@ -927,7 +929,7 @@
    "file": "Einrichtung/bedside3.glb",
    "name": "bedside3",
    "category": "Einrichtung",
-   "bytes": 51768,
+   "bytes": 51912,
    "dims": [
     30.7,
     17.5,
@@ -945,7 +947,7 @@
    "file": "Einrichtung/chest1.glb",
    "name": "chest1",
    "category": "Einrichtung",
-   "bytes": 127272,
+   "bytes": 127416,
    "dims": [
     48.1,
     38.9,
@@ -963,7 +965,7 @@
    "file": "Einrichtung/chest2.glb",
    "name": "chest2",
    "category": "Einrichtung",
-   "bytes": 150572,
+   "bytes": 150716,
    "dims": [
     22.6,
     38.5,
@@ -981,11 +983,11 @@
    "file": "Einrichtung/chest3.glb",
    "name": "chest3",
    "category": "Einrichtung",
-   "bytes": 46432,
+   "bytes": 46576,
    "dims": [
     27.1,
     23.2,
-    27.0
+    27
    ],
    "nodes": 1,
    "lods": 1,
@@ -999,7 +1001,7 @@
    "file": "Einrichtung/cushion1.glb",
    "name": "cushion1",
    "category": "Einrichtung",
-   "bytes": 31440,
+   "bytes": 31584,
    "dims": [
     24.1,
     5.1,
@@ -1017,7 +1019,7 @@
    "file": "Einrichtung/klopapierhalter.glb",
    "name": "klopapierhalter",
    "category": "Einrichtung",
-   "bytes": 65232,
+   "bytes": 65376,
    "dims": [
     10.6,
     10.3,
@@ -1035,7 +1037,7 @@
    "file": "Einrichtung/lamp1.glb",
    "name": "lamp1",
    "category": "Einrichtung",
-   "bytes": 258248,
+   "bytes": 258392,
    "dims": [
     38.9,
     106.5,
@@ -1053,7 +1055,7 @@
    "file": "Einrichtung/JAPAN/lamp1.glb",
    "name": "lamp1",
    "category": "Einrichtung",
-   "bytes": 235024,
+   "bytes": 235168,
    "dims": [
     27.8,
     64.9,
@@ -1071,10 +1073,10 @@
    "file": "Einrichtung/lamp2.glb",
    "name": "lamp2",
    "category": "Einrichtung",
-   "bytes": 27032,
+   "bytes": 27176,
    "dims": [
     18.7,
-    7.0,
+    7,
     18.7
    ],
    "nodes": 1,
@@ -1089,35 +1091,39 @@
    "file": "Einrichtung/lamp2big.glb",
    "name": "lamp2big",
    "category": "Einrichtung",
-   "bytes": 9052,
+   "bytes": 9196,
    "dims": [
     20.1,
-    37.0,
+    37,
     17.6
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Einrichtung"
+   "game_category": "Einrichtung",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Einrichtung/JAPAN/lamp2big.glb",
    "name": "lamp2big",
    "category": "Einrichtung",
-   "bytes": 9052,
+   "bytes": 9196,
    "dims": [
     20.1,
-    37.0,
+    37,
     17.6
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Einrichtung"
+   "game_category": "Einrichtung",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Einrichtung/lamp2small.glb",
    "name": "lamp2small",
    "category": "Einrichtung",
-   "bytes": 8588,
+   "bytes": 8732,
    "dims": [
     20.1,
     30.2,
@@ -1125,13 +1131,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Einrichtung"
+   "game_category": "Einrichtung",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Einrichtung/JAPAN/lamp2small.glb",
    "name": "lamp2small",
    "category": "Einrichtung",
-   "bytes": 8588,
+   "bytes": 8732,
    "dims": [
     20.1,
     30.2,
@@ -1139,17 +1147,19 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Einrichtung"
+   "game_category": "Einrichtung",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Einrichtung/lamp3.glb",
    "name": "lamp3",
    "category": "Einrichtung",
-   "bytes": 57860,
+   "bytes": 58004,
    "dims": [
     16.5,
     28.9,
-    11.0
+    11
    ],
    "nodes": 1,
    "lods": 1,
@@ -1163,7 +1173,7 @@
    "file": "Einrichtung/JAPAN/lamp3.glb",
    "name": "lamp3",
    "category": "Einrichtung",
-   "bytes": 56624,
+   "bytes": 56768,
    "dims": [
     17.5,
     17.4,
@@ -1181,7 +1191,7 @@
    "file": "Einrichtung/lamp4.glb",
    "name": "lamp4",
    "category": "Einrichtung",
-   "bytes": 180564,
+   "bytes": 180704,
    "dims": [
     23.1,
     96.7,
@@ -1199,7 +1209,7 @@
    "file": "Einrichtung/JAPAN/lamp4.glb",
    "name": "lamp4",
    "category": "Einrichtung",
-   "bytes": 179880,
+   "bytes": 180024,
    "dims": [
     53.5,
     40.7,
@@ -1217,7 +1227,7 @@
    "file": "Einrichtung/lamp5.glb",
    "name": "lamp5",
    "category": "Einrichtung",
-   "bytes": 41996,
+   "bytes": 42140,
    "dims": [
     20.6,
     32.4,
@@ -1235,7 +1245,7 @@
    "file": "Einrichtung/lamp5_long.glb",
    "name": "lamp5_long",
    "category": "Einrichtung",
-   "bytes": 41996,
+   "bytes": 42140,
    "dims": [
     20.6,
     70.9,
@@ -1253,7 +1263,7 @@
    "file": "Einrichtung/lichtschalter.glb",
    "name": "lichtschalter",
    "category": "Einrichtung",
-   "bytes": 55252,
+   "bytes": 55396,
    "dims": [
     8.2,
     9.3,
@@ -1271,7 +1281,7 @@
    "file": "Einrichtung/mikrowelle.glb",
    "name": "mikrowelle",
    "category": "Einrichtung",
-   "bytes": 41396,
+   "bytes": 41540,
    "dims": [
     28.8,
     16.2,
@@ -1289,10 +1299,10 @@
    "file": "Einrichtung/table1.glb",
    "name": "table1",
    "category": "Einrichtung",
-   "bytes": 106108,
+   "bytes": 106252,
    "dims": [
     90.8,
-    24.0,
+    24,
     54.6
    ],
    "nodes": 1,
@@ -1307,7 +1317,7 @@
    "file": "Einrichtung/JAPAN/table1.glb",
    "name": "table1",
    "category": "Einrichtung",
-   "bytes": 102420,
+   "bytes": 102564,
    "dims": [
     49.4,
     22.2,
@@ -1325,7 +1335,7 @@
    "file": "Einrichtung/table1&lamp3.glb",
    "name": "table1&lamp3",
    "category": "Einrichtung",
-   "bytes": 10752,
+   "bytes": 10896,
    "dims": [
     49.4,
     38.5,
@@ -1333,13 +1343,15 @@
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Einrichtung"
+   "game_category": "Einrichtung",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Einrichtung/JAPAN/table2.glb",
    "name": "table2",
    "category": "Einrichtung",
-   "bytes": 142748,
+   "bytes": 142892,
    "dims": [
     79.1,
     31.4,
@@ -1357,11 +1369,11 @@
    "file": "Einrichtung/table3.glb",
    "name": "table3",
    "category": "Einrichtung",
-   "bytes": 268156,
+   "bytes": 268300,
    "dims": [
     48.2,
     22.2,
-    35.0
+    35
    ],
    "nodes": 1,
    "lods": 1,
@@ -1377,11 +1389,11 @@
    "file": "Einrichtung/JAPAN/table3.glb",
    "name": "table3",
    "category": "Einrichtung",
-   "bytes": 268156,
+   "bytes": 268300,
    "dims": [
     48.2,
     22.2,
-    35.0
+    35
    ],
    "nodes": 1,
    "lods": 1,
@@ -1397,10 +1409,10 @@
    "file": "Einrichtung/table5.glb",
    "name": "table5",
    "category": "Einrichtung",
-   "bytes": 228512,
+   "bytes": 228656,
    "dims": [
     81.5,
-    45.0,
+    45,
     81.5
    ],
    "nodes": 1,
@@ -1415,7 +1427,7 @@
    "file": "Einrichtung/table_corner.glb",
    "name": "table_corner",
    "category": "Einrichtung",
-   "bytes": 146852,
+   "bytes": 146996,
    "dims": [
     85.8,
     50.4,
@@ -1433,11 +1445,11 @@
    "file": "Einrichtung/tischlampe.glb",
    "name": "tischlampe",
    "category": "Einrichtung",
-   "bytes": 114976,
+   "bytes": 115116,
    "dims": [
     17.8,
     32.4,
-    8.0
+    8
    ],
    "nodes": 1,
    "lods": 1,
@@ -1451,11 +1463,11 @@
    "file": "Einrichtung/vase.glb",
    "name": "vase",
    "category": "Einrichtung",
-   "bytes": 90432,
+   "bytes": 90576,
    "dims": [
-    20.0,
+    20,
     31.5,
-    20.0
+    20
    ],
    "nodes": 1,
    "lods": 1,
@@ -1469,11 +1481,11 @@
    "file": "Einrichtung/JAPAN/vase.glb",
    "name": "vase",
    "category": "Einrichtung",
-   "bytes": 90432,
+   "bytes": 90576,
    "dims": [
-    20.0,
+    20,
     31.5,
-    20.0
+    20
    ],
    "nodes": 1,
    "lods": 1,
@@ -1487,7 +1499,7 @@
    "file": "Enemies/alienegg.glb",
    "name": "alienegg",
    "category": "Enemies",
-   "bytes": 34000,
+   "bytes": 34140,
    "dims": [
     39.9,
     11.3,
@@ -1495,13 +1507,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Enemies"
+   "game_category": "Enemies",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Enemies/alienegg_static.glb",
    "name": "alienegg_static",
    "category": "Enemies",
-   "bytes": 34000,
+   "bytes": 34140,
    "dims": [
     39.9,
     11.3,
@@ -1509,13 +1523,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Enemies"
+   "game_category": "Enemies",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Enemies/big1.glb",
    "name": "big1",
    "category": "Enemies",
-   "bytes": 1005340,
+   "bytes": 1005480,
    "dims": [
     371.2,
     149.9,
@@ -1535,7 +1551,7 @@
    "file": "Enemies/big2.glb",
    "name": "big2",
    "category": "Enemies",
-   "bytes": 1035904,
+   "bytes": 1036044,
    "dims": [
     284.8,
     150.4,
@@ -1553,7 +1569,7 @@
    "file": "Enemies/hunter.glb",
    "name": "hunter",
    "category": "Enemies",
-   "bytes": 167824,
+   "bytes": 167968,
    "dims": [
     73.8,
     137.2,
@@ -1571,7 +1587,7 @@
    "file": "Enemies/minuscule.glb",
    "name": "minuscule",
    "category": "Enemies",
-   "bytes": 85096,
+   "bytes": 85240,
    "dims": [
     40.2,
     28.2,
@@ -1579,16 +1595,18 @@
    ],
    "nodes": 10,
    "lods": 10,
-   "game_category": "Enemies"
+   "game_category": "Enemies",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Enemies/rat.glb",
    "name": "rat",
    "category": "Enemies",
-   "bytes": 49304,
+   "bytes": 49448,
    "dims": [
     2.8,
-    4.0,
+    4,
     14.2
    ],
    "nodes": 1,
@@ -1603,7 +1621,7 @@
    "file": "Enemies/runner.glb",
    "name": "runner",
    "category": "Enemies",
-   "bytes": 86276,
+   "bytes": 86420,
    "dims": [
     87.4,
     61.4,
@@ -1611,13 +1629,15 @@
    ],
    "nodes": 10,
    "lods": 10,
-   "game_category": "Enemies"
+   "game_category": "Enemies",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Enemies/small1.glb",
    "name": "small1",
    "category": "Enemies",
-   "bytes": 809116,
+   "bytes": 809260,
    "dims": [
     327.4,
     232.8,
@@ -1637,7 +1657,7 @@
    "file": "Enemies/small2.glb",
    "name": "small2",
    "category": "Enemies",
-   "bytes": 925684,
+   "bytes": 925824,
    "dims": [
     71.7,
     66.8,
@@ -1657,7 +1677,7 @@
    "file": "Items/Characters/ArmPads1.glb",
    "name": "ArmPads1",
    "category": "Items",
-   "bytes": 79324,
+   "bytes": 79464,
    "dims": [
     15.2,
     4.3,
@@ -1677,10 +1697,10 @@
    "file": "Items/Characters/ArmPads2.glb",
    "name": "ArmPads2",
    "category": "Items",
-   "bytes": 104800,
+   "bytes": 104940,
    "dims": [
-    16.0,
-    5.0,
+    16,
+    5,
     18.4
    ],
    "nodes": 1,
@@ -1697,7 +1717,7 @@
    "file": "Items/Characters/ArmPads3.glb",
    "name": "ArmPads3",
    "category": "Items",
-   "bytes": 92132,
+   "bytes": 92276,
    "dims": [
     16.6,
     4.5,
@@ -1717,7 +1737,7 @@
    "file": "Items/Characters/ArmPads4.glb",
    "name": "ArmPads4",
    "category": "Items",
-   "bytes": 72748,
+   "bytes": 72892,
    "dims": [
     15.2,
     3.9,
@@ -1737,7 +1757,7 @@
    "file": "Items/Characters/ArmPads4__BOS.glb",
    "name": "ArmPads4 (BOS)",
    "category": "Items",
-   "bytes": 95248,
+   "bytes": 95392,
    "faction": "BOS",
    "dims": [
     15.2,
@@ -1758,7 +1778,7 @@
    "file": "Items/Characters/ArmPads4__CMG.glb",
    "name": "ArmPads4 (CMG)",
    "category": "Items",
-   "bytes": 109736,
+   "bytes": 109880,
    "faction": "CMG",
    "dims": [
     15.2,
@@ -1779,7 +1799,7 @@
    "file": "Items/Characters/ArmPads4__FDC.glb",
    "name": "ArmPads4 (FDC)",
    "category": "Items",
-   "bytes": 70160,
+   "bytes": 70304,
    "faction": "FDC",
    "dims": [
     15.2,
@@ -1800,7 +1820,7 @@
    "file": "Items/Characters/ArmPads4__LED.glb",
    "name": "ArmPads4 (LED)",
    "category": "Items",
-   "bytes": 82072,
+   "bytes": 82216,
    "faction": "LED",
    "dims": [
     15.2,
@@ -1821,7 +1841,7 @@
    "file": "Items/Characters/ArmPads4__MOB.glb",
    "name": "ArmPads4 (MOB)",
    "category": "Items",
-   "bytes": 100280,
+   "bytes": 100424,
    "faction": "MOB",
    "dims": [
     15.2,
@@ -1842,7 +1862,7 @@
    "file": "Items/Characters/ArmPads4__VTX.glb",
    "name": "ArmPads4 (VTX)",
    "category": "Items",
-   "bytes": 81620,
+   "bytes": 81764,
    "faction": "VTX",
    "dims": [
     15.2,
@@ -1863,7 +1883,7 @@
    "file": "Items/Characters/ArmPads4__EC.glb",
    "name": "ArmPads4__EC",
    "category": "Items",
-   "bytes": 89148,
+   "bytes": 89292,
    "dims": [
     15.2,
     3.9,
@@ -1884,7 +1904,7 @@
    "file": "Items/Characters/ArmPads5.glb",
    "name": "ArmPads5",
    "category": "Items",
-   "bytes": 88488,
+   "bytes": 88632,
    "dims": [
     15.8,
     3.7,
@@ -1904,7 +1924,7 @@
    "file": "Items/Characters/ArmPads5__BOS.glb",
    "name": "ArmPads5 (BOS)",
    "category": "Items",
-   "bytes": 104508,
+   "bytes": 104652,
    "faction": "BOS",
    "dims": [
     15.8,
@@ -1925,7 +1945,7 @@
    "file": "Items/Characters/ArmPads5__CMG.glb",
    "name": "ArmPads5 (CMG)",
    "category": "Items",
-   "bytes": 103528,
+   "bytes": 103672,
    "faction": "CMG",
    "dims": [
     15.8,
@@ -1946,7 +1966,7 @@
    "file": "Items/Characters/ArmPads5__FDC.glb",
    "name": "ArmPads5 (FDC)",
    "category": "Items",
-   "bytes": 86500,
+   "bytes": 86644,
    "faction": "FDC",
    "dims": [
     15.8,
@@ -1967,7 +1987,7 @@
    "file": "Items/Characters/ArmPads5__LED.glb",
    "name": "ArmPads5 (LED)",
    "category": "Items",
-   "bytes": 81360,
+   "bytes": 81504,
    "faction": "LED",
    "dims": [
     15.8,
@@ -1988,7 +2008,7 @@
    "file": "Items/Characters/ArmPads5__MOB.glb",
    "name": "ArmPads5 (MOB)",
    "category": "Items",
-   "bytes": 104288,
+   "bytes": 104432,
    "faction": "MOB",
    "dims": [
     15.8,
@@ -2009,7 +2029,7 @@
    "file": "Items/Characters/ArmPads5__VTX.glb",
    "name": "ArmPads5 (VTX)",
    "category": "Items",
-   "bytes": 87216,
+   "bytes": 87360,
    "faction": "VTX",
    "dims": [
     15.8,
@@ -2030,7 +2050,7 @@
    "file": "Items/Characters/ArmPads5__EC.glb",
    "name": "ArmPads5__EC",
    "category": "Items",
-   "bytes": 90000,
+   "bytes": 90144,
    "dims": [
     15.8,
     3.7,
@@ -2051,7 +2071,7 @@
    "file": "Items/Characters/ArmPads6.glb",
    "name": "ArmPads6",
    "category": "Items",
-   "bytes": 136920,
+   "bytes": 137060,
    "dims": [
     14.7,
     3.3,
@@ -2071,7 +2091,7 @@
    "file": "Items/Characters/ArmPads6__BOS.glb",
    "name": "ArmPads6 (BOS)",
    "category": "Items",
-   "bytes": 101108,
+   "bytes": 101252,
    "faction": "BOS",
    "dims": [
     14.7,
@@ -2092,7 +2112,7 @@
    "file": "Items/Characters/ArmPads6__CMG.glb",
    "name": "ArmPads6 (CMG)",
    "category": "Items",
-   "bytes": 113684,
+   "bytes": 113824,
    "faction": "CMG",
    "dims": [
     14.7,
@@ -2113,7 +2133,7 @@
    "file": "Items/Characters/ArmPads6__FDC.glb",
    "name": "ArmPads6 (FDC)",
    "category": "Items",
-   "bytes": 93264,
+   "bytes": 93408,
    "faction": "FDC",
    "dims": [
     14.7,
@@ -2134,7 +2154,7 @@
    "file": "Items/Characters/ArmPads6__LED.glb",
    "name": "ArmPads6 (LED)",
    "category": "Items",
-   "bytes": 87100,
+   "bytes": 87244,
    "faction": "LED",
    "dims": [
     14.7,
@@ -2155,7 +2175,7 @@
    "file": "Items/Characters/ArmPads6__MOB.glb",
    "name": "ArmPads6 (MOB)",
    "category": "Items",
-   "bytes": 112720,
+   "bytes": 112860,
    "faction": "MOB",
    "dims": [
     14.7,
@@ -2176,7 +2196,7 @@
    "file": "Items/Characters/ArmPads6__VTX.glb",
    "name": "ArmPads6 (VTX)",
    "category": "Items",
-   "bytes": 84788,
+   "bytes": 84932,
    "faction": "VTX",
    "dims": [
     14.7,
@@ -2197,7 +2217,7 @@
    "file": "Items/Characters/ArmPads6__EC.glb",
    "name": "ArmPads6__EC",
    "category": "Items",
-   "bytes": 84108,
+   "bytes": 84252,
    "dims": [
     14.7,
     3.3,
@@ -2218,7 +2238,7 @@
    "file": "Items/Characters/ArmPads7.glb",
    "name": "ArmPads7",
    "category": "Items",
-   "bytes": 97648,
+   "bytes": 97792,
    "dims": [
     15.4,
     4.3,
@@ -2238,7 +2258,7 @@
    "file": "Items/Characters/ArmPads7__BOS.glb",
    "name": "ArmPads7 (BOS)",
    "category": "Items",
-   "bytes": 81976,
+   "bytes": 82120,
    "faction": "BOS",
    "dims": [
     15.4,
@@ -2259,7 +2279,7 @@
    "file": "Items/Characters/ArmPads7__CMG.glb",
    "name": "ArmPads7 (CMG)",
    "category": "Items",
-   "bytes": 101692,
+   "bytes": 101836,
    "faction": "CMG",
    "dims": [
     15.4,
@@ -2280,7 +2300,7 @@
    "file": "Items/Characters/ArmPads7__FDC.glb",
    "name": "ArmPads7 (FDC)",
    "category": "Items",
-   "bytes": 82880,
+   "bytes": 83024,
    "faction": "FDC",
    "dims": [
     15.4,
@@ -2301,7 +2321,7 @@
    "file": "Items/Characters/ArmPads7__LED.glb",
    "name": "ArmPads7 (LED)",
    "category": "Items",
-   "bytes": 76720,
+   "bytes": 76864,
    "faction": "LED",
    "dims": [
     15.4,
@@ -2322,7 +2342,7 @@
    "file": "Items/Characters/ArmPads7__MOB.glb",
    "name": "ArmPads7 (MOB)",
    "category": "Items",
-   "bytes": 101840,
+   "bytes": 101984,
    "faction": "MOB",
    "dims": [
     15.4,
@@ -2343,7 +2363,7 @@
    "file": "Items/Characters/ArmPads7__VTX.glb",
    "name": "ArmPads7 (VTX)",
    "category": "Items",
-   "bytes": 95692,
+   "bytes": 95836,
    "faction": "VTX",
    "dims": [
     15.4,
@@ -2364,7 +2384,7 @@
    "file": "Items/Characters/ArmPads7__EC.glb",
    "name": "ArmPads7__EC",
    "category": "Items",
-   "bytes": 80516,
+   "bytes": 80660,
    "dims": [
     15.4,
     4.3,
@@ -2385,7 +2405,7 @@
    "file": "Items/w5_hh.glb",
    "name": "Armalite Survival",
    "category": "Items",
-   "bytes": 64396,
+   "bytes": 64536,
    "weapon_id": "w5",
    "game_category": "Weapons",
    "dims": [
@@ -2404,7 +2424,7 @@
    "file": "Items/w19_hh.glb",
    "name": "Aurelian Technologies Dominator",
    "category": "Items",
-   "bytes": 63564,
+   "bytes": 63708,
    "weapon_id": "w19",
    "game_category": "Weapons",
    "dims": [
@@ -2423,7 +2443,7 @@
    "file": "Items/w18_hh.glb",
    "name": "Chrono Enervon Pistol EP24",
    "category": "Items",
-   "bytes": 58312,
+   "bytes": 58452,
    "weapon_id": "w18",
    "game_category": "Weapons",
    "dims": [
@@ -2442,7 +2462,7 @@
    "file": "Items/w29_hh.glb",
    "name": "CryoTech Medigun CM1",
    "category": "Items",
-   "bytes": 80636,
+   "bytes": 80776,
    "weapon_id": "w29",
    "game_category": "Weapons",
    "dims": [
@@ -2461,13 +2481,13 @@
    "file": "Items/w21_hh.glb",
    "name": "CryoTech Medigun CM2",
    "category": "Items",
-   "bytes": 90168,
+   "bytes": 90308,
    "weapon_id": "w21",
    "game_category": "Weapons",
    "dims": [
     5.1,
     15.5,
-    33.0
+    33
    ],
    "nodes": 1,
    "lods": 1,
@@ -2480,13 +2500,13 @@
    "file": "Items/w12_hh.glb",
    "name": "Doa 187",
    "category": "Items",
-   "bytes": 102920,
+   "bytes": 103064,
    "weapon_id": "w12",
    "game_category": "Weapons",
    "dims": [
     5.1,
     15.5,
-    33.0
+    33
    ],
    "nodes": 1,
    "lods": 1,
@@ -2499,7 +2519,7 @@
    "file": "Items/w14_hh.glb",
    "name": "EMP-Rv3",
    "category": "Items",
-   "bytes": 71208,
+   "bytes": 71348,
    "weapon_id": "w14",
    "game_category": "Weapons",
    "dims": [
@@ -2518,7 +2538,7 @@
    "file": "Items/w20_hh.glb",
    "name": "Enfield Incapacitator Rifle ER-X",
    "category": "Items",
-   "bytes": 64476,
+   "bytes": 64620,
    "weapon_id": "w20",
    "game_category": "Weapons",
    "dims": [
@@ -2537,7 +2557,7 @@
    "file": "Items/w20_hh_cyberpunk.glb",
    "name": "Enfield Incapacitator Rifle ER-X (cyberpunk)",
    "category": "Items",
-   "bytes": 1533668,
+   "bytes": 1533812,
    "weapon_id": "w20",
    "game_category": "Weapons",
    "dims": [
@@ -2556,7 +2576,7 @@
    "file": "Items/w20_hh_powerpuff.glb",
    "name": "Enfield Incapacitator Rifle ER-X (powerpuff)",
    "category": "Items",
-   "bytes": 413440,
+   "bytes": 413584,
    "weapon_id": "w20",
    "game_category": "Weapons",
    "dims": [
@@ -2575,7 +2595,7 @@
    "file": "Items/w6_hh.glb",
    "name": "Enfield Life Protector",
    "category": "Items",
-   "bytes": 66732,
+   "bytes": 66876,
    "weapon_id": "w6",
    "game_category": "Weapons",
    "dims": [
@@ -2594,7 +2614,7 @@
    "file": "Items/w6_hh_hires.glb",
    "name": "Enfield Life Protector (hires)",
    "category": "Items",
-   "bytes": 864588,
+   "bytes": 864732,
    "weapon_id": "w6",
    "game_category": "Weapons",
    "dims": [
@@ -2613,7 +2633,7 @@
    "file": "Items/w6_hh_pink.glb",
    "name": "Enfield Life Protector (pink)",
    "category": "Items",
-   "bytes": 54640,
+   "bytes": 54784,
    "weapon_id": "w6",
    "game_category": "Weapons",
    "dims": [
@@ -2632,7 +2652,7 @@
    "file": "Items/w6_hh_pink2.glb",
    "name": "Enfield Life Protector (pink2)",
    "category": "Items",
-   "bytes": 57784,
+   "bytes": 57928,
    "weapon_id": "w6",
    "game_category": "Weapons",
    "dims": [
@@ -2651,7 +2671,7 @@
    "file": "Items/w7_hh.glb",
    "name": "FGz-78",
    "category": "Items",
-   "bytes": 66200,
+   "bytes": 66344,
    "weapon_id": "w7",
    "game_category": "Weapons",
    "dims": [
@@ -2670,13 +2690,13 @@
    "file": "Items/w15_hh.glb",
    "name": "Gakk MG6",
    "category": "Items",
-   "bytes": 75312,
+   "bytes": 75456,
    "weapon_id": "w15",
    "game_category": "Weapons",
    "dims": [
     2.6,
     9.7,
-    19.0
+    19
    ],
    "nodes": 2,
    "lods": 2,
@@ -2689,7 +2709,7 @@
    "file": "Items/Characters/Glasses1.glb",
    "name": "Glasses1",
    "category": "Items",
-   "bytes": 21496,
+   "bytes": 21640,
    "dims": [
     9.5,
     2.4,
@@ -2709,7 +2729,7 @@
    "file": "Items/Characters/Glasses2.glb",
    "name": "Glasses2",
    "category": "Items",
-   "bytes": 26484,
+   "bytes": 26628,
    "dims": [
     9.8,
     2.3,
@@ -2729,7 +2749,7 @@
    "file": "Items/Characters/Glasses3.glb",
    "name": "Glasses3",
    "category": "Items",
-   "bytes": 21432,
+   "bytes": 21576,
    "dims": [
     9.5,
     3.3,
@@ -2749,7 +2769,7 @@
    "file": "Items/Characters/Glasses4.glb",
    "name": "Glasses4",
    "category": "Items",
-   "bytes": 24472,
+   "bytes": 24616,
    "dims": [
     9.9,
     2.9,
@@ -2769,7 +2789,7 @@
    "file": "Items/Characters/Glasses5.glb",
    "name": "Glasses5",
    "category": "Items",
-   "bytes": 19960,
+   "bytes": 20104,
    "dims": [
     10.2,
     2.4,
@@ -2789,7 +2809,7 @@
    "file": "Items/Characters/Glasses6.glb",
    "name": "Glasses6",
    "category": "Items",
-   "bytes": 24148,
+   "bytes": 24288,
    "dims": [
     9.7,
     2.5,
@@ -2809,7 +2829,7 @@
    "file": "Items/Characters/Glasses7.glb",
    "name": "Glasses7",
    "category": "Items",
-   "bytes": 21336,
+   "bytes": 21480,
    "dims": [
     9.6,
     1.8,
@@ -2829,7 +2849,7 @@
    "file": "Items/w10_hh.glb",
    "name": "HR420",
    "category": "Items",
-   "bytes": 74504,
+   "bytes": 74644,
    "weapon_id": "w10",
    "game_category": "Weapons",
    "dims": [
@@ -2848,7 +2868,7 @@
    "file": "Items/w16_hh.glb",
    "name": "Hallem TAR7 Tactical Assault Rifle",
    "category": "Items",
-   "bytes": 387748,
+   "bytes": 387892,
    "weapon_id": "w16",
    "game_category": "Weapons",
    "dims": [
@@ -2867,7 +2887,7 @@
    "file": "Items/Characters/Helmet1.glb",
    "name": "Helmet1",
    "category": "Items",
-   "bytes": 64424,
+   "bytes": 64568,
    "dims": [
     11.2,
     10.7,
@@ -2887,7 +2907,7 @@
    "file": "Items/Characters/Helmet2.glb",
    "name": "Helmet2",
    "category": "Items",
-   "bytes": 106288,
+   "bytes": 106428,
    "dims": [
     13.6,
     11.6,
@@ -2907,11 +2927,11 @@
    "file": "Items/Characters/Helmet3.glb",
    "name": "Helmet3",
    "category": "Items",
-   "bytes": 84896,
+   "bytes": 85040,
    "dims": [
     11.5,
-    13.0,
-    15.0
+    13,
+    15
    ],
    "nodes": 1,
    "lods": 1,
@@ -2927,11 +2947,11 @@
    "file": "Items/Characters/Helmet4.glb",
    "name": "Helmet4",
    "category": "Items",
-   "bytes": 77484,
+   "bytes": 77628,
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -2947,12 +2967,12 @@
    "file": "Items/Characters/Helmet4__BOS.glb",
    "name": "Helmet4 (BOS)",
    "category": "Items",
-   "bytes": 70032,
+   "bytes": 70176,
    "faction": "BOS",
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -2968,12 +2988,12 @@
    "file": "Items/Characters/Helmet4__CMG.glb",
    "name": "Helmet4 (CMG)",
    "category": "Items",
-   "bytes": 81856,
+   "bytes": 82000,
    "faction": "CMG",
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -2989,12 +3009,12 @@
    "file": "Items/Characters/Helmet4__FDC.glb",
    "name": "Helmet4 (FDC)",
    "category": "Items",
-   "bytes": 73404,
+   "bytes": 73548,
    "faction": "FDC",
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -3010,12 +3030,12 @@
    "file": "Items/Characters/Helmet4__LED.glb",
    "name": "Helmet4 (LED)",
    "category": "Items",
-   "bytes": 77540,
+   "bytes": 77684,
    "faction": "LED",
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -3031,12 +3051,12 @@
    "file": "Items/Characters/Helmet4__MOB.glb",
    "name": "Helmet4 (MOB)",
    "category": "Items",
-   "bytes": 75692,
+   "bytes": 75836,
    "faction": "MOB",
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -3052,12 +3072,12 @@
    "file": "Items/Characters/Helmet4__VTX.glb",
    "name": "Helmet4 (VTX)",
    "category": "Items",
-   "bytes": 64564,
+   "bytes": 64708,
    "faction": "VTX",
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -3073,11 +3093,11 @@
    "file": "Items/Characters/Helmet4__EC.glb",
    "name": "Helmet4__EC",
    "category": "Items",
-   "bytes": 72124,
+   "bytes": 72268,
    "dims": [
     12.2,
     10.8,
-    16.0
+    16
    ],
    "nodes": 1,
    "lods": 1,
@@ -3094,7 +3114,7 @@
    "file": "Items/Characters/Helmet5.glb",
    "name": "Helmet5",
    "category": "Items",
-   "bytes": 66856,
+   "bytes": 66996,
    "dims": [
     12.6,
     11.2,
@@ -3114,7 +3134,7 @@
    "file": "Items/Characters/Helmet5__BOS.glb",
    "name": "Helmet5 (BOS)",
    "category": "Items",
-   "bytes": 49392,
+   "bytes": 49532,
    "faction": "BOS",
    "dims": [
     12.6,
@@ -3135,7 +3155,7 @@
    "file": "Items/Characters/Helmet5__CMG.glb",
    "name": "Helmet5 (CMG)",
    "category": "Items",
-   "bytes": 99444,
+   "bytes": 99584,
    "faction": "CMG",
    "dims": [
     12.6,
@@ -3156,7 +3176,7 @@
    "file": "Items/Characters/Helmet5__FDC.glb",
    "name": "Helmet5 (FDC)",
    "category": "Items",
-   "bytes": 51944,
+   "bytes": 52084,
    "faction": "FDC",
    "dims": [
     12.6,
@@ -3177,7 +3197,7 @@
    "file": "Items/Characters/Helmet5__LED.glb",
    "name": "Helmet5 (LED)",
    "category": "Items",
-   "bytes": 56880,
+   "bytes": 57020,
    "faction": "LED",
    "dims": [
     12.6,
@@ -3198,7 +3218,7 @@
    "file": "Items/Characters/Helmet5__MOB.glb",
    "name": "Helmet5 (MOB)",
    "category": "Items",
-   "bytes": 47940,
+   "bytes": 48080,
    "faction": "MOB",
    "dims": [
     12.6,
@@ -3219,7 +3239,7 @@
    "file": "Items/Characters/Helmet5__VTX.glb",
    "name": "Helmet5 (VTX)",
    "category": "Items",
-   "bytes": 78468,
+   "bytes": 78608,
    "faction": "VTX",
    "dims": [
     12.6,
@@ -3240,7 +3260,7 @@
    "file": "Items/Characters/Helmet5__EC.glb",
    "name": "Helmet5__EC",
    "category": "Items",
-   "bytes": 108100,
+   "bytes": 108244,
    "dims": [
     12.6,
     11.2,
@@ -3261,7 +3281,7 @@
    "file": "Items/Characters/Helmet6.glb",
    "name": "Helmet6",
    "category": "Items",
-   "bytes": 136368,
+   "bytes": 136508,
    "dims": [
     13.8,
     11.5,
@@ -3281,7 +3301,7 @@
    "file": "Items/Characters/Helmet6__BOS.glb",
    "name": "Helmet6 (BOS)",
    "category": "Items",
-   "bytes": 115260,
+   "bytes": 115400,
    "faction": "BOS",
    "dims": [
     13.8,
@@ -3302,7 +3322,7 @@
    "file": "Items/Characters/Helmet6__CMG.glb",
    "name": "Helmet6 (CMG)",
    "category": "Items",
-   "bytes": 127796,
+   "bytes": 127936,
    "faction": "CMG",
    "dims": [
     13.8,
@@ -3323,7 +3343,7 @@
    "file": "Items/Characters/Helmet6__FDC.glb",
    "name": "Helmet6 (FDC)",
    "category": "Items",
-   "bytes": 110284,
+   "bytes": 110424,
    "faction": "FDC",
    "dims": [
     13.8,
@@ -3344,7 +3364,7 @@
    "file": "Items/Characters/Helmet6__LED.glb",
    "name": "Helmet6 (LED)",
    "category": "Items",
-   "bytes": 105744,
+   "bytes": 105888,
    "faction": "LED",
    "dims": [
     13.8,
@@ -3365,7 +3385,7 @@
    "file": "Items/Characters/Helmet6__MOB.glb",
    "name": "Helmet6 (MOB)",
    "category": "Items",
-   "bytes": 126044,
+   "bytes": 126184,
    "faction": "MOB",
    "dims": [
     13.8,
@@ -3386,7 +3406,7 @@
    "file": "Items/Characters/Helmet6__VTX.glb",
    "name": "Helmet6 (VTX)",
    "category": "Items",
-   "bytes": 106272,
+   "bytes": 106416,
    "faction": "VTX",
    "dims": [
     13.8,
@@ -3407,7 +3427,7 @@
    "file": "Items/Characters/Helmet6__EC.glb",
    "name": "Helmet6__EC",
    "category": "Items",
-   "bytes": 99440,
+   "bytes": 99584,
    "dims": [
     13.8,
     11.5,
@@ -3428,7 +3448,7 @@
    "file": "Items/Characters/Helmet7.glb",
    "name": "Helmet7",
    "category": "Items",
-   "bytes": 82624,
+   "bytes": 82768,
    "dims": [
     11.3,
     11.2,
@@ -3448,7 +3468,7 @@
    "file": "Items/Characters/Helmet7__BOS.glb",
    "name": "Helmet7 (BOS)",
    "category": "Items",
-   "bytes": 53240,
+   "bytes": 53384,
    "faction": "BOS",
    "dims": [
     11.3,
@@ -3469,7 +3489,7 @@
    "file": "Items/Characters/Helmet7__CMG.glb",
    "name": "Helmet7 (CMG)",
    "category": "Items",
-   "bytes": 47708,
+   "bytes": 47852,
    "faction": "CMG",
    "dims": [
     11.3,
@@ -3490,7 +3510,7 @@
    "file": "Items/Characters/Helmet7__FDC.glb",
    "name": "Helmet7 (FDC)",
    "category": "Items",
-   "bytes": 55428,
+   "bytes": 55572,
    "faction": "FDC",
    "dims": [
     11.3,
@@ -3511,7 +3531,7 @@
    "file": "Items/Characters/Helmet7__LED.glb",
    "name": "Helmet7 (LED)",
    "category": "Items",
-   "bytes": 60308,
+   "bytes": 60452,
    "faction": "LED",
    "dims": [
     11.3,
@@ -3532,7 +3552,7 @@
    "file": "Items/Characters/Helmet7__MOB.glb",
    "name": "Helmet7 (MOB)",
    "category": "Items",
-   "bytes": 99060,
+   "bytes": 99204,
    "faction": "MOB",
    "dims": [
     11.3,
@@ -3553,7 +3573,7 @@
    "file": "Items/Characters/Helmet7__VTX.glb",
    "name": "Helmet7 (VTX)",
    "category": "Items",
-   "bytes": 60224,
+   "bytes": 60368,
    "faction": "VTX",
    "dims": [
     11.3,
@@ -3574,7 +3594,7 @@
    "file": "Items/Characters/Helmet7__EC.glb",
    "name": "Helmet7__EC",
    "category": "Items",
-   "bytes": 82144,
+   "bytes": 82288,
    "dims": [
     11.3,
     11.2,
@@ -3595,7 +3615,7 @@
    "file": "Items/Characters/LegPads1.glb",
    "name": "LegPads1",
    "category": "Items",
-   "bytes": 83556,
+   "bytes": 83700,
    "dims": [
     20.5,
     4.5,
@@ -3615,7 +3635,7 @@
    "file": "Items/Characters/LegPads2.glb",
    "name": "LegPads2",
    "category": "Items",
-   "bytes": 108876,
+   "bytes": 109020,
    "dims": [
     20.9,
     3.9,
@@ -3635,7 +3655,7 @@
    "file": "Items/Characters/LegPads3.glb",
    "name": "LegPads3",
    "category": "Items",
-   "bytes": 99852,
+   "bytes": 99996,
    "dims": [
     21.5,
     4.8,
@@ -3655,7 +3675,7 @@
    "file": "Items/Characters/LegPads4.glb",
    "name": "LegPads4",
    "category": "Items",
-   "bytes": 61128,
+   "bytes": 61268,
    "dims": [
     21.2,
     4.8,
@@ -3675,7 +3695,7 @@
    "file": "Items/Characters/LegPads4__BOS.glb",
    "name": "LegPads4 (BOS)",
    "category": "Items",
-   "bytes": 95812,
+   "bytes": 95952,
    "faction": "BOS",
    "dims": [
     21.2,
@@ -3696,7 +3716,7 @@
    "file": "Items/Characters/LegPads4__CMG.glb",
    "name": "LegPads4 (CMG)",
    "category": "Items",
-   "bytes": 114212,
+   "bytes": 114356,
    "faction": "CMG",
    "dims": [
     21.2,
@@ -3717,7 +3737,7 @@
    "file": "Items/Characters/LegPads4__FDC.glb",
    "name": "LegPads4 (FDC)",
    "category": "Items",
-   "bytes": 44800,
+   "bytes": 44940,
    "faction": "FDC",
    "dims": [
     21.2,
@@ -3738,7 +3758,7 @@
    "file": "Items/Characters/LegPads4__LED.glb",
    "name": "LegPads4 (LED)",
    "category": "Items",
-   "bytes": 94740,
+   "bytes": 94880,
    "faction": "LED",
    "dims": [
     21.2,
@@ -3759,7 +3779,7 @@
    "file": "Items/Characters/LegPads4__MOB.glb",
    "name": "LegPads4 (MOB)",
    "category": "Items",
-   "bytes": 97884,
+   "bytes": 98024,
    "faction": "MOB",
    "dims": [
     21.2,
@@ -3780,7 +3800,7 @@
    "file": "Items/Characters/LegPads4__VTX.glb",
    "name": "LegPads4 (VTX)",
    "category": "Items",
-   "bytes": 94924,
+   "bytes": 95064,
    "faction": "VTX",
    "dims": [
     21.2,
@@ -3801,7 +3821,7 @@
    "file": "Items/Characters/LegPads4__EC.glb",
    "name": "LegPads4__EC",
    "category": "Items",
-   "bytes": 59324,
+   "bytes": 59464,
    "dims": [
     21.2,
     4.8,
@@ -3822,7 +3842,7 @@
    "file": "Items/Characters/LegPads5.glb",
    "name": "LegPads5",
    "category": "Items",
-   "bytes": 91284,
+   "bytes": 91424,
    "dims": [
     21.5,
     4.1,
@@ -3842,7 +3862,7 @@
    "file": "Items/Characters/LegPads5__BOS.glb",
    "name": "LegPads5 (BOS)",
    "category": "Items",
-   "bytes": 110368,
+   "bytes": 110512,
    "faction": "BOS",
    "dims": [
     21.5,
@@ -3863,7 +3883,7 @@
    "file": "Items/Characters/LegPads5__CMG.glb",
    "name": "LegPads5 (CMG)",
    "category": "Items",
-   "bytes": 100684,
+   "bytes": 100824,
    "faction": "CMG",
    "dims": [
     21.5,
@@ -3884,7 +3904,7 @@
    "file": "Items/Characters/LegPads5__FDC.glb",
    "name": "LegPads5 (FDC)",
    "category": "Items",
-   "bytes": 88920,
+   "bytes": 89060,
    "faction": "FDC",
    "dims": [
     21.5,
@@ -3905,7 +3925,7 @@
    "file": "Items/Characters/LegPads5__LED.glb",
    "name": "LegPads5 (LED)",
    "category": "Items",
-   "bytes": 87252,
+   "bytes": 87392,
    "faction": "LED",
    "dims": [
     21.5,
@@ -3926,7 +3946,7 @@
    "file": "Items/Characters/LegPads5__MOB.glb",
    "name": "LegPads5 (MOB)",
    "category": "Items",
-   "bytes": 100212,
+   "bytes": 100352,
    "faction": "MOB",
    "dims": [
     21.5,
@@ -3947,7 +3967,7 @@
    "file": "Items/Characters/LegPads5__VTX.glb",
    "name": "LegPads5 (VTX)",
    "category": "Items",
-   "bytes": 79844,
+   "bytes": 79984,
    "faction": "VTX",
    "dims": [
     21.5,
@@ -3968,7 +3988,7 @@
    "file": "Items/Characters/LegPads5__EC.glb",
    "name": "LegPads5__EC",
    "category": "Items",
-   "bytes": 127676,
+   "bytes": 127820,
    "dims": [
     21.5,
     4.1,
@@ -3989,7 +4009,7 @@
    "file": "Items/Characters/LegPads6.glb",
    "name": "LegPads6",
    "category": "Items",
-   "bytes": 137556,
+   "bytes": 137700,
    "dims": [
     22.7,
     3.4,
@@ -4009,7 +4029,7 @@
    "file": "Items/Characters/LegPads6__BOS.glb",
    "name": "LegPads6 (BOS)",
    "category": "Items",
-   "bytes": 102224,
+   "bytes": 102364,
    "faction": "BOS",
    "dims": [
     22.7,
@@ -4030,7 +4050,7 @@
    "file": "Items/Characters/LegPads6__CMG.glb",
    "name": "LegPads6 (CMG)",
    "category": "Items",
-   "bytes": 116220,
+   "bytes": 116364,
    "faction": "CMG",
    "dims": [
     22.7,
@@ -4051,7 +4071,7 @@
    "file": "Items/Characters/LegPads6__FDC.glb",
    "name": "LegPads6 (FDC)",
    "category": "Items",
-   "bytes": 85520,
+   "bytes": 85664,
    "faction": "FDC",
    "dims": [
     22.7,
@@ -4072,7 +4092,7 @@
    "file": "Items/Characters/LegPads6__LED.glb",
    "name": "LegPads6 (LED)",
    "category": "Items",
-   "bytes": 89148,
+   "bytes": 89292,
    "faction": "LED",
    "dims": [
     22.7,
@@ -4093,7 +4113,7 @@
    "file": "Items/Characters/LegPads6__MOB.glb",
    "name": "LegPads6 (MOB)",
    "category": "Items",
-   "bytes": 116012,
+   "bytes": 116156,
    "faction": "MOB",
    "dims": [
     22.7,
@@ -4114,7 +4134,7 @@
    "file": "Items/Characters/LegPads6__VTX.glb",
    "name": "LegPads6 (VTX)",
    "category": "Items",
-   "bytes": 86552,
+   "bytes": 86696,
    "faction": "VTX",
    "dims": [
     22.7,
@@ -4135,7 +4155,7 @@
    "file": "Items/Characters/LegPads6__EC.glb",
    "name": "LegPads6__EC",
    "category": "Items",
-   "bytes": 89224,
+   "bytes": 89368,
    "dims": [
     22.7,
     3.4,
@@ -4156,7 +4176,7 @@
    "file": "Items/Characters/LegPads7.glb",
    "name": "LegPads7",
    "category": "Items",
-   "bytes": 96852,
+   "bytes": 96996,
    "dims": [
     20.9,
     4.9,
@@ -4176,7 +4196,7 @@
    "file": "Items/Characters/LegPads7__BOS.glb",
    "name": "LegPads7 (BOS)",
    "category": "Items",
-   "bytes": 72640,
+   "bytes": 72784,
    "faction": "BOS",
    "dims": [
     20.9,
@@ -4197,7 +4217,7 @@
    "file": "Items/Characters/LegPads7__CMG.glb",
    "name": "LegPads7 (CMG)",
    "category": "Items",
-   "bytes": 98848,
+   "bytes": 98992,
    "faction": "CMG",
    "dims": [
     20.9,
@@ -4218,7 +4238,7 @@
    "file": "Items/Characters/LegPads7__FDC.glb",
    "name": "LegPads7 (FDC)",
    "category": "Items",
-   "bytes": 74052,
+   "bytes": 74196,
    "faction": "FDC",
    "dims": [
     20.9,
@@ -4239,7 +4259,7 @@
    "file": "Items/Characters/LegPads7__LED.glb",
    "name": "LegPads7 (LED)",
    "category": "Items",
-   "bytes": 73296,
+   "bytes": 73440,
    "faction": "LED",
    "dims": [
     20.9,
@@ -4260,7 +4280,7 @@
    "file": "Items/Characters/LegPads7__MOB.glb",
    "name": "LegPads7 (MOB)",
    "category": "Items",
-   "bytes": 101936,
+   "bytes": 102080,
    "faction": "MOB",
    "dims": [
     20.9,
@@ -4281,7 +4301,7 @@
    "file": "Items/Characters/LegPads7__VTX.glb",
    "name": "LegPads7 (VTX)",
    "category": "Items",
-   "bytes": 87296,
+   "bytes": 87440,
    "faction": "VTX",
    "dims": [
     20.9,
@@ -4302,7 +4322,7 @@
    "file": "Items/Characters/LegPads7__EC.glb",
    "name": "LegPads7__EC",
    "category": "Items",
-   "bytes": 84732,
+   "bytes": 84876,
    "dims": [
     20.9,
     4.9,
@@ -4323,7 +4343,7 @@
    "file": "Items/w11_hh.glb",
    "name": "Linner PP7",
    "category": "Items",
-   "bytes": 81548,
+   "bytes": 81692,
    "weapon_id": "w11",
    "game_category": "Weapons",
    "dims": [
@@ -4342,7 +4362,7 @@
    "file": "Items/w8_hh.glb",
    "name": "Millitek EMP",
    "category": "Items",
-   "bytes": 53584,
+   "bytes": 53728,
    "weapon_id": "w8",
    "game_category": "Weapons",
    "dims": [
@@ -4361,13 +4381,13 @@
    "file": "Items/w4_hh.glb",
    "name": "Orbit XB Infineon",
    "category": "Items",
-   "bytes": 90884,
+   "bytes": 91028,
    "weapon_id": "w4",
    "game_category": "Weapons",
    "dims": [
     5.1,
     15.5,
-    33.0
+    33
    ],
    "nodes": 1,
    "lods": 1,
@@ -4380,7 +4400,7 @@
    "file": "Items/w3_hh.glb",
    "name": "RGI-9",
    "category": "Items",
-   "bytes": 61732,
+   "bytes": 61876,
    "weapon_id": "w3",
    "game_category": "Weapons",
    "dims": [
@@ -4399,7 +4419,7 @@
    "file": "Items/w2_hh.glb",
    "name": "Ryx 7 Streamline",
    "category": "Items",
-   "bytes": 57416,
+   "bytes": 57560,
    "weapon_id": "w2",
    "game_category": "Weapons",
    "dims": [
@@ -4418,7 +4438,7 @@
    "file": "Items/w13_hh.glb",
    "name": "Salvotec HP220",
    "category": "Items",
-   "bytes": 96100,
+   "bytes": 96244,
    "weapon_id": "w13",
    "game_category": "Weapons",
    "dims": [
@@ -4437,10 +4457,10 @@
    "file": "Items/Characters/ShoulderPads1.glb",
    "name": "ShoulderPads1",
    "category": "Items",
-   "bytes": 84208,
+   "bytes": 84352,
    "dims": [
     9.8,
-    5.0,
+    5,
     11.1
    ],
    "nodes": 1,
@@ -4457,7 +4477,7 @@
    "file": "Items/Characters/ShoulderPads2.glb",
    "name": "ShoulderPads2",
    "category": "Items",
-   "bytes": 96304,
+   "bytes": 96444,
    "dims": [
     9.8,
     4.8,
@@ -4477,11 +4497,11 @@
    "file": "Items/Characters/ShoulderPads3.glb",
    "name": "ShoulderPads3",
    "category": "Items",
-   "bytes": 90204,
+   "bytes": 90344,
    "dims": [
     9.7,
-    4.0,
-    9.0
+    4,
+    9
    ],
    "nodes": 1,
    "lods": 1,
@@ -4497,7 +4517,7 @@
    "file": "Items/Characters/ShoulderPads4.glb",
    "name": "ShoulderPads4",
    "category": "Items",
-   "bytes": 71812,
+   "bytes": 71952,
    "dims": [
     10.2,
     5.3,
@@ -4517,7 +4537,7 @@
    "file": "Items/Characters/ShoulderPads4__BOS.glb",
    "name": "ShoulderPads4 (BOS)",
    "category": "Items",
-   "bytes": 94184,
+   "bytes": 94324,
    "faction": "BOS",
    "dims": [
     10.2,
@@ -4538,7 +4558,7 @@
    "file": "Items/Characters/ShoulderPads4__CMG.glb",
    "name": "ShoulderPads4 (CMG)",
    "category": "Items",
-   "bytes": 110700,
+   "bytes": 110844,
    "faction": "CMG",
    "dims": [
     10.2,
@@ -4559,7 +4579,7 @@
    "file": "Items/Characters/ShoulderPads4__FDC.glb",
    "name": "ShoulderPads4 (FDC)",
    "category": "Items",
-   "bytes": 35216,
+   "bytes": 35356,
    "faction": "FDC",
    "dims": [
     10.2,
@@ -4580,7 +4600,7 @@
    "file": "Items/Characters/ShoulderPads4__LED.glb",
    "name": "ShoulderPads4 (LED)",
    "category": "Items",
-   "bytes": 101756,
+   "bytes": 101900,
    "faction": "LED",
    "dims": [
     10.2,
@@ -4601,7 +4621,7 @@
    "file": "Items/Characters/ShoulderPads4__MOB.glb",
    "name": "ShoulderPads4 (MOB)",
    "category": "Items",
-   "bytes": 97800,
+   "bytes": 97940,
    "faction": "MOB",
    "dims": [
     10.2,
@@ -4622,7 +4642,7 @@
    "file": "Items/Characters/ShoulderPads4__VTX.glb",
    "name": "ShoulderPads4 (VTX)",
    "category": "Items",
-   "bytes": 84256,
+   "bytes": 84396,
    "faction": "VTX",
    "dims": [
     10.2,
@@ -4643,7 +4663,7 @@
    "file": "Items/Characters/ShoulderPads4__EC.glb",
    "name": "ShoulderPads4__EC",
    "category": "Items",
-   "bytes": 50264,
+   "bytes": 50404,
    "dims": [
     10.2,
     5.3,
@@ -4664,11 +4684,11 @@
    "file": "Items/Characters/ShoulderPads5.glb",
    "name": "ShoulderPads5",
    "category": "Items",
-   "bytes": 83676,
+   "bytes": 83816,
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4684,12 +4704,12 @@
    "file": "Items/Characters/ShoulderPads5__BOS.glb",
    "name": "ShoulderPads5 (BOS)",
    "category": "Items",
-   "bytes": 102372,
+   "bytes": 102516,
    "faction": "BOS",
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4705,12 +4725,12 @@
    "file": "Items/Characters/ShoulderPads5__CMG.glb",
    "name": "ShoulderPads5 (CMG)",
    "category": "Items",
-   "bytes": 104964,
+   "bytes": 105108,
    "faction": "CMG",
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4726,12 +4746,12 @@
    "file": "Items/Characters/ShoulderPads5__FDC.glb",
    "name": "ShoulderPads5 (FDC)",
    "category": "Items",
-   "bytes": 79016,
+   "bytes": 79156,
    "faction": "FDC",
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4747,12 +4767,12 @@
    "file": "Items/Characters/ShoulderPads5__LED.glb",
    "name": "ShoulderPads5 (LED)",
    "category": "Items",
-   "bytes": 83584,
+   "bytes": 83724,
    "faction": "LED",
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4768,12 +4788,12 @@
    "file": "Items/Characters/ShoulderPads5__MOB.glb",
    "name": "ShoulderPads5 (MOB)",
    "category": "Items",
-   "bytes": 95644,
+   "bytes": 95784,
    "faction": "MOB",
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4789,12 +4809,12 @@
    "file": "Items/Characters/ShoulderPads5__VTX.glb",
    "name": "ShoulderPads5 (VTX)",
    "category": "Items",
-   "bytes": 73464,
+   "bytes": 73604,
    "faction": "VTX",
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4810,11 +4830,11 @@
    "file": "Items/Characters/ShoulderPads5__EC.glb",
    "name": "ShoulderPads5__EC",
    "category": "Items",
-   "bytes": 117356,
+   "bytes": 117500,
    "dims": [
     8.5,
     5.5,
-    10.0
+    10
    ],
    "nodes": 1,
    "lods": 1,
@@ -4831,9 +4851,9 @@
    "file": "Items/Characters/ShoulderPads6.glb",
    "name": "ShoulderPads6",
    "category": "Items",
-   "bytes": 130988,
+   "bytes": 131132,
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4851,10 +4871,10 @@
    "file": "Items/Characters/ShoulderPads6__BOS.glb",
    "name": "ShoulderPads6 (BOS)",
    "category": "Items",
-   "bytes": 89496,
+   "bytes": 89636,
    "faction": "BOS",
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4872,10 +4892,10 @@
    "file": "Items/Characters/ShoulderPads6__CMG.glb",
    "name": "ShoulderPads6 (CMG)",
    "category": "Items",
-   "bytes": 118212,
+   "bytes": 118356,
    "faction": "CMG",
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4893,10 +4913,10 @@
    "file": "Items/Characters/ShoulderPads6__FDC.glb",
    "name": "ShoulderPads6 (FDC)",
    "category": "Items",
-   "bytes": 88820,
+   "bytes": 88960,
    "faction": "FDC",
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4914,10 +4934,10 @@
    "file": "Items/Characters/ShoulderPads6__LED.glb",
    "name": "ShoulderPads6 (LED)",
    "category": "Items",
-   "bytes": 87764,
+   "bytes": 87904,
    "faction": "LED",
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4935,10 +4955,10 @@
    "file": "Items/Characters/ShoulderPads6__MOB.glb",
    "name": "ShoulderPads6 (MOB)",
    "category": "Items",
-   "bytes": 114940,
+   "bytes": 115084,
    "faction": "MOB",
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4956,10 +4976,10 @@
    "file": "Items/Characters/ShoulderPads6__VTX.glb",
    "name": "ShoulderPads6 (VTX)",
    "category": "Items",
-   "bytes": 86572,
+   "bytes": 86712,
    "faction": "VTX",
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4977,9 +4997,9 @@
    "file": "Items/Characters/ShoulderPads6__EC.glb",
    "name": "ShoulderPads6__EC",
    "category": "Items",
-   "bytes": 72108,
+   "bytes": 72248,
    "dims": [
-    14.0,
+    14,
     6.4,
     9.8
    ],
@@ -4998,7 +5018,7 @@
    "file": "Items/Characters/ShoulderPads7.glb",
    "name": "ShoulderPads7",
    "category": "Items",
-   "bytes": 92048,
+   "bytes": 92192,
    "dims": [
     10.1,
     4.1,
@@ -5018,7 +5038,7 @@
    "file": "Items/Characters/ShoulderPads7__BOS.glb",
    "name": "ShoulderPads7 (BOS)",
    "category": "Items",
-   "bytes": 72404,
+   "bytes": 72548,
    "faction": "BOS",
    "dims": [
     10.1,
@@ -5039,7 +5059,7 @@
    "file": "Items/Characters/ShoulderPads7__CMG.glb",
    "name": "ShoulderPads7 (CMG)",
    "category": "Items",
-   "bytes": 96964,
+   "bytes": 97108,
    "faction": "CMG",
    "dims": [
     10.1,
@@ -5060,7 +5080,7 @@
    "file": "Items/Characters/ShoulderPads7__FDC.glb",
    "name": "ShoulderPads7 (FDC)",
    "category": "Items",
-   "bytes": 82200,
+   "bytes": 82344,
    "faction": "FDC",
    "dims": [
     10.1,
@@ -5081,7 +5101,7 @@
    "file": "Items/Characters/ShoulderPads7__LED.glb",
    "name": "ShoulderPads7 (LED)",
    "category": "Items",
-   "bytes": 72136,
+   "bytes": 72280,
    "faction": "LED",
    "dims": [
     10.1,
@@ -5102,7 +5122,7 @@
    "file": "Items/Characters/ShoulderPads7__MOB.glb",
    "name": "ShoulderPads7 (MOB)",
    "category": "Items",
-   "bytes": 98980,
+   "bytes": 99124,
    "faction": "MOB",
    "dims": [
     10.1,
@@ -5123,7 +5143,7 @@
    "file": "Items/Characters/ShoulderPads7__VTX.glb",
    "name": "ShoulderPads7 (VTX)",
    "category": "Items",
-   "bytes": 85468,
+   "bytes": 85612,
    "faction": "VTX",
    "dims": [
     10.1,
@@ -5144,7 +5164,7 @@
    "file": "Items/Characters/ShoulderPads7__EC.glb",
    "name": "ShoulderPads7__EC",
    "category": "Items",
-   "bytes": 75056,
+   "bytes": 75200,
    "dims": [
     10.1,
     4.1,
@@ -5165,7 +5185,7 @@
    "file": "Items/w33_hh.glb",
    "name": "Target Painter",
    "category": "Items",
-   "bytes": 64876,
+   "bytes": 65020,
    "weapon_id": "w33",
    "game_category": "Weapons",
    "dims": [
@@ -5184,13 +5204,13 @@
    "file": "Items/w9_hh.glb",
    "name": "Techtronic 6x6",
    "category": "Items",
-   "bytes": 61196,
+   "bytes": 61340,
    "weapon_id": "w9",
    "game_category": "Weapons",
    "dims": [
     2.6,
     9.7,
-    19.0
+    19
    ],
    "nodes": 2,
    "lods": 2,
@@ -5203,7 +5223,7 @@
    "file": "Items/Characters/TorsoArmour1.glb",
    "name": "TorsoArmour1",
    "category": "Items",
-   "bytes": 100244,
+   "bytes": 100388,
    "dims": [
     20.5,
     5.9,
@@ -5223,7 +5243,7 @@
    "file": "Items/Characters/TorsoArmour2.glb",
    "name": "TorsoArmour2",
    "category": "Items",
-   "bytes": 101468,
+   "bytes": 101612,
    "dims": [
     20.8,
     4.6,
@@ -5243,7 +5263,7 @@
    "file": "Items/Characters/TorsoArmour3.glb",
    "name": "TorsoArmour3",
    "category": "Items",
-   "bytes": 105716,
+   "bytes": 105860,
    "dims": [
     20.2,
     6.9,
@@ -5263,7 +5283,7 @@
    "file": "Items/Characters/TorsoArmour4.glb",
    "name": "TorsoArmour4",
    "category": "Items",
-   "bytes": 83960,
+   "bytes": 84104,
    "dims": [
     20.2,
     5.5,
@@ -5283,7 +5303,7 @@
    "file": "Items/Characters/TorsoArmour4__BOS.glb",
    "name": "TorsoArmour4 (BOS)",
    "category": "Items",
-   "bytes": 85268,
+   "bytes": 85412,
    "faction": "BOS",
    "dims": [
     20.2,
@@ -5304,7 +5324,7 @@
    "file": "Items/Characters/TorsoArmour4__CMG.glb",
    "name": "TorsoArmour4 (CMG)",
    "category": "Items",
-   "bytes": 117384,
+   "bytes": 117528,
    "faction": "CMG",
    "dims": [
     20.2,
@@ -5325,7 +5345,7 @@
    "file": "Items/Characters/TorsoArmour4__FDC.glb",
    "name": "TorsoArmour4 (FDC)",
    "category": "Items",
-   "bytes": 78916,
+   "bytes": 79060,
    "faction": "FDC",
    "dims": [
     20.2,
@@ -5346,7 +5366,7 @@
    "file": "Items/Characters/TorsoArmour4__LED.glb",
    "name": "TorsoArmour4 (LED)",
    "category": "Items",
-   "bytes": 96044,
+   "bytes": 96188,
    "faction": "LED",
    "dims": [
     20.2,
@@ -5367,7 +5387,7 @@
    "file": "Items/Characters/TorsoArmour4__MOB.glb",
    "name": "TorsoArmour4 (MOB)",
    "category": "Items",
-   "bytes": 98976,
+   "bytes": 99120,
    "faction": "MOB",
    "dims": [
     20.2,
@@ -5388,7 +5408,7 @@
    "file": "Items/Characters/TorsoArmour4__VTX.glb",
    "name": "TorsoArmour4 (VTX)",
    "category": "Items",
-   "bytes": 108120,
+   "bytes": 108264,
    "faction": "VTX",
    "dims": [
     20.2,
@@ -5409,7 +5429,7 @@
    "file": "Items/Characters/TorsoArmour4__EC.glb",
    "name": "TorsoArmour4__EC",
    "category": "Items",
-   "bytes": 88432,
+   "bytes": 88576,
    "dims": [
     20.2,
     5.5,
@@ -5430,10 +5450,10 @@
    "file": "Items/Characters/TorsoArmour5.glb",
    "name": "TorsoArmour5",
    "category": "Items",
-   "bytes": 97280,
+   "bytes": 97420,
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5450,11 +5470,11 @@
    "file": "Items/Characters/TorsoArmour5__BOS.glb",
    "name": "TorsoArmour5 (BOS)",
    "category": "Items",
-   "bytes": 110152,
+   "bytes": 110296,
    "faction": "BOS",
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5471,11 +5491,11 @@
    "file": "Items/Characters/TorsoArmour5__CMG.glb",
    "name": "TorsoArmour5 (CMG)",
    "category": "Items",
-   "bytes": 102308,
+   "bytes": 102452,
    "faction": "CMG",
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5492,11 +5512,11 @@
    "file": "Items/Characters/TorsoArmour5__FDC.glb",
    "name": "TorsoArmour5 (FDC)",
    "category": "Items",
-   "bytes": 87940,
+   "bytes": 88080,
    "faction": "FDC",
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5513,11 +5533,11 @@
    "file": "Items/Characters/TorsoArmour5__LED.glb",
    "name": "TorsoArmour5 (LED)",
    "category": "Items",
-   "bytes": 91052,
+   "bytes": 91192,
    "faction": "LED",
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5534,11 +5554,11 @@
    "file": "Items/Characters/TorsoArmour5__MOB.glb",
    "name": "TorsoArmour5 (MOB)",
    "category": "Items",
-   "bytes": 107720,
+   "bytes": 107864,
    "faction": "MOB",
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5555,11 +5575,11 @@
    "file": "Items/Characters/TorsoArmour5__VTX.glb",
    "name": "TorsoArmour5 (VTX)",
    "category": "Items",
-   "bytes": 90424,
+   "bytes": 90564,
    "faction": "VTX",
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5576,10 +5596,10 @@
    "file": "Items/Characters/TorsoArmour5__EC.glb",
    "name": "TorsoArmour5__EC",
    "category": "Items",
-   "bytes": 107444,
+   "bytes": 107588,
    "dims": [
     20.3,
-    6.0,
+    6,
     25.4
    ],
    "nodes": 1,
@@ -5597,10 +5617,10 @@
    "file": "Items/Characters/TorsoArmour6.glb",
    "name": "TorsoArmour6",
    "category": "Items",
-   "bytes": 114420,
+   "bytes": 114564,
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5617,11 +5637,11 @@
    "file": "Items/Characters/TorsoArmour6__BOS.glb",
    "name": "TorsoArmour6 (BOS)",
    "category": "Items",
-   "bytes": 116032,
+   "bytes": 116176,
    "faction": "BOS",
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5638,11 +5658,11 @@
    "file": "Items/Characters/TorsoArmour6__CMG.glb",
    "name": "TorsoArmour6 (CMG)",
    "category": "Items",
-   "bytes": 119076,
+   "bytes": 119220,
    "faction": "CMG",
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5659,11 +5679,11 @@
    "file": "Items/Characters/TorsoArmour6__FDC.glb",
    "name": "TorsoArmour6 (FDC)",
    "category": "Items",
-   "bytes": 100424,
+   "bytes": 100564,
    "faction": "FDC",
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5680,11 +5700,11 @@
    "file": "Items/Characters/TorsoArmour6__LED.glb",
    "name": "TorsoArmour6 (LED)",
    "category": "Items",
-   "bytes": 99556,
+   "bytes": 99696,
    "faction": "LED",
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5701,11 +5721,11 @@
    "file": "Items/Characters/TorsoArmour6__MOB.glb",
    "name": "TorsoArmour6 (MOB)",
    "category": "Items",
-   "bytes": 120944,
+   "bytes": 121088,
    "faction": "MOB",
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5722,11 +5742,11 @@
    "file": "Items/Characters/TorsoArmour6__VTX.glb",
    "name": "TorsoArmour6 (VTX)",
    "category": "Items",
-   "bytes": 96140,
+   "bytes": 96280,
    "faction": "VTX",
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5743,10 +5763,10 @@
    "file": "Items/Characters/TorsoArmour6__EC.glb",
    "name": "TorsoArmour6__EC",
    "category": "Items",
-   "bytes": 102080,
+   "bytes": 102224,
    "dims": [
     20.4,
-    6.0,
+    6,
     29.2
    ],
    "nodes": 1,
@@ -5764,7 +5784,7 @@
    "file": "Items/Characters/TorsoArmour7.glb",
    "name": "TorsoArmour7",
    "category": "Items",
-   "bytes": 100600,
+   "bytes": 100744,
    "dims": [
     20.2,
     5.9,
@@ -5784,7 +5804,7 @@
    "file": "Items/Characters/TorsoArmour7__BOS.glb",
    "name": "TorsoArmour7 (BOS)",
    "category": "Items",
-   "bytes": 71216,
+   "bytes": 71360,
    "faction": "BOS",
    "dims": [
     20.2,
@@ -5805,7 +5825,7 @@
    "file": "Items/Characters/TorsoArmour7__CMG.glb",
    "name": "TorsoArmour7 (CMG)",
    "category": "Items",
-   "bytes": 99024,
+   "bytes": 99168,
    "faction": "CMG",
    "dims": [
     20.2,
@@ -5826,7 +5846,7 @@
    "file": "Items/Characters/TorsoArmour7__FDC.glb",
    "name": "TorsoArmour7 (FDC)",
    "category": "Items",
-   "bytes": 117060,
+   "bytes": 117204,
    "faction": "FDC",
    "dims": [
     20.2,
@@ -5847,7 +5867,7 @@
    "file": "Items/Characters/TorsoArmour7__LED.glb",
    "name": "TorsoArmour7 (LED)",
    "category": "Items",
-   "bytes": 89224,
+   "bytes": 89368,
    "faction": "LED",
    "dims": [
     20.2,
@@ -5868,7 +5888,7 @@
    "file": "Items/Characters/TorsoArmour7__MOB.glb",
    "name": "TorsoArmour7 (MOB)",
    "category": "Items",
-   "bytes": 110544,
+   "bytes": 110688,
    "faction": "MOB",
    "dims": [
     20.2,
@@ -5889,7 +5909,7 @@
    "file": "Items/Characters/TorsoArmour7__VTX.glb",
    "name": "TorsoArmour7 (VTX)",
    "category": "Items",
-   "bytes": 97156,
+   "bytes": 97300,
    "faction": "VTX",
    "dims": [
     20.2,
@@ -5910,7 +5930,7 @@
    "file": "Items/Characters/TorsoArmour7__EC.glb",
    "name": "TorsoArmour7__EC",
    "category": "Items",
-   "bytes": 81956,
+   "bytes": 82100,
    "dims": [
     20.2,
     5.9,
@@ -5931,7 +5951,7 @@
    "file": "Items/w1_hh.glb",
    "name": "Zanathid 5 Inflex",
    "category": "Items",
-   "bytes": 64936,
+   "bytes": 65080,
    "weapon_id": "w1",
    "game_category": "Weapons",
    "dims": [
@@ -5950,7 +5970,7 @@
    "file": "Items/bagpack1_1.glb",
    "name": "bagpack1_1",
    "category": "Items",
-   "bytes": 90296,
+   "bytes": 90440,
    "dims": [
     28.7,
     33.5,
@@ -5969,7 +5989,7 @@
    "file": "Items/bagpack1_2.glb",
    "name": "bagpack1_2",
    "category": "Items",
-   "bytes": 90296,
+   "bytes": 90440,
    "dims": [
     28.7,
     33.5,
@@ -5988,7 +6008,7 @@
    "file": "Items/bagpack2.glb",
    "name": "bagpack2",
    "category": "Items",
-   "bytes": 85460,
+   "bytes": 85604,
    "dims": [
     27.9,
     40.3,
@@ -6007,7 +6027,7 @@
    "file": "Items/beer.glb",
    "name": "beer",
    "category": "Items",
-   "bytes": 52668,
+   "bytes": 52812,
    "dims": [
     5.1,
     15.6,
@@ -6026,7 +6046,7 @@
    "file": "Items/biocell.glb",
    "name": "biocell",
    "category": "Items",
-   "bytes": 72204,
+   "bytes": 72344,
    "dims": [
     9.7,
     2.7,
@@ -6044,7 +6064,7 @@
    "file": "Items/burger.glb",
    "name": "burger",
    "category": "Items",
-   "bytes": 58668,
+   "bytes": 58812,
    "dims": [
     11.4,
     6.3,
@@ -6063,7 +6083,7 @@
    "file": "Items/can.glb",
    "name": "can",
    "category": "Items",
-   "bytes": 77940,
+   "bytes": 78084,
    "dims": [
     5.6,
     8.8,
@@ -6082,10 +6102,10 @@
    "file": "Items/covershield.glb",
    "name": "covershield",
    "category": "Items",
-   "bytes": 318132,
+   "bytes": 318276,
    "dims": [
     70.6,
-    64.0,
+    64,
     39.5
    ],
    "nodes": 1,
@@ -6101,10 +6121,10 @@
    "file": "Items/cup.glb",
    "name": "cup",
    "category": "Items",
-   "bytes": 70572,
+   "bytes": 70712,
    "dims": [
-    7.0,
-    16.0,
+    7,
+    16,
     6.7
    ],
    "nodes": 1,
@@ -6120,10 +6140,10 @@
    "file": "Items/drug_inhilator.glb",
    "name": "drug_inhilator",
    "category": "Items",
-   "bytes": 68424,
+   "bytes": 68568,
    "dims": [
     6.8,
-    3.0,
+    3,
     3.8
    ],
    "nodes": 1,
@@ -6139,7 +6159,7 @@
    "file": "Items/drug_injector.glb",
    "name": "drug_injector",
    "category": "Items",
-   "bytes": 88668,
+   "bytes": 88812,
    "dims": [
     6.1,
     3.1,
@@ -6158,7 +6178,7 @@
    "file": "Items/drug_pills.glb",
    "name": "drug_pills",
    "category": "Items",
-   "bytes": 71432,
+   "bytes": 71576,
    "dims": [
     4.5,
     0.9,
@@ -6177,7 +6197,7 @@
    "file": "Items/duddal.glb",
    "name": "duddal",
    "category": "Items",
-   "bytes": 74984,
+   "bytes": 75124,
    "dims": [
     8.2,
     5.1,
@@ -6196,11 +6216,11 @@
    "file": "Items/dummy.glb",
    "name": "dummy",
    "category": "Items",
-   "bytes": 3180,
+   "bytes": 3320,
    "dims": [
-    0.0,
-    0.0,
-    0.0
+    0,
+    0,
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -6215,11 +6235,11 @@
    "file": "Items/easteregg.glb",
    "name": "easteregg",
    "category": "Items",
-   "bytes": 18376,
+   "bytes": 18520,
    "dims": [
-    39.0,
-    39.0,
-    52.2
+    39,
+    39,
+    52.3
    ],
    "nodes": 1,
    "lods": 1,
@@ -6237,7 +6257,7 @@
    "file": "Items/energycell.glb",
    "name": "energycell",
    "category": "Items",
-   "bytes": 46852,
+   "bytes": 46996,
    "dims": [
     5.4,
     8.5,
@@ -6256,9 +6276,9 @@
    "file": "Items/Characters/f_Hands1.glb",
    "name": "f_Hands1",
    "category": "Items",
-   "bytes": 6052,
+   "bytes": 6192,
    "dims": [
-    11.0,
+    11,
     1.8,
     8.8
    ],
@@ -6266,13 +6286,15 @@
    "lods": 1,
    "game_category": "Armor",
    "slot": "hands",
-   "piece_base": "Hands"
+   "piece_base": "Hands",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/Characters/f_Hands2.glb",
    "name": "f_Hands2",
    "category": "Items",
-   "bytes": 25728,
+   "bytes": 25872,
    "dims": [
     8.8,
     2.4,
@@ -6294,7 +6316,7 @@
    "file": "Items/Characters/f_Legs1.glb",
    "name": "f_Legs1",
    "category": "Items",
-   "bytes": 71816,
+   "bytes": 71960,
    "dims": [
     22.7,
     4.1,
@@ -6316,7 +6338,7 @@
    "file": "Items/Characters/f_Legs2.glb",
    "name": "f_Legs2",
    "category": "Items",
-   "bytes": 84932,
+   "bytes": 85072,
    "dims": [
     19.3,
     3.8,
@@ -6337,7 +6359,7 @@
    "file": "Items/Characters/f_Legs3.glb",
    "name": "f_Legs3",
    "category": "Items",
-   "bytes": 219684,
+   "bytes": 219828,
    "dims": [
     18.9,
     4.1,
@@ -6357,7 +6379,7 @@
    "file": "Items/Characters/f_Legs4.glb",
    "name": "f_Legs4",
    "category": "Items",
-   "bytes": 77472,
+   "bytes": 77616,
    "dims": [
     21.3,
     4.2,
@@ -6377,10 +6399,10 @@
    "file": "Items/Characters/f_Shoes1.glb",
    "name": "f_Shoes1",
    "category": "Items",
-   "bytes": 25044,
+   "bytes": 25188,
    "dims": [
     11.7,
-    9.0,
+    9,
     14.5
    ],
    "nodes": 1,
@@ -6399,10 +6421,10 @@
    "file": "Items/Characters/f_Shoes2.glb",
    "name": "f_Shoes2",
    "category": "Items",
-   "bytes": 33500,
+   "bytes": 33640,
    "dims": [
     10.3,
-    9.0,
+    9,
     14.7
    ],
    "nodes": 1,
@@ -6419,7 +6441,7 @@
    "file": "Items/Characters/f_Shoes3.glb",
    "name": "f_Shoes3",
    "category": "Items",
-   "bytes": 29112,
+   "bytes": 29256,
    "dims": [
     14.4,
     24.1,
@@ -6439,10 +6461,10 @@
    "file": "Items/Characters/f_Shoes4.glb",
    "name": "f_Shoes4",
    "category": "Items",
-   "bytes": 26744,
+   "bytes": 26888,
    "dims": [
     11.7,
-    9.0,
+    9,
     14.5
    ],
    "nodes": 1,
@@ -6459,11 +6481,11 @@
    "file": "Items/Characters/f_Torso1.glb",
    "name": "f_Torso1",
    "category": "Items",
-   "bytes": 289488,
+   "bytes": 289628,
    "dims": [
     27.7,
     4.1,
-    35.0
+    35
    ],
    "nodes": 1,
    "lods": 1,
@@ -6481,7 +6503,7 @@
    "file": "Items/Characters/f_Torso2.glb",
    "name": "f_Torso2",
    "category": "Items",
-   "bytes": 392408,
+   "bytes": 392552,
    "dims": [
     29.4,
     3.9,
@@ -6502,7 +6524,7 @@
    "file": "Items/Characters/f_Torso3.glb",
    "name": "f_Torso3",
    "category": "Items",
-   "bytes": 1146980,
+   "bytes": 1147124,
    "dims": [
     28.4,
     7.3,
@@ -6522,11 +6544,11 @@
    "file": "Items/Characters/f_Torso4.glb",
    "name": "f_Torso4",
    "category": "Items",
-   "bytes": 1080620,
+   "bytes": 1080764,
    "dims": [
     29.4,
     7.1,
-    67.0
+    67
    ],
    "nodes": 1,
    "lods": 1,
@@ -6542,7 +6564,7 @@
    "file": "Items/hackingdevice.glb",
    "name": "hackingdevice",
    "category": "Items",
-   "bytes": 69756,
+   "bytes": 69900,
    "dims": [
     7.4,
     4.5,
@@ -6561,7 +6583,7 @@
    "file": "Items/hat1_1.glb",
    "name": "hat1_1",
    "category": "Items",
-   "bytes": 180300,
+   "bytes": 180444,
    "dims": [
     18.7,
     22.4,
@@ -6580,11 +6602,11 @@
    "file": "Items/hat2.glb",
    "name": "hat2",
    "category": "Items",
-   "bytes": 139372,
+   "bytes": 139512,
    "dims": [
     22.1,
     26.6,
-    24.0
+    24
    ],
    "nodes": 1,
    "lods": 1,
@@ -6599,9 +6621,9 @@
    "file": "Items/hat3.glb",
    "name": "hat3",
    "category": "Items",
-   "bytes": 390112,
+   "bytes": 390256,
    "dims": [
-    18.0,
+    18,
     6.3,
     21.6
    ],
@@ -6618,7 +6640,7 @@
    "file": "Items/hat4.glb",
    "name": "hat4",
    "category": "Items",
-   "bytes": 346552,
+   "bytes": 346696,
    "dims": [
     10.6,
     8.7,
@@ -6637,7 +6659,7 @@
    "file": "Items/hat5.glb",
    "name": "hat5",
    "category": "Items",
-   "bytes": 230644,
+   "bytes": 230788,
    "dims": [
     15.4,
     10.1,
@@ -6656,9 +6678,9 @@
    "file": "Items/hat6.glb",
    "name": "hat6",
    "category": "Items",
-   "bytes": 187888,
+   "bytes": 188032,
    "dims": [
-    17.0,
+    17,
     7.4,
     21.2
    ],
@@ -6675,7 +6697,7 @@
    "file": "Items/hat7.glb",
    "name": "hat7",
    "category": "Items",
-   "bytes": 465444,
+   "bytes": 465588,
    "dims": [
     8.8,
     0.6,
@@ -6694,10 +6716,10 @@
    "file": "Items/hat8.glb",
    "name": "hat8",
    "category": "Items",
-   "bytes": 198284,
+   "bytes": 198428,
    "dims": [
     7.5,
-    6.0,
+    6,
     3.3
    ],
    "nodes": 1,
@@ -6713,11 +6735,11 @@
    "file": "Items/injector.glb",
    "name": "injector",
    "category": "Items",
-   "bytes": 200544,
+   "bytes": 200688,
    "dims": [
     2.5,
     2.1,
-    15.0
+    15
    ],
    "nodes": 1,
    "lods": 1,
@@ -6732,9 +6754,9 @@
    "file": "Items/Characters/m_Hands1.glb",
    "name": "m_Hands1",
    "category": "Items",
-   "bytes": 5316,
+   "bytes": 5456,
    "dims": [
-    10.0,
+    10,
     2.3,
     9.4
    ],
@@ -6742,13 +6764,15 @@
    "lods": 1,
    "game_category": "Armor",
    "slot": "hands",
-   "piece_base": "Hands"
+   "piece_base": "Hands",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/Characters/m_Hands2.glb",
    "name": "m_Hands2",
    "category": "Items",
-   "bytes": 30140,
+   "bytes": 30280,
    "dims": [
     10.7,
     2.3,
@@ -6770,7 +6794,7 @@
    "file": "Items/Characters/m_Legs1.glb",
    "name": "m_Legs1",
    "category": "Items",
-   "bytes": 85364,
+   "bytes": 85508,
    "dims": [
     21.1,
     5.1,
@@ -6792,9 +6816,9 @@
    "file": "Items/Characters/m_Legs2.glb",
    "name": "m_Legs2",
    "category": "Items",
-   "bytes": 91628,
+   "bytes": 91772,
    "dims": [
-    21.0,
+    21,
     5.3,
     57.7
    ],
@@ -6813,10 +6837,10 @@
    "file": "Items/Characters/m_Legs3.glb",
    "name": "m_Legs3",
    "category": "Items",
-   "bytes": 63136,
+   "bytes": 63276,
    "dims": [
     19.5,
-    4.0,
+    4,
     55.1
    ],
    "nodes": 1,
@@ -6833,7 +6857,7 @@
    "file": "Items/Characters/m_Legs4.glb",
    "name": "m_Legs4",
    "category": "Items",
-   "bytes": 73660,
+   "bytes": 73804,
    "dims": [
     20.4,
     4.1,
@@ -6853,7 +6877,7 @@
    "file": "Items/Characters/m_Shoes1.glb",
    "name": "m_Shoes1",
    "category": "Items",
-   "bytes": 24312,
+   "bytes": 24456,
    "dims": [
     19.7,
     7.7,
@@ -6875,7 +6899,7 @@
    "file": "Items/Characters/m_Shoes2.glb",
    "name": "m_Shoes2",
    "category": "Items",
-   "bytes": 28260,
+   "bytes": 28404,
    "dims": [
     19.1,
     8.5,
@@ -6895,10 +6919,10 @@
    "file": "Items/Characters/m_Shoes3.glb",
    "name": "m_Shoes3",
    "category": "Items",
-   "bytes": 24240,
+   "bytes": 24384,
    "dims": [
     20.2,
-    10.0,
+    10,
     16.4
    ],
    "nodes": 1,
@@ -6915,7 +6939,7 @@
    "file": "Items/Characters/m_Shoes4.glb",
    "name": "m_Shoes4",
    "category": "Items",
-   "bytes": 31076,
+   "bytes": 31220,
    "dims": [
     20.1,
     7.9,
@@ -6935,7 +6959,7 @@
    "file": "Items/Characters/m_Torso1.glb",
    "name": "m_Torso1",
    "category": "Items",
-   "bytes": 259048,
+   "bytes": 259192,
    "dims": [
     31.3,
     3.7,
@@ -6957,7 +6981,7 @@
    "file": "Items/Characters/m_Torso2.glb",
    "name": "m_Torso2",
    "category": "Items",
-   "bytes": 374404,
+   "bytes": 374548,
    "dims": [
     33.2,
     3.6,
@@ -6978,7 +7002,7 @@
    "file": "Items/Characters/m_Torso3.glb",
    "name": "m_Torso3",
    "category": "Items",
-   "bytes": 947080,
+   "bytes": 947220,
    "dims": [
     33.4,
     4.7,
@@ -6998,7 +7022,7 @@
    "file": "Items/Characters/m_Torso4.glb",
    "name": "m_Torso4",
    "category": "Items",
-   "bytes": 1074308,
+   "bytes": 1074452,
    "dims": [
     33.7,
     4.6,
@@ -7018,7 +7042,7 @@
    "file": "Items/mag_6mm.glb",
    "name": "mag_6mm",
    "category": "Items",
-   "bytes": 41220,
+   "bytes": 41364,
    "dims": [
     6.1,
     1.9,
@@ -7037,7 +7061,7 @@
    "file": "Items/mag_762mm.glb",
    "name": "mag_762mm",
    "category": "Items",
-   "bytes": 32552,
+   "bytes": 32692,
    "dims": [
     2.6,
     11.8,
@@ -7056,7 +7080,7 @@
    "file": "Items/mag_9mm.glb",
    "name": "mag_9mm",
    "category": "Items",
-   "bytes": 37156,
+   "bytes": 37296,
    "dims": [
     2.3,
     8.4,
@@ -7075,7 +7099,7 @@
    "file": "Items/mag_9mm_guild.glb",
    "name": "mag_9mm_guild",
    "category": "Items",
-   "bytes": 36248,
+   "bytes": 36392,
    "dims": [
     2.3,
     8.4,
@@ -7093,7 +7117,7 @@
    "file": "Items/medikit_l.glb",
    "name": "medikit_l",
    "category": "Items",
-   "bytes": 233340,
+   "bytes": 233480,
    "dims": [
     42.2,
     11.4,
@@ -7112,7 +7136,7 @@
    "file": "Items/medikit_m.glb",
    "name": "medikit_m",
    "category": "Items",
-   "bytes": 162924,
+   "bytes": 163068,
    "dims": [
     33.3,
     6.9,
@@ -7131,7 +7155,7 @@
    "file": "Items/medikit_s.glb",
    "name": "medikit_s",
    "category": "Items",
-   "bytes": 199588,
+   "bytes": 199732,
    "dims": [
     22.8,
     6.9,
@@ -7150,7 +7174,7 @@
    "file": "Items/medikit_xl.glb",
    "name": "medikit_xl",
    "category": "Items",
-   "bytes": 155356,
+   "bytes": 155500,
    "dims": [
     42.1,
     19.7,
@@ -7169,7 +7193,7 @@
    "file": "Items/miningtool.glb",
    "name": "miningtool",
    "category": "Items",
-   "bytes": 309948,
+   "bytes": 310092,
    "dims": [
     40.9,
     11.7,
@@ -7188,7 +7212,7 @@
    "file": "Items/nightvision.glb",
    "name": "nightvision",
    "category": "Items",
-   "bytes": 74512,
+   "bytes": 74652,
    "dims": [
     7.6,
     2.6,
@@ -7207,11 +7231,11 @@
    "file": "Items/pizza.glb",
    "name": "pizza",
    "category": "Items",
-   "bytes": 57848,
+   "bytes": 57988,
    "dims": [
     17.7,
     2.4,
-    18.0
+    18
    ],
    "nodes": 1,
    "lods": 1,
@@ -7226,7 +7250,7 @@
    "file": "Items/resistance.glb",
    "name": "resistance",
    "category": "Items",
-   "bytes": 55680,
+   "bytes": 55824,
    "dims": [
     9.8,
     4.1,
@@ -7245,7 +7269,7 @@
    "file": "Items/rock.glb",
    "name": "rock",
    "category": "Items",
-   "bytes": 579964,
+   "bytes": 580104,
    "dims": [
     11.4,
     10.2,
@@ -7264,7 +7288,7 @@
    "file": "Items/rock1.glb",
    "name": "rock1",
    "category": "Items",
-   "bytes": 579672,
+   "bytes": 579816,
    "dims": [
     18.7,
     5.8,
@@ -7283,7 +7307,7 @@
    "file": "Items/rock2.glb",
    "name": "rock2",
    "category": "Items",
-   "bytes": 579964,
+   "bytes": 580104,
    "dims": [
     11.4,
     10.2,
@@ -7302,9 +7326,9 @@
    "file": "Items/rock3.glb",
    "name": "rock3",
    "category": "Items",
-   "bytes": 578984,
+   "bytes": 579128,
    "dims": [
-    11.0,
+    11,
     4.3,
     16.1
    ],
@@ -7321,7 +7345,7 @@
    "file": "Items/scanner.glb",
    "name": "scanner",
    "category": "Items",
-   "bytes": 295292,
+   "bytes": 295436,
    "dims": [
     3.2,
     3.1,
@@ -7340,11 +7364,11 @@
    "file": "Items/shell.glb",
    "name": "shell",
    "category": "Items",
-   "bytes": 7304,
+   "bytes": 7444,
    "dims": [
     0.5,
     0.4,
-    1.0
+    1
    ],
    "nodes": 1,
    "lods": 1,
@@ -7359,9 +7383,9 @@
    "file": "Items/shield.glb",
    "name": "shield",
    "category": "Items",
-   "bytes": 64788,
+   "bytes": 64932,
    "dims": [
-    6.0,
+    6,
     8.4,
     3.6
    ],
@@ -7378,7 +7402,7 @@
    "file": "Items/shield_player.glb",
    "name": "shield_player",
    "category": "Items",
-   "bytes": 176532,
+   "bytes": 176676,
    "dims": [
     37.9,
     107.3,
@@ -7397,7 +7421,7 @@
    "file": "Items/shoulderlamp.glb",
    "name": "shoulderlamp",
    "category": "Items",
-   "bytes": 60820,
+   "bytes": 60960,
    "dims": [
     2.1,
     8.2,
@@ -7416,35 +7440,39 @@
    "file": "Items/skyscrap1.glb",
    "name": "skyscrap1",
    "category": "Items",
-   "bytes": 153520,
+   "bytes": 153664,
    "dims": [
     12.1,
-    57.0,
+    57,
     12.1
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap15.glb",
    "name": "skyscrap15",
    "category": "Items",
-   "bytes": 132784,
+   "bytes": 132928,
    "dims": [
-    9.0,
+    9,
     38.7,
-    7.0
+    7
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap17.glb",
    "name": "skyscrap17",
    "category": "Items",
-   "bytes": 99676,
+   "bytes": 99820,
    "dims": [
     10.7,
     46.4,
@@ -7452,13 +7480,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap19.glb",
    "name": "skyscrap19",
    "category": "Items",
-   "bytes": 97660,
+   "bytes": 97800,
    "dims": [
     15.8,
     52.8,
@@ -7466,13 +7496,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap21.glb",
    "name": "skyscrap21",
    "category": "Items",
-   "bytes": 100660,
+   "bytes": 100804,
    "dims": [
     16.6,
     55.5,
@@ -7480,13 +7512,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap22.glb",
    "name": "skyscrap22",
    "category": "Items",
-   "bytes": 115848,
+   "bytes": 115992,
    "dims": [
     11.1,
     90.7,
@@ -7494,13 +7528,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap23.glb",
    "name": "skyscrap23",
    "category": "Items",
-   "bytes": 153804,
+   "bytes": 153948,
    "dims": [
     16.1,
     53.3,
@@ -7508,13 +7544,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap24.glb",
    "name": "skyscrap24",
    "category": "Items",
-   "bytes": 130300,
+   "bytes": 130444,
    "dims": [
     11.8,
     51.7,
@@ -7522,27 +7560,31 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/skyscrap7.glb",
    "name": "skyscrap7",
    "category": "Items",
-   "bytes": 100176,
+   "bytes": 100320,
    "dims": [
-    23.0,
+    23,
     148.6,
     29.1
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/stamina.glb",
    "name": "stamina",
    "category": "Items",
-   "bytes": 66584,
+   "bytes": 66724,
    "dims": [
     5.6,
     6.4,
@@ -7561,21 +7603,23 @@
    "file": "Items/statueofliberty.glb",
    "name": "statueofliberty",
    "category": "Items",
-   "bytes": 1450520,
+   "bytes": 1450664,
    "dims": [
     93.6,
-    258.0,
+    258,
     90.9
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Items"
+   "game_category": "Items",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Items/sushi.glb",
    "name": "sushi",
    "category": "Items",
-   "bytes": 76668,
+   "bytes": 76812,
    "dims": [
     16.1,
     2.5,
@@ -7594,9 +7638,9 @@
    "file": "Items/ticket.glb",
    "name": "ticket",
    "category": "Items",
-   "bytes": 14708,
+   "bytes": 14852,
    "dims": [
-    10.0,
+    10,
     0.4,
     6.5
    ],
@@ -7613,7 +7657,7 @@
    "file": "Items/vest.glb",
    "name": "vest",
    "category": "Items",
-   "bytes": 70540,
+   "bytes": 70680,
    "dims": [
     19.5,
     9.7,
@@ -7632,7 +7676,7 @@
    "file": "Items/vortex_implant.glb",
    "name": "vortex_implant",
    "category": "Items",
-   "bytes": 34084,
+   "bytes": 34228,
    "dims": [
     8.3,
     3.4,
@@ -7651,7 +7695,7 @@
    "file": "Items/w17_hh.glb",
    "name": "w17_hh",
    "category": "Items",
-   "bytes": 80264,
+   "bytes": 80408,
    "dims": [
     1.5,
     8.3,
@@ -7669,7 +7713,7 @@
    "file": "Items/w23.glb",
    "name": "w23",
    "category": "Items",
-   "bytes": 131828,
+   "bytes": 131968,
    "dims": [
     9.9,
     13.9,
@@ -7688,7 +7732,7 @@
    "file": "Items/w26_hh.glb",
    "name": "w26_hh",
    "category": "Items",
-   "bytes": 42656,
+   "bytes": 42800,
    "dims": [
     4.4,
     5.2,
@@ -7706,7 +7750,7 @@
    "file": "Items/w27_hh.glb",
    "name": "w27_hh",
    "category": "Items",
-   "bytes": 68728,
+   "bytes": 68872,
    "dims": [
     4.4,
     5.2,
@@ -7724,7 +7768,7 @@
    "file": "Items/w28_hh.glb",
    "name": "w28_hh",
    "category": "Items",
-   "bytes": 271812,
+   "bytes": 271956,
    "dims": [
     3.4,
     11.9,
@@ -7742,11 +7786,11 @@
    "file": "Items/w30_hh.glb",
    "name": "w30_hh",
    "category": "Items",
-   "bytes": 1014452,
+   "bytes": 1014596,
    "dims": [
     5.1,
     15.5,
-    33.0
+    33
    ],
    "nodes": 1,
    "lods": 1,
@@ -7760,7 +7804,7 @@
    "file": "Props/Plants/1.glb",
    "name": "1",
    "category": "Props",
-   "bytes": 156548,
+   "bytes": 156688,
    "dims": [
     145.8,
     131.1,
@@ -7778,7 +7822,7 @@
    "file": "Props/Plants/10.glb",
    "name": "10",
    "category": "Props",
-   "bytes": 149668,
+   "bytes": 149808,
    "dims": [
     134.7,
     117.7,
@@ -7797,7 +7841,7 @@
    "file": "Props/Plants/11.glb",
    "name": "11",
    "category": "Props",
-   "bytes": 272940,
+   "bytes": 273084,
    "dims": [
     132.9,
     47.7,
@@ -7816,7 +7860,7 @@
    "file": "Props/Plants/12.glb",
    "name": "12",
    "category": "Props",
-   "bytes": 66756,
+   "bytes": 66900,
    "dims": [
     80.3,
     116.3,
@@ -7835,7 +7879,7 @@
    "file": "Props/Plants/13.glb",
    "name": "13",
    "category": "Props",
-   "bytes": 103904,
+   "bytes": 104048,
    "dims": [
     134.1,
     150.3,
@@ -7854,7 +7898,7 @@
    "file": "Props/Plants/14.glb",
    "name": "14",
    "category": "Props",
-   "bytes": 193132,
+   "bytes": 193272,
    "dims": [
     132.7,
     136.8,
@@ -7873,7 +7917,7 @@
    "file": "Props/Plants/15.glb",
    "name": "15",
    "category": "Props",
-   "bytes": 155036,
+   "bytes": 155180,
    "dims": [
     146.7,
     137.4,
@@ -7892,7 +7936,7 @@
    "file": "Props/Plants/16.glb",
    "name": "16",
    "category": "Props",
-   "bytes": 180820,
+   "bytes": 180964,
    "dims": [
     212.9,
     128.8,
@@ -7911,7 +7955,7 @@
    "file": "Props/Plants/17.glb",
    "name": "17",
    "category": "Props",
-   "bytes": 550244,
+   "bytes": 550388,
    "dims": [
     93.4,
     93.5,
@@ -7930,7 +7974,7 @@
    "file": "Props/Plants/18.glb",
    "name": "18",
    "category": "Props",
-   "bytes": 167876,
+   "bytes": 168020,
    "dims": [
     136.8,
     123.7,
@@ -7949,7 +7993,7 @@
    "file": "Props/Plants/19.glb",
    "name": "19",
    "category": "Props",
-   "bytes": 170544,
+   "bytes": 170688,
    "dims": [
     155.3,
     126.2,
@@ -7968,7 +8012,7 @@
    "file": "Props/Plants/2.glb",
    "name": "2",
    "category": "Props",
-   "bytes": 162400,
+   "bytes": 162544,
    "dims": [
     120.5,
     120.6,
@@ -7986,9 +8030,9 @@
    "file": "Props/Plants/20.glb",
    "name": "20",
    "category": "Props",
-   "bytes": 194492,
+   "bytes": 194636,
    "dims": [
-    151.0,
+    151,
     159.2,
     164.8
    ],
@@ -8005,7 +8049,7 @@
    "file": "Props/Plants/3.glb",
    "name": "3",
    "category": "Props",
-   "bytes": 281408,
+   "bytes": 281548,
    "dims": [
     175.4,
     171.8,
@@ -8023,7 +8067,7 @@
    "file": "Props/Plants/5.glb",
    "name": "5",
    "category": "Props",
-   "bytes": 272304,
+   "bytes": 272448,
    "dims": [
     126.7,
     140.4,
@@ -8041,9 +8085,9 @@
    "file": "Props/Plants/6.glb",
    "name": "6",
    "category": "Props",
-   "bytes": 191048,
+   "bytes": 191192,
    "dims": [
-    228.0,
+    228,
     147.3,
     217.9
    ],
@@ -8059,7 +8103,7 @@
    "file": "Props/Plants/7.glb",
    "name": "7",
    "category": "Props",
-   "bytes": 410752,
+   "bytes": 410896,
    "dims": [
     135.5,
     123.4,
@@ -8077,7 +8121,7 @@
    "file": "Props/Plants/8.glb",
    "name": "8",
    "category": "Props",
-   "bytes": 373636,
+   "bytes": 373780,
    "dims": [
     201.4,
     121.8,
@@ -8095,7 +8139,7 @@
    "file": "Props/Plants/9.glb",
    "name": "9",
    "category": "Props",
-   "bytes": 294808,
+   "bytes": 294952,
    "dims": [
     191.9,
     192.1,
@@ -8113,7 +8157,7 @@
    "file": "Props/Advertisement/adcar.glb",
    "name": "adcar",
    "category": "Props",
-   "bytes": 222856,
+   "bytes": 223000,
    "dims": [
     341.8,
     233.8,
@@ -8131,7 +8175,7 @@
    "file": "Props/alk1.glb",
    "name": "alk1",
    "category": "Props",
-   "bytes": 23316,
+   "bytes": 23460,
    "dims": [
     8.5,
     34.7,
@@ -8149,7 +8193,7 @@
    "file": "Props/alk2.glb",
    "name": "alk2",
    "category": "Props",
-   "bytes": 23288,
+   "bytes": 23428,
    "dims": [
     8.5,
     41.5,
@@ -8167,7 +8211,7 @@
    "file": "Props/Terminals/apartment_entry.glb",
    "name": "apartment_entry",
    "category": "Props",
-   "bytes": 1156840,
+   "bytes": 1156984,
    "dims": [
     201.9,
     193.3,
@@ -8185,11 +8229,11 @@
    "file": "Props/Plants/ash_fall.glb",
    "name": "ash_fall",
    "category": "Props",
-   "bytes": 160828,
+   "bytes": 160972,
    "dims": [
     225.1,
-    256.0,
-    223.0
+    256,
+    223
    ],
    "nodes": 2,
    "lods": 2,
@@ -8203,7 +8247,7 @@
    "file": "Props/Plants/ash_spring_winter.glb",
    "name": "ash_spring_winter",
    "category": "Props",
-   "bytes": 56016,
+   "bytes": 56160,
    "dims": [
     185.6,
     250.2,
@@ -8221,7 +8265,7 @@
    "file": "Props/Plants/ash_summer.glb",
    "name": "ash_summer",
    "category": "Props",
-   "bytes": 140976,
+   "bytes": 141120,
    "dims": [
     228.1,
     253.2,
@@ -8239,9 +8283,9 @@
    "file": "Props/bank1.glb",
    "name": "bank1",
    "category": "Props",
-   "bytes": 42856,
+   "bytes": 43000,
    "dims": [
-    24.0,
+    24,
     36.8,
     41.1
    ],
@@ -8257,11 +8301,11 @@
    "file": "Props/bank2.glb",
    "name": "bank2",
    "category": "Props",
-   "bytes": 74128,
+   "bytes": 74268,
    "dims": [
     7.1,
-    9.0,
-    20.0
+    9,
+    20
    ],
    "nodes": 1,
    "lods": 1,
@@ -8275,7 +8319,7 @@
    "file": "Props/bar1.glb",
    "name": "bar1",
    "category": "Props",
-   "bytes": 121584,
+   "bytes": 121724,
    "dims": [
     49.3,
     10.3,
@@ -8293,11 +8337,11 @@
    "file": "Props/bar2.glb",
    "name": "bar2",
    "category": "Props",
-   "bytes": 152900,
+   "bytes": 153040,
    "dims": [
     51.1,
     7.1,
-    28.0
+    28
    ],
    "nodes": 1,
    "lods": 1,
@@ -8311,9 +8355,9 @@
    "file": "Props/bed01.glb",
    "name": "bed01",
    "category": "Props",
-   "bytes": 148748,
+   "bytes": 148892,
    "dims": [
-    143.0,
+    143,
     26.4,
     78.6
    ],
@@ -8329,7 +8373,7 @@
    "file": "Props/Logos/bos.glb",
    "name": "bos",
    "category": "Props",
-   "bytes": 93532,
+   "bytes": 93676,
    "dims": [
     32.1,
     28.3,
@@ -8347,7 +8391,7 @@
    "file": "Props/Plants/butterfly_fall_winter.glb",
    "name": "butterfly_fall_winter",
    "category": "Props",
-   "bytes": 43988,
+   "bytes": 44132,
    "dims": [
     43.7,
     40.8,
@@ -8365,7 +8409,7 @@
    "file": "Props/Plants/butterfly_spring_summer.glb",
    "name": "butterfly_spring_summer",
    "category": "Props",
-   "bytes": 59748,
+   "bytes": 59892,
    "dims": [
     43.7,
     40.8,
@@ -8383,9 +8427,9 @@
    "file": "Props/Plants/camellia_spring.glb",
    "name": "camellia_spring",
    "category": "Props",
-   "bytes": 232260,
+   "bytes": 232400,
    "dims": [
-    213.0,
+    213,
     266.7,
     175.1
    ],
@@ -8401,7 +8445,7 @@
    "file": "Props/Plants/camellia_summer_fall_winter.glb",
    "name": "camellia_summer_fall_winter",
    "category": "Props",
-   "bytes": 161640,
+   "bytes": 161784,
    "dims": [
     197.8,
     257.3,
@@ -8419,11 +8463,11 @@
    "file": "Props/Plants/camphor.glb",
    "name": "camphor",
    "category": "Props",
-   "bytes": 222616,
+   "bytes": 222760,
    "dims": [
     366.3,
     482.9,
-    403.0
+    403
    ],
    "nodes": 3,
    "lods": 3,
@@ -8438,7 +8482,7 @@
    "file": "Props/carbon_m.glb",
    "name": "carbon_m",
    "category": "Props",
-   "bytes": 1055552,
+   "bytes": 1055696,
    "dims": [
     149.2,
     127.8,
@@ -8456,7 +8500,7 @@
    "file": "Props/cargo_box.glb",
    "name": "cargo_box",
    "category": "Props",
-   "bytes": 256252,
+   "bytes": 256396,
    "dims": [
     42.2,
     42.2,
@@ -8474,7 +8518,7 @@
    "file": "Props/chair01.glb",
    "name": "chair01",
    "category": "Props",
-   "bytes": 176160,
+   "bytes": 176304,
    "dims": [
     38.7,
     74.3,
@@ -8492,7 +8536,7 @@
    "file": "Props/chair02.glb",
    "name": "chair02",
    "category": "Props",
-   "bytes": 224920,
+   "bytes": 225064,
    "dims": [
     31.7,
     63.6,
@@ -8510,11 +8554,11 @@
    "file": "Props/chair1.glb",
    "name": "chair1",
    "category": "Props",
-   "bytes": 44160,
+   "bytes": 44304,
    "dims": [
-    29.0,
+    29,
     50.3,
-    20.0
+    20
    ],
    "nodes": 1,
    "lods": 1,
@@ -8528,10 +8572,10 @@
    "file": "Props/Terminals/chemlab.glb",
    "name": "chemlab",
    "category": "Props",
-   "bytes": 1222228,
+   "bytes": 1222372,
    "dims": [
     27.6,
-    66.0,
+    66,
     27.6
    ],
    "nodes": 1,
@@ -8546,7 +8590,7 @@
    "file": "Props/Vehicles/cityhopper.glb",
    "name": "cityhopper",
    "category": "Props",
-   "bytes": 214660,
+   "bytes": 214800,
    "dims": [
     145.1,
     113.7,
@@ -8566,7 +8610,7 @@
    "file": "Props/Vehicles/cityrover.glb",
    "name": "cityrover",
    "category": "Props",
-   "bytes": 932908,
+   "bytes": 933052,
    "dims": [
     180.1,
     86.1,
@@ -8585,7 +8629,7 @@
    "file": "Props/Logos/cmg.glb",
    "name": "cmg",
    "category": "Props",
-   "bytes": 110220,
+   "bytes": 110364,
    "dims": [
     31.9,
     31.2,
@@ -8603,7 +8647,7 @@
    "file": "Props/Terminals/colony_control.glb",
    "name": "colony_control",
    "category": "Props",
-   "bytes": 994368,
+   "bytes": 994508,
    "dims": [
     121.6,
     130.6,
@@ -8621,7 +8665,7 @@
    "file": "Props/connection_off.glb",
    "name": "connection_off",
    "category": "Props",
-   "bytes": 71328,
+   "bytes": 71472,
    "dims": [
     15.4,
     36.2,
@@ -8640,7 +8684,7 @@
    "file": "Props/connection_on.glb",
    "name": "connection_on",
    "category": "Props",
-   "bytes": 97568,
+   "bytes": 97712,
    "dims": [
     25.8,
     55.1,
@@ -8659,7 +8703,7 @@
    "file": "Props/Plants/corylopsis_spring_winter.glb",
    "name": "corylopsis_spring_winter",
    "category": "Props",
-   "bytes": 65132,
+   "bytes": 65272,
    "dims": [
     60.2,
     63.3,
@@ -8677,11 +8721,11 @@
    "file": "Props/Plants/corylopsis_summer_fall.glb",
    "name": "corylopsis_summer_fall",
    "category": "Props",
-   "bytes": 126984,
+   "bytes": 127128,
    "dims": [
     70.2,
     66.7,
-    77.0
+    77
    ],
    "nodes": 2,
    "lods": 2,
@@ -8695,7 +8739,7 @@
    "file": "Props/crane2.glb",
    "name": "crane2",
    "category": "Props",
-   "bytes": 199376,
+   "bytes": 199516,
    "dims": [
     22.2,
     50.2,
@@ -8713,7 +8757,7 @@
    "file": "Props/desk01.glb",
    "name": "desk01",
    "category": "Props",
-   "bytes": 290260,
+   "bytes": 290404,
    "dims": [
     110.1,
     50.2,
@@ -8731,7 +8775,7 @@
    "file": "Props/Vehicles/drone.glb",
    "name": "drone",
    "category": "Props",
-   "bytes": 307968,
+   "bytes": 308112,
    "dims": [
     96.9,
     81.8,
@@ -8749,7 +8793,7 @@
    "file": "Props/Logos/ec.glb",
    "name": "ec",
    "category": "Props",
-   "bytes": 103724,
+   "bytes": 103864,
    "dims": [
     20.4,
     35.4,
@@ -8767,7 +8811,7 @@
    "file": "Props/eiffel1.glb",
    "name": "eiffel1",
    "category": "Props",
-   "bytes": 634216,
+   "bytes": 634356,
    "dims": [
     156.7,
     146.7,
@@ -8785,7 +8829,7 @@
    "file": "Props/eiffel2.glb",
    "name": "eiffel2",
    "category": "Props",
-   "bytes": 504952,
+   "bytes": 505096,
    "dims": [
     47.3,
     161.8,
@@ -8803,7 +8847,7 @@
    "file": "Props/eiffel3.glb",
    "name": "eiffel3",
    "category": "Props",
-   "bytes": 44836,
+   "bytes": 44980,
    "dims": [
     20.3,
     35.5,
@@ -8821,7 +8865,7 @@
    "file": "Props/Plants/elm_spring_winter.glb",
    "name": "elm_spring_winter",
    "category": "Props",
-   "bytes": 227612,
+   "bytes": 227756,
    "dims": [
     237.2,
     224.6,
@@ -8839,7 +8883,7 @@
    "file": "Props/Plants/elm_summer_fall.glb",
    "name": "elm_summer_fall",
    "category": "Props",
-   "bytes": 282384,
+   "bytes": 282528,
    "dims": [
     228.4,
     224.6,
@@ -8857,7 +8901,7 @@
    "file": "Props/Logos/fdc.glb",
    "name": "fdc",
    "category": "Props",
-   "bytes": 124116,
+   "bytes": 124256,
    "dims": [
     32.1,
     32.2,
@@ -8875,7 +8919,7 @@
    "file": "Props/Plants/fern.glb",
    "name": "fern",
    "category": "Props",
-   "bytes": 88364,
+   "bytes": 88508,
    "dims": [
     53.7,
     37.5,
@@ -8893,7 +8937,7 @@
    "file": "Props/fernsehturm.glb",
    "name": "fernsehturm",
    "category": "Props",
-   "bytes": 1112516,
+   "bytes": 1112660,
    "dims": [
     568.7,
     3361.8,
@@ -8911,9 +8955,9 @@
    "file": "Props/Plants/flower.glb",
    "name": "flower",
    "category": "Props",
-   "bytes": 65512,
+   "bytes": 65656,
    "dims": [
-    30.0,
+    30,
     42.3,
     43.2
    ],
@@ -8929,7 +8973,7 @@
    "file": "Props/Plants/fothergilla.glb",
    "name": "fothergilla",
    "category": "Props",
-   "bytes": 259160,
+   "bytes": 259304,
    "dims": [
     99.1,
     80.1,
@@ -8947,7 +8991,7 @@
    "file": "Props/gd_logo.glb",
    "name": "gd_logo",
    "category": "Props",
-   "bytes": 1088176,
+   "bytes": 1088320,
    "dims": [
     57.9,
     54.7,
@@ -8965,7 +9009,7 @@
    "file": "Props/generator1off.glb",
    "name": "generator1off",
    "category": "Props",
-   "bytes": 251428,
+   "bytes": 251572,
    "dims": [
     206.8,
     78.3,
@@ -8983,7 +9027,7 @@
    "file": "Props/generator1on.glb",
    "name": "generator1on",
    "category": "Props",
-   "bytes": 311776,
+   "bytes": 311920,
    "dims": [
     201.9,
     76.6,
@@ -9001,10 +9045,10 @@
    "file": "Props/Logos/gom.glb",
    "name": "gom",
    "category": "Props",
-   "bytes": 137220,
+   "bytes": 137360,
    "dims": [
     28.1,
-    32.0,
+    32,
     1.1
    ],
    "nodes": 1,
@@ -9019,21 +9063,23 @@
    "file": "Props/Plants/grass-c-medium.glb",
    "name": "grass-c-medium",
    "category": "Props",
-   "bytes": 2756,
+   "bytes": 2900,
    "dims": [
     65.6,
-    13.0,
+    13,
     26.2
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/grass-c-small.glb",
    "name": "grass-c-small",
    "category": "Props",
-   "bytes": 1344,
+   "bytes": 1488,
    "dims": [
     15.1,
     11.3,
@@ -9041,13 +9087,15 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/grass_elephant.glb",
    "name": "grass_elephant",
    "category": "Props",
-   "bytes": 100660,
+   "bytes": 100804,
    "dims": [
     116.2,
     45.8,
@@ -9065,7 +9113,7 @@
    "file": "Props/Plants/gs_bush01.glb",
    "name": "gs_bush01",
    "category": "Props",
-   "bytes": 844380,
+   "bytes": 844524,
    "dims": [
     140.5,
     96.1,
@@ -9083,7 +9131,7 @@
    "file": "Props/Plants/gs_bush09.glb",
    "name": "gs_bush09",
    "category": "Props",
-   "bytes": 269428,
+   "bytes": 269572,
    "dims": [
     101.1,
     137.4,
@@ -9101,7 +9149,7 @@
    "file": "Props/Plants/gs_bush16.glb",
    "name": "gs_bush16",
    "category": "Props",
-   "bytes": 427736,
+   "bytes": 427876,
    "dims": [
     96.4,
     147.5,
@@ -9119,7 +9167,7 @@
    "file": "Props/Plants/gs_bush28.glb",
    "name": "gs_bush28",
    "category": "Props",
-   "bytes": 107072,
+   "bytes": 107216,
    "dims": [
     123.2,
     126.6,
@@ -9137,11 +9185,11 @@
    "file": "Props/Plants/gs_bush33.glb",
    "name": "gs_bush33",
    "category": "Props",
-   "bytes": 587328,
+   "bytes": 587472,
    "dims": [
     75.3,
     73.6,
-    82.0
+    82
    ],
    "nodes": 1,
    "lods": 1,
@@ -9155,7 +9203,7 @@
    "file": "Props/Plants/gs_bush41.glb",
    "name": "gs_bush41",
    "category": "Props",
-   "bytes": 254992,
+   "bytes": 255132,
    "dims": [
     159.6,
     139.6,
@@ -9173,7 +9221,7 @@
    "file": "Props/Plants/gs_bush47.glb",
    "name": "gs_bush47",
    "category": "Props",
-   "bytes": 611820,
+   "bytes": 611964,
    "dims": [
     75.4,
     68.8,
@@ -9191,21 +9239,23 @@
    "file": "Props/Plants/gs_bush60.glb",
    "name": "gs_bush60",
    "category": "Props",
-   "bytes": 9208,
+   "bytes": 9352,
    "dims": [
-    166.0,
+    166,
     122.2,
     168.1
    ],
    "nodes": 3,
    "lods": 3,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/gs_bush66.glb",
    "name": "gs_bush66",
    "category": "Props",
-   "bytes": 421920,
+   "bytes": 422064,
    "dims": [
     70.8,
     60.3,
@@ -9223,11 +9273,11 @@
    "file": "Props/Plants/gs_flower03.glb",
    "name": "gs_flower03",
    "category": "Props",
-   "bytes": 91436,
+   "bytes": 91576,
    "dims": [
-    120.0,
-    109.0,
-    109.0
+    120,
+    109,
+    109
    ],
    "nodes": 2,
    "lods": 2,
@@ -9242,7 +9292,7 @@
    "file": "Props/Plants/gs_flower14.glb",
    "name": "gs_flower14",
    "category": "Props",
-   "bytes": 138308,
+   "bytes": 138452,
    "dims": [
     59.3,
     70.2,
@@ -9261,7 +9311,7 @@
    "file": "Props/Plants/gs_flower16.glb",
    "name": "gs_flower16",
    "category": "Props",
-   "bytes": 354048,
+   "bytes": 354192,
    "dims": [
     74.7,
     78.9,
@@ -9279,11 +9329,11 @@
    "file": "Props/Plants/gs_flower17.glb",
    "name": "gs_flower17",
    "category": "Props",
-   "bytes": 486048,
+   "bytes": 486192,
    "dims": [
-    60.0,
-    60.0,
-    60.0
+    60,
+    60,
+    60
    ],
    "nodes": 1,
    "lods": 1,
@@ -9297,7 +9347,7 @@
    "file": "Props/Plants/gs_flower40.glb",
    "name": "gs_flower40",
    "category": "Props",
-   "bytes": 563596,
+   "bytes": 563736,
    "dims": [
     92.6,
     95.2,
@@ -9315,7 +9365,7 @@
    "file": "Props/Plants/gs_tree36.glb",
    "name": "gs_tree36",
    "category": "Props",
-   "bytes": 47996,
+   "bytes": 48136,
    "dims": [
     135.6,
     132.8,
@@ -9323,13 +9373,15 @@
    ],
    "nodes": 4,
    "lods": 4,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/heather_spring_winter.glb",
    "name": "heather_spring_winter",
    "category": "Props",
-   "bytes": 48208,
+   "bytes": 48352,
    "dims": [
     60.7,
     63.7,
@@ -9347,7 +9399,7 @@
    "file": "Props/Plants/heather_summer_fall.glb",
    "name": "heather_summer_fall",
    "category": "Props",
-   "bytes": 290196,
+   "bytes": 290336,
    "dims": [
     89.7,
     71.6,
@@ -9365,11 +9417,11 @@
    "file": "Props/hydrauliccrane.glb",
    "name": "hydrauliccrane",
    "category": "Props",
-   "bytes": 103032,
+   "bytes": 103172,
    "dims": [
     58.3,
     34.1,
-    15.0
+    15
    ],
    "nodes": 3,
    "lods": 3,
@@ -9384,9 +9436,9 @@
    "file": "Props/indtower5.glb",
    "name": "indtower5",
    "category": "Props",
-   "bytes": 81692,
+   "bytes": 81836,
    "dims": [
-    10.2,
+    10.3,
     65.4,
     22.6
    ],
@@ -9403,7 +9455,7 @@
    "file": "Props/Plants/lady_fern.glb",
    "name": "lady_fern",
    "category": "Props",
-   "bytes": 813768,
+   "bytes": 813912,
    "dims": [
     121.4,
     65.7,
@@ -9421,7 +9473,7 @@
    "file": "Props/lamp.glb",
    "name": "lamp",
    "category": "Props",
-   "bytes": 62372,
+   "bytes": 62512,
    "dims": [
     3.3,
     9.7,
@@ -9439,7 +9491,7 @@
    "file": "Props/lamp_mining.glb",
    "name": "lamp_mining",
    "category": "Props",
-   "bytes": 35856,
+   "bytes": 36000,
    "dims": [
     3.9,
     3.2,
@@ -9457,7 +9509,7 @@
    "file": "Props/Logos/led.glb",
    "name": "led",
    "category": "Props",
-   "bytes": 120188,
+   "bytes": 120328,
    "dims": [
     31.8,
     32.8,
@@ -9475,7 +9527,7 @@
    "file": "Props/Vehicles/leyland.glb",
    "name": "leyland",
    "category": "Props",
-   "bytes": 403732,
+   "bytes": 403876,
    "dims": [
     272.5,
     251.6,
@@ -9493,7 +9545,7 @@
    "file": "Props/machine27.glb",
    "name": "machine27",
    "category": "Props",
-   "bytes": 167580,
+   "bytes": 167724,
    "dims": [
     16.9,
     38.1,
@@ -9511,7 +9563,7 @@
    "file": "Props/Terminals/marketing_terminal.glb",
    "name": "marketing_terminal",
    "category": "Props",
-   "bytes": 35292,
+   "bytes": 35432,
    "dims": [
     30.7,
     62.7,
@@ -9519,13 +9571,15 @@
    ],
    "nodes": 3,
    "lods": 3,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Terminals/medic.glb",
    "name": "medic",
    "category": "Props",
-   "bytes": 842196,
+   "bytes": 842340,
    "dims": [
     49.5,
     126.8,
@@ -9543,7 +9597,7 @@
    "file": "Props/Terminals/mining.glb",
    "name": "mining",
    "category": "Props",
-   "bytes": 909272,
+   "bytes": 909416,
    "dims": [
     141.3,
     112.8,
@@ -9561,7 +9615,7 @@
    "file": "Props/Terminals/miningterminal.glb",
    "name": "miningterminal",
    "category": "Props",
-   "bytes": 39796,
+   "bytes": 39940,
    "dims": [
     35.2,
     71.1,
@@ -9569,13 +9623,15 @@
    ],
    "nodes": 3,
    "lods": 3,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Terminals/missioncheckin.glb",
    "name": "missioncheckin",
    "category": "Props",
-   "bytes": 973288,
+   "bytes": 973428,
    "dims": [
     95.7,
     130.3,
@@ -9593,7 +9649,7 @@
    "file": "Props/Logos/mob.glb",
    "name": "mob",
    "category": "Props",
-   "bytes": 161164,
+   "bytes": 161308,
    "dims": [
     16.4,
     37.7,
@@ -9611,9 +9667,9 @@
    "file": "Props/Terminals/multicom.glb",
    "name": "multicom",
    "category": "Props",
-   "bytes": 179276,
+   "bytes": 179416,
    "dims": [
-    42.0,
+    42,
     33.8,
     16.5
    ],
@@ -9629,7 +9685,7 @@
    "file": "Props/Plants/mushrooms01_group.glb",
    "name": "mushrooms01_group",
    "category": "Props",
-   "bytes": 554972,
+   "bytes": 555116,
    "dims": [
     234.9,
     446.6,
@@ -9647,9 +9703,9 @@
    "file": "Props/Plants/mushrooms01_large.glb",
    "name": "mushrooms01_large",
    "category": "Props",
-   "bytes": 513864,
+   "bytes": 514008,
    "dims": [
-    130.0,
+    130,
     446.6,
     158.9
    ],
@@ -9665,7 +9721,7 @@
    "file": "Props/Plants/mushrooms01_med.glb",
    "name": "mushrooms01_med",
    "category": "Props",
-   "bytes": 513804,
+   "bytes": 513944,
    "dims": [
     148.6,
     321.5,
@@ -9683,7 +9739,7 @@
    "file": "Props/Plants/mushrooms01_small.glb",
    "name": "mushrooms01_small",
    "category": "Props",
-   "bytes": 515576,
+   "bytes": 515716,
    "dims": [
     79.6,
     221.4,
@@ -9701,7 +9757,7 @@
    "file": "Props/Plants/natm_bush3.glb",
    "name": "natm_bush3",
    "category": "Props",
-   "bytes": 851756,
+   "bytes": 851896,
    "dims": [
     38.5,
     29.6,
@@ -9719,7 +9775,7 @@
    "file": "Props/Terminals/news.glb",
    "name": "news",
    "category": "Props",
-   "bytes": 1070016,
+   "bytes": 1070160,
    "dims": [
     99.7,
     154.4,
@@ -9737,7 +9793,7 @@
    "file": "Props/Plants/nf_bamboo.glb",
    "name": "nf_bamboo",
    "category": "Props",
-   "bytes": 371776,
+   "bytes": 371920,
    "dims": [
     60.3,
     114.2,
@@ -9755,7 +9811,7 @@
    "file": "Props/Plants/nf_bigleaf.glb",
    "name": "nf_bigleaf",
    "category": "Props",
-   "bytes": 287208,
+   "bytes": 287352,
    "dims": [
     126.3,
     59.3,
@@ -9773,10 +9829,10 @@
    "file": "Props/Plants/nf_bush1.glb",
    "name": "nf_bush1",
    "category": "Props",
-   "bytes": 271452,
+   "bytes": 271596,
    "dims": [
     72.8,
-    56.0,
+    56,
     84.5
    ],
    "nodes": 1,
@@ -9791,7 +9847,7 @@
    "file": "Props/Plants/nf_bush2.glb",
    "name": "nf_bush2",
    "category": "Props",
-   "bytes": 940260,
+   "bytes": 940404,
    "dims": [
     213.6,
     181.5,
@@ -9809,7 +9865,7 @@
    "file": "Props/nf_commtower.glb",
    "name": "nf_commtower",
    "category": "Props",
-   "bytes": 678672,
+   "bytes": 678816,
    "dims": [
     187.1,
     306.8,
@@ -9827,7 +9883,7 @@
    "file": "Props/nf_dropship.glb",
    "name": "nf_dropship",
    "category": "Props",
-   "bytes": 454224,
+   "bytes": 454368,
    "dims": [
     2212.9,
     514.4,
@@ -9845,9 +9901,9 @@
    "file": "Props/nf_energy_generator.glb",
    "name": "nf_energy_generator",
    "category": "Props",
-   "bytes": 1202592,
+   "bytes": 1202736,
    "dims": [
-    1010.0,
+    1010,
     808.4,
     1049.8
    ],
@@ -9863,9 +9919,9 @@
    "file": "Props/nf_generator.glb",
    "name": "nf_generator",
    "category": "Props",
-   "bytes": 1000604,
+   "bytes": 1000748,
    "dims": [
-    144.0,
+    144,
     106.7,
     120.7
    ],
@@ -9881,7 +9937,7 @@
    "file": "Props/nf_logs.glb",
    "name": "nf_logs",
    "category": "Props",
-   "bytes": 1468964,
+   "bytes": 1469108,
    "dims": [
     44.3,
     26.3,
@@ -9899,7 +9955,7 @@
    "file": "Props/Plants/nf_mushroom.glb",
    "name": "nf_mushroom",
    "category": "Props",
-   "bytes": 1703872,
+   "bytes": 1704016,
    "dims": [
     46.6,
     44.3,
@@ -9917,49 +9973,55 @@
    "file": "Props/Plants/nf_norttree.glb",
    "name": "nf_norttree",
    "category": "Props",
-   "bytes": 367092,
+   "bytes": 367236,
    "dims": [
     263.2,
-    174.0,
+    174,
     211.8
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/nf_redwood.glb",
    "name": "nf_redwood",
    "category": "Props",
-   "bytes": 342692,
+   "bytes": 342836,
    "dims": [
     126.6,
-    335.0,
+    335,
     130.8
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/nf_sprouts.glb",
    "name": "nf_sprouts",
    "category": "Props",
-   "bytes": 69120,
+   "bytes": 69260,
    "dims": [
-    159.0,
+    159,
     207.7,
     190.6
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Terminals/nf_terminal1.glb",
    "name": "nf_terminal1",
    "category": "Props",
-   "bytes": 157168,
+   "bytes": 157312,
    "dims": [
     12.2,
     19.7,
@@ -9977,11 +10039,11 @@
    "file": "Props/Terminals/nf_terminal2.glb",
    "name": "nf_terminal2",
    "category": "Props",
-   "bytes": 153464,
+   "bytes": 153608,
    "dims": [
     12.2,
     19.7,
-    12.0
+    12
    ],
    "nodes": 1,
    "lods": 1,
@@ -9995,7 +10057,7 @@
    "file": "Props/Plants/nf_tree.glb",
    "name": "nf_tree",
    "category": "Props",
-   "bytes": 878712,
+   "bytes": 878856,
    "dims": [
     240.9,
     340.5,
@@ -10013,7 +10075,7 @@
    "file": "Props/Plants/nf_tree02.glb",
    "name": "nf_tree02",
    "category": "Props",
-   "bytes": 156640,
+   "bytes": 156784,
    "dims": [
     122.3,
     89.2,
@@ -10021,13 +10083,15 @@
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/nf_tree03.glb",
    "name": "nf_tree03",
    "category": "Props",
-   "bytes": 63244,
+   "bytes": 63384,
    "dims": [
     224.1,
     334.9,
@@ -10035,13 +10099,15 @@
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/nf_tree07_full.glb",
    "name": "nf_tree07_full",
    "category": "Props",
-   "bytes": 302456,
+   "bytes": 302600,
    "dims": [
     129.5,
     145.5,
@@ -10049,13 +10115,15 @@
    ],
    "nodes": 3,
    "lods": 3,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/nf_tree07_low.glb",
    "name": "nf_tree07_low",
    "category": "Props",
-   "bytes": 211740,
+   "bytes": 211884,
    "dims": [
     124.6,
     143.4,
@@ -10063,16 +10131,18 @@
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Plants/oak_bush.glb",
    "name": "oak_bush",
    "category": "Props",
-   "bytes": 128328,
+   "bytes": 128472,
    "dims": [
     109.3,
-    103.0,
+    103,
     98.5
    ],
    "nodes": 1,
@@ -10087,7 +10157,7 @@
    "file": "Props/Vehicles/oldcar.glb",
    "name": "oldcar",
    "category": "Props",
-   "bytes": 246176,
+   "bytes": 246316,
    "dims": [
     100.5,
     30.6,
@@ -10107,7 +10177,7 @@
    "file": "Props/Plants/oleander_spring_winter.glb",
    "name": "oleander_spring_winter",
    "category": "Props",
-   "bytes": 141188,
+   "bytes": 141332,
    "dims": [
     78.8,
     92.6,
@@ -10125,7 +10195,7 @@
    "file": "Props/Plants/oleander_summer_fall.glb",
    "name": "oleander_summer_fall",
    "category": "Props",
-   "bytes": 163700,
+   "bytes": 163840,
    "dims": [
     87.7,
     94.4,
@@ -10143,9 +10213,9 @@
    "file": "Props/Plants/palm.glb",
    "name": "palm",
    "category": "Props",
-   "bytes": 83348,
+   "bytes": 83492,
    "dims": [
-    105.0,
+    105,
     265.5,
     132.6
    ],
@@ -10161,7 +10231,7 @@
    "file": "Props/pipe1.glb",
    "name": "pipe1",
    "category": "Props",
-   "bytes": 21640,
+   "bytes": 21784,
    "dims": [
     16.4,
     16.4,
@@ -10179,7 +10249,7 @@
    "file": "Props/pipe2.glb",
    "name": "pipe2",
    "category": "Props",
-   "bytes": 22348,
+   "bytes": 22492,
    "dims": [
     51.7,
     17.4,
@@ -10197,7 +10267,7 @@
    "file": "Props/plasma.glb",
    "name": "plasma",
    "category": "Props",
-   "bytes": 643076,
+   "bytes": 643216,
    "dims": [
     113.7,
     127.8,
@@ -10215,7 +10285,7 @@
    "file": "Props/plasma_g.glb",
    "name": "plasma_g",
    "category": "Props",
-   "bytes": 794580,
+   "bytes": 794720,
    "dims": [
     136.1,
     188.3,
@@ -10233,7 +10303,7 @@
    "file": "Props/Plants/poplar.glb",
    "name": "poplar",
    "category": "Props",
-   "bytes": 177668,
+   "bytes": 177812,
    "dims": [
     107.6,
     480.7,
@@ -10251,7 +10321,7 @@
    "file": "Props/Plants/poplar_fall.glb",
    "name": "poplar_fall",
    "category": "Props",
-   "bytes": 151924,
+   "bytes": 152068,
    "dims": [
     53.8,
     200.7,
@@ -10269,7 +10339,7 @@
    "file": "Props/portable_pg.glb",
    "name": "portable_pg",
    "category": "Props",
-   "bytes": 550456,
+   "bytes": 550600,
    "dims": [
     86.1,
     74.2,
@@ -10287,7 +10357,7 @@
    "file": "Props/Terminals/portal.glb",
    "name": "portal",
    "category": "Props",
-   "bytes": 295748,
+   "bytes": 295892,
    "dims": [
     387.3,
     187.6,
@@ -10307,7 +10377,7 @@
    "file": "Props/Terminals/portal_terminal.glb",
    "name": "portal_terminal",
    "category": "Props",
-   "bytes": 241216,
+   "bytes": 241360,
    "dims": [
     22.6,
     59.4,
@@ -10325,7 +10395,7 @@
    "file": "Props/Terminals/productionterminal.glb",
    "name": "productionterminal",
    "category": "Props",
-   "bytes": 389728,
+   "bytes": 389872,
    "dims": [
     39.3,
     99.5,
@@ -10343,7 +10413,7 @@
    "file": "Props/Plants/quininetree.glb",
    "name": "quininetree",
    "category": "Props",
-   "bytes": 10312,
+   "bytes": 10452,
    "dims": [
     166.5,
     196.6,
@@ -10351,16 +10421,18 @@
    ],
    "nodes": 2,
    "lods": 2,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/radar2.glb",
    "name": "radar2",
    "category": "Props",
-   "bytes": 181884,
+   "bytes": 182028,
    "dims": [
     17.1,
-    38.0,
+    38,
     21.8
    ],
    "nodes": 1,
@@ -10375,11 +10447,11 @@
    "file": "Props/reception.glb",
    "name": "reception",
    "category": "Props",
-   "bytes": 40072,
+   "bytes": 40216,
    "dims": [
     32.9,
     8.5,
-    30.0
+    30
    ],
    "nodes": 1,
    "lods": 1,
@@ -10393,7 +10465,7 @@
    "file": "Props/Terminals/repunit.glb",
    "name": "repunit",
    "category": "Props",
-   "bytes": 688960,
+   "bytes": 689100,
    "dims": [
     26.3,
     80.4,
@@ -10411,7 +10483,7 @@
    "file": "Props/retaining_wall.glb",
    "name": "retaining_wall",
    "category": "Props",
-   "bytes": 1367492,
+   "bytes": 1367636,
    "dims": [
     160.6,
     133.7,
@@ -10429,7 +10501,7 @@
    "file": "Props/Plants/rosmary_spring_winter.glb",
    "name": "rosmary_spring_winter",
    "category": "Props",
-   "bytes": 269712,
+   "bytes": 269852,
    "dims": [
     45.2,
     47.5,
@@ -10447,7 +10519,7 @@
    "file": "Props/Plants/rosmary_summer_fall.glb",
    "name": "rosmary_summer_fall",
    "category": "Props",
-   "bytes": 289380,
+   "bytes": 289524,
    "dims": [
     45.8,
     54.4,
@@ -10465,7 +10537,7 @@
    "file": "Props/rusty_crate.glb",
    "name": "rusty_crate",
    "category": "Props",
-   "bytes": 455676,
+   "bytes": 455820,
    "dims": [
     25.9,
     36.3,
@@ -10483,7 +10555,7 @@
    "file": "Props/Terminals/safe.glb",
    "name": "safe",
    "category": "Props",
-   "bytes": 919892,
+   "bytes": 920036,
    "dims": [
     40.5,
     115.9,
@@ -10501,7 +10573,7 @@
    "file": "Props/Terminals/security_pad.glb",
    "name": "security_pad",
    "category": "Props",
-   "bytes": 160252,
+   "bytes": 160396,
    "dims": [
     21.1,
     15.7,
@@ -10519,11 +10591,11 @@
    "file": "Props/sickbed.glb",
    "name": "sickbed",
    "category": "Props",
-   "bytes": 450124,
+   "bytes": 450268,
    "dims": [
     156.9,
     72.5,
-    85.0
+    85
    ],
    "nodes": 1,
    "lods": 1,
@@ -10537,10 +10609,10 @@
    "file": "Props/skyscrap1.glb",
    "name": "skyscrap1",
    "category": "Props",
-   "bytes": 153520,
+   "bytes": 153664,
    "dims": [
     12.1,
-    57.0,
+    57,
     12.1
    ],
    "nodes": 1,
@@ -10555,11 +10627,11 @@
    "file": "Props/skyscrap15.glb",
    "name": "skyscrap15",
    "category": "Props",
-   "bytes": 132784,
+   "bytes": 132928,
    "dims": [
-    9.0,
+    9,
     38.7,
-    7.0
+    7
    ],
    "nodes": 1,
    "lods": 1,
@@ -10573,7 +10645,7 @@
    "file": "Props/skyscrap17.glb",
    "name": "skyscrap17",
    "category": "Props",
-   "bytes": 99676,
+   "bytes": 99820,
    "dims": [
     10.7,
     46.4,
@@ -10591,7 +10663,7 @@
    "file": "Props/skyscrap19.glb",
    "name": "skyscrap19",
    "category": "Props",
-   "bytes": 97660,
+   "bytes": 97800,
    "dims": [
     15.8,
     52.8,
@@ -10609,7 +10681,7 @@
    "file": "Props/skyscrap21.glb",
    "name": "skyscrap21",
    "category": "Props",
-   "bytes": 100660,
+   "bytes": 100804,
    "dims": [
     16.6,
     55.5,
@@ -10627,7 +10699,7 @@
    "file": "Props/skyscrap22.glb",
    "name": "skyscrap22",
    "category": "Props",
-   "bytes": 115848,
+   "bytes": 115992,
    "dims": [
     11.1,
     90.7,
@@ -10645,7 +10717,7 @@
    "file": "Props/skyscrap23.glb",
    "name": "skyscrap23",
    "category": "Props",
-   "bytes": 153804,
+   "bytes": 153948,
    "dims": [
     16.1,
     53.3,
@@ -10663,7 +10735,7 @@
    "file": "Props/skyscrap24.glb",
    "name": "skyscrap24",
    "category": "Props",
-   "bytes": 130300,
+   "bytes": 130444,
    "dims": [
     11.8,
     51.7,
@@ -10681,9 +10753,9 @@
    "file": "Props/skyscrap7.glb",
    "name": "skyscrap7",
    "category": "Props",
-   "bytes": 100176,
+   "bytes": 100320,
    "dims": [
-    23.0,
+    23,
     148.6,
     29.1
    ],
@@ -10699,7 +10771,7 @@
    "file": "Props/smstack.glb",
    "name": "smstack",
    "category": "Props",
-   "bytes": 200804,
+   "bytes": 200948,
    "dims": [
     5.6,
     38.4,
@@ -10717,7 +10789,7 @@
    "file": "Props/snowman.glb",
    "name": "snowman",
    "category": "Props",
-   "bytes": 740872,
+   "bytes": 741016,
    "dims": [
     163.6,
     213.7,
@@ -10735,9 +10807,9 @@
    "file": "Props/solar2.glb",
    "name": "solar2",
    "category": "Props",
-   "bytes": 37064,
+   "bytes": 37208,
    "dims": [
-    18.0,
+    18,
     22.6,
     24.5
    ],
@@ -10753,7 +10825,7 @@
    "file": "Props/Plants/speedwell.glb",
    "name": "speedwell",
    "category": "Props",
-   "bytes": 173308,
+   "bytes": 173452,
    "dims": [
     44.1,
     48.5,
@@ -10771,11 +10843,11 @@
    "file": "Props/startpoint1.glb",
    "name": "startpoint1",
    "category": "Props",
-   "bytes": 210604,
+   "bytes": 210748,
    "dims": [
     119.3,
     50.1,
-    120.0
+    120
    ],
    "nodes": 2,
    "lods": 2,
@@ -10789,7 +10861,7 @@
    "file": "Props/startpoint2.glb",
    "name": "startpoint2",
    "category": "Props",
-   "bytes": 154532,
+   "bytes": 154676,
    "dims": [
     34.2,
     116.2,
@@ -10807,10 +10879,10 @@
    "file": "Props/statueofliberty.glb",
    "name": "statueofliberty",
    "category": "Props",
-   "bytes": 1450520,
+   "bytes": 1450664,
    "dims": [
     93.6,
-    258.0,
+    258,
     90.9
    ],
    "nodes": 1,
@@ -10825,7 +10897,7 @@
    "file": "Props/Terminals/storageaccess.glb",
    "name": "storageaccess",
    "category": "Props",
-   "bytes": 510136,
+   "bytes": 510280,
    "dims": [
     94.2,
     175.3,
@@ -10843,7 +10915,7 @@
    "file": "Props/table01.glb",
    "name": "table01",
    "category": "Props",
-   "bytes": 161384,
+   "bytes": 161528,
    "dims": [
     124.1,
     51.5,
@@ -10861,7 +10933,7 @@
    "file": "Props/table1.glb",
    "name": "table1",
    "category": "Props",
-   "bytes": 30472,
+   "bytes": 30612,
    "dims": [
     43.8,
     43.4,
@@ -10879,7 +10951,7 @@
    "file": "Props/Vehicles/taxi.glb",
    "name": "taxi",
    "category": "Props",
-   "bytes": 245268,
+   "bytes": 245408,
    "dims": [
     145.1,
     134.5,
@@ -10897,7 +10969,7 @@
    "file": "Props/Logos/teamicon.glb",
    "name": "teamicon",
    "category": "Props",
-   "bytes": 1336,
+   "bytes": 1480,
    "dims": [
     13.2,
     13.2,
@@ -10905,17 +10977,19 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/tischlampe.glb",
    "name": "tischlampe",
    "category": "Props",
-   "bytes": 114976,
+   "bytes": 115116,
    "dims": [
     17.8,
     32.4,
-    8.0
+    8
    ],
    "nodes": 1,
    "lods": 1,
@@ -10929,7 +11003,7 @@
    "file": "Props/toilet1.glb",
    "name": "toilet1",
    "category": "Props",
-   "bytes": 70832,
+   "bytes": 70976,
    "dims": [
     23.5,
     26.8,
@@ -10947,10 +11021,10 @@
    "file": "Props/tower_base1.glb",
    "name": "tower_base1",
    "category": "Props",
-   "bytes": 598964,
+   "bytes": 599108,
    "dims": [
     75.6,
-    52.0,
+    52,
     75.6
    ],
    "nodes": 1,
@@ -10965,10 +11039,10 @@
    "file": "Props/tower_base2.glb",
    "name": "tower_base2",
    "category": "Props",
-   "bytes": 569968,
+   "bytes": 570112,
    "dims": [
     75.6,
-    52.0,
+    52,
     75.6
    ],
    "nodes": 1,
@@ -10983,7 +11057,7 @@
    "file": "Props/trashbag1.glb",
    "name": "trashbag1",
    "category": "Props",
-   "bytes": 65732,
+   "bytes": 65872,
    "dims": [
     28.2,
     46.6,
@@ -11001,11 +11075,11 @@
    "file": "Props/trashbag2.glb",
    "name": "trashbag2",
    "category": "Props",
-   "bytes": 65736,
+   "bytes": 65876,
    "dims": [
     28.2,
     40.5,
-    24.0
+    24
    ],
    "nodes": 1,
    "lods": 1,
@@ -11019,7 +11093,7 @@
    "file": "Props/trashcan.glb",
    "name": "trashcan",
    "category": "Props",
-   "bytes": 75704,
+   "bytes": 75848,
    "dims": [
     21.4,
     21.4,
@@ -11037,7 +11111,7 @@
    "file": "Props/treestump.glb",
    "name": "treestump",
    "category": "Props",
-   "bytes": 1128888,
+   "bytes": 1129032,
    "dims": [
     44.2,
     23.2,
@@ -11055,7 +11129,7 @@
    "file": "Props/Plants/troptree_bb.glb",
    "name": "troptree_bb",
    "category": "Props",
-   "bytes": 1900,
+   "bytes": 2044,
    "dims": [
     121.4,
     121.4,
@@ -11063,15 +11137,17 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/turret_ceiling.glb",
    "name": "turret_ceiling",
    "category": "Props",
-   "bytes": 414760,
+   "bytes": 414904,
    "dims": [
-    53.0,
+    53,
     96.9,
     95.7
    ],
@@ -11088,7 +11164,7 @@
    "file": "Props/turret_wall.glb",
    "name": "turret_wall",
    "category": "Props",
-   "bytes": 288472,
+   "bytes": 288616,
    "dims": [
     52.7,
     95.7,
@@ -11106,11 +11182,11 @@
    "file": "Props/ventilator.glb",
    "name": "ventilator",
    "category": "Props",
-   "bytes": 87248,
+   "bytes": 87392,
    "dims": [
-    202.0,
-    202.0,
-    110.0
+    202,
+    202,
+    110
    ],
    "nodes": 2,
    "lods": 2,
@@ -11124,7 +11200,7 @@
    "file": "Props/Terminals/vortexap.glb",
    "name": "vortexap",
    "category": "Props",
-   "bytes": 819480,
+   "bytes": 819624,
    "dims": [
     92.2,
     64.8,
@@ -11142,7 +11218,7 @@
    "file": "Props/Terminals/vortexap_1.glb",
    "name": "vortexap_1",
    "category": "Props",
-   "bytes": 815228,
+   "bytes": 815372,
    "dims": [
     92.2,
     64.8,
@@ -11160,7 +11236,7 @@
    "file": "Props/Terminals/vortexap_2.glb",
    "name": "vortexap_2",
    "category": "Props",
-   "bytes": 774888,
+   "bytes": 775032,
    "dims": [
     82.5,
     7.2,
@@ -11178,7 +11254,7 @@
    "file": "Props/Terminals/vortexvolume.glb",
    "name": "vortexvolume",
    "category": "Props",
-   "bytes": 4832,
+   "bytes": 4972,
    "dims": [
     108.5,
     111.8,
@@ -11186,15 +11262,17 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "Props/Logos/vtx.glb",
    "name": "vtx",
    "category": "Props",
-   "bytes": 73840,
+   "bytes": 73984,
    "dims": [
-    32.0,
+    32,
     32.7,
     3.7
    ],
@@ -11210,11 +11288,11 @@
    "file": "Props/water_tower.glb",
    "name": "water_tower",
    "category": "Props",
-   "bytes": 1233996,
+   "bytes": 1234140,
    "dims": [
     51.5,
-    130.0,
-    47.0
+    130,
+    47
    ],
    "nodes": 1,
    "lods": 1,
@@ -11228,9 +11306,9 @@
    "file": "Props/weltzeituhr.glb",
    "name": "weltzeituhr",
    "category": "Props",
-   "bytes": 325024,
+   "bytes": 325164,
    "dims": [
-    126.0,
+    126,
     141.8,
     126.7
    ],
@@ -11246,7 +11324,7 @@
    "file": "Props/Plants/wft_fall.glb",
    "name": "wft_fall",
    "category": "Props",
-   "bytes": 153492,
+   "bytes": 153636,
    "dims": [
     82.5,
     94.9,
@@ -11264,7 +11342,7 @@
    "file": "Props/Plants/wft_spring_winter.glb",
    "name": "wft_spring_winter",
    "category": "Props",
-   "bytes": 78980,
+   "bytes": 79124,
    "dims": [
     65.7,
     78.4,
@@ -11282,7 +11360,7 @@
    "file": "Props/Plants/wft_summer.glb",
    "name": "wft_summer",
    "category": "Props",
-   "bytes": 151412,
+   "bytes": 151552,
    "dims": [
     65.1,
     77.3,
@@ -11300,11 +11378,11 @@
    "file": "Props/xmastree.glb",
    "name": "xmastree",
    "category": "Props",
-   "bytes": 170296,
+   "bytes": 170436,
    "dims": [
-    40.0,
-    40.0,
-    40.0
+    40,
+    40,
+    40
    ],
    "nodes": 1,
    "lods": 1,
@@ -11318,7 +11396,7 @@
    "file": "Props/Plants/yellow_mush.glb",
    "name": "yellow_mush",
    "category": "Props",
-   "bytes": 335552,
+   "bytes": 335696,
    "dims": [
     6.4,
     18.5,
@@ -11336,7 +11414,7 @@
    "file": "Props/Plants/yellowbroom.glb",
    "name": "yellowbroom",
    "category": "Props",
-   "bytes": 12888,
+   "bytes": 13032,
    "dims": [
     47.5,
     45.5,
@@ -11344,17 +11422,19 @@
    ],
    "nodes": 1,
    "lods": 1,
-   "game_category": "Props"
+   "game_category": "Props",
+   "textures": [],
+   "textured": false
   },
   {
    "file": "ranks/bos.glb",
    "name": "bos",
    "category": "ranks",
-   "bytes": 88628,
+   "bytes": 88768,
    "dims": [
     4.3,
     3.6,
-    0.0
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11368,11 +11448,11 @@
    "file": "ranks/cmg.glb",
    "name": "cmg",
    "category": "ranks",
-   "bytes": 93548,
+   "bytes": 93692,
    "dims": [
     4.3,
     4.3,
-    0.0
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11386,11 +11466,11 @@
    "file": "ranks/ec.glb",
    "name": "ec",
    "category": "ranks",
-   "bytes": 76472,
+   "bytes": 76616,
    "dims": [
     4.7,
-    4.0,
-    0.0
+    4,
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11404,11 +11484,11 @@
    "file": "ranks/fdc.glb",
    "name": "fdc",
    "category": "ranks",
-   "bytes": 105520,
+   "bytes": 105664,
    "dims": [
     3.4,
-    5.0,
-    0.0
+    5,
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11422,11 +11502,11 @@
    "file": "ranks/gom.glb",
    "name": "gom",
    "category": "ranks",
-   "bytes": 130340,
+   "bytes": 130484,
    "dims": [
-    4.0,
+    4,
     4.4,
-    0.0
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11440,11 +11520,11 @@
    "file": "ranks/led.glb",
    "name": "led",
    "category": "ranks",
-   "bytes": 92856,
+   "bytes": 92996,
    "dims": [
     4.8,
     3.6,
-    0.0
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11458,11 +11538,11 @@
    "file": "ranks/mob.glb",
    "name": "mob",
    "category": "ranks",
-   "bytes": 149536,
+   "bytes": 149680,
    "dims": [
     3.3,
     5.2,
-    0.0
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11476,11 +11556,11 @@
    "file": "ranks/vtx.glb",
    "name": "vtx",
    "category": "ranks",
-   "bytes": 68832,
+   "bytes": 68972,
    "dims": [
     4.3,
     3.6,
-    0.0
+    0
    ],
    "nodes": 1,
    "lods": 1,
@@ -11489,6 +11569,82 @@
    ],
    "textured": true,
    "game_category": "ranks"
+  },
+  {
+   "file": "Items/w1_hh2.glb",
+   "name": "Zanathid 5 Inflex (hh2)",
+   "category": "Items",
+   "bytes": 109920,
+   "weapon_id": "w1",
+   "game_category": "Weapons",
+   "dims": [
+    2.2,
+    8.7,
+    13.9
+   ],
+   "nodes": 3,
+   "lods": 3,
+   "textures": [
+    "w1_hh.dtx"
+   ],
+   "textured": true
+  },
+  {
+   "file": "Items/w3_hh2.glb",
+   "name": "RGI-9 (hh2)",
+   "category": "Items",
+   "bytes": 118856,
+   "weapon_id": "w3",
+   "game_category": "Weapons",
+   "dims": [
+    4.2,
+    12.7,
+    35.8
+   ],
+   "nodes": 3,
+   "lods": 3,
+   "textures": [
+    "w3_hh.dtx"
+   ],
+   "textured": true
+  },
+  {
+   "file": "Items/w4_hh2.glb",
+   "name": "Orbit XB Infineon (hh2)",
+   "category": "Items",
+   "bytes": 151336,
+   "weapon_id": "w4",
+   "game_category": "Weapons",
+   "dims": [
+    33.2,
+    15.6,
+    5.6
+   ],
+   "nodes": 3,
+   "lods": 3,
+   "textures": [
+    "w4_hh.dtx"
+   ],
+   "textured": true
+  },
+  {
+   "file": "Items/w9_hh2.glb",
+   "name": "Techtronic 6x6 (hh2)",
+   "category": "Items",
+   "bytes": 126296,
+   "weapon_id": "w9",
+   "game_category": "Weapons",
+   "dims": [
+    19.1,
+    10.2,
+    2.7
+   ],
+   "nodes": 3,
+   "lods": 3,
+   "textures": [
+    "w9_hh.dtx"
+   ],
+   "textured": true
   }
  ]
 }

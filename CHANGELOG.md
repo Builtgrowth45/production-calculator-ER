@@ -4,7 +4,18 @@ All notable public releases are documented here.
 
 ## [Unreleased]
 
-No unreleased public changes.
+### Fixed
+
+- The 3D model gallery manifest is regenerated from the GLBs on disk. Every
+  entry's recorded size was stale by the bytes `scripts/fix_model_handedness.py`
+  added when it rewrote the models, and four weapon variants (`w1_hh2`,
+  `w3_hh2`, `w4_hh2`, `w9_hh2`) were missing from the gallery entirely.
+
+### Added
+
+- `npm run models:manifest` rebuilds the model manifest and its ER Ops Console
+  copy from disk; `npm run models:check` (now part of `npm run check`) fails
+  when either has drifted.
 
 ## [1.3.0] — 2026-08-26
 
