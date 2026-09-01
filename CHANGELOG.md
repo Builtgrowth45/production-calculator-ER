@@ -1,21 +1,102 @@
 # Changelog
 
-All notable public releases are documented here.
+All notable changes to this project are documented here, newest first, in the
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) shape.
+
+**Two records live in this file.** Everything from `1.3.0` down is the
+*upstream* release history of `ChrisFromNEPA/production-calculator-ER`, kept
+verbatim — its links point at that repository's commits, releases, and CI runs,
+because that is where the evidence lives. Everything above it is *this fork's*
+record (`Builtgrowth45/production-calculator-ER`) and links here.
+
+This fork has cut no tagged release of its own yet, so all of its work sits
+under `[Unreleased]`.
 
 ## [Unreleased]
 
-### Fixed
-
-- The 3D model gallery manifest is regenerated from the GLBs on disk. Every
-  entry's recorded size was stale by the bytes `scripts/fix_model_handedness.py`
-  added when it rewrote the models, and four weapon variants (`w1_hh2`,
-  `w3_hh2`, `w4_hh2`, `w9_hh2`) were missing from the gallery entirely.
+Everything this fork has done since upstream `1.3.0`, whose evidence commit is
+[`c754cf5`](https://github.com/Builtgrowth45/production-calculator-ER/commit/c754cf5).
 
 ### Added
 
-- `npm run models:manifest` rebuilds the model manifest and its ER Ops Console
-  copy from disk; `npm run models:check` (now part of `npm run check`) fails
-  when either has drifted.
+- **ER Ops Console** — an exported static console (`er-ops-console/`: a single
+  `index.html` plus the data, maps, models, and three.js vendor files it
+  fetches at runtime), served from Vercel with no build step.
+- **Gear 1.10 tab** — a goal-driven gear explorer. A build-goal picker (armor,
+  stamina, health regen, bio regen, mobility) ranks the best craftable piece
+  per equipment slot; every card shows current-versus-proposed stat chips with
+  coloured deltas; the exact-stat profiles and affected-item lists are merged
+  behind profile/change tabs with shared filters; the planner summarises a
+  whole build with goal-score chips. Restricted to craftable gear via recipe
+  lookup. The former Gear tab became Gear 1.9 and sits adjacent to it in every
+  navigation surface.
+- **Faction emblems and the Duels & Cigars leaderboard** on the console
+  homepage — eight keyed faction logos (`assets/factions/<CODE>.webp`), and the
+  Field Notes panel replaced by a leaderboard shell.
+- **`npm test` runs through `scripts/guard-test-count.mjs`**, which enumerates
+  the test files explicitly, parses the reported count, and fails when zero
+  tests are discovered or the count cannot be read.
+- **`npm run models:manifest` / `npm run models:check`** rebuild the 3D model
+  manifest and its console copy from the GLBs on disk, and fail when either has
+  drifted. `models:check` is part of `npm run check`.
+- `.gitattributes` (`text=auto`, LF enforced for js/mjs/json/css/html).
+- Maintainer and refinement records: `docs/maintainer-audit-2026-08-28.md`,
+  `docs/calculator-refinements.md`, `docs/gear-110-refinements.md`.
+
+### Changed
+
+- Vercel serves the console bundle directly (`outputDirectory:
+  "er-ops-console"`, no install or build command).
+- Colony map assets are re-keyed to WebP with a real alpha channel and shrink
+  from 785 KB to 647 KB.
+- Offline shell cache advanced to `er-v0.2.39`.
+- The dead Comms tab and its lifecycle hooks are gone; no comms markup, assets,
+  or loader ever shipped.
+
+### Fixed
+
+- **`npm test` passed without running anything on Windows.** The quoted glob
+  was literal in `cmd.exe`, so the suite exited 0 having discovered zero tests.
+  The count guard now makes that state a failure.
+- **18 Windows-only test failures** from `new URL().pathname` being used as a
+  filesystem path, replaced with `fileURLToPath`.
+- **The 3D gallery manifest had drifted from the assets on disk.** Every one of
+  its 602 entries recorded a size 140–144 bytes short of the real file — the
+  delta `scripts/fix_model_handedness.py` adds when it rewrites a model — and
+  four weapon variants (`w1_hh2`, `w3_hh2`, `w4_hh2`, `w9_hh2`) were missing
+  from the gallery entirely.
+- **Calculator tab.** `copyShoppingList` used the wrong `compute()` argument
+  shape for single plans, so the chosen refinement path was ignored; it now
+  honours scratch mode and reports empty input. The accessibility announcement
+  read a selector that no longer existed, so the headline number never
+  announced or flashed. Path radios now mirror their live checked state in
+  `aria-checked`. Re-parsing the plan container restarted every animation on
+  each run. Sticky-header scroll anchoring, reduced-motion handling, and
+  several hover/focus states were corrected.
+- **Gear 1.10 slot model and presentation.** Stamina Amplification and Shield
+  Implant belong to the chest slot; Resistance Amp stays mutually exclusive
+  with leg armour. Raw balance-sheet keys (`biodamage`, `staminadamage`) no
+  longer leak into profile cards; proposed chips no longer repeat the base
+  value when the delta equals it; selected gear names are shown in full; stale
+  profile-gate toasts are cleared; the mobile Protection guide layout and a
+  duplicated slot icon are fixed; the explorer widens on large displays.
+- **Console landing page.** The preview image pointed at an unresolved design
+  asset id (404) and at `min(1600px, 96vw)`, dominating wide screens.
+- Player state is normalised so non-array entries become arrays and stale
+  profiles are removed when a player is deleted.
+- `package-lock.json` name and version match `package.json`; stale
+  `scripts/__pycache__` bytecode is untracked.
+
+### Verification
+
+- Local only. `npm test` passes 515/515; `npm run models:check` reports the
+  manifests in sync.
+- **No CI evidence exists for this fork.** GitHub Actions has produced zero
+  workflow runs here, so `ci.yml`, `codeql.yml`, and `pages.yml` have never
+  executed on these changes despite being configured to run on every pull
+  request. The upstream CI links below belong to `1.3.0` and earlier.
+- `npm run check` cannot complete in every environment: `build:3d` needs
+  `vite` installed.
 
 ## [1.3.0] — 2026-08-26
 
