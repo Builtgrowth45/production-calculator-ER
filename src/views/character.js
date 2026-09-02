@@ -5,7 +5,8 @@
  * m_Average_Studio.glb) and switches matching Torso1–4 / Legs1–4 geometry
  * and AVG clothing skins across every faction, plus gear visibility. Skins
  * live in models/skins/ as WebP (converted during private asset preparation)
- * with the variant index in models/character_skins.json. Declarations only —
+ * with the variant index in models/character_skins.json. Face, hair and
+ * skin-tone maps come from models/character_parts.json. Declarations only —
  * DOM wiring happens in app-init.js hooks (wireCharacterStudioEvents).
  */
 'use strict';
@@ -20,6 +21,8 @@
   let studioGroup = null;           // loaded body THREE.Group
   let studioClothing = {};          // slot -> {meshes:{style:mesh}, mesh, style, file}
   let studioGear = [];              // [{name, mesh}]
+  let studioParts = null;           // character_parts.json
+  let studioAppearance = {};        // part -> {mesh, shape, file}
   let studioGltf = null;            // raw gltf object (export)
   let studioGlbInfo = null;         // {json, bin, imageIdx:{Torso,L Legs}} (export)
 
@@ -66,7 +69,11 @@
       .then(function (data) {
         studioManifest = data;
         populateStudioFactions();
-        loadStudioBody();
+        return fetch('models/character_parts.json')
+          .then(function (r) { return r.json(); })
+          .then(function (parts) { studioParts = parts; })
+          .catch(function () { studioParts = null; })   // appearance picks stay hidden
+          .then(function () { loadStudioBody(); });
       })
       .catch(function () {
         var el = document.getElementById('studio-hint');
@@ -182,6 +189,7 @@
     }
     studioClothing = {};
     studioGear = [];
+    studioAppearance = {};
     studioGltf = null;
     studioGlbInfo = null;
     sBaked = {};
@@ -252,11 +260,19 @@
           if (!studioClothing[slot]) studioClothing[slot] = { meshes: {}, mesh: null, style: null, file: null };
           studioClothing[slot].meshes[Number(match[2])] = o;
           o.visible = false;
-        } else studioGear.push({ name: n, mesh: o });
+          return;
+        }
+        // Face/Hair/Hands carry the shape number in the node name. Only the
+        // shapes the body actually ships can be re-skinned, because a texture
+        // belongs to one mesh's UV layout.
+        var part = n.match(/^(Face|Hair|Hands)(\d+)$/);
+        if (part) studioAppearance[part[1]] = { mesh: o, shape: part[2], file: null };
+        studioGear.push({ name: n, mesh: o });
       });
 
       renderStudioGearGrid();
       populateStudioSlots();
+      populateStudioAppearance();
       applyStudioSkins();
       updateStudioName();
       fitStudioCamera();
@@ -321,7 +337,63 @@
       var e = studioClothing[slot];
       if (e && e.file) parts.push(slot + ' ' + e.file.replace(/^[fm]_AVG_/, '').replace(/\.webp$/, ''));
     });
+    STUDIO_APPEARANCE_PARTS.forEach(function (part) {
+      var a = studioAppearance[part];
+      if (a && a.file) parts.push(a.file.replace(/^.*\//, '').replace(/\.png$/, ''));
+    });
     el.textContent = parts.join(' · ');
+  }
+
+  // ────────────────────────────────────────────────────────────────────────
+  // § APPEARANCE (face, hair, skin tone)
+  // ────────────────────────────────────────────────────────────────────────
+
+  var STUDIO_APPEARANCE_PARTS = ['Face', 'Hair', 'Hands'];
+
+  // Variants that fit the mesh this body actually has. A body carrying Face2
+  // can wear any f_Face2_* map and none of the others, so an absent shape
+  // yields an empty list and its control is hidden rather than lying.
+  function studioAppearanceOptions(part) {
+    var slot = studioAppearance[part];
+    var byGender = studioParts && studioParts.parts && studioParts.parts[studioGender];
+    if (!slot || !byGender || !byGender[part]) return [];
+    return byGender[part][slot.shape] || [];
+  }
+
+  function populateStudioAppearance() {
+    STUDIO_APPEARANCE_PARTS.forEach(function (part) {
+      var sel = document.getElementById('studio-' + part.toLowerCase());
+      var wrap = document.getElementById('studio-' + part.toLowerCase() + '-row');
+      if (!sel) return;
+      var options = studioAppearanceOptions(part);
+      if (wrap) wrap.hidden = options.length === 0;
+      if (!options.length) { sel.innerHTML = ''; return; }
+      sel.innerHTML = options.map(function (o) {
+        return '<option value="' + o.file + '">' + o.label + '</option>';
+      }).join('');
+      var current = studioAppearance[part].file;
+      var keep = current && options.some(function (o) { return o.file === current; });
+      var pick = keep ? current : options[0].file;
+      sel.value = pick;
+      applyStudioPart(part, pick);
+    });
+  }
+
+  function applyStudioPart(part, file) {
+    var slot = studioAppearance[part];
+    if (!slot || !slot.mesh || !file) return;
+    slot.file = file;
+    getStudioTexture(file, function (tex) {
+      if (slot.file !== file) return;            // a later pick won the race
+      var mats = Array.isArray(slot.mesh.material) ? slot.mesh.material : [slot.mesh.material];
+      mats.forEach(function (mt) {
+        tex.encoding = mt.map ? mt.map.encoding : THREE.sRGBEncoding;
+        tex.flipY = mt.map ? mt.map.flipY : false;
+        mt.map = tex;
+        mt.needsUpdate = true;
+      });
+      updateStudioName();
+    });
   }
 
   // ────────────────────────────────────────────────────────────────────────
@@ -500,6 +572,11 @@
     });
     document.getElementById('studio-legs')?.addEventListener('change', function (e) {
       applyStudioSkin('Legs', e.target.value);
+    });
+    STUDIO_APPEARANCE_PARTS.forEach(function (part) {
+      document.getElementById('studio-' + part.toLowerCase())?.addEventListener('change', function (e) {
+        applyStudioPart(part, e.target.value);
+      });
     });
     document.getElementById('studio-gear-grid')?.addEventListener('change', setStudioGearVisibility);
     document.getElementById('studio-autorotate')?.addEventListener('click', function () {

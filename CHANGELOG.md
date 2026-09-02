@@ -19,6 +19,21 @@ Everything this fork has done since upstream `1.3.0`, whose evidence commit is
 
 ### Added
 
+- **Character appearance is chosen, not rolled, on both character screens.**
+  The ER Ops Console panel had MALE/FEMALE and faction tabs and a ⟳ RANDOMIZE
+  button; every other part of the character was randomised and unreachable. It
+  now has FACE, HAIR, SKIN, TOP, LEGS and STYLE pickers, and picking one part
+  leaves the rest of the roll alone. Skin tone is its own choice: it used to be
+  inferred from the face index, where face 21 silently meant dark skin.
+- **Face, hair and skin-tone selection in the Character Studio.** The studio
+  could already choose gender, faction, torso and legs; it now also picks the
+  face map, the hair map and the bare-skin tone. `models/character_parts.json`
+  (built by `npm run parts:manifest`, guarded by `npm run parts:check`) indexes
+  the head, hair and skin textures that were already in `textures_extracted/`
+  but had never been wired to anything — the manifest's `Head` group was empty.
+  A control appears only for a part the loaded body actually carries, and only
+  offers maps belonging to that mesh's shape, because a face or hair texture
+  fits one mesh's UV layout and not another's.
 - **ER Ops Console** — an exported static console (`er-ops-console/`: a single
   `index.html` plus the data, maps, models, and three.js vendor files it
   fetches at runtime), served from Vercel with no build step.
@@ -57,7 +72,7 @@ Everything this fork has done since upstream `1.3.0`, whose evidence commit is
   original creator's credit is kept in `AUTHORS.md` and the README, and the MIT
   copyright notice is unchanged — a fork does not reassign it. The README's
   v1.3.0 link still points upstream, where that release actually lives.
-- Offline shell cache advanced to `er-v0.2.41`.
+- Offline shell cache advanced to `er-v0.2.42`.
 - Vercel serves the console bundle directly (`outputDirectory:
   "er-ops-console"`, no install or build command).
 - Colony map assets are re-keyed to WebP with a real alpha channel and shrink
