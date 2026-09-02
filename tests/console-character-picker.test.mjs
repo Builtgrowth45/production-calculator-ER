@@ -126,12 +126,38 @@ describe('ER Ops Console character picker', () => {
     assert.match(appCode, /onMeFaction: \(e\) => \{ this\._savePlayer\(\{ faction: e\.target\.value \}\)/);
   });
 
+  it('leaves only the character model on the Gear loadout tab', () => {
+    // The Gear card carried a full duplicate of the editor above its viewer.
+    // Editing belongs on My Character; Gear just shows who you built.
+    const from = inner.indexOf('grid-column: 3; grid-row: 1 / span 2');
+    assert.ok(from > 0, 'Gear character card not found');
+    const gearCard = inner.slice(from, from + 3000);
+    assert.ok(gearCard.includes('{{ charViewerRef }}'), 'Gear card lost the 3D viewer');
+    for (const control of ['{{ charSexTabs }}', '{{ charFaceShapeTabs }}', '{{ charGlassesTabs }}',
+      '{{ charStyleTabs }}', '{{ charReroll }}']) {
+      assert.ok(!gearCard.includes(control), `${control} still on the Gear card`);
+    }
+
+    // ...and every one of them is still reachable on My Character.
+    const me = inner.slice(inner.indexOf('{{ tabMe }}'), inner.indexOf('{{ tabCalc }}'));
+    for (const control of [...PICKERS, 'charSexTabs', 'charReroll']) {
+      assert.ok(me.includes(`{{ ${control} }}`), `${control} missing from My Character`);
+    }
+    assert.ok(me.includes('{{ charViewerRef }}'), 'My Character lost the 3D viewer');
+    // Faction there is the select that saves onto the player record, so the
+    // Gear card's chip row was a second, non-persisting way to set it.
+    assert.ok(me.includes('{{ meFaction }}') && me.includes('{{ onMeFaction }}'));
+    assert.equal(inner.split('{{ charFactionTabs }}').length - 1, 0, 'charFactionTabs is bound nowhere');
+    assert.ok(!appCode.includes('charFactionTabs:'), 'charFactionTabs computed but unused');
+  });
+
   it('never generates sunglasses, and makes them a pick', () => {
     // They used to appear on a quarter of rolls with no way to take them off.
     assert.match(appCode, /roll\._glasses = false;/);
     assert.doesNotMatch(appCode, /roll\._glasses = Math\.random\(\)/);
     assert.match(appCode, /charGlassesTabs: \[\['', 'OFF'\], \['1', 'ON'\]\]/);
-    assert.equal(inner.split('{{ charGlassesTabs }}').length - 1, 2, 'GLASSES missing from a row');
+    // One row only: the controls live on the My Character tab, not the Gear card.
+    assert.equal(inner.split('{{ charGlassesTabs }}').length - 1, 1, 'GLASSES missing from the row');
     assert.ok(inner.includes('>GLASSES<'));
   });
 
