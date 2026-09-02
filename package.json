@@ -20,9 +20,11 @@
     "assets:report": "node scripts/check-assets.mjs --report-only",
     "models:manifest": "node scripts/build-model-manifest.mjs",
     "models:check": "node scripts/build-model-manifest.mjs --check",
+    "parts:manifest": "node scripts/build-character-parts.mjs",
+    "parts:check": "node scripts/build-character-parts.mjs --check",
     "build:pages": "npm run build:3d && node scripts/build-pages.mjs",
     "build": "npm run build:pages",
-    "check": "npm test && npm run models:check && npm run build && npm run test:baseline"
+    "check": "npm test && npm run models:check && npm run parts:check && npm run build && npm run test:baseline"
   },
   "repository": {
     "type": "git",
