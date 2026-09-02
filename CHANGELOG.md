@@ -19,6 +19,12 @@ Everything this fork has done since upstream `1.3.0`, whose evidence commit is
 
 ### Added
 
+- **Character appearance is chosen, not rolled, on both character screens.**
+  The ER Ops Console panel had MALE/FEMALE and faction tabs and a ⟳ RANDOMIZE
+  button; every other part of the character was randomised and unreachable. It
+  now has FACE, HAIR, SKIN, TOP, LEGS and STYLE pickers, and picking one part
+  leaves the rest of the roll alone. Skin tone is its own choice: it used to be
+  inferred from the face index, where face 21 silently meant dark skin.
 - **Face, hair and skin-tone selection in the Character Studio.** The studio
   could already choose gender, faction, torso and legs; it now also picks the
   face map, the hair map and the bare-skin tone. `models/character_parts.json`
