@@ -1,8 +1,14 @@
 # Contributors and attribution
 
-## Creator
+## Maintainer
 
-- **ChrisFromNEPA** — original calculator creator and maintainer.
+- **Dain Solitaire** (BuiltGrowth) — maintainer of this fork.
+
+## Original creator
+
+- **ChrisFromNEPA** — created the original calculator and maintained it through
+  release 1.3.0, which this fork builds on. The MIT licence and its copyright
+  notice are unchanged.
 
 ## Contributors
 

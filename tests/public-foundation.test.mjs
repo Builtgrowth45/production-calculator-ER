@@ -58,7 +58,7 @@ test('Pages build contract and neutral public shell metadata exist', () => {
 
 test('public package metadata targets the ER repository and Pages site', () => {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
-  assert.equal(pkg.repository.url, 'git+https://github.com/ChrisFromNEPA/production-calculator-ER.git');
-  assert.equal(pkg.homepage, 'https://chrisfromnepa.github.io/production-calculator-ER/');
+  assert.equal(pkg.repository.url, 'git+https://github.com/Builtgrowth45/production-calculator-ER.git');
+  assert.equal(pkg.homepage, 'https://builtgrowth45.github.io/production-calculator-ER/');
   assert.equal(pkg.license, 'MIT');
 });

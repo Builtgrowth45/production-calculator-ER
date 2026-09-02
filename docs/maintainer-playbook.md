@@ -4,7 +4,7 @@ This document is the operating guide for the Empire Rising Production Calculator
 
 ## Ownership and boundaries
 
-- **Repository owner:** `@ChrisFromNEPA`
+- **Repository owner:** `@Builtgrowth45` (Dain Solitaire, BuiltGrowth)
 - **Production:** the GitHub Pages site built from `main`
 - **Source of truth:** tracked source files, canonical data, scripts, and provenance records—not `dist/` or generated runtime bundles
 - **Application boundary:** static, client-side, local-first; do not add accounts, secrets, shared inventories, analytics, or a remote database without an explicit design review
@@ -72,9 +72,9 @@ If production is broken, stop further merges, identify the last known-good commi
 
 ```bash
 # Repository and workflow status
-gh repo view ChrisFromNEPA/production-calculator-ER
-gh run list -R ChrisFromNEPA/production-calculator-ER --limit 20
-gh issue list -R ChrisFromNEPA/production-calculator-ER --state open
+gh repo view Builtgrowth45/production-calculator-ER
+gh run list -R Builtgrowth45/production-calculator-ER --limit 20
+gh issue list -R Builtgrowth45/production-calculator-ER --state open
 
 # Local verification
 npm run check

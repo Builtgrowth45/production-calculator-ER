@@ -18,13 +18,15 @@
     "test:budgets": "npm run build:3d && node --test tests/performance-budgets.test.mjs",
     "assets:check": "node scripts/check-assets.mjs",
     "assets:report": "node scripts/check-assets.mjs --report-only",
+    "models:manifest": "node scripts/build-model-manifest.mjs",
+    "models:check": "node scripts/build-model-manifest.mjs --check",
     "build:pages": "npm run build:3d && node scripts/build-pages.mjs",
     "build": "npm run build:pages",
-    "check": "npm test && npm run build && npm run test:baseline"
+    "check": "npm test && npm run models:check && npm run build && npm run test:baseline"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ChrisFromNEPA/production-calculator-ER.git"
+    "url": "git+https://github.com/Builtgrowth45/production-calculator-ER.git"
   },
   "keywords": [
     "empire-rising",
@@ -33,12 +35,12 @@
     "offline-first",
     "pwa"
   ],
-  "author": "ChrisFromNEPA and community contributors",
+  "author": "Dain Solitaire (BuiltGrowth), after ChrisFromNEPA and community contributors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ChrisFromNEPA/production-calculator-ER/issues"
+    "url": "https://github.com/Builtgrowth45/production-calculator-ER/issues"
   },
-  "homepage": "https://chrisfromnepa.github.io/production-calculator-ER/",
+  "homepage": "https://builtgrowth45.github.io/production-calculator-ER/",
   "dependencies": {
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
