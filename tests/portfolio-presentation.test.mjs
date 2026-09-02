@@ -15,8 +15,8 @@ const pkg = JSON.parse(read('package.json'));
 const sw = read('sw.js');
 const escapeRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-const REPOSITORY_URL = 'https://github.com/ChrisFromNEPA/production-calculator-ER';
-const PAGES_URL = 'https://chrisfromnepa.github.io/production-calculator-ER/';
+const REPOSITORY_URL = 'https://github.com/Builtgrowth45/production-calculator-ER';
+const PAGES_URL = 'https://builtgrowth45.github.io/production-calculator-ER/';
 const SCREENSHOT_URL = `${PAGES_URL}docs/assets/calculator-sample.png`;
 
 describe('employer-facing public presentation', () => {
@@ -42,7 +42,7 @@ describe('employer-facing public presentation', () => {
   it('keeps the portfolio screenshot in the Pages artifact and the service-worker version current', () => {
     assert.equal(existsSync(join(root, 'docs/assets/calculator-sample.png')), true);
     assert.match(buildPages, /docs\/assets\/calculator-sample\.png/);
-    assert.match(sw, /const CACHE = 'er-v0\.2\.40'/);
+    assert.match(sw, /const CACHE = 'er-v0\.2\.41'/);
   });
 
   it('keeps the project intro bounded and usable at mobile widths', () => {
@@ -62,7 +62,7 @@ describe('employer-facing public presentation', () => {
       '## Known limitations and roadmap',
       '## License and asset notice',
     ]) assert.match(readme, new RegExp(`^${heading}$`, 'm'));
-    assert.match(readme, /releases\/tag\/v1\.3\.0/);
+    assert.match(readme, /ChrisFromNEPA\/production-calculator-ER\/releases\/tag\/v1\.3\.0/);
     assert.match(readme, /docs\/assets\/calculator-sample\.png/);
     assert.match(readme, /npm run check/);
     assert.match(readme, /npm run test:browser-ux/);
@@ -70,8 +70,11 @@ describe('employer-facing public presentation', () => {
   });
 
   it('uses only the authorized public identity in current-tree attribution', () => {
-    assert.equal(pkg.author, 'ChrisFromNEPA and community contributors');
+    assert.equal(pkg.author, 'Dain Solitaire (BuiltGrowth), after ChrisFromNEPA and community contributors');
+    // The fork's maintainer is named, and the original creator's credit survives.
+    assert.match(authors, /\*\*Dain Solitaire\*\* \(BuiltGrowth\)/);
     assert.match(authors, /ChrisFromNEPA/);
+    // The MIT copyright holder is unchanged: a fork does not reassign it.
     assert.match(license, /Copyright \(c\) 2026 ChrisFromNEPA and community contributors/);
   });
 });

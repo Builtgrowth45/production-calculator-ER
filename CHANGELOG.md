@@ -45,11 +45,23 @@ Everything this fork has done since upstream `1.3.0`, whose evidence commit is
 
 ### Changed
 
+- **The ER Ops Console now loads its assets from this fork.** Its CDN base was
+  pinned to `cdn.jsdelivr.net/gh/ChrisFromNEPA/production-calculator-ER@main`,
+  so the deployed console served the upstream repository's models, icons, and
+  textures — nothing this fork changed could ever reach it. It now points at
+  `Builtgrowth45/production-calculator-ER@main`.
+- **Ownership and links point at this fork.** The calculator's About panel, its
+  social metadata, `package.json` (repository, bugs, homepage, author), the
+  README, `CODEOWNERS`, the issue-template contact links, and the maintainer
+  playbook now name Dain Solitaire (BuiltGrowth) and this repository. The
+  original creator's credit is kept in `AUTHORS.md` and the README, and the MIT
+  copyright notice is unchanged — a fork does not reassign it. The README's
+  v1.3.0 link still points upstream, where that release actually lives.
+- Offline shell cache advanced to `er-v0.2.41`.
 - Vercel serves the console bundle directly (`outputDirectory:
   "er-ops-console"`, no install or build command).
 - Colony map assets are re-keyed to WebP with a real alpha channel and shrink
   from 785 KB to 647 KB.
-- Offline shell cache advanced to `er-v0.2.39`.
 - The dead Comms tab and its lifecycle hooks are gone; no comms markup, assets,
   or loader ever shipped.
 

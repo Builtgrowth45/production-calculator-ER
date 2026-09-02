@@ -2,19 +2,19 @@
 
 > A browser-local, offline-capable planner that turns an Empire Rising target item into a practical production route.
 
-[**Open the live calculator →**](https://chrisfromnepa.github.io/production-calculator-ER/)
+[**Open the live calculator →**](https://builtgrowth45.github.io/production-calculator-ER/)
 
-[**Latest release: v1.3.0 →**](https://github.com/ChrisFromNEPA/production-calculator-ER/releases/tag/v1.3.0)
+[**Upstream release this fork builds on: v1.3.0 →**](https://github.com/ChrisFromNEPA/production-calculator-ER/releases/tag/v1.3.0)
 
-[![CI](https://github.com/ChrisFromNEPA/production-calculator-ER/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ChrisFromNEPA/production-calculator-ER/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/ChrisFromNEPA/production-calculator-ER/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/ChrisFromNEPA/production-calculator-ER/actions/workflows/codeql.yml)
-[![GitHub Pages](https://github.com/ChrisFromNEPA/production-calculator-ER/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/ChrisFromNEPA/production-calculator-ER/actions/workflows/pages.yml)
+[![CI](https://github.com/Builtgrowth45/production-calculator-ER/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Builtgrowth45/production-calculator-ER/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Builtgrowth45/production-calculator-ER/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Builtgrowth45/production-calculator-ER/actions/workflows/codeql.yml)
+[![GitHub Pages](https://github.com/Builtgrowth45/production-calculator-ER/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/Builtgrowth45/production-calculator-ER/actions/workflows/pages.yml)
 
 ![Fictional sample production plan for an Emergency Medikit](docs/assets/calculator-sample.png)
 
 > **Independent community project.** This project is not officially affiliated with, sponsored by, or endorsed by the Empire Rising development team or publisher.
 
-Maintained under the public handle **ChrisFromNEPA** with community contributors.
+Maintained by **Dain Solitaire** (BuiltGrowth), building on the original calculator by **ChrisFromNEPA** and community contributors.
 
 ## Why it exists
 
@@ -109,7 +109,7 @@ ownership feeds.
 
 ## Usage
 
-1. Open the [live calculator](https://chrisfromnepa.github.io/production-calculator-ER/).
+1. Open the [live calculator](https://builtgrowth45.github.io/production-calculator-ER/).
 2. Enter your character name and choose a faction, or leave the profile **Unaffiliated**.
 3. Select **Create player and start**.
 4. Search for the item you want to produce.
@@ -284,7 +284,7 @@ Useful references:
 ### Install and run
 
 ```bash
-git clone https://github.com/ChrisFromNEPA/production-calculator-ER.git
+git clone https://github.com/Builtgrowth45/production-calculator-ER.git
 cd production-calculator-ER
 npm ci
 npm run local:host
@@ -376,13 +376,13 @@ Before opening a pull request:
 5. Include screenshots or browser verification notes for visible UI changes.
 6. Never commit credentials, private inventories, Discord exports, or personal information.
 
-Issues: <https://github.com/ChrisFromNEPA/production-calculator-ER/issues>
+Issues: <https://github.com/Builtgrowth45/production-calculator-ER/issues>
 
 ## Deployment
 
 GitHub Actions builds the public artifact from a clean checkout and deploys only the staged `dist/` output to GitHub Pages. The production site tracks `main`:
 
-<https://chrisfromnepa.github.io/production-calculator-ER/>
+<https://builtgrowth45.github.io/production-calculator-ER/>
 
 A release is not considered verified merely because a push succeeded. The exact commit must pass CI and CodeQL, complete the Pages deployment, and be checked on the live site. Deployment evidence is maintained in [docs/release-qa.md](docs/release-qa.md).
 

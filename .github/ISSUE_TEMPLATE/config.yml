@@ -1,8 +1,8 @@
 blank_issues_enabled: true
 contact_links:
   - name: Public player guide
-    url: https://github.com/ChrisFromNEPA/production-calculator-ER/blob/main/docs/public-player-guide.md
+    url: https://github.com/Builtgrowth45/production-calculator-ER/blob/main/docs/public-player-guide.md
     about: Learn the calculator workflow, inventory/add-stock flow, exports, and local-first boundaries before opening an issue.
   - name: Security vulnerability
-    url: https://github.com/ChrisFromNEPA/production-calculator-ER/security/advisories/new
+    url: https://github.com/Builtgrowth45/production-calculator-ER/security/advisories/new
     about: Report security issues privately; do not include secrets or personal data in public issues.

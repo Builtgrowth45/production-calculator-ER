@@ -66,6 +66,7 @@ header:has(.settings-menu[open]) { position: relative; z-index: 300; }
   font: 700 clamp(1rem, 2vw, 1.35rem)/1.25 Orbitron, sans-serif;
 }
 .project-intro p { margin: 0; color: var(--muted); font-size: .72rem; line-height: 1.55; max-width: 70ch; }
+.project-intro-credit { margin-top: .45rem !important; font-size: .68rem; opacity: .85; }
 .project-intro-link {
   display: inline-flex;
   flex: 0 0 auto;
