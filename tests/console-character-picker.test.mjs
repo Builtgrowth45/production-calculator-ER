@@ -33,7 +33,7 @@ const FACES = [1, 6, 7, 8, 9, 21, 24];
 const HAIR = [1, 2, 3];
 const TONES = ['Black', 'White'];
 const PICKERS = ['charFaceTabs', 'charHairTabs', 'charSkinTabs', 'charTopTabs', 'charLegsTabs', 'charStyleTabs',
-  'charFaceShapeTabs', 'charHairShapeTabs'];
+  'charFaceShapeTabs', 'charHairShapeTabs', 'charGlassesTabs'];
 
 describe('ER Ops Console character picker', () => {
   it('keeps the embedded document and app code parseable', () => {
@@ -124,6 +124,47 @@ describe('ER Ops Console character picker', () => {
     assert.match(appCode, /meNameSave: \(\) => \{/);
     assert.match(appCode, /if \(name\.length < 2\) return;/);
     assert.match(appCode, /onMeFaction: \(e\) => \{ this\._savePlayer\(\{ faction: e\.target\.value \}\)/);
+  });
+
+  it('never generates sunglasses, and makes them a pick', () => {
+    // They used to appear on a quarter of rolls with no way to take them off.
+    assert.match(appCode, /roll\._glasses = false;/);
+    assert.doesNotMatch(appCode, /roll\._glasses = Math\.random\(\)/);
+    assert.match(appCode, /charGlassesTabs: \[\['', 'OFF'\], \['1', 'ON'\]\]/);
+    assert.equal(inner.split('{{ charGlassesTabs }}').length - 1, 2, 'GLASSES missing from a row');
+    assert.ok(inner.includes('>GLASSES<'));
+  });
+
+  it('offers all four torso garments, not just the two shirts', () => {
+    assert.match(appCode, /charTopTabs: \[1, 2, 3, 4\]/);
+    // The clamp that folded 3 and 4 back onto 1 and 2 is gone.
+    assert.match(appCode, /_chestVar\(\) \{ const v = .*return \(\(v - 1\) % 4\) \+ 1; \}/);
+    assert.doesNotMatch(appCode, /return \(\(v - 1\) % 2\) \+ 1;/);
+  });
+
+  it('offers as many clothing styles as the garment and faction actually have', () => {
+    // Was a hardcoded six regardless of how many skins existed.
+    assert.match(appCode, /charStyleTabs: this\._texList\('Torso' \+ this\._chestVar\(\)\)\.map/);
+    assert.doesNotMatch(appCode, /charStyleTabs: \[0, 1, 2, 3, 4, 5\]/);
+    // _texList is the shared list; _texFor still resolves one entry from it.
+    assert.match(appCode, /_texList\(meshName\) \{/);
+    assert.match(appCode, /const list = this\._texList\(meshName\);/);
+  });
+
+  it('bundles the part index so a CDN miss cannot collapse the pickers', () => {
+    const bundled = path.join(consoleDir, 'models', 'character_parts.json');
+    assert.ok(fs.existsSync(bundled), 'console copy of character_parts.json missing');
+    const local = JSON.parse(fs.readFileSync(bundled, 'utf8'));
+    const source = JSON.parse(fs.readFileSync(path.join(root, 'models', 'character_parts.json'), 'utf8'));
+    assert.deepEqual(local, source, 'console copy has drifted from the source index');
+    // Local first, CDN second, and a recorded failure rather than a silent one.
+    assert.match(appCode, /fetch\('models\/character_parts\.json'\)/);
+    assert.match(appCode, /\.catch\(\(\) => fetch\(this\.REMOTE \+ 'models\/character_parts\.json'\)/);
+    assert.match(appCode, /charPartsFailed: true/);
+    // And it really carries every shape, so the pickers have something to show.
+    assert.equal(Object.keys(local.parts.f.Face).length, 4);
+    assert.equal(Object.keys(local.parts.f.Hair).length, 13);
+    assert.equal(Object.keys(local.parts.m.Hair).length, 13);
   });
 
   it('only offers faces, hair and tones the console actually ships', () => {

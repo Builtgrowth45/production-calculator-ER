@@ -19,6 +19,23 @@ Everything this fork has done since upstream `1.3.0`, whose evidence commit is
 
 ### Added
 
+### Fixed
+
+- **Sunglasses are never generated.** A quarter of rolls added them with no
+  control to take them off; they are now an explicit GLASSES OFF/ON pick,
+  defaulting to off.
+- **All four torso garments are wearable.** The picker offered two: a clamp
+  folded styles 3 and 4 back onto 1 and 2, hiding the long coat and the robe,
+  both of which exist as meshes for either gender.
+- **Clothing styles are no longer capped at six.** The STYLE row was a fixed
+  list of six regardless of how many skins the garment and faction actually
+  had — up to 18 for some. It is now built from the real list.
+- **The console bundles the character part index.** It read
+  `models/character_parts.json` only over the CDN, so a miss silently collapsed
+  the face and hair pickers back to the ten bundled maps. The console now ships
+  its own copy, reads that first, falls back to the CDN, and records a failure
+  instead of swallowing it. `npm run parts:check` guards both copies.
+
 - **A "My Character" tab, first in the console nav, that takes the character's
   name.** Naming, faction, body, face shape and map, hair style and map, skin
   tone, top, legs and clothing style all live there, with the 3D character
