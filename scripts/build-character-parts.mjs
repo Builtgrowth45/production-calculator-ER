@@ -22,6 +22,10 @@ import path from 'node:path';
 
 const root = process.cwd();
 const out = path.join(root, 'models', 'character_parts.json');
+// The ER Ops Console is deployed straight from its own folder and reads this
+// index to build its face and hair pickers. It kept its own copy so a CDN
+// miss cannot silently collapse those pickers to the bundled maps.
+const mirrors = [path.join(root, 'er-ops-console', 'models', 'character_parts.json')];
 
 // Where each part's textures live, and how to label them for a player.
 const SOURCES = [
@@ -66,15 +70,19 @@ function build() {
 const manifest = build();
 const text = `${JSON.stringify(manifest, null, 1)}\n`;
 
+const targets = [out, ...mirrors];
+
 if (process.argv.includes('--check')) {
-  if (!fs.existsSync(out) || fs.readFileSync(out, 'utf8') !== text) {
-    console.error('[build-character-parts] models/character_parts.json is stale.');
+  const stale = targets.filter(file => !fs.existsSync(file) || fs.readFileSync(file, 'utf8') !== text);
+  if (stale.length) {
+    console.error('[build-character-parts] stale:');
+    for (const file of stale) console.error(`  ${path.relative(root, file)}`);
     console.error('Run `npm run parts:manifest` to regenerate.');
     process.exit(1);
   }
-  console.log('[build-character-parts] character part index in sync');
+  console.log(`[build-character-parts] character part index in sync (${targets.length} copies)`);
 } else {
-  fs.writeFileSync(out, text);
+  for (const file of targets) fs.writeFileSync(file, text);
   const counts = Object.entries(manifest.parts).map(([g, p]) =>
     `${g}: ${Object.entries(p).map(([k, v]) => `${k}×${Object.keys(v).length} shapes`).join(', ')}`);
   console.log(`[build-character-parts] wrote ${out.replace(`${root}/`, '')}\n  ${counts.join('\n  ')}`);
