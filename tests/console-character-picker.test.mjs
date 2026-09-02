@@ -32,7 +32,8 @@ const appCode = (() => {
 const FACES = [1, 6, 7, 8, 9, 21, 24];
 const HAIR = [1, 2, 3];
 const TONES = ['Black', 'White'];
-const PICKERS = ['charFaceTabs', 'charHairTabs', 'charSkinTabs', 'charTopTabs', 'charLegsTabs', 'charStyleTabs'];
+const PICKERS = ['charFaceTabs', 'charHairTabs', 'charSkinTabs', 'charTopTabs', 'charLegsTabs', 'charStyleTabs',
+  'charFaceShapeTabs', 'charHairShapeTabs'];
 
 describe('ER Ops Console character picker', () => {
   it('keeps the embedded document and app code parseable', () => {
@@ -44,7 +45,8 @@ describe('ER Ops Console character picker', () => {
 
   it('renders a control for every appearance part', () => {
     for (const list of PICKERS) {
-      assert.equal(inner.split(`{{ ${list} }}`).length - 1, 1, `${list} not bound once in the template`);
+      const bound = inner.split(`{{ ${list} }}`).length - 1;
+      assert.ok(bound >= 1, `${list} not bound in the template`);
       assert.match(appCode, new RegExp(`${list}:`), `${list} not computed`);
     }
     for (const label of ['FACE', 'HAIR', 'SKIN', 'TOP', 'LEGS', 'STYLE']) {
@@ -55,10 +57,15 @@ describe('ER Ops Console character picker', () => {
   it('changes only the part that was picked', () => {
     // _setRoll merges into the existing roll, so choosing a face must not
     // reshuffle the outfit the way ⟳ RANDOMIZE does.
-    assert.match(appCode, /_setRoll\(patch\) \{ this\.setState\(\{ charRoll: Object\.assign\(\{\}, this\.state\.charRoll \|\| \{\}, patch\) \}\); \}/);
-    for (const list of PICKERS) {
+    assert.match(appCode, /const roll = Object\.assign\(\{\}, this\.state\.charRoll \|\| \{\}, patch\);/);
+    for (const list of PICKERS.filter((name) => !name.includes('Shape'))) {
       const body = appCode.slice(appCode.indexOf(`${list}:`));
-      assert.match(body.slice(0, 260), /this\._setRoll\(/, `${list} should pick, not re-roll`);
+      assert.match(body.slice(0, 320), /this\._setRoll\(|this\._variantTabs\(/, `${list} should pick, not re-roll`);
+    }
+    // Both shape and variant builders go through _setRoll too.
+    for (const helper of ['_shapeTabs', '_variantTabs']) {
+      const body = appCode.slice(appCode.indexOf(`${helper}(part`));
+      assert.match(body.slice(0, 900), /this\._setRoll\(/, `${helper} should pick, not re-roll`);
     }
   });
 
@@ -76,6 +83,49 @@ describe('ER Ops Console character picker', () => {
     assert.match(appCode, /\(\(at % list\.length\) \+ list\.length\) % list\.length/);
   });
 
+  it('offers every shape and map the part index carries', () => {
+    // Faces and hair come from models/character_parts.json over the CDN, so the
+    // panel is not limited to the ten maps bundled under assets/heads_sm.
+    assert.match(appCode, /fetch\(this\.REMOTE \+ 'models\/character_parts\.json'\)/);
+    assert.match(appCode, /_partTex\(part, shape, variant, fallback\)/);
+    assert.match(appCode, /return hit \? this\.REMOTE \+ hit\.file : fallback;/);
+    // Changing shape lands on a map that shape actually has.
+    assert.match(appCode, /const first = \(this\._partList\(part, sh\)\[0\] \|\| \{\}\)\.variant;/);
+  });
+
+  it('gives the character its own first tab, named after the character', () => {
+    assert.match(appCode, /\['me', \(p && p\.name\) \|\| 'My Character'\]/);
+    assert.match(appCode, /tabMe: T\('me'\)/);
+    assert.equal(inner.split('{{ tabMe }}').length - 1, 1, 'My Character section missing');
+    assert.ok(inner.includes('data-screen-label="My Character"'));
+    // 'me' must come before every other tab in the nav list.
+    const nav = appCode.slice(appCode.indexOf('navItems: ['), appCode.indexOf("['calc', 'Calculator']"));
+    assert.ok(nav.includes("['me',"), 'My Character is not the first nav item');
+  });
+
+  it('keeps the character on the gear loadout as well as its own tab', () => {
+    assert.equal(inner.split('{{ charViewerRef }}').length - 1, 2,
+      'expected a viewer on both the My Character tab and the Gear panel');
+  });
+
+  it('saves the character onto the player so it survives a reload', () => {
+    assert.match(appCode, /_saveLook\(roll\) \{/);
+    assert.match(appCode, /look: \{ sex: S\.charSex, faction: S\.charFaction, roll \}/);
+    assert.match(appCode, /this\._saveLook\(roll\);/);
+    // And is restored instead of re-rolled when one exists.
+    assert.match(appCode, /if \(saved0 && saved0\.roll\) this\.setState\(/);
+    assert.match(appCode, /else this\.setState\(this\._rollChar\('m'\)\);/);
+  });
+
+  it('lets the character be named and given a faction on that tab', () => {
+    for (const binding of ['{{ meName }}', '{{ onMeName }}', '{{ meNameSave }}', '{{ meFaction }}', '{{ onMeFaction }}', '{{ meFactionOptions }}']) {
+      assert.ok(inner.includes(binding), `${binding} missing from the template`);
+    }
+    assert.match(appCode, /meNameSave: \(\) => \{/);
+    assert.match(appCode, /if \(name\.length < 2\) return;/);
+    assert.match(appCode, /onMeFaction: \(e\) => \{ this\._savePlayer\(\{ faction: e\.target\.value \}\)/);
+  });
+
   it('only offers faces, hair and tones the console actually ships', () => {
     const heads = path.join(consoleDir, 'assets', 'heads_sm');
     for (const gender of ['f', 'm']) {
@@ -89,8 +139,8 @@ describe('ER Ops Console character picker', () => {
         assert.ok(fs.existsSync(path.join(heads, `${gender}_Hands1_${tone}.png`)), `${gender}_Hands1_${tone}.png missing`);
       }
     }
-    // The lists in the code are the lists on disk, not a superset.
-    assert.match(appCode, /charFaceTabs: \[1, 6, 7, 8, 9, 21, 24\]/);
-    assert.match(appCode, /charHairTabs: \[1, 2, 3\]/);
+    // Those bundled files remain the fallback when the full index is unreachable.
+    assert.match(appCode, /_variantTabs\('Face', '_faceShape', '_faceIdx', 1, \[1, 6, 7, 8, 9, 21, 24\]\)/);
+    assert.match(appCode, /_variantTabs\('Hair', '_hairShape', '_hairIdx', 1, \[1, 2, 3\]\)/);
   });
 });

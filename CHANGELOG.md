@@ -19,6 +19,19 @@ Everything this fork has done since upstream `1.3.0`, whose evidence commit is
 
 ### Added
 
+- **A "My Character" tab, first in the console nav, that takes the character's
+  name.** Naming, faction, body, face shape and map, hair style and map, skin
+  tone, top, legs and clothing style all live there, with the 3D character
+  beside them. The tab label becomes the character's name once one is set.
+- **The character is saved onto the player record.** Appearance used to be
+  session state that a reload threw away; it now persists as `players[].look`
+  and is restored on load, so the Gear loadout and the next visit show the
+  character that was made rather than a fresh roll.
+- **Every face and hair map is reachable.** The console read the ten maps
+  bundled under `assets/heads_sm`; it now reads `models/character_parts.json`
+  over the CDN, which indexes all 4 face shapes and 13 hair styles per gender.
+  Shape and map are separate pickers, and the bundled maps stay the fallback
+  when the index is unreachable.
 - **Character appearance is chosen, not rolled, on both character screens.**
   The ER Ops Console panel had MALE/FEMALE and faction tabs and a ⟳ RANDOMIZE
   button; every other part of the character was randomised and unreachable. It
